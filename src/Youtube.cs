@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Collections.Generic;
 using YoutubeExplode;
@@ -18,7 +19,7 @@ namespace VDownload
             try
             {
                 // Metadata
-                var metadata = GetMetadata(url);
+                var metadata = GetVideoMetadata(url);
 
                 // Video streams
                 string videoStreamsData;
@@ -76,22 +77,21 @@ namespace VDownload
                 }
 
                 // Print informations
-                List<string> args = new()
-                {
-                    metadata["title"],
-                    metadata["url"],
-                    metadata["author"],
-                    metadata["views"],
-                    metadata["date"],
-                    metadata["duration"],
-                    metadata["rating"],
-                    metadata["thumbnail"],
-                    videoStreamsData,
-                    audioStreamsData,
-                };
                 Console.WriteLine(TerminalOutput.Get(
                     file: @"output\youtube\video_info.out",
-                    args: args
+                    args: new()
+                    {
+                        metadata["title"],
+                        metadata["url"],
+                        metadata["author"],
+                        metadata["views"],
+                        metadata["date"],
+                        metadata["duration"],
+                        metadata["rating"],
+                        metadata["thumbnail"],
+                        videoStreamsData,
+                        audioStreamsData,
+                    }
                 ));
             }
             catch (VideoUnavailableException)
@@ -106,12 +106,50 @@ namespace VDownload
 
 
 
+        public static void PlaylistInfo(string url, Dictionary<string, string> options)
+        {
+            try
+            {
+                var metadata = GetPlaylistMetadata(url);
+                var videos = GetPlaylistVideos(url).Result;
+                if (options.ContainsKey("video") && int.TryParse(options["video"], out int id) && videos.ContainsKey(id))
+                {
+                    VideoInfo(videos[id][2]);
+                }
+                else
+                {
+                    string videosData = "";
+                    foreach (int i in videos.Keys)
+                    {
+                        videosData += String.Format("{0}: \"{1}\" ({2})\n", i, videos[i][0], videos[i][1]);
+                    }
+                    Console.WriteLine(TerminalOutput.Get(
+                        file: @"output\youtube\playlist_info.out",
+                        args: new()
+                        {
+                            metadata["title"],
+                            metadata["url"],
+                            metadata["title"],
+                            metadata["author"],
+                            videosData.TrimEnd(),
+                        }
+                    ));
+                }
+            }
+            catch (PlaylistUnavailableException)
+            { 
+                Console.WriteLine(TerminalOutput.Get(@"output\youtube\error_unavailable_playlist.out"));
+            }
+        }
+
+
+
         // Downloading Video
         public static void VideoDownload(string url, Dictionary<string, string> options)
         {
             try
             {
-                Dictionary<string, string> metadata = GetMetadata(url);
+                Dictionary<string, string> metadata = GetVideoMetadata(url);
 
                 // Options
                 Dictionary<string, string> filenameCode = new() {
@@ -248,8 +286,8 @@ namespace VDownload
 
 
 
-        // Get metadata
-        private static Dictionary<string, string> GetMetadata(string url)
+        // Get video metadata
+        private static Dictionary<string, string> GetVideoMetadata(string url)
         {
             var Client = new YoutubeClient();
             var metadata = new Dictionary<string, string>();
@@ -264,6 +302,35 @@ namespace VDownload
             metadata["url"] = data.Url;
             metadata["id"] = data.Id;
             return metadata;
+        }
+
+        private static Dictionary<string, string> GetPlaylistMetadata(string url)
+        {
+            var Client = new YoutubeClient();
+            var metadata = new Dictionary<string, string>();
+            var data = Client.Playlists.GetAsync(url).Result;
+            metadata["title"] = data.Title;
+            metadata["author"] = data.Author.Title;
+            metadata["url"] = data.Url;
+            metadata["id"] = data.Id;
+            return metadata;
+        }
+
+        private static async Task<Dictionary<int, List<string>>> GetPlaylistVideos(string url)
+        {
+            var Client = new YoutubeClient();
+            var videos = new Dictionary<int, List<string>>();
+            int i = 0;
+            await foreach (var v in Client.Playlists.GetVideosAsync(url))
+            {
+                var data = new List<string>();
+                data.Add(v.Title);
+                data.Add(v.Author.Title);
+                data.Add(v.Url);
+                videos[i] = data;
+                i++;
+            }
+            return videos;
         }
 
         // Get video streams

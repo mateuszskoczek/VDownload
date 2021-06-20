@@ -2,7 +2,7 @@
   "profiles": {
     "VDownload": {
       "commandName": "Project",
-      "commandLineArgs": "check-updates"
+      "commandLineArgs": "info https://www.youtube.com/playlist?list=PL6RbUvDS50UdATqMQ2eKyH0T4kkz3fOvI --video=0"
     }
   }
 }

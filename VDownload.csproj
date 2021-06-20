@@ -39,9 +39,11 @@
     <None Remove="output\youtube\error_invalid_url.out" />
     <None Remove="output\youtube\error_no_audio_streams_video_unplayable.out" />
     <None Remove="output\youtube\error_no_video_streams_video_unplayable.out" />
+    <None Remove="output\youtube\error_unavailable_playlist.out" />
     <None Remove="output\youtube\error_undefined_downloading_video.out" />
     <None Remove="output\youtube\error_undefined_getting_info.out" />
     <None Remove="output\youtube\error_unplayable_video.out" />
+    <None Remove="output\youtube\playlist_info.out" />
     <None Remove="output\youtube\video_info.out" />
   </ItemGroup>
 

@@ -94,9 +94,11 @@ namespace VDownload
             else
             {
                 string url = args[1];
+                Dictionary<string, string> options = Options.Get(args[2..]);
                 switch (UrlWebpage.Get(url))
                 {
                     case "youtube_single": Youtube.VideoInfo(url); break;
+                    case "youtube_playlist": Youtube.PlaylistInfo(url, options); break;
                     default: Console.WriteLine(TerminalOutput.Get(@"output\main\error_wrong_site.out")); break;
                 }
             }
