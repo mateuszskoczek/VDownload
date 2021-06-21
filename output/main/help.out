@@ -1,32 +1,39 @@
 Commands:
-╔════════════════════════════╦════════════════════════════════════════════════════════════════════════════════════╗
-║ Command                    ║ Description                                                                        ║
-╠════════════════════════════╬════════════════════════════════════════════════════════════════════════════════════╣
-║ about                      ║ Informations about this program                                                    ║
-╟────────────────────────────╫────────────────────────────────────────────────────────────────────────────────────╢
-║ info <link>                ║ Informations about video (metadata and available streams)                          ║
-║                            ║                                                                                    ║
-║                            ║ Options:                                                                           ║
-║                            ║ --video=<id> (show informations about video from playlist with specified id [YP])  ║
-╟────────────────────────────╫────────────────────────────────────────────────────────────────────────────────────╢
-║ download <link> [options]  ║ Download video                                                                     ║
-║                            ║                                                                                    ║
-║                            ║ Options:                                                                           ║
-║                            ║ --onlyvideo (download only video [YS | YP])                                        ║
-║                            ║ --onlyaudio (download only audio [YS | YP])                                        ║
-║                            ║ --video=<id> (download video stream with specified id; best if not specified [YS]) ║
-║                            ║ --audio=<id> (download audio stream with specified id; best if not specified [YS]) ║
-║                            ║ --output_path=<path> (output file path [YS | YP])                                  ║
-║                            ║ --filename=<filename> (filename; template [YS | YP])                               ║
-║                            ║ --video_ext=<extension> (video file extension [YS | YP])                           ║
-║                            ║ --audio_ext=<extension> (audio file extension [YS | YP])                           ║
-╟────────────────────────────╫────────────────────────────────────────────────────────────────────────────────────╢
-║ settings-get <key>         ║ Return value of the specified key                                                  ║
-╟────────────────────────────╫────────────────────────────────────────────────────────────────────────────────────╢
-║ settings-set <key> <value> ║ Set value of the specified key                                                     ║
-╟────────────────────────────╫────────────────────────────────────────────────────────────────────────────────────╢
-║ settings-reset             ║ Restore default settings                                                           ║
-╚════════════════════════════╩════════════════════════════════════════════════════════════════════════════════════╝
+╔═════════════════════════════════════╦═════════════════════════════════════════════════════════════════════════════════════════════════╗
+║ Command                             ║ Description                                                                                     ║
+╠═════════════════════════════════════╬═════════════════════════════════════════════════════════════════════════════════════════════════╣
+║ about                               ║ Informations about this program                                                                 ║
+╟─────────────────────────────────────╫─────────────────────────────────────────────────────────────────────────────────────────────────╢
+║ info <link>                         ║ Informations about video (metadata and available streams) or playlist                           ║
+║                                     ║                                                                                                 ║
+║                                     ║ Options:                                                                                        ║
+║                                     ║ --video=<id> (show informations about video from playlist with specified id [YP])               ║
+╟─────────────────────────────────────╫─────────────────────────────────────────────────────────────────────────────────────────────────╢
+║ download <link> [options]           ║ Download video                                                                                  ║
+║                                     ║                                                                                                 ║
+║                                     ║ Options:                                                                                        ║
+║                                     ║ --onlyvideo (download only video [YS | YP])                                                     ║
+║                                     ║ --onlyaudio (download only audio [YS | YP])                                                     ║
+║                                     ║ --video=<id> (download video stream with specified id; best if not specified [YS])              ║
+║                                     ║ --audio=<id> (download audio stream with specified id; best if not specified [YS])              ║
+║                                     ║ --output_path=<path> (output file path [YS | YP])                                               ║
+║                                     ║ --filename=<filename> (filename; template [YS | YP])                                            ║
+║                                     ║ --video_ext=<extension> (video file extension [YS | YP])                                        ║
+║                                     ║ --audio_ext=<extension> (audio file extension [YS | YP])                                        ║
+║                                     ║ --playlist_id=<id> (download videos from playlist with specified ids; semicolon-separated [YP]) ║
+╟─────────────────────────────────────╫─────────────────────────────────────────────────────────────────────────────────────────────────╢
+║ option-preset-new <name> <options>  ║ Create new option preset (options are the same as in download)                                  ║
+╟─────────────────────────────────────╫─────────────────────────────────────────────────────────────────────────────────────────────────╢
+║ option-preset-delete <name>         ║ Delete option preset                                                                            ║
+╟─────────────────────────────────────╫─────────────────────────────────────────────────────────────────────────────────────────────────╢
+║ option-preset-list                  ║ Return list of option presets                                                                   ║
+╟─────────────────────────────────────╫─────────────────────────────────────────────────────────────────────────────────────────────────╢
+║ settings-get <key>                  ║ Return value of the specified key                                                               ║
+╟─────────────────────────────────────╫─────────────────────────────────────────────────────────────────────────────────────────────────╢
+║ settings-set <key> <value>          ║ Set value of the specified key                                                                  ║
+╟─────────────────────────────────────╫─────────────────────────────────────────────────────────────────────────────────────────────────╢
+║ settings-reset                      ║ Restore default settings                                                                        ║
+╚═════════════════════════════════════╩═════════════════════════════════════════════════════════════════════════════════════════════════╝
 
 Key:
 [YS] - Single YouTube video

@@ -4,8 +4,8 @@ namespace VDownload.Parsers
 {
     class Options
     {
-        private static string mark = "--";
-        private static char separator = '=';
+        private static readonly string mark = "--";
+        private static readonly char separator = '=';
         public static Dictionary<string, string> Get(string[] args)
         {
             Dictionary<string, string> options = new Dictionary<string, string>();

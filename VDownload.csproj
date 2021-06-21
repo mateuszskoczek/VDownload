@@ -34,6 +34,7 @@
     <None Remove="output\youtube\done.out" />
     <None Remove="output\youtube\downloading_audio.out" />
     <None Remove="output\youtube\downloading_start.out" />
+    <None Remove="output\youtube\downloading_start_playlist.out" />
     <None Remove="output\youtube\downloading_video.out" />
     <None Remove="output\youtube\error_invalid_link.out" />
     <None Remove="output\youtube\error_invalid_url.out" />

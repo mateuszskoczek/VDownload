@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -280,6 +281,33 @@ namespace VDownload
             catch
             {
                 Console.WriteLine(TerminalOutput.Get(@"output\youtube\error_undefined_downloading_video.out"));
+            }
+        }
+
+        public static void PlaylistDownload(string url, Dictionary<string, string> options)
+        {
+            var playlistMetadata = GetPlaylistMetadata(url);
+            Console.WriteLine(TerminalOutput.Get(
+                @"output\youtube\downloading_start_playlist.out",
+                args: new()
+                {
+                    playlistMetadata["title"],
+                    playlistMetadata["url"],
+                }
+            ));
+            var playlistVideos = GetPlaylistVideos(url).Result;
+            IEnumerable<int> videoIds;
+            if (options.ContainsKey("playlist_id"))
+            {
+                videoIds = from id in options["playlist_id"].Split(';') select int.Parse(id);
+            }
+            else
+            {
+                videoIds = from id in playlistVideos.Keys select id;
+            }
+            foreach (int id in videoIds)
+            {
+                VideoDownload(playlistVideos[id][2], options);
             }
         }
 

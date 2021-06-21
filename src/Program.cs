@@ -119,6 +119,7 @@ namespace VDownload
                 switch (UrlWebpage.Get(url))
                 {
                     case "youtube_single": Youtube.VideoDownload(url, options); break;
+                    case "youtube_playlist": Youtube.PlaylistDownload(url, options); break;
                     default: Console.WriteLine(TerminalOutput.Get(@"output\main\error_wrong_site.out")); break;
                 }
             }
