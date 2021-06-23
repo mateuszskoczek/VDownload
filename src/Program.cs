@@ -37,6 +37,9 @@ namespace VDownload
                     case "about": About(); break;
                     case "info": Info(args); break;
                     case "download": Download(args); break;
+                    case "option-preset-new": OptionPresetNew(args); break;
+                    case "option-preset-delete": OptionPresetDelete(args); break;
+                    case "option-preset-list": OptionPresetList(); break;
                     case "settings-get": SettingsGet(args); break;
                     case "settings-set": SettingsSet(args); break;
                     case "settings-reset": SettingsReset(); break;
@@ -61,7 +64,7 @@ namespace VDownload
         private static void About()
         {
             string librariesUsedInApp = "";
-            foreach (KeyValuePair<string, string> e in Global.ProgramInfo.LIBRARIES)
+            foreach (var e in Global.ProgramInfo.LIBRARIES)
             {
                 librariesUsedInApp += String.Format("- {0} ({1})\n", e.Key, e.Value);
             }
@@ -94,7 +97,7 @@ namespace VDownload
             else
             {
                 string url = args[1];
-                Dictionary<string, string> options = Options.Get(args[2..]);
+                var options = Options.Get(args[2..]);
                 switch (UrlWebpage.Get(url))
                 {
                     case "youtube_single": Youtube.VideoInfo(url); break;
@@ -116,6 +119,20 @@ namespace VDownload
             {
                 string url = args[1];
                 Dictionary<string, string> options = Options.Get(args[2..]);
+                if (options.ContainsKey("option_preset"))
+                {
+                    try
+                    {
+                        var optionsFromPreset = OptionPresets.Get(options["option_preset"]);
+                        var optionsNew = optionsFromPreset;
+                        foreach (string k in options.Keys)
+                        {
+                            optionsNew[k] = options[k];
+                        }
+                        options = optionsNew;
+                    }
+                    catch { }
+                }
                 switch (UrlWebpage.Get(url))
                 {
                     case "youtube_single": Youtube.VideoDownload(url, options); break;
@@ -123,6 +140,72 @@ namespace VDownload
                     default: Console.WriteLine(TerminalOutput.Get(@"output\main\error_wrong_site.out")); break;
                 }
             }
+        }
+
+
+        private static void OptionPresetNew(string[] args)
+        {
+            if (args.Length < 3)
+            {
+                Help();
+            }
+            else
+            {
+                string name = args[1];
+                var options = Options.Get(args[2..]);
+                string output = TerminalOutput.Get(@"output\main\option_preset_new.out");
+                try
+                {
+                    OptionPresets.New(name, options);
+                }
+                catch
+                {
+                    output = TerminalOutput.Get(@"output\main\error_option_preset_cannot_be_created.out");
+                }
+                Console.WriteLine(output);
+            }
+        }
+
+
+        private static void OptionPresetDelete(string[] args)
+        {
+            if (args.Length < 2)
+            {
+                Help();
+            }
+            else
+            {
+                string name = args[1];
+                string output = TerminalOutput.Get(@"output\main\option_preset_delete.out");
+                try
+                {
+                    OptionPresets.Delete(name);
+                }
+                catch
+                {
+                    output = TerminalOutput.Get(@"output\main\error_option_preset_cannot_be_deleted.out");
+                }
+                Console.WriteLine(output);
+            }
+        }
+
+
+        private static void OptionPresetList()
+        {
+            string output;
+            try
+            {
+                output = OptionPresets.List();
+            }
+            catch
+            {
+                output = TerminalOutput.Get(@"output\main\error_while_getting_presets_list.out");
+            }
+            if (output == "")
+            {
+                output = TerminalOutput.Get(@"output\main\option_preset_list_empty.out");
+            }
+            Console.WriteLine(output);
         }
 
 

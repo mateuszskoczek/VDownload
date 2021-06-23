@@ -54,7 +54,7 @@
             },
             "LightConfig": {
               "target": "Package",
-              "version": "[0.1.0, )"
+              "version": "[0.2.0, )"
             },
             "Octokit": {
               "target": "Package",
@@ -62,7 +62,7 @@
             },
             "YoutubeExplode": {
               "target": "Package",
-              "version": "[6.0.2, )"
+              "version": "[6.0.3, )"
             }
           },
           "imports": [

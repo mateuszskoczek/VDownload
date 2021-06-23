@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "LKq57SDwc8xJeZ1GONjtYhalSF4Qe8RAW6CzIPUW1VhXgQy5bWKePHvOGBlCL8UCfUo4VhQqDeZXeqS6VGKWHw==",
+  "dgSpecHash": "F1pleKnVVRojE2IPl2zbGg7a9Zkq5X6UIFnLX9GZ1jtxKRdF28WxZTTfXdRQt+WZrC2Dq+ngsCf2vO48vm/sfg==",
   "success": true,
   "projectFilePath": "D:\\OneDrive\\Programming\\Projekty\\VDownload\\VDownload.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,7 @@
     "C:\\Users\\mateu\\.nuget\\packages\\consoletableext\\3.1.7\\consoletableext.3.1.7.nupkg.sha512",
     "C:\\Users\\mateu\\.nuget\\packages\\ffmpegcore\\4.3.0\\ffmpegcore.4.3.0.nupkg.sha512",
     "C:\\Users\\mateu\\.nuget\\packages\\instances\\1.6.0\\instances.1.6.0.nupkg.sha512",
-    "C:\\Users\\mateu\\.nuget\\packages\\lightconfig\\0.1.0\\lightconfig.0.1.0.nupkg.sha512",
+    "C:\\Users\\mateu\\.nuget\\packages\\lightconfig\\0.2.0\\lightconfig.0.2.0.nupkg.sha512",
     "C:\\Users\\mateu\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\mateu\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\mateu\\.nuget\\packages\\octokit\\0.50.0\\octokit.0.50.0.nupkg.sha512",
@@ -16,7 +16,7 @@
     "C:\\Users\\mateu\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.0\\system.runtime.compilerservices.unsafe.4.5.0.nupkg.sha512",
     "C:\\Users\\mateu\\.nuget\\packages\\system.text.encoding.codepages\\4.5.0\\system.text.encoding.codepages.4.5.0.nupkg.sha512",
     "C:\\Users\\mateu\\.nuget\\packages\\system.text.json\\5.0.1\\system.text.json.5.0.1.nupkg.sha512",
-    "C:\\Users\\mateu\\.nuget\\packages\\youtubeexplode\\6.0.2\\youtubeexplode.6.0.2.nupkg.sha512"
+    "C:\\Users\\mateu\\.nuget\\packages\\youtubeexplode\\6.0.3\\youtubeexplode.6.0.3.nupkg.sha512"
   ],
   "logs": []
 }

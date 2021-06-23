@@ -22,6 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="output\main\error_option_preset_cannot_be_created.out" />
+    <None Remove="output\main\error_option_preset_cannot_be_deleted.out" />
+    <None Remove="output\main\error_while_getting_presets_list.out" />
+    <None Remove="output\main\option_preset_delete.out" />
+    <None Remove="output\main\option_preset_list_empty.out" />
+    <None Remove="output\main\option_preset_new.out" />
     <None Remove="output\main\update_available.out" />
     <None Remove="output\main\update_available_on_start.out" />
     <None Remove="output\main\update_unavailable.out" />

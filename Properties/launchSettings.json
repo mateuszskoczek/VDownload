@@ -2,7 +2,7 @@
   "profiles": {
     "VDownload": {
       "commandName": "Project",
-      "commandLineArgs": "download https://www.youtube.com/playlist?list=PL6RbUvDS50UeE9SVMyksyoYOsVrkQ3ldW --playlist_id=0;1"
+      "commandLineArgs": "option-preset-list"
     }
   }
 }

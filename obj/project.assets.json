@@ -46,7 +46,7 @@
           "lib/netstandard2.0/Instances.dll": {}
         }
       },
-      "LightConfig/0.1.0": {
+      "LightConfig/0.2.0": {
         "type": "package",
         "compile": {
           "lib/net5.0/LightConfig.dll": {}
@@ -150,7 +150,7 @@
           "lib/netcoreapp3.0/System.Text.Json.dll": {}
         }
       },
-      "YoutubeExplode/6.0.2": {
+      "YoutubeExplode/6.0.3": {
         "type": "package",
         "dependencies": {
           "AngleSharp": "0.14.0",
@@ -225,16 +225,16 @@
         "lib/netstandard2.0/Instances.dll"
       ]
     },
-    "LightConfig/0.1.0": {
-      "sha512": "WNAKcL95UM8QIItsjhZv5wewRD5Cf4yzgH/lsllh9NEiUhZuKaMtHtvibYfqcskzztyNMRMR8Oib5BCjjh5dPA==",
+    "LightConfig/0.2.0": {
+      "sha512": "yLcnW0OI/GG/PsWG6XeSukHSI5oUnJRb+Uv8GqNf2JD3OlBwZ3Y1t84A8zPnyd0E7VJi9cyOF/ePMtl4tV44rw==",
       "type": "package",
-      "path": "lightconfig/0.1.0",
+      "path": "lightconfig/0.2.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE",
         "lib/net5.0/LightConfig.dll",
-        "lightconfig.0.1.0.nupkg.sha512",
+        "lightconfig.0.2.0.nupkg.sha512",
         "lightconfig.nuspec"
       ]
     },
@@ -439,13 +439,14 @@
         "version.txt"
       ]
     },
-    "YoutubeExplode/6.0.2": {
-      "sha512": "samzoiZlI9mAsZsYm/D/k7/6PCzpSLseBVAQtD+uSk5NUo94COu9D8XcWZE/kawoTo8g9UrQ1SKQFwQQ4kGMyA==",
+    "YoutubeExplode/6.0.3": {
+      "sha512": "8GaNtu26KbKjfW0NBtCtC8SWBLOBHgyaggkqexZPNM21CZpShH/W+rSidVHMe5OkFrl9rYBfc8qmiZBy4yAGWQ==",
       "type": "package",
-      "path": "youtubeexplode/6.0.2",
+      "path": "youtubeexplode/6.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "ReadMe.md",
         "favicon.png",
         "lib/net461/YoutubeExplode.dll",
         "lib/net461/YoutubeExplode.xml",
@@ -457,7 +458,7 @@
         "lib/netstandard2.0/YoutubeExplode.xml",
         "lib/netstandard2.1/YoutubeExplode.dll",
         "lib/netstandard2.1/YoutubeExplode.xml",
-        "youtubeexplode.6.0.2.nupkg.sha512",
+        "youtubeexplode.6.0.3.nupkg.sha512",
         "youtubeexplode.nuspec"
       ]
     }
@@ -466,9 +467,9 @@
     "net5.0": [
       "ConsoleTableExt >= 3.1.7",
       "FFMpegCore >= 4.3.0",
-      "LightConfig >= 0.1.0",
+      "LightConfig >= 0.2.0",
       "Octokit >= 0.50.0",
-      "YoutubeExplode >= 6.0.2"
+      "YoutubeExplode >= 6.0.3"
     ]
   },
   "packageFolders": {
@@ -525,7 +526,7 @@
           },
           "LightConfig": {
             "target": "Package",
-            "version": "[0.1.0, )"
+            "version": "[0.2.0, )"
           },
           "Octokit": {
             "target": "Package",
@@ -533,7 +534,7 @@
           },
           "YoutubeExplode": {
             "target": "Package",
-            "version": "[6.0.2, )"
+            "version": "[6.0.3, )"
           }
         },
         "imports": [
