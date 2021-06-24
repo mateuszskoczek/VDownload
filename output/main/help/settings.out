@@ -1,0 +1,11 @@
+﻿╔════════════════════════╦════════════════════════════════════════════════════════════════╗
+║ Key                    ║ Description                                                    ║
+╠════════════════════════╬════════════════════════════════════════════════════════════════╣
+║ filename               ║ Filename template                                              ║
+║ output_path            ║ Output file path                                               ║
+║ video_ext              ║ Default video file extension                                   ║
+║ audio_ext              ║ Default audio file extension                                   ║
+║ date_format            ║ Format of publication date in filenames and video informations ║
+║ ffmpeg_path            ║ FFmpeg executables path                                        ║
+║ check_updates_on_start ║ (0/1) Checking for updates on start                            ║
+╚════════════════════════╩════════════════════════════════════════════════════════════════╝
