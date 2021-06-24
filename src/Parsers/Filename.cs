@@ -1,20 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
+using System.Collections.Generic;
 
 namespace VDownload.Parsers
 {
     class Filename
     {
-        private static List<char> forbiddenChars = new() { '/', ':', '*', '?', '"', '<', '>', '|', '"' };
         public static string Get(string filename, Dictionary<string, string> data)
         {
-            foreach (KeyValuePair<string, string> e in data)
+            // Wildcards replace
+            foreach (var e in data)
             {
                 filename = filename.Replace(e.Key, e.Value);
             }
-            foreach (char c in forbiddenChars)
+
+            // Forbidden chars replace
+            foreach (char c in Path.GetInvalidFileNameChars())
             {
                 filename = filename.Replace(c.ToString(), "");
             }
+
             return filename;
         }
     }

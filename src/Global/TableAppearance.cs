@@ -5,7 +5,7 @@ namespace VDownload.Global
 {
     class TableAppearance
     {
-        public static Dictionary<HeaderCharMapPositions, char> STREAMS = new Dictionary<HeaderCharMapPositions, char>() {
+        public static readonly Dictionary<HeaderCharMapPositions, char> STREAMS = new() {
             { HeaderCharMapPositions.TopLeft, '╒' },
             { HeaderCharMapPositions.TopCenter, '╤' },
             { HeaderCharMapPositions.TopRight, '╕' },

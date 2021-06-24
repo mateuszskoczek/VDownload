@@ -6,9 +6,9 @@ namespace VDownload
 {
     static class Config
     {
-        // Main configuration file
-        private static string MainPath = String.Format(@"{0}\config.cfg", Global.Paths.APPDATA);
-        private static Dictionary<string, string> MainContent = new Dictionary<string, string>()
+        // MAIN CONFIGURATION FILE (config.cfg)
+        private static readonly string MainPath = String.Format(@"{0}\config.cfg", Global.Paths.APPDATA);
+        private static readonly Dictionary<string, string> MainContent = new()
         {
             {"filename", "%title%"},
             {"output_path", Global.Paths.OUTPUT},
@@ -18,6 +18,6 @@ namespace VDownload
             {"ffmpeg_path", Global.Paths.FFMPEG},
             {"check_updates_on_start", "1"},
         };
-        public static ConfigObject Main = new ConfigObject(MainPath, MainContent);
+        public static ConfigObject Main = new(MainPath, MainContent);
     }
 }

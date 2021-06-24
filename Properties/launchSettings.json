@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "VDownload": {
-      "commandName": "Project",
-      "commandLineArgs": "option-preset-list"
-    }
-  }
-}

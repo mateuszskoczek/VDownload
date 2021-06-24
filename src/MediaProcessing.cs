@@ -7,43 +7,64 @@ namespace VDownload
 {
     class MediaProcessing
     {
-        private static FFOptions  ffmpegOptions = new FFOptions {
+        // OPTIONS
+        private static readonly FFOptions ffmpegOptions = new()
+        {
             BinaryFolder = Global.Paths.FFMPEG,
             TemporaryFilesFolder = Global.Paths.TEMP,
         };
 
+
+        // CONVERT MEDIA
         public static void Convert(string input, string output)
         {
+            // Apply options
             GlobalFFOptions.Configure(ffmpegOptions);
-            Console.Write(TerminalOutput.Get(@"output\media_processing\converting_file.out", upSP: false, downSP: false));
-            Stopwatch convertingTime = new Stopwatch();
+
+            // Start convert
+            Console.Write(TerminalOutput.Get(@"output\media_processing\convert\start.out", upSP: false, downSP: false));
+            Stopwatch convertingTime = new();
             convertingTime.Start();
             try
             {
                 FFMpegArguments.FromFileInput(input).OutputToFile(output).ProcessSynchronously();
             }
-            catch
+            catch (Exception e)
             {
-                Console.Write(TerminalOutput.Get(@"output\media_processing\error_file_cannot_be_converted.out"));
+                Console.WriteLine(TerminalOutput.Get(@"output\media_processing\convert\error\undefined.out",
+                    args: new()
+                    {
+                        e.Message
+                    }
+                ));
                 Environment.Exit(0);
             }
             convertingTime.Stop();
             Console.WriteLine(String.Format(" (Done in {0} seconds)", convertingTime.Elapsed.TotalSeconds));
         }
 
+        // MERGE MEDIA
         public static void Merge(string inputVideo, string inputAudio, string output)
         {
+            // Apply options
             GlobalFFOptions.Configure(ffmpegOptions);
-            Console.Write(TerminalOutput.Get(@"output\media_processing\merging_streams.out", upSP: false, downSP: false));
-            Stopwatch mergingTime = new Stopwatch();
+
+            // Start merge
+            Console.Write(TerminalOutput.Get(@"output\media_processing\merge\start.out", upSP: false, downSP: false));
+            Stopwatch mergingTime = new();
             mergingTime.Start();
             try
             {
                 FFMpeg.ReplaceAudio(inputVideo, inputAudio, output);
             }
-            catch
+            catch (Exception e)
             {
-                Console.Write(TerminalOutput.Get(@"output\media_processing\error_streams_cannot_be_merged.out"));
+                Console.WriteLine(TerminalOutput.Get(@"output\media_processing\merge\error\undefined.out",
+                    args: new()
+                    {
+                        e.Message
+                    }
+                ));
                 Environment.Exit(0);
             }
             mergingTime.Stop();

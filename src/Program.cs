@@ -1,39 +1,77 @@
 ﻿using System;
+using System.IO;
+using System.Security;
 using System.Collections.Generic;
-using Octokit;
 using VDownload.Parsers;
 
 namespace VDownload
 {
     class Program
     {
-        // Init function
+        // INIT FUNCTION
         static void Main(string[] args)
         {
+            // Rebuild config
+            try
+            {
+                Config.Main.Rebuild();
+            }
+            catch (SecurityException)
+            {
+                Console.WriteLine(TerminalOutput.Get(@"output\config\rebuild\error\access_denied.out"));
+                Environment.Exit(0);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Console.WriteLine(TerminalOutput.Get(@"output\config\rebuild\error\access_denied.out"));
+                Environment.Exit(0);
+            }
+            catch (IOException)
+            {
+                Console.WriteLine(TerminalOutput.Get(@"output\config\rebuild\error\file_in_use.out"));
+                Environment.Exit(0);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(TerminalOutput.Get(@"output\config\rebuild\error\undefined.out",
+                    args: new()
+                    { 
+                        e.Message
+                    }
+                ));
+                Environment.Exit(0);
+            }
+
+            // Update checking
+            bool checkUpdates = true;
+            if (Config.Main.ReadKey("check_updates_on_start") == "0" || (args.Length != 0 && args[0].ToLower() == "check-updates"))
+            {
+                checkUpdates = false;
+            }
+            if (checkUpdates)
+            {
+                try
+                {
+                    if (Update.Available())
+                    {
+                        Console.WriteLine(TerminalOutput.Get(@"output\update\available_on_start.out",
+                            args: new()
+                            {
+                                Global.ProgramInfo.RELEASES
+                            }
+                        ));
+                        Console.ReadLine();
+                    }
+                }
+                catch { }
+            }
+
+            // Command switch
             if (args.Length > 0)
             {
-                bool checkUpdates = true;
-                if (Config.Main.ReadKey("check_updates_on_start") == "0" || args[0].ToLower() == "check-updates")
-                {
-                    checkUpdates = false;
-                }
-                if (checkUpdates)
-                {
-                    try
-                    {
-                        var githubClient = new GitHubClient(new ProductHeaderValue("VDownload"));
-                        var latestRelease = githubClient.Repository.Release.GetAll("mateuszskoczek", "VDownload").Result[0];
-                        float latestReleaseBuildID = float.Parse(latestRelease.Name.Split(' ')[1].Replace("(", "").Replace(")", "").Replace('.', ','));
-                        if (latestReleaseBuildID > float.Parse(Global.ProgramInfo.BUILD_ID.Replace('.', ',')))
-                        {
-                            Console.WriteLine(TerminalOutput.Get(@"output\main\update_available_on_start.out", args: new() { latestRelease.HtmlUrl }));
-                            Console.ReadLine();
-                        }
-                    }
-                    catch { }
-                }
                 switch (args[0].ToLower())
                 {
+                    case "help": Help(args); break;
                     case "about": About(); break;
                     case "info": Info(args); break;
                     case "download": Download(args); break;
@@ -44,32 +82,49 @@ namespace VDownload
                     case "settings-set": SettingsSet(args); break;
                     case "settings-reset": SettingsReset(); break;
                     case "check-updates": CheckUpdates(); break;
-                    default: Help(); break;
+                    default: Help(new string[1] { "help" }); break;
                 }
             }
-            else { Help(); }
+            else { Help(new string[1] { "help" }); }
         }
 
 
-        // Commands and settings keys list
-        private static void Help()
+
+
+
+
+        // LIST OF COMMANDS, SETTINGS KEYS AND FILENAME WILDCARDS
+        private static void Help(string[] args)
         {
-            Console.WriteLine(TerminalOutput.Get(
-                file: @"output\main\help.out"
-            ));
+            string output = TerminalOutput.Get(@"output\main\help\commands.out"); ;
+            if (args != null || args.Length > 1)
+            {
+                var options = Options.Get(args[1..]);
+                if (options.ContainsKey("settings"))
+                {
+                    output = TerminalOutput.Get(@"output\main\help\settings.out");
+                }
+                else if (options.ContainsKey("filename"))
+                {
+                    output = TerminalOutput.Get(@"output\main\help\filename.out");
+                }
+            }
+            Console.WriteLine(output);
         }
 
 
-        // Informations about program
+        // INFORMATIONS ABOUT PROGRAM
         private static void About()
         {
+            // Used libraries list (in string)
             string librariesUsedInApp = "";
             foreach (var e in Global.ProgramInfo.LIBRARIES)
             {
                 librariesUsedInApp += String.Format("- {0} ({1})\n", e.Key, e.Value);
             }
-            Console.WriteLine(TerminalOutput.Get(
-                file: @"output\main\about.out",
+
+            // Console write
+            Console.WriteLine(TerminalOutput.Get(@"output\main\about\about.out",
                 args: new()
                 {
                     Global.ProgramInfo.VERSION,
@@ -77,7 +132,7 @@ namespace VDownload
                     Global.ProgramInfo.AUTHOR_NAME,
                     Global.ProgramInfo.AUTHOR_GITHUB,
                     Global.ProgramInfo.REPOSITORY,
-                    librariesUsedInApp.TrimEnd(),
+                    librariesUsedInApp,
                     Global.ProgramInfo.DONATION_LINK,
                     Global.ProgramInfo.AUTHOR_NAME,
                     Global.ProgramInfo.PROJECT_START,
@@ -87,14 +142,12 @@ namespace VDownload
         }
 
 
-        // Informations about specified video (or playlist)
+
+
+        // INFORMATIONS ABOUT VIDEO (OR PLAYLIST)
         private static void Info(string[] args)
         {
-            if (args.Length < 2)
-            {
-                Help();
-            }
-            else
+            if (args.Length > 1)
             {
                 string url = args[1];
                 var options = Options.Get(args[2..]);
@@ -102,22 +155,22 @@ namespace VDownload
                 {
                     case "youtube_single": Youtube.VideoInfo(url); break;
                     case "youtube_playlist": Youtube.PlaylistInfo(url, options); break;
-                    default: Console.WriteLine(TerminalOutput.Get(@"output\main\error_wrong_site.out")); break;
+                    default: Console.WriteLine(TerminalOutput.Get(@"output\main\info\error\wrong_site.out")); break;
                 }
+            }
+            else
+            {
+                Help(new string[1] { "help" });
             }
         }
 
 
-        // Downloading video (or playlist)
+        // DOWNLOADING VIDEO (OR PLAYLIST)
         private static void Download(string[] args)
         {
-            if (args.Length < 2)
+            if (args.Length > 1)
             {
-                Help();
-            }
-            else
-            {
-                string url = args[1];
+                // Options
                 Dictionary<string, string> options = Options.Get(args[2..]);
                 if (options.ContainsKey("option_preset"))
                 {
@@ -133,63 +186,105 @@ namespace VDownload
                     }
                     catch { }
                 }
+
+                // Url switch
+                string url = args[1];
                 switch (UrlWebpage.Get(url))
                 {
                     case "youtube_single": Youtube.VideoDownload(url, options); break;
                     case "youtube_playlist": Youtube.PlaylistDownload(url, options); break;
-                    default: Console.WriteLine(TerminalOutput.Get(@"output\main\error_wrong_site.out")); break;
+                    default: Console.WriteLine(TerminalOutput.Get(@"output\main\download\error\wrong_site.out")); break;
                 }
+            }
+            else
+            {
+                Help(new string[1] { "help" });
             }
         }
 
 
+
+
+        // CREATE NEW OPTION PRESET
         private static void OptionPresetNew(string[] args)
         {
-            if (args.Length < 3)
-            {
-                Help();
-            }
-            else
+            if (args.Length > 2)
             {
                 string name = args[1];
                 var options = Options.Get(args[2..]);
-                string output = TerminalOutput.Get(@"output\main\option_preset_new.out");
+                string output = TerminalOutput.Get(@"output\main\option_preset\new\new.out");
                 try
                 {
                     OptionPresets.New(name, options);
                 }
-                catch
+                catch (SecurityException)
                 {
-                    output = TerminalOutput.Get(@"output\main\error_option_preset_cannot_be_created.out");
+                    output = TerminalOutput.Get(@"output\main\option_preset\new\error\access_denied.out");
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    output = TerminalOutput.Get(@"output\main\option_preset\new\error\access_denied.out");
+                }
+                catch (PathTooLongException)
+                {
+                    output = TerminalOutput.Get(@"output\main\option_preset\new\error\path_too_long.out");
+                }
+                catch (Exception e)
+                {
+                    output = TerminalOutput.Get(@"output\main\option_preset\new\error\undefined.out",
+                        args: new()
+                        {
+                            e.Message
+                        }
+                    );
                 }
                 Console.WriteLine(output);
+            }
+            else
+            {
+                Help(new string[1] { "help" });
             }
         }
 
 
+        // DELETE OPTION PRESET
         private static void OptionPresetDelete(string[] args)
         {
-            if (args.Length < 2)
-            {
-                Help();
-            }
-            else
+            if (args.Length > 1)
             {
                 string name = args[1];
-                string output = TerminalOutput.Get(@"output\main\option_preset_delete.out");
+                string output = TerminalOutput.Get(@"output\main\option_preset\delete\delete.out");
                 try
                 {
                     OptionPresets.Delete(name);
                 }
-                catch
+                catch (UnauthorizedAccessException)
                 {
-                    output = TerminalOutput.Get(@"output\main\error_option_preset_cannot_be_deleted.out");
+                    output = TerminalOutput.Get(@"output\main\option_preset\delete\error\access_denied.out");
+                }
+                catch (IOException)
+                {
+                    output = TerminalOutput.Get(@"output\main\option_preset\delete\error\file_in_use.out");
+                }
+                catch (Exception e)
+                {
+                    output = TerminalOutput.Get(@"output\main\option_preset\delete\error\undefined.out",
+                        args: new()
+                        {
+                            e.Message
+                        }
+                    );
                 }
                 Console.WriteLine(output);
+            }
+            else
+            {
+                Help(new string[1] { "help" });
             }
         }
 
 
+        // LIST OF OPTION PRESETS
         private static void OptionPresetList()
         {
             string output;
@@ -197,126 +292,212 @@ namespace VDownload
             {
                 output = OptionPresets.List();
             }
-            catch
+            catch (SecurityException)
             {
-                output = TerminalOutput.Get(@"output\main\error_while_getting_presets_list.out");
+                output = TerminalOutput.Get(@"output\main\option_preset\list\error\access_denied.out");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                output = TerminalOutput.Get(@"output\main\option_preset\list\error\access_denied.out");
+            }
+            catch (Exception e)
+            {
+                output = TerminalOutput.Get(@"output\main\option_preset\list\error\undefined.out",
+                    args: new()
+                    {
+                        e.Message
+                    }
+                );
             }
             if (output == "")
             {
-                output = TerminalOutput.Get(@"output\main\option_preset_list_empty.out");
+                output = TerminalOutput.Get(@"output\main\option_preset\list\empty.out");
             }
             Console.WriteLine(output);
         }
 
 
-        // Returns value of specified settings key
+
+
+        // VALUE OF SPECIFIED SETTINGS KEY
         private static void SettingsGet(string[] args)
         {
-            if (args.Length < 2)
-            {
-                Help();
-            }
-            else
+            if (args.Length > 1)
             {
                 string output;
                 string key = args[1].ToLower();
-                if (Config.Main.ReadAll().TryGetValue(key, out string value))
+                try
                 {
-                    output = TerminalOutput.Get(
-                        file: @"output\main\get_settings.out",
+                    if (Config.Main.ReadAll().TryGetValue(key, out string value))
+                    {
+                        output = TerminalOutput.Get(@"output\main\settings\get\get.out",
+                            args: new()
+                            {
+                                key,
+                                value
+                            }
+                        );
+                    }
+                    else
+                    {
+                        output = TerminalOutput.Get(@"output\main\settings\get\error\key_does_not_exists.out");
+                    }
+                }
+                catch (SecurityException)
+                {
+                    output = TerminalOutput.Get(@"output\config\read\error\access_denied.out");
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    output = TerminalOutput.Get(@"output\config\read\error\access_denied.out");
+                }
+                catch (Exception e)
+                {
+                    output = TerminalOutput.Get(@"output\config\read\error\undefined.out",
                         args: new()
-                        {
-                            key,
-                            value
+                        { 
+                            e.Message
                         }
                     );
                 }
-                else
-                {
-                    output = TerminalOutput.Get(@"output\main\error_key_does_not_exists.out");
-                }
                 Console.WriteLine(output);
+            }
+            else
+            {
+                Help(new string[1] { "help" });
             }
         }
 
 
-        // Sets value of specified settings key
+        // CHANGE SETTINGS
         private static void SettingsSet(string[] args)
         {
-            if (args.Length < 3)
-            {
-                Help();
-            }
-            else
+            if (args.Length > 2)
             {
                 string output;
-                string key = args[1].ToLower();
-                string value = args[2];
-                if (key.Trim() == "")
+                string key = args[1].ToLower().Trim();
+                string value = args[2].Trim();
+                if (key.Length == 0)
                 {
-                    output = TerminalOutput.Get(@"output\main\error_key_is_an_empty_string.out");
-                }
-                else if (value.Trim() == "")
-                {
-                    output = TerminalOutput.Get(@"output\main\error_value_is_an_empty_string.out");
+                    output = TerminalOutput.Get(@"output\main\settings\set\error\key_is_empty.out");
                 }
                 else if (!(Config.Main.ReadAll().ContainsKey(key)))
                 {
-                    output = TerminalOutput.Get(@"output\main\error_key_does_not_exists.out");
+                    output = TerminalOutput.Get(@"output\main\settings\set\error\key_does_not_exist.out");
                 }
                 else
                 {
-                    string oldValue = Config.Main.ReadKey(key);
-                    Config.Main.Write(key, value);
-                    output = TerminalOutput.Get(
-                        file: @"output\main\set_settings.out", 
-                        args: new()
+                    try
+                    {
+                        string oldValue = Config.Main.ReadKey(key);
+                        try
                         {
-                            key,
-                            oldValue,
-                            value
+                            Config.Main.Write(key, value);
+                            output = TerminalOutput.Get(@"output\main\settings\set.out",
+                                args: new()
+                                {
+                                    key,
+                                    oldValue,
+                                    value
+                                }
+                            );
                         }
-                    );
+                        catch (SecurityException)
+                        {
+                            output = TerminalOutput.Get(@"output\config\write\error\access_denied.out");
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            output = TerminalOutput.Get(@"output\config\write\error\access_denied.out");
+                        }
+                        catch (IOException)
+                        {
+                            output = TerminalOutput.Get(@"output\config\write\error\file_in_use.out");
+                        }
+                        catch (Exception e)
+                        {
+                            output = TerminalOutput.Get(@"output\config\write\error\file_in_use.out",
+                                args: new()
+                                {
+                                    e.Message
+                                }
+                            );
+                        }
+                    }
+                    catch (SecurityException)
+                    {
+                        output = TerminalOutput.Get(@"output\config\read\error\access_denied.out");
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        output = TerminalOutput.Get(@"output\config\read\error\access_denied.out");
+                    }
+                    catch (Exception e)
+                    {
+                        output = TerminalOutput.Get(@"output\config\read\error\undefined.out",
+                            args: new()
+                            {
+                                e.Message
+                            }
+                        );
+                    }
                 }
                 Console.WriteLine(output);
+            }
+            else
+            {
+                Help(new string[1] { "help" });
             }
         }
 
 
-        // Reset (delete) configuration file
+        // RESTORE DEFAULT SETTINGS
         private static void SettingsReset()
         {
-            string output = TerminalOutput.Get(@"output\main\reset_settings.out");
+            string output = TerminalOutput.Get(@"output\main\settings\reset\reset.out");
             try
             {
                 Config.Main.ResetFile();
             }
-            catch
+            catch (SecurityException)
             {
-                output = TerminalOutput.Get(@"output\main\error_default_settings_cannot_be_restored.out");
+                output = TerminalOutput.Get(@"output\config\reset\error\access_denied.out");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                output = TerminalOutput.Get(@"output\config\reset\error\access_denied.out");
+            }
+            catch (IOException)
+            {
+                output = TerminalOutput.Get(@"output\config\reset\error\file_in_use.out");
+            }
+            catch (Exception e)
+            {
+                output = TerminalOutput.Get(@"output\config\reset\error\undefined.out",
+                    args: new()
+                    {
+                        e.Message
+                    }
+                );
             }
             Console.WriteLine(output);
         }
 
 
-        // Check updates
+
+
+        // CHECK UPDATES
         private static void CheckUpdates()
         {
-            string output = TerminalOutput.Get(@"output\main\update_unavailable.out");
+            string output = TerminalOutput.Get(@"output\update\unavailable.out");
             try
             {
-                var githubClient = new GitHubClient(new ProductHeaderValue("VDownload"));
-                var latestRelease = githubClient.Repository.Release.GetAll("mateuszskoczek", "VDownload").Result[0];
-                string latestReleaseBuildID = latestRelease.Name.Split(' ')[1].Replace("(", "").Replace(")", "");
-                if (float.Parse(latestReleaseBuildID.Replace('.', ',')) > float.Parse(Global.ProgramInfo.BUILD_ID.Replace('.', ',')))
+                if (Update.Available())
                 {
-                    output = TerminalOutput.Get(
-                        @"output\main\update_available.out",
+                    output = TerminalOutput.Get(@"output\update\available.out",
                         args: new()
                         {
-                            latestRelease.HtmlUrl,
-                            Global.ProgramInfo.VERSION,
-                            latestRelease.Name.Split(' ')[0],
+                            Global.ProgramInfo.RELEASES
                         }
                     );
                 }
