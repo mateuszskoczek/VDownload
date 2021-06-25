@@ -3,7 +3,7 @@
 VDownload is a universal CLI (command line interface) video downloader. It allows you to download video from the following websites:
 - YouTube (single video)
 - YouTube (playlist)
-- Twitch *[planned for version 0.3]*
+- Twitch
 - ... *[more pages will be added later]*
 
 ## Setup
@@ -87,5 +87,6 @@ VDownload uses the following libraries:
 - YoutubeExplode [[LINK]](https://github.com/Tyrrrz/YoutubeExplode)
 - LightConfig [[LINK]](https://github.com/mateuszskoczek/LightConfig)
 - Octokit [[LINK]](https://github.com/octokit/octokit.net)
+- Newtonsoft.Json [[LINK]](https://www.newtonsoft.com/json)
 
 FFmpeg is not included in repository, because of file size limitations. You have to download FFmpeg by yourself and put executables in "ffmpeg" directory.

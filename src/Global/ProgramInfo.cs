@@ -4,8 +4,8 @@ namespace VDownload.Global
 {
     class ProgramInfo
     {
-        public static readonly string VERSION = "0.2";
-        public static readonly string BUILD_ID = "21175";
+        public static readonly string VERSION = "0.3-dev1";
+        public static readonly string BUILD_ID = "21177";
         public static readonly string REPOSITORY = "https://github.com/mateuszskoczek/VDownload";
         public static readonly string AUTHOR_NAME = "Mateusz Skoczek";
         public static readonly string AUTHOR_GITHUB = "https://github.com/mateuszskoczek";
@@ -20,6 +20,7 @@ namespace VDownload.Global
             { "LightConfig 0.3.0", "https://github.com/mateuszskoczek/LightConfig" },
             { "YoutubeExplode 6.0.3", "https://github.com/Tyrrrz/YoutubeExplode" },
             { "Octokit 0.50.0", "https://github.com/octokit/octokit.net" },
+            { "Newtonsoft.Json 13.0.1", "https://www.newtonsoft.com/json" },
         };
     }
 }

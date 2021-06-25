@@ -57,6 +57,7 @@
     <None Remove="output\media_processing\error_file_cannot_be_converted.out" />
     <None Remove="output\media_processing\merge\error\undefined.out" />
     <None Remove="output\media_processing\merging_streams.out" />
+    <None Remove="output\twitch\info\vod\info.out" />
     <None Remove="output\youtube\.out" />
     <None Remove="output\youtube\delete_temporary.out" />
     <None Remove="output\youtube\done.out" />
@@ -93,6 +94,7 @@
     <PackageReference Include="ConsoleTableExt" Version="3.1.7" />
     <PackageReference Include="FFMpegCore" Version="4.3.0" />
     <PackageReference Include="LightConfig" Version="0.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Octokit" Version="0.50.0" />
     <PackageReference Include="YoutubeExplode" Version="6.0.3" />
   </ItemGroup>

@@ -7,7 +7,7 @@
 
 bin/
 obj/
-Preferences/
+Properties/
 
 .vs/
 

@@ -155,6 +155,7 @@ namespace VDownload
                 {
                     case "youtube_single": Youtube.VideoInfo(url); break;
                     case "youtube_playlist": Youtube.PlaylistInfo(url, options); break;
+                    case "twitch_vod": Twitch.VodInfo(url); break;
                     default: Console.WriteLine(TerminalOutput.Get(@"output\main\info\error\wrong_site.out")); break;
                 }
             }
@@ -393,7 +394,7 @@ namespace VDownload
                         try
                         {
                             Config.Main.Write(key, value);
-                            output = TerminalOutput.Get(@"output\main\settings\set.out",
+                            output = TerminalOutput.Get(@"output\main\settings\set\set.out",
                                 args: new()
                                 {
                                     key,
@@ -416,7 +417,7 @@ namespace VDownload
                         }
                         catch (Exception e)
                         {
-                            output = TerminalOutput.Get(@"output\config\write\error\file_in_use.out",
+                            output = TerminalOutput.Get(@"output\config\write\error\undefined.out",
                                 args: new()
                                 {
                                     e.Message
