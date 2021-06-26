@@ -194,6 +194,7 @@ namespace VDownload
                 {
                     case "youtube_single": Youtube.VideoDownload(url, options); break;
                     case "youtube_playlist": Youtube.PlaylistDownload(url, options); break;
+                    case "twitch_vod": Twitch.VodDownload(url, options); break;
                     default: Console.WriteLine(TerminalOutput.Get(@"output\main\download\error\wrong_site.out")); break;
                 }
             }

@@ -57,6 +57,7 @@ Command example: `vdownload download https://www.youtube.com/watch?v=dQw4w9WgXcQ
 | `date_format`            | Format of publication date in filenames and video informations |
 | `ffmpeg_path`            | FFmpeg executables path                                        |
 | `check_updates_on_start` | (0/1) Checking for updates on start                            |
+| `max_threads`            | Maximum number of threads used by app                          |
 
 
 **Filename template:**

@@ -4,8 +4,8 @@ namespace VDownload.Global
 {
     class ProgramInfo
     {
-        public static readonly string VERSION = "0.3-dev1";
-        public static readonly string BUILD_ID = "21177";
+        public static readonly string VERSION = "0.3-dev2";
+        public static readonly string BUILD_ID = "21178";
         public static readonly string REPOSITORY = "https://github.com/mateuszskoczek/VDownload";
         public static readonly string AUTHOR_NAME = "Mateusz Skoczek";
         public static readonly string AUTHOR_GITHUB = "https://github.com/mateuszskoczek";

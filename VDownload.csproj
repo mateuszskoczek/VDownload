@@ -57,6 +57,9 @@
     <None Remove="output\media_processing\error_file_cannot_be_converted.out" />
     <None Remove="output\media_processing\merge\error\undefined.out" />
     <None Remove="output\media_processing\merging_streams.out" />
+    <None Remove="output\twitch\info\vod\error\no_internet_connection.out" />
+    <None Remove="output\twitch\info\vod\error\undefined.out" />
+    <None Remove="output\twitch\info\vod\error\web_undefined.out" />
     <None Remove="output\twitch\info\vod\info.out" />
     <None Remove="output\youtube\.out" />
     <None Remove="output\youtube\delete_temporary.out" />
