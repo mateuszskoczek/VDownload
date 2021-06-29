@@ -17,7 +17,7 @@ namespace VDownload
             {"date_format", "yyyy.MM.dd"},
             {"ffmpeg_path", Global.Paths.FFMPEG},
             {"check_updates_on_start", "1"},
-            {"max_threads", "4"},
+            {"max_files_downloading_tasks", "3"},
         };
         public static ConfigObject Main = new(MainPath, MainContent);
     }

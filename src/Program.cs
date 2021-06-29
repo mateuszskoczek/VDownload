@@ -1,15 +1,19 @@
 ﻿using System;
 using System.IO;
 using System.Security;
+using System.Threading.Tasks;
 using System.Collections.Generic;
-using VDownload.Parsers;
+using VDownload.Services;
+using VDownload.Sources;
 
 namespace VDownload
 {
     class Program
     {
+        #region MAIN
+
         // INIT FUNCTION
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             // Rebuild config
             try
@@ -33,7 +37,7 @@ namespace VDownload
             }
             catch (Exception e)
             {
-                Console.WriteLine(TerminalOutput.Get(@"output\config\rebuild\error\undefined.out",
+                Console.WriteLine(TerminalOutput.Get(@"output\config\rebuild\error\unknown.out",
                     args: new()
                     { 
                         e.Message
@@ -52,7 +56,7 @@ namespace VDownload
             {
                 try
                 {
-                    if (Update.Available())
+                    if (await Update.Available())
                     {
                         Console.WriteLine(TerminalOutput.Get(@"output\update\available_on_start.out",
                             args: new()
@@ -73,33 +77,37 @@ namespace VDownload
                 {
                     case "help": Help(args); break;
                     case "about": About(); break;
-                    case "info": Info(args); break;
-                    case "download": Download(args); break;
+                    case "info": await Info(args); break;
+                    case "download": await Download(args); break;
                     case "option-preset-new": OptionPresetNew(args); break;
                     case "option-preset-delete": OptionPresetDelete(args); break;
                     case "option-preset-list": OptionPresetList(); break;
                     case "settings-get": SettingsGet(args); break;
                     case "settings-set": SettingsSet(args); break;
                     case "settings-reset": SettingsReset(); break;
-                    case "check-updates": CheckUpdates(); break;
+                    case "check-updates": await CheckUpdates(); break;
                     default: Help(new string[1] { "help" }); break;
                 }
             }
             else { Help(new string[1] { "help" }); }
         }
 
+        #endregion MAIN
 
 
 
 
+
+        #region PROGRAM_INFO
 
         // LIST OF COMMANDS, SETTINGS KEYS AND FILENAME WILDCARDS
         private static void Help(string[] args)
         {
+            // Help type switch
             string output = TerminalOutput.Get(@"output\main\help\commands.out"); ;
             if (args != null || args.Length > 1)
             {
-                var options = Options.Get(args[1..]);
+                var options = InputOptions.Parse(args[1..]);
                 if (options.ContainsKey("settings"))
                 {
                     output = TerminalOutput.Get(@"output\main\help\settings.out");
@@ -111,7 +119,6 @@ namespace VDownload
             }
             Console.WriteLine(output);
         }
-
 
         // INFORMATIONS ABOUT PROGRAM
         private static void About()
@@ -141,20 +148,23 @@ namespace VDownload
             ));
         }
 
+        #endregion PROGRAM_INFO
 
 
+
+        #region VIDEO
 
         // INFORMATIONS ABOUT VIDEO (OR PLAYLIST)
-        private static void Info(string[] args)
+        private static async Task Info(string[] args)
         {
             if (args.Length > 1)
             {
                 string url = args[1];
-                var options = Options.Get(args[2..]);
-                switch (UrlWebpage.Get(url))
+                var options = InputOptions.Parse(args[2..]);
+                switch (Source.Get(url))
                 {
-                    case "youtube_single": Youtube.VideoInfo(url); break;
-                    case "youtube_playlist": Youtube.PlaylistInfo(url, options); break;
+                    case "youtube_single": await Youtube.VideoInfo(url); break;
+                    case "youtube_playlist": await Youtube.PlaylistInfo(url, options); break;
                     case "twitch_vod": Twitch.VodInfo(url); break;
                     default: Console.WriteLine(TerminalOutput.Get(@"output\main\info\error\wrong_site.out")); break;
                 }
@@ -165,14 +175,13 @@ namespace VDownload
             }
         }
 
-
         // DOWNLOADING VIDEO (OR PLAYLIST)
-        private static void Download(string[] args)
+        private static async Task Download(string[] args)
         {
             if (args.Length > 1)
             {
                 // Options
-                Dictionary<string, string> options = Options.Get(args[2..]);
+                Dictionary<string, string> options = InputOptions.Parse(args[2..]);
                 if (options.ContainsKey("option_preset"))
                 {
                     try
@@ -190,10 +199,10 @@ namespace VDownload
 
                 // Url switch
                 string url = args[1];
-                switch (UrlWebpage.Get(url))
+                switch (Source.Get(url))
                 {
-                    case "youtube_single": Youtube.VideoDownload(url, options); break;
-                    case "youtube_playlist": Youtube.PlaylistDownload(url, options); break;
+                    case "youtube_single": await Youtube.VideoDownload(url, options); break;
+                    case "youtube_playlist": await Youtube.PlaylistDownload(url, options); break;
                     case "twitch_vod": Twitch.VodDownload(url, options); break;
                     default: Console.WriteLine(TerminalOutput.Get(@"output\main\download\error\wrong_site.out")); break;
                 }
@@ -204,8 +213,11 @@ namespace VDownload
             }
         }
 
+        #endregion VIDEO
 
 
+
+        #region OPTION_PRESET
 
         // CREATE NEW OPTION PRESET
         private static void OptionPresetNew(string[] args)
@@ -213,7 +225,7 @@ namespace VDownload
             if (args.Length > 2)
             {
                 string name = args[1];
-                var options = Options.Get(args[2..]);
+                var options = InputOptions.Parse(args[2..]);
                 string output = TerminalOutput.Get(@"output\main\option_preset\new\new.out");
                 try
                 {
@@ -233,7 +245,7 @@ namespace VDownload
                 }
                 catch (Exception e)
                 {
-                    output = TerminalOutput.Get(@"output\main\option_preset\new\error\undefined.out",
+                    output = TerminalOutput.Get(@"output\main\option_preset\new\error\unknown.out",
                         args: new()
                         {
                             e.Message
@@ -270,7 +282,7 @@ namespace VDownload
                 }
                 catch (Exception e)
                 {
-                    output = TerminalOutput.Get(@"output\main\option_preset\delete\error\undefined.out",
+                    output = TerminalOutput.Get(@"output\main\option_preset\delete\error\unknown.out",
                         args: new()
                         {
                             e.Message
@@ -304,7 +316,7 @@ namespace VDownload
             }
             catch (Exception e)
             {
-                output = TerminalOutput.Get(@"output\main\option_preset\list\error\undefined.out",
+                output = TerminalOutput.Get(@"output\main\option_preset\list\error\unknown.out",
                     args: new()
                     {
                         e.Message
@@ -318,8 +330,11 @@ namespace VDownload
             Console.WriteLine(output);
         }
 
+        #endregion OPTION_PRESET
 
 
+
+        #region SETTINGS
 
         // VALUE OF SPECIFIED SETTINGS KEY
         private static void SettingsGet(string[] args)
@@ -355,7 +370,7 @@ namespace VDownload
                 }
                 catch (Exception e)
                 {
-                    output = TerminalOutput.Get(@"output\config\read\error\undefined.out",
+                    output = TerminalOutput.Get(@"output\config\read\error\unknown.out",
                         args: new()
                         { 
                             e.Message
@@ -418,7 +433,7 @@ namespace VDownload
                         }
                         catch (Exception e)
                         {
-                            output = TerminalOutput.Get(@"output\config\write\error\undefined.out",
+                            output = TerminalOutput.Get(@"output\config\write\error\unknown.out",
                                 args: new()
                                 {
                                     e.Message
@@ -436,7 +451,7 @@ namespace VDownload
                     }
                     catch (Exception e)
                     {
-                        output = TerminalOutput.Get(@"output\config\read\error\undefined.out",
+                        output = TerminalOutput.Get(@"output\config\read\error\unknown.out",
                             args: new()
                             {
                                 e.Message
@@ -475,7 +490,7 @@ namespace VDownload
             }
             catch (Exception e)
             {
-                output = TerminalOutput.Get(@"output\config\reset\error\undefined.out",
+                output = TerminalOutput.Get(@"output\config\reset\error\unknown.out",
                     args: new()
                     {
                         e.Message
@@ -485,16 +500,19 @@ namespace VDownload
             Console.WriteLine(output);
         }
 
+        #endregion SETTINGS
 
 
+
+        #region OTHER
 
         // CHECK UPDATES
-        private static void CheckUpdates()
+        private static async Task CheckUpdates()
         {
             string output = TerminalOutput.Get(@"output\update\unavailable.out");
             try
             {
-                if (Update.Available())
+                if (await Update.Available())
                 {
                     output = TerminalOutput.Get(@"output\update\available.out",
                         args: new()
@@ -507,5 +525,7 @@ namespace VDownload
             catch { }
             Console.WriteLine(output);
         }
+
+        #endregion OTHER
     }
 }
