@@ -1,109 +1,185 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-    <Platforms>AnyCPU;x86;x64;ARM64;ARM32</Platforms>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{7ED88A60-E6DA-482F-AE63-72A8DAACCABF}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VDownload</RootNamespace>
+    <AssemblyName>VDownload</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <OutputPath>bin\ARM64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
   <ItemGroup>
-	  <Content Include="output\**">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-      <Content Include="ffmpeg\**">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Settings\SettingsMainPage.xaml.cs">
+      <DependentUpon>SettingsMainPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
-
   <ItemGroup>
-    <Compile Remove="lib\**" />
-    <EmbeddedResource Remove="lib\**" />
-    <None Remove="lib\**" />
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
   </ItemGroup>
-
   <ItemGroup>
-    <None Remove="output\config\read\error\undefined.out" />
-    <None Remove="output\config\rebuild\error\access_denied.out" />
-    <None Remove="output\config\rebuild\error\file_in_use.out" />
-    <None Remove="output\config\rebuild\error\undefined.out" />
-    <None Remove="output\config\reset\error\access_denied.out" />
-    <None Remove="output\config\reset\error\file_in_use.out" />
-    <None Remove="output\config\reset\error\undefined.out" />
-    <None Remove="output\config\write\error\access_denied.out" />
-    <None Remove="output\config\write\error\file_in_use.out" />
-    <None Remove="output\config\write\error\undefined.out" />
-    <None Remove="output\config\read\error\access_denied.out" />
-    <None Remove="output\main\error_option_preset_cannot_be_created.out" />
-    <None Remove="output\main\help\filename.out" />
-    <None Remove="output\main\help\settings.out" />
-    <None Remove="output\main\download\error\wrong_site.out" />
-    <None Remove="output\main\option_preset\delete\error\access_denied.out" />
-    <None Remove="output\main\option_preset\delete\error\file_in_use.out" />
-    <None Remove="output\main\option_preset\delete\error\undefined.out" />
-    <None Remove="output\main\option_preset\list\error\access_denied.out" />
-    <None Remove="output\main\option_preset\list\error\undefined.out" />
-    <None Remove="output\main\option_preset\new\error\path_too_long.out" />
-    <None Remove="output\main\option_preset\new\error\undefined.out" />
-    <None Remove="output\main\option_preset_delete.out" />
-    <None Remove="output\main\option_preset_list_empty.out" />
-    <None Remove="output\main\option_preset_new.out" />
-    <None Remove="output\main\settings\set\error\key_does_not_exist.out" />
-    <None Remove="output\main\settings\set\error\key_is_empty.out" />
-    <None Remove="output\main\update_available.out" />
-    <None Remove="output\main\update_available_on_start.out" />
-    <None Remove="output\main\update_unavailable.out" />
-    <None Remove="output\main\wrong_site.out" />
-    <None Remove="output\media_processing\converting_file.out" />
-    <None Remove="output\media_processing\error_file_cannot_be_converted.out" />
-    <None Remove="output\media_processing\merge\error\undefined.out" />
-    <None Remove="output\media_processing\merging_streams.out" />
-    <None Remove="output\youtube\.out" />
-    <None Remove="output\youtube\delete_temporary.out" />
-    <None Remove="output\youtube\done.out" />
-    <None Remove="output\youtube\downloading_start.out" />
-    <None Remove="output\youtube\downloading_start_playlist.out" />
-    <None Remove="output\youtube\downloading_video.out" />
-    <None Remove="output\youtube\download\playlist\error\no_internet_connection.out" />
-    <None Remove="output\youtube\download\playlist\error\playlist_unavailable.out" />
-    <None Remove="output\youtube\download\playlist\error\undefined.out" />
-    <None Remove="output\youtube\download\video\error\no_internet_connection.out" />
-    <None Remove="output\youtube\download\video\error\undefined.out" />
-    <None Remove="output\youtube\download\video\error\video_requires_pucharse.out" />
-    <None Remove="output\youtube\download\video\error\video_unavailable.out" />
-    <None Remove="output\youtube\download\video\error\video_unplayable.out" />
-    <None Remove="output\youtube\download\astreams\download.out" />
-    <None Remove="output\youtube\download\astreams\error\temp_dir_access_denied.out" />
-    <None Remove="output\youtube\download\astreams\error\temp_dir_undefined.out" />
-    <None Remove="output\youtube\download\vstreams\error\temp_dir_access_denied.out" />
-    <None Remove="output\youtube\download\vstreams\error\temp_dir_undefined.out" />
-    <None Remove="output\youtube\error_invalid_link.out" />
-    <None Remove="output\youtube\error_invalid_url.out" />
-    <None Remove="output\youtube\error_no_audio_streams_video_unplayable.out" />
-    <None Remove="output\youtube\error_no_video_streams_video_unplayable.out" />
-    <None Remove="output\youtube\info\playlist\error\no_internet_connection.out" />
-    <None Remove="output\youtube\info\playlist\error\playlist_unavailable.out" />
-    <None Remove="output\youtube\info\playlist\error\undefined.out" />
-    <None Remove="output\youtube\info\video\error\no_internet_connection.out" />
-    <None Remove="output\youtube\info\video\error\undefined.out" />
-    <None Remove="output\youtube\info\video\error\video_requires_pucharse.out" />
-    <None Remove="output\youtube\video_info.out" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="ConsoleTableExt" Version="3.1.7" />
-    <PackageReference Include="FFMpegCore" Version="4.3.0" />
-    <PackageReference Include="LightConfig" Version="0.3.0" />
-    <PackageReference Include="Octokit" Version="0.50.0" />
-    <PackageReference Include="YoutubeExplode" Version="6.0.3" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Settings\SettingsMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
-
   <ItemGroup>
-    <None Update="LICENSE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="README.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.12</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.6.1</Version>
+    </PackageReference>
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Core\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

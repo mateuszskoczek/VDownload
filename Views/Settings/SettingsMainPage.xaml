@@ -1,0 +1,25 @@
+﻿<ContentDialog
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Views.Settings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:Microsoft.UI.Xaml.Controls"
+    x:Class="VDownload.Views.Settings.SettingsMainPage"
+    mc:Ignorable="d"
+    Title=""
+    PrimaryButtonText="Save"
+    SecondaryButtonText=""
+    CloseButtonText="Cancel"
+    DefaultButton="Primary"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <NavigationView Content="" HorizontalAlignment="Center" VerticalAlignment="Center" Height="81" Width="424" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Paths" Icon="Admin"/>
+            </NavigationView.MenuItems>
+        </NavigationView>
+    </Grid>
+</ContentDialog>
