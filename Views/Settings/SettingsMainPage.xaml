@@ -5,9 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Class="VDownload.Views.Settings.SettingsMainPage"
     mc:Ignorable="d"
-    Title=""
+    Title="SETTINGS"
     PrimaryButtonText="Save"
     SecondaryButtonText=""
     CloseButtonText="Cancel"
@@ -16,10 +17,36 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <Grid>
-        <NavigationView Content="" HorizontalAlignment="Center" VerticalAlignment="Center" Height="81" Width="424" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" IsSettingsVisible="False">
+        <NavigationView 
+            x:Name="Menu" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center" 
+            Height="422" 
+            Width="496" 
+            PaneDisplayMode="Top" 
+            IsBackButtonVisible="Collapsed" 
+            IsSettingsVisible="False"
+            Loaded="Menu_Loaded"
+            ItemInvoked="Menu_ItemInvoked"
+            BackRequested="Menu_BackRequested">
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="Paths" Icon="Admin"/>
+                <NavigationViewItem
+                    Tag="general" 
+                    Content="General" 
+                    Icon="ViewAll"/>
+                <NavigationViewItem
+                    Tag="options"
+                    Content="Output"
+                    Icon="SetLockScreen"/>
+                <NavigationViewItem
+                    Tag="about"
+                    Content="About"
+                    Icon="Help"/>
             </NavigationView.MenuItems>
+            <Frame 
+                x:Name="MenuFrame" 
+                IsTabStop="True" 
+                NavigationFailed="MenuFrame_NavigationFailed"/>
         </NavigationView>
     </Grid>
 </ContentDialog>
