@@ -1,0 +1,54 @@
+﻿╔═════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                             LIST OF COMMANDS                                            ║
+╠═════════════════════════════════════╦═══════════════════════════════════════════════════════════════════╣
+║ help [options]                      ║ List of commands, settings keys, filename wildcards               ║
+║                                     ║                                                                   ║
+║                                     ║ Options:                                                          ║
+║                                     ║ --settings (informations about settings keys)                     ║
+║                                     ║ --filename (informations about filename wildcards)                ║
+╟─────────────────────────────────────╫───────────────────────────────────────────────────────────────────╢
+║ about                               ║ Informations about this program and available updates             ║
+╟─────────────────────────────────────╫───────────────────────────────────────────────────────────────────╢
+║ info <link/path>                    ║ Informations about video (metadata and available streams)         ║
+║                                     ║ or playlist/text file with urls (videos)                          ║
+╟─────────────────────────────────────╫───────────────────────────────────────────────────────────────────╢
+║ download <link/path> [options] [..] ║ Download video (or playlist)                                      ║
+║                                     ║                                                                   ║
+║                                     ║ Options:                                                          ║
+║                                     ║ --option_preset=<name>  (apply option preset; options from preset ║
+║                                     ║                          will be overwritten)                     ║
+║                                     ║ --onlyvideo             (download only video)                     ║
+║                                     ║ --onlyaudio             (download only audio)                     ║
+║                                     ║ --vstream=<id>          (download video stream with specified id; ║
+║                                     ║                          best if not specified [Y])               ║
+║                                     ║ --astream=<id>          (download audio stream with specified id; ║
+║                                     ║                          best if not specified [Y])               ║
+║                                     ║ --stream=<id>           (download stream with specified id;       ║
+║                                     ║                          best if not specified [T])               ║
+║                                     ║ --output_path=<path>    (output file path)                        ║
+║                                     ║ --filename=<filename>   (filename; template)                      ║
+║                                     ║ --video_ext=<extension> (video file extension)                    ║
+║                                     ║ --audio_ext=<extension> (audio file extension)                    ║
+║                                     ║ --trim_start=<time>     (trim video on the beginning)             ║
+║                                     ║ --trim_end=<time>       (trim video on the end)                   ║
+║                                     ║ --videos=<id>           (download videos from playlist with       ║
+║                                     ║                          specified ids; semicolon-separated [P])  ║
+║                                     ║                                                                   ║
+║                                     ║ Key:                    <time> - 6 --> 6.00:00:00                 ║
+║                                     ║ [Y] - YouTube                    6:12 --> 06:12:00                ║
+║                                     ║ [T] - Twitch                     6:12:14 --> 06:12:14             ║
+║                                     ║ [P] - Playlist\TXT               6:12:14:45 --> 6.12:14:45        ║
+║                                     ║                                  6.12:14:45 --> 6.12:14:45        ║
+╟─────────────────────────────────────╫───────────────────────────────────────────────────────────────────╢
+║ option-preset                       ║ Shows list of option presets                                      ║
+╟─────────────────────────────────────╫───────────────────────────────────────────────────────────────────╢
+║ option-preset new <name> <options>  ║ Create new option preset (options are the same as in download)    ║
+╟─────────────────────────────────────╫───────────────────────────────────────────────────────────────────╢
+║ option-preset delete <name>         ║ Delete option preset                                              ║
+╟─────────────────────────────────────╫───────────────────────────────────────────────────────────────────╢
+║ settings <key>                      ║ Shows value of the specified key                                  ║
+╟─────────────────────────────────────╫───────────────────────────────────────────────────────────────────╢
+║ settings <key> <value>              ║ Sets value of the specified key                                   ║
+╟─────────────────────────────────────╫───────────────────────────────────────────────────────────────────╢
+║ settings reset                      ║ Restore default settings                                          ║
+╚═════════════════════════════════════╩═══════════════════════════════════════════════════════════════════╝

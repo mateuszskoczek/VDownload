@@ -1,0 +1,14 @@
+﻿╔════════════════════════════════════════════╗
+║             FILENAME WILDCARDS             ║
+╠═════════════╦══════════════════════════════╣
+║ %title%     ║ Video title [Y|T]            ║
+║ %author%    ║ Video author [Y|T]           ║
+║ %author_id% ║ Video author id [Y|T]        ║
+║ %pub_date%  ║ Video publication date [Y|T] ║
+║ %id%        ║ Video ID [Y|T]               ║
+║ %act_date%  ║ Actual date [Y|T]            ║
+║ %duration%  ║ Video duration [Y|T]         ║
+║ %views%     ║ Video views [Y|T]            ║
+║ %likes%     ║ Video rating (likes) [Y]     ║
+║ %dislikes%  ║ Video rating (dislikes) [Y]  ║
+╚═════════════╩══════════════════════════════╝

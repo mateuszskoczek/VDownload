@@ -3,112 +3,55 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <Platforms>AnyCPU;x86;x64;ARM64;ARM32</Platforms>
   </PropertyGroup>
 
+	<ItemGroup>
+		<Content Include="output\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="ffmpeg\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	
   <ItemGroup>
-	  <Content Include="output\**">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-      <Content Include="ffmpeg\**">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+    <None Remove=".gitignore" />
+    <None Remove="output\about\update_available.out" />
+    <None Remove="output\about\update_unavailable.out" />
+    <None Remove="output\about\_main.out" />
+    <None Remove="output\help\commands.out" />
+    <None Remove="output\help\filename.out" />
+    <None Remove="output\help\settings.out" />
+    <None Remove="output\main\update_info.out" />
+    <None Remove="output\media\info\pl-twitch_channel\_main.out" />
+    <None Remove="output\media\info\playlist_no_videos.out" />
+    <None Remove="output\media\info\_error\_main.out" />
+    <None Remove="output\media\info\error_wrong_path_url_id.out" />
+    <None Remove="output\media_download\converting.out" />
+    <None Remove="output\media_download\done.out" />
+    <None Remove="output\media_download\done_in.out" />
+    <None Remove="output\media_download\downloading.out" />
+    <None Remove="output\media_download\error.out" />
+    <None Remove="output\media_download\merging.out" />
+    <None Remove="output\media_download\trimming.out" />
+    <None Remove="output\media_download\_main.out" />
+    <None Remove="output\media\info\twitch_clip\error.out" />
+    <None Remove="output\media\info\twitch_clip\_main.out" />
+    <None Remove="output\option_preset\delete\_main.out" />
+    <None Remove="output\option_preset\list\empty.out" />
+    <None Remove="output\option_preset\new\_main.out" />
+    <None Remove="output\settings\get\_main.out" />
+    <None Remove="output\settings\reset\_main.out" />
+    <None Remove="output\settings\set\_main.out" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="lib\**" />
-    <EmbeddedResource Remove="lib\**" />
-    <None Remove="lib\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="output\config\read\error\unknown.out" />
-    <None Remove="output\config\rebuild\error\access_denied.out" />
-    <None Remove="output\config\rebuild\error\file_in_use.out" />
-    <None Remove="output\config\rebuild\error\unknown.out" />
-    <None Remove="output\config\reset\error\access_denied.out" />
-    <None Remove="output\config\reset\error\file_in_use.out" />
-    <None Remove="output\config\reset\error\unknown.out" />
-    <None Remove="output\config\write\error\access_denied.out" />
-    <None Remove="output\config\write\error\file_in_use.out" />
-    <None Remove="output\config\read\error\access_denied.out" />
-    <None Remove="output\config\write\error\unknown.out" />
-    <None Remove="output\main\error_option_preset_cannot_be_created.out" />
-    <None Remove="output\main\help\filename.out" />
-    <None Remove="output\main\help\settings.out" />
-    <None Remove="output\main\download\error\wrong_site.out" />
-    <None Remove="output\main\option_preset\delete\error\access_denied.out" />
-    <None Remove="output\main\option_preset\delete\error\file_in_use.out" />
-    <None Remove="output\main\option_preset\delete\error\unknown.out" />
-    <None Remove="output\main\option_preset\list\error\access_denied.out" />
-    <None Remove="output\main\option_preset\list\error\unknown.out" />
-    <None Remove="output\main\option_preset\new\error\path_too_long.out" />
-    <None Remove="output\main\option_preset\new\error\unknown.out" />
-    <None Remove="output\main\option_preset_delete.out" />
-    <None Remove="output\main\option_preset_list_empty.out" />
-    <None Remove="output\main\option_preset_new.out" />
-    <None Remove="output\main\settings\set\error\key_does_not_exist.out" />
-    <None Remove="output\main\settings\set\error\key_is_empty.out" />
-    <None Remove="output\main\update_available.out" />
-    <None Remove="output\main\update_available_on_start.out" />
-    <None Remove="output\main\update_unavailable.out" />
-    <None Remove="output\main\wrong_site.out" />
-    <None Remove="output\media_processing\converting_file.out" />
-    <None Remove="output\media_processing\error_file_cannot_be_converted.out" />
-    <None Remove="output\media_processing\merging_streams.out" />
-    <None Remove="output\media_processing\trim.out" />
-    <None Remove="output\sources\twitch\info\vod\error\no_internet_connection.out" />
-    <None Remove="output\sources\twitch\info\vod\error\unknown.out" />
-    <None Remove="output\sources\twitch\info\vod\error\web_unknown.out" />
-    <None Remove="output\sources\twitch\info\vod\info.out" />
-    <None Remove="output\sources\universal\done_in.out" />
-    <None Remove="output\sources\youtube\.out" />
-    <None Remove="output\sources\youtube\delete_temporary.out" />
-    <None Remove="output\sources\youtube\done.out" />
-    <None Remove="output\sources\youtube\downloading_start.out" />
-    <None Remove="output\sources\youtube\downloading_start_playlist.out" />
-    <None Remove="output\sources\youtube\downloading_video.out" />
-    <None Remove="output\sources\youtube\download\playlist\error\no_internet_connection.out" />
-    <None Remove="output\sources\youtube\download\playlist\error\playlist_unavailable.out" />
-    <None Remove="output\sources\youtube\download\playlist\error\unknown.out" />
-    <None Remove="output\sources\youtube\download\playlist\single\error\unknown.out" />
-    <None Remove="output\sources\youtube\download\playlist\single\error\video_requires_pucharse.out" />
-    <None Remove="output\sources\youtube\download\playlist\single\error\video_unavailable.out" />
-    <None Remove="output\sources\youtube\download\playlist\single\error\video_unplayable.out" />
-    <None Remove="output\sources\youtube\download\playlist\start_single.out" />
-    <None Remove="output\sources\youtube\download\video\error\no_internet_connection.out" />
-    <None Remove="output\sources\youtube\download\video\error\unknown.out" />
-    <None Remove="output\sources\youtube\download\video\error\video_requires_pucharse.out" />
-    <None Remove="output\sources\youtube\download\video\error\video_unavailable.out" />
-    <None Remove="output\sources\youtube\download\video\error\video_unplayable.out" />
-    <None Remove="output\sources\youtube\error_invalid_link.out" />
-    <None Remove="output\sources\youtube\error_invalid_url.out" />
-    <None Remove="output\sources\youtube\error_no_audio_streams_video_unplayable.out" />
-    <None Remove="output\sources\youtube\error_no_video_streams_video_unplayable.out" />
-    <None Remove="output\sources\youtube\info\playlist\error\no_internet_connection.out" />
-    <None Remove="output\sources\youtube\info\playlist\error\playlist_unavailable.out" />
-    <None Remove="output\sources\youtube\info\video\error\no_internet_connection.out" />
-    <None Remove="output\sources\youtube\info\video\error\video_requires_pucharse.out" />
-    <None Remove="output\sources\youtube\video_info.out" />
-  </ItemGroup>
-
+	
   <ItemGroup>
     <PackageReference Include="AsyncEnumerator" Version="4.0.2" />
     <PackageReference Include="ConsoleTableExt" Version="3.1.7" />
-    <PackageReference Include="FFMpegCore" Version="4.3.0" />
-    <PackageReference Include="LightConfig" Version="0.3.0" />
+    <PackageReference Include="FFMpegCore" Version="4.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Octokit" Version="0.50.0" />
-    <PackageReference Include="YoutubeExplode" Version="6.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="LICENSE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="README.md">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <PackageReference Include="YoutubeExplode" Version="6.0.4" />
   </ItemGroup>
 
 </Project>

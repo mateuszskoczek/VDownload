@@ -1,0 +1,14 @@
+﻿╔═════════════════════════════════════════════════════════════════════╗
+║                            SETTINGS KEYS                            ║
+╠═════════════════════════╦═══════════════════════════════════════════╣
+║ ffmpeg_executables_path ║ FFmpeg executables path                   ║
+║ temp_download_path      ║ Temporary download files path             ║
+║ temp_ffmpeg_path        ║ Temporary ffmpeg processed files path     ║
+║ max_downloaded_videos   ║ Maximum number of downloaded videos       ║
+║ max_downloaded_chunks   ║ Maximum number of downloaded video chunks ║
+║ default_output_path     ║ Default output files path                 ║
+║ default_output_filename ║ Default output files filename             ║
+║ default_output_vext     ║ Default output video files extension      ║
+║ default_output_aext     ║ Default output audio files extension      ║
+║ date_format             ║ Date format used by the app               ║
+╚═════════════════════════╩═══════════════════════════════════════════╝
