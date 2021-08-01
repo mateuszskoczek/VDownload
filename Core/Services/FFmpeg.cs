@@ -1,10 +1,9 @@
 ﻿// System
-using System.IO;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
-// External
-using FFMpegCore;
-using FFMpegCore.Enums;
+// Internal
+using VDownload.Core.Enums.FFmpeg;
 
 
 
@@ -12,93 +11,106 @@ namespace VDownload.Core.Services
 {
     class FFmpeg
     {
-        #region CONSTANTS
-
-        private static readonly FFOptions FFmpegOptions = new()
-        {
-            BinaryFolder = Config.Read("ffmpeg_executables_path"),
-            TemporaryFilesFolder = Config.Read("temp_ffmpeg_path"),
-        };
-
-        #endregion
-
-
-
-        #region INIT
-
-        static FFmpeg()
-        {
-            // Create temporary directory
-            Directory.CreateDirectory(Config.Read("temp_ffmpeg_path"));
-
-            // Apply options
-            GlobalFFOptions.Configure(FFmpegOptions);
-        }
-
-        #endregion
-
-
-
         #region MAIN
 
-        public static async Task Mux(string videoPath, string audioPath, string outputPath)
+        // BASE
+        public string Arguments = "-y ";
+
+
+        // START
+        public async Task StartAsync()
         {
-            await FFMpegArguments.FromFileInput(videoPath)
-                                 .AddFileInput(audioPath)
-                                 .OutputToFile(outputPath, true, options => options
-                                    .UsingMultithreading(true)
-                                    .WithSpeedPreset(Speed.UltraFast)
-                                    .CopyChannel()
-                                    .WithAudioCodec(AudioCodec.Aac)
-                                    .WithAudioBitrate(AudioQuality.Good)
-                                    .UsingShortest(false)
-                                 )
-                                 .ProcessAsynchronously();
+            await Task.Run(() =>
+            {
+                var process = new Process
+                {
+                    StartInfo =
+                    {
+                        FileName = $@"{Config.Read("ffmpeg_executables_path")}\ffmpeg",
+                        Arguments = Arguments,
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                    }
+                };
+                process.Start();
+                process.WaitForExit();
+            });
+
         }
 
-        public static async Task Convert(string inputPath, string outputPath)
+        #endregion
+
+
+
+        #region ARGUMENTS
+
+        // INPUT
+        public void Input(string path)
         {
-            await FFMpegArguments.FromFileInput(inputPath)
-                                 .OutputToFile(outputPath, true, options => options
-                                    .UsingMultithreading(true)
-                                    .WithSpeedPreset(Speed.UltraFast)
-                                 )
-                                 .ProcessAsynchronously();
+            Arguments += $"-i \"{path}\" ";
         }
 
-        public static async Task Trim(string inputPath, string outputPath, double start, double end)
+
+        // TRIM AT START
+        public void TrimStart(double seconds)
         {
-            await FFMpegArguments.FromFileInput(inputPath)
-                                 .OutputToFile(outputPath, true, options => options
-                                    .UsingMultithreading(true)
-                                    .WithSpeedPreset(Speed.UltraFast)
-                                    .WithCustomArgument($"-ss {start.ToString().Replace(',', '.')}")
-                                    .WithCustomArgument($"-t {end.ToString().Replace(',', '.')}")
-                                 )
-                                 .ProcessAsynchronously();
+            Arguments += $"-ss {seconds.ToString().Replace(',', '.')} ";
         }
 
-        public static async Task OnlyVideo(string inputPath, string outputPath)
+
+        // TRIM AT END
+        public void TrimEnd(double seconds)
         {
-            await FFMpegArguments.FromFileInput(inputPath)
-                                 .OutputToFile(outputPath, true, options => options
-                                     .UsingMultithreading(true)
-                                     .WithSpeedPreset(Speed.UltraFast)
-                                     .CopyChannel(Channel.Video)
-                                     .DisableChannel(Channel.Audio)
-                                 )
-                                 .ProcessAsynchronously();
+            Arguments += $"-t {seconds.ToString().Replace(',', '.')} ";
         }
 
-        public static async Task OnlyAudio(string inputPath, string outputPath)
+        
+        // DISABLE SPECIFIED CHANNELS
+        public void DisableChannel(Channel channel)
         {
-            await FFMpegArguments.FromFileInput(inputPath)
-                                 .OutputToFile(outputPath, true, options => options
-                                     .UsingMultithreading(true)
-                                     .WithSpeedPreset(Speed.UltraFast)
-                                     .DisableChannel(Channel.Video)
-                                 )
-                                 .ProcessAsynchronously();
+            if (channel == Channel.Both)
+            {
+                
+            }
+            else
+            {
+                Arguments += $"-{(channel == Channel.Video ? 'v' : 'a')}n ";
+            }
+        }
+        
+
+        // COPY SPECIFIED CHANNELS
+        public void CopyChannel(Channel channel)
+        {
+            if (channel == Channel.Both)
+            {
+                Arguments += $"-c copy ";
+            }
+            else
+            {
+                Arguments += $"-c:{(channel == Channel.Video ? 'v' : 'a')} copy ";
+            }
+        }
+
+
+        // SPEED PRESET
+        public void Speed(Speed speed)
+        {
+            Arguments += $"-preset {speed.ToString().ToLower()} ";
+        }
+
+
+        // AVOID NEGATIVE TS
+        public void AvoidNegativeTS(AvoidNegativeTS value)
+        {
+            Arguments += $"-avoid_negative_ts {StringC.BumperToSnakeCase(value.ToString())} ";
+        }
+
+
+        // OUTPUT
+        public void Output(string path)
+        {
+            Arguments += $"\"{path}\" ";
         }
 
         #endregion

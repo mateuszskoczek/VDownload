@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Web;
 using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,7 +14,8 @@ using Dasync.Collections;
 
 // Internal
 using VDownload.Core.Services;
-using System.Linq;
+
+
 
 namespace VDownload.Core.Sources
 {
@@ -97,7 +99,7 @@ namespace VDownload.Core.Sources
 
 
         // DOWNLOAD VOD STREAM
-        public static async Task DownloadVodStream(string vodID, int streamID, string outputFolderPath)
+        public static async Task<string[]> DownloadVodStream(string vodID, int streamID, string outputFolderPath)
         {
             // Get stream
             var streams = await GetVodStreams(vodID);
@@ -111,6 +113,7 @@ namespace VDownload.Core.Sources
             Directory.CreateDirectory(outputFolderPath);
 
             // Download chunks
+            List<string> chunksPath = new();
             await chunksUrl.ParallelForEachAsync(
                 async url =>
                 {
@@ -119,11 +122,14 @@ namespace VDownload.Core.Sources
 
                     // Set output path
                     string outputPath = $@"{outputFolderPath}\{Path.GetFileName(url)}";
+                    chunksPath.Add(outputPath);
 
                     await Client.DownloadFileTaskAsync(url, outputPath);
                 },
                 maxDegreeOfParallelism: int.Parse(Config.Read("max_downloaded_chunks"))
             );
+
+            return chunksPath.ToArray();
         }
 
         #endregion

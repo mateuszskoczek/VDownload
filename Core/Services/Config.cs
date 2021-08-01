@@ -3,6 +3,9 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
+// Internal
+using VDownload.Core.Exceptions;
+
 
 
 namespace VDownload.Core.Services
@@ -158,22 +161,5 @@ namespace VDownload.Core.Services
         }
 
         #endregion
-    }
-
-    class InvalidConfigKeyException : Exception
-    {
-        public InvalidConfigKeyException()
-        {
-        }
-
-        public InvalidConfigKeyException(string message)
-            : base(message)
-        {
-        }
-
-        public InvalidConfigKeyException(string message, Exception inner)
-            : base(message, inner)
-        {
-        }
     }
 }

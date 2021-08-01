@@ -8,6 +8,8 @@ namespace VDownload.Core.Services
 {
     class Filename
     {
+        #region MAIN
+
         // PROCESS FILENAME (REPLACE WILDCARDS AND FORBIDDEN CHARACTERS)
         public static string Process(string filename, Dictionary<string, string> data)
         {
@@ -26,5 +28,7 @@ namespace VDownload.Core.Services
             // Return filename
             return filename;
         }
+
+        #endregion
     }
 }

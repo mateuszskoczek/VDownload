@@ -1,18 +1,9 @@
-﻿// System
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-
-namespace VDownload.Core.Globals
+﻿namespace VDownload.Core.Globals
 {
     class Info
     {
-        public static readonly string Version = "0.3-dev4";
-        public static readonly string Build = "21210";
+        public static readonly string Version = "0.3-dev5";
+        public static readonly string Build = "21213";
         public static readonly string Author = "Mateusz Skoczek";
         public static readonly string AuthorGithub = "https://github.com/mateuszskoczek";
         public static readonly string CopyrightSince = "2020";

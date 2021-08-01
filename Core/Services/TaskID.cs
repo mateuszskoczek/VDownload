@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// System
+using System;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+
+
 
 namespace VDownload.Core.Services
 {
-    class VideoID
+    class TaskID
     {
         #region CONSTANTS
 
         private static readonly char[] Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+        private static readonly string IdsFolderPath = Globals.Path.Temp;
         private static readonly Random Random = new();
         private static readonly int Length = 10;
 
@@ -20,8 +23,27 @@ namespace VDownload.Core.Services
 
         #region MAIN
 
-        private static List<string> ID = new();
+        // IDS LIST
+        private static readonly List<string> ID = new();
 
+
+        // COMPLETE LIST WITH USED IDS FROM FOLDER
+        static TaskID()
+        {
+            Directory.CreateDirectory(IdsFolderPath);
+            string[] dirs = Directory.GetDirectories(IdsFolderPath);
+            foreach (string d in dirs)
+            {
+                string dir = d.Replace(IdsFolderPath, "");
+                if ((dir.All(char.IsDigit) || dir.All(char.IsUpper)) && dir.Length == Length && !ID.Contains(dir))
+                {
+                    ID.Add(dir);
+                }
+            }
+        }
+
+
+        // GET NEW ID
         public static string Get()
         {
             string id;
@@ -35,6 +57,8 @@ namespace VDownload.Core.Services
             return id;
         }
 
+
+        // FREE ID
         public static void Free(string id)
         {
             ID.Remove(id);
@@ -46,6 +70,7 @@ namespace VDownload.Core.Services
 
         #region INTERNAL
 
+        // GENERATE ID
         private static string Generate(int length)
         {
             string id = "";

@@ -6,43 +6,20 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="output\**">
+		<Content Include="ffmpeg\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="ffmpeg\**">
+		<Content Include="output\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
 	
   <ItemGroup>
     <None Remove=".gitignore" />
-    <None Remove="output\about\update_available.out" />
-    <None Remove="output\about\update_unavailable.out" />
-    <None Remove="output\about\_main.out" />
-    <None Remove="output\help\commands.out" />
-    <None Remove="output\help\filename.out" />
-    <None Remove="output\help\settings.out" />
-    <None Remove="output\main\update_info.out" />
-    <None Remove="output\media\info\pl-twitch_channel\_main.out" />
-    <None Remove="output\media\info\playlist_no_videos.out" />
-    <None Remove="output\media\info\_error\_main.out" />
-    <None Remove="output\media\info\error_wrong_path_url_id.out" />
-    <None Remove="output\media_download\converting.out" />
-    <None Remove="output\media_download\done.out" />
-    <None Remove="output\media_download\done_in.out" />
-    <None Remove="output\media_download\downloading.out" />
-    <None Remove="output\media_download\error.out" />
-    <None Remove="output\media_download\merging.out" />
-    <None Remove="output\media_download\trimming.out" />
-    <None Remove="output\media_download\_main.out" />
-    <None Remove="output\media\info\twitch_clip\error.out" />
-    <None Remove="output\media\info\twitch_clip\_main.out" />
-    <None Remove="output\option_preset\delete\_main.out" />
-    <None Remove="output\option_preset\list\empty.out" />
-    <None Remove="output\option_preset\new\_main.out" />
-    <None Remove="output\settings\get\_main.out" />
-    <None Remove="output\settings\reset\_main.out" />
-    <None Remove="output\settings\set\_main.out" />
+    <None Remove="output\media\download\playlist\start.out" />
+    <None Remove="output\media\download\playlist\_error.out" />
+    <None Remove="output\media\download\playlist\_main.out" />
+    <None Remove="output\media\download\single\processing.out" />
   </ItemGroup>
 	
   <ItemGroup>
@@ -51,6 +28,7 @@
     <PackageReference Include="FFMpegCore" Version="4.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Octokit" Version="0.50.0" />
+    <PackageReference Include="Xabe.FFmpeg" Version="5.0.2" />
     <PackageReference Include="YoutubeExplode" Version="6.0.4" />
   </ItemGroup>
 
