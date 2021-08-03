@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VDownload.Core.Global
+﻿namespace VDownload.Core.Global
 {
-    class ProgramInfo
+    class Info
     {
         public static readonly string Name = "VDownload";
-        public static readonly string Version = "0.3-uwpguimigration-dev2";
-        public static readonly string Build = "21198";
+        public static readonly string Version = "0.3-uwpguimigration-dev3";
+        public static readonly string Build = "21215";
         public static readonly string Author = "Mateusz Skoczek";
         public static readonly string AuthorGithub = "https://github.com/mateuszskoczek";
         public static readonly string CopyrightSince = "2020";

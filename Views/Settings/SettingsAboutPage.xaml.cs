@@ -31,12 +31,12 @@ namespace VDownload.Views.Settings
 
         private void ProgramName_Loaded(object sender, RoutedEventArgs e)
         {
-            ProgramName.Text = Core.Global.ProgramInfo.Name;
+            ProgramName.Text = Core.Global.Info.Name;
         }
 
         private void ProgramVersion_Loaded(object sender, RoutedEventArgs e)
         {
-            ProgramVersion.Text = $"{Core.Global.ProgramInfo.Version} ({Core.Global.ProgramInfo.Build})";
+            ProgramVersion.Text = $"{Core.Global.Info.Version} ({Core.Global.Info.Build})";
         }
 
         private static string VersionIconDark = "ms-appx:///Assets/Settings/About/VersionD.png";
@@ -72,7 +72,7 @@ namespace VDownload.Views.Settings
 
         private void ProgramAuthor_Loaded(object sender, RoutedEventArgs e)
         {
-            ProgramAuthor.Text = Core.Global.ProgramInfo.Author;
+            ProgramAuthor.Text = Core.Global.Info.Author;
         }
 
         private static string AuthorIconDark = "ms-appx:///Assets/Settings/About/AuthorD.png";
@@ -108,7 +108,7 @@ namespace VDownload.Views.Settings
 
         private async void ProgramAuthorGithub_Click(object sender, RoutedEventArgs e)
         {
-            var uri = new Uri(Core.Global.ProgramInfo.AuthorGithub);
+            var uri = new Uri(Core.Global.Info.AuthorGithub);
             await Windows.System.Launcher.LaunchUriAsync(uri);
         }
 
@@ -145,7 +145,7 @@ namespace VDownload.Views.Settings
 
         private void CopyrightTime_Loaded(object sender, RoutedEventArgs e)
         {
-            CopyrightTime.Text = $"{Core.Global.ProgramInfo.CopyrightSince} - {Core.Global.ProgramInfo.CopyrightTo}";
+            CopyrightTime.Text = $"{Core.Global.Info.CopyrightSince} - {Core.Global.Info.CopyrightTo}";
         }
 
         private static string RepositoryIconDark = "ms-appx:///Assets/Settings/About/RepositoryD.png";
@@ -181,7 +181,7 @@ namespace VDownload.Views.Settings
 
         private async void RepositoryButtom_Click(object sender, RoutedEventArgs e)
         {
-            var uri = new Uri(Core.Global.ProgramInfo.Repository);
+            var uri = new Uri(Core.Global.Info.Repository);
             await Windows.System.Launcher.LaunchUriAsync(uri);
         }
 
@@ -218,7 +218,7 @@ namespace VDownload.Views.Settings
 
         private async void DonationButtom_Click(object sender, RoutedEventArgs e)
         {
-            var uri = new Uri(Core.Global.ProgramInfo.Donation);
+            var uri = new Uri(Core.Global.Info.Donation);
             await Windows.System.Launcher.LaunchUriAsync(uri);
         }
     }

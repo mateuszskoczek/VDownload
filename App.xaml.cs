@@ -78,6 +78,8 @@ namespace VDownload
                 titleBar.ButtonBackgroundColor = Colors.Transparent;
                 titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
             }
+            Core.Services.Config.Rebuild();
+            Core.Services.Config.SetDefault();
         }
 
         /// <summary>
