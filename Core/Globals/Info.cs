@@ -2,8 +2,8 @@
 {
     class Info
     {
-        public static readonly string Version = "0.3-dev5";
-        public static readonly string Build = "21213";
+        public static readonly string Version = "0.3-dev6";
+        public static readonly string Build = "21218";
         public static readonly string Author = "Mateusz Skoczek";
         public static readonly string AuthorGithub = "https://github.com/mateuszskoczek";
         public static readonly string CopyrightSince = "2020";

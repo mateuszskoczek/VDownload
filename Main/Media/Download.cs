@@ -14,13 +14,20 @@ using VDownload.Core.Services;
 using VDownload.Core.Sources;
 using VDownload.Core.Enums.Media;
 using VDownload.Core.Enums.FFmpeg;
-
-
+using System.Net;
 
 namespace VDownload.Main.Media
 {
     class Download
     {
+        #region CONSTANTS
+
+        private static (int, int) CursorPosition;
+
+        #endregion
+
+
+
         #region MAIN
 
         // DOWNLOAD VIDEO OR PLAYLIST
@@ -348,55 +355,47 @@ namespace VDownload.Main.Media
                 ));
 
                 // Download stream
-                string tempDownloadPath = $@"{tempOutputFolderPath}\stream\";
+                string tempDownloadPath = $@"{tempOutputFolderPath}\stream.ts";
                 if (!playlist) Console.WriteLine();
                 if (!playlist) Console.Write(Output.Get(@"media\download\single\downloading.out"));
-                
+                CursorPosition = Console.GetCursorPosition();
+                Console.WriteLine("(0,00%)");
                 Stopwatch downloadTime = new();
                 downloadTime.Start();
-                string[] chunks = await Twitch.DownloadVodStream(id, stream_id, tempDownloadPath);
+                string[] chunks = await Twitch.GetVodStreamChunks(streams[stream_id]["url"]);
+                using (FileStream mergedStream = new(tempDownloadPath, FileMode.Create, FileAccess.Write))
+                {
+                    int fileCount = 0;
+                    Task<byte[]> chunkTask = Twitch.DownloadVodChunk(chunks[0]);
+                    byte[] chunk = await chunkTask;
+                    byte[] chunkCopy = chunk;
+                    Task writeTask = mergedStream.WriteAsync(chunkCopy, 0, chunk.Length);
+                    foreach (string url in chunks[1..])
+                    {
+                        chunkTask = Twitch.DownloadVodChunk(url);
+                        chunk = await chunkTask;
+                        chunkCopy = chunk;
+                        await writeTask;
+                        fileCount++;
+                        Console.SetCursorPosition(CursorPosition.Item1, CursorPosition.Item2);
+                        Console.WriteLine(((double)fileCount / (double)chunks.Length).ToString("(0.00%)"));
+                        writeTask = mergedStream.WriteAsync(chunkCopy, 0, chunk.Length);
+                    }
+                }
                 downloadTime.Stop();
+                Console.SetCursorPosition(CursorPosition.Item1, CursorPosition.Item2);
                 if (!playlist) Console.WriteLine(Output.Get(@"media\download\done_in.out",
                    new()
                    {
                        Math.Ceiling(downloadTime.Elapsed.TotalSeconds).ToString()
                    }
                 ));
-
-                // Merge
-                string tempMergePath = $@"{tempOutputFolderPath}\merged.ts";
-                if (!playlist) Console.Write(Output.Get(@"media\download\single\merging.out"));
-                Stopwatch mergingTime = new();
-                mergingTime.Start();
-                using (FileStream mergedStream = new(tempMergePath, FileMode.Create, FileAccess.Write))
-                {
-                    foreach (string f in chunks)
-                    {
-                        if (File.Exists(f))
-                        {
-                            byte[] bytesPart = File.ReadAllBytes(f);
-                            mergedStream.Write(bytesPart, 0, bytesPart.Length);
-
-                            try
-                            {
-                                File.Delete(f);
-                            }
-                            catch { }
-                        }
-                    }
-                }
-                mergingTime.Stop();
-                if (!playlist) Console.WriteLine(Output.Get(@"media\download\done_in.out",
-                    new()
-                    {
-                        Math.Ceiling(mergingTime.Elapsed.TotalSeconds).ToString()
-                    }
-                ));
+                Environment.Exit(0);
 
                 // FFmpeg init
                 var FFmpegTask = new FFmpeg();
-                FFmpegTask.Input(tempMergePath);
-                FFmpegTask.Speed(Speed.VeryFast);
+                FFmpegTask.Input(tempDownloadPath);
+                FFmpegTask.Speed(Speed.Medium);
                 FFmpegTask.AvoidNegativeTS(AvoidNegativeTS.MakeZero);
 
                 // Channel disabling
@@ -568,10 +567,13 @@ namespace VDownload.Main.Media
                 string tempDownloadPath = $@"{tempOutputFolderPath}\stream{Path.GetExtension(streams[stream_id]["url"])}";
                 if (!playlist) Console.WriteLine();
                 if (!playlist) Console.Write(Output.Get(@"media\download\single\downloading.out"));
+                CursorPosition = Console.GetCursorPosition();
+                Console.WriteLine("(0,00%)");
                 Stopwatch downloadTime = new();
                 downloadTime.Start();
-                await Twitch.DownloadClipStream(id, stream_id, tempDownloadPath);
+                await Twitch.DownloadClipStream(id, stream_id, tempDownloadPath, new DownloadProgressChangedEventHandler(DownloadProgressCallback));
                 downloadTime.Stop();
+                Console.SetCursorPosition(CursorPosition.Item1, CursorPosition.Item2);
                 if (!playlist) Console.WriteLine(Output.Get(@"media\download\done_in.out",
                     new()
                     {
@@ -582,7 +584,7 @@ namespace VDownload.Main.Media
                 // FFmpeg init
                 var FFmpegTask = new FFmpeg();
                 FFmpegTask.Input(tempDownloadPath);
-                FFmpegTask.Speed(Speed.VeryFast);
+                FFmpegTask.Speed(Speed.Medium);
 
                 // Channel disabling
                 if (onlyvideo & !onlyaudio)
@@ -676,6 +678,19 @@ namespace VDownload.Main.Media
                 }
             }
 
+        }
+
+        #endregion
+
+
+
+        #region PROGRESS_CALLBACKS
+
+        // FILE DOWNLOAD
+        private static void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
+        {
+            Console.SetCursorPosition(CursorPosition.Item1, CursorPosition.Item2);
+            Console.WriteLine(e.ProgressPercentage);
         }
 
         #endregion

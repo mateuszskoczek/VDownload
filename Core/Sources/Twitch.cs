@@ -14,8 +14,7 @@ using Dasync.Collections;
 
 // Internal
 using VDownload.Core.Services;
-
-
+using System.Threading;
 
 namespace VDownload.Core.Sources
 {
@@ -98,38 +97,51 @@ namespace VDownload.Core.Sources
         }
 
 
-        // DOWNLOAD VOD STREAM
-        public static async Task<string[]> DownloadVodStream(string vodID, int streamID, string outputFolderPath)
+        // DOWNLOAD VOD CHUNK
+        public static async Task<byte[]> DownloadVodChunk(string url)
         {
-            // Get stream
-            var streams = await GetVodStreams(vodID);
-            var stream = streams[streamID];
-            string streamUrl = stream["url"];
-
-            // Get chunks urls
-            string[] chunksUrl = await ExtractVideosFromM3U8(streamUrl);
-
-            // Create output directory
-            Directory.CreateDirectory(outputFolderPath);
-
-            // Download chunks
-            List<string> chunksPath = new();
-            await chunksUrl.ParallelForEachAsync(
-                async url =>
+            // Download
+            int errorCount = 0;
+            bool done = false;
+            while (!done && errorCount < 10)
+            {
+                try
                 {
-                    // Client settings
-                    WebClient Client = new();
+                    using WebClient Client = new();
+                    return await Client.DownloadDataTaskAsync(url);
+                }
+                catch
+                {
+                    errorCount++;
+                    await Task.Delay(10000);
+                }
+            }
+            throw new WebException();
+        }
 
-                    // Set output path
-                    string outputPath = $@"{outputFolderPath}\{Path.GetFileName(url)}";
-                    chunksPath.Add(outputPath);
 
-                    await Client.DownloadFileTaskAsync(url, outputPath);
-                },
-                maxDegreeOfParallelism: int.Parse(Config.Read("max_downloaded_chunks"))
-            );
+        // EXTRACT VIDEOS FROM M3U8
+        public static async Task<string[]> GetVodStreamChunks(string url)
+        {
+            // Client settings
+            WebClient Client = new();
+            Client.Headers.Add("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");
 
-            return chunksPath.ToArray();
+            // Get playlist content
+            string request = await Client.DownloadStringTaskAsync(url);
+
+            // Pack into list
+            List<string> videos = new();
+            foreach (string l in request.Split("\n"))
+            {
+                if (l.Length > 0 && l[0] != '#')
+                {
+                    videos.Add($@"{String.Join('/', url.Split('/')[..^1])}/{l}");
+                }
+            }
+
+            // Return videos
+            return videos.ToArray();
         }
 
         #endregion
@@ -200,10 +212,11 @@ namespace VDownload.Core.Sources
 
 
         // DOWNLOAD CLIP STREAM
-        public static async Task DownloadClipStream(string clipID, int streamID, string outputPath)
+        public static async Task DownloadClipStream(string clipID, int streamID, string outputPath, DownloadProgressChangedEventHandler eventHandler)
         {
             // Client settings
             WebClient Client = new();
+            Client.DownloadProgressChanged += eventHandler;
 
             // Get access token
             var data = await GetClipAccessToken(clipID);
@@ -347,31 +360,6 @@ namespace VDownload.Core.Sources
 
 
         #region INTERNAL
-
-        // EXTRACT VIDEOS FROM M3U8
-        private static async Task<string[]> ExtractVideosFromM3U8(string url)
-        {
-            // Client settings
-            WebClient Client = new();
-            Client.Headers.Add("Client-ID", "kimne78kx3ncx6brgo4mv6wki5h1ko");
-
-            // Get playlist content
-            string request = await Client.DownloadStringTaskAsync(url);
-
-            // Pack into list
-            List<string> videos = new();
-            foreach (string l in request.Split("\n"))
-            {
-                if (l.Length > 0 && l[0] != '#')
-                {
-                    videos.Add($@"{String.Join('/', url.Split('/')[..^1])}/{l}");
-                }
-            }
-
-            // Return videos
-            return videos.ToArray();
-        }
-
 
         // GET CLIP ACCESS TOKEN
         private static async Task<(string, string)> GetClipAccessToken(string clipID)
