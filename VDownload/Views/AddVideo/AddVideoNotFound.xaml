@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="VDownload.Views.AddVideo.AddVideoNotFound"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Views.AddVideo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Height="420"
+    Width="498">
+
+    <!-- MESSAGE -->
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Image x:Name="AddVideoNotFoundImage" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Source="/Assets/Icons/AddVideo/NotFound.png" Grid.Row="0"/>
+        <TextBlock x:Name="AddVideoNotFoundText" x:Uid="AddVideoNotFoundText" HorizontalAlignment="Center" Text="Video not found. Try again." TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#AAAAAA" Grid.Row="1"/>
+    </Grid>
+</Page>
