@@ -74,6 +74,10 @@ namespace VDownload.Sources
                     VideoSourceHandler = new Twitch.Vod(ID);
                     SourceIcon = new Uri("ms-appx:///Assets/Icons/Sources/Twitch.png");
                     break;
+                case VideoSource.TwitchClip:
+                    VideoSourceHandler = new Twitch.Clip(ID);
+                    SourceIcon = new Uri("ms-appx:///Assets/Icons/Sources/Twitch.png");
+                    break;
             }
             UniqueID = Videos.GetUniqueID();
         }
@@ -95,6 +99,10 @@ namespace VDownload.Sources
                 case VideoSource.TwitchVod:
                     metadataTask = ((Twitch.Vod)VideoSourceHandler).GetMetadata();
                     streamsTask = ((Twitch.Vod)VideoSourceHandler).GetStreams();
+                    break;
+                case VideoSource.TwitchClip:
+                    metadataTask = ((Twitch.Clip)VideoSourceHandler).GetMetadata();
+                    streamsTask = ((Twitch.Clip)VideoSourceHandler).GetStreams();
                     break;
                 default:
                     throw new Exception(message: "Unknown video source");
@@ -210,6 +218,9 @@ namespace VDownload.Sources
                 {
                     case VideoSource.TwitchVod:
                         VideoTask = ((Twitch.Vod)VideoSourceHandler).Download(tempFolder, SelectedQuality, Extension, MediaType, TrimStart, TrimEnd, Duration, VideoTaskCancellationToken, ProgressLabelTextblock, ProgressBar, ProgressIcon);
+                        break;
+                    case VideoSource.TwitchClip:
+                        VideoTask = ((Twitch.Clip)VideoSourceHandler).Download(tempFolder, SelectedQuality, Extension, MediaType, TrimStart, TrimEnd, Duration, VideoTaskCancellationToken, ProgressLabelTextblock, ProgressBar, ProgressIcon);
                         break;
                     default:
                         throw new Exception(message: "Unknown video source");

@@ -125,6 +125,7 @@
     <Compile Include="Services\Media.cs" />
     <Compile Include="Services\Source.cs" />
     <Compile Include="Services\Videos.cs" />
+    <Compile Include="Sources\Twitch\Clip.cs" />
     <Compile Include="Sources\Twitch\Vod.cs" />
     <Compile Include="Sources\VObject.cs" />
     <Compile Include="Views\AddVideo\AddVideoBase.xaml.cs">
