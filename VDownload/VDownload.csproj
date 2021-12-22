@@ -119,15 +119,33 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Objects\Enums\PlaylistSource.cs" />
     <Compile Include="Objects\Enums\VideoSource.cs" />
     <Compile Include="Objects\Enums\VideoStatus.cs" />
     <Compile Include="Services\Config.cs" />
     <Compile Include="Services\Media.cs" />
     <Compile Include="Services\Source.cs" />
     <Compile Include="Services\Videos.cs" />
+    <Compile Include="Sources\PObject.cs" />
+    <Compile Include="Sources\Twitch\Channel.cs" />
     <Compile Include="Sources\Twitch\Clip.cs" />
     <Compile Include="Sources\Twitch\Vod.cs" />
     <Compile Include="Sources\VObject.cs" />
+    <Compile Include="Views\AddPlaylist\AddPlaylistBase.xaml.cs">
+      <DependentUpon>AddPlaylistBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddPlaylist\AddPlaylistLoading.xaml.cs">
+      <DependentUpon>AddPlaylistLoading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddPlaylist\AddPlaylistMain.xaml.cs">
+      <DependentUpon>AddPlaylistMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddPlaylist\AddPlaylistNotFound.xaml.cs">
+      <DependentUpon>AddPlaylistNotFound.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\AddPlaylist\AddPlaylistStart.xaml.cs">
+      <DependentUpon>AddPlaylistStart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddVideo\AddVideoBase.xaml.cs">
       <DependentUpon>AddVideoBase.xaml</DependentUpon>
     </Compile>
@@ -154,8 +172,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Icons\AddVideo\NotFound.png" />
-    <Content Include="Assets\Icons\AddVideo\Start.png" />
+    <Content Include="Assets\Icons\Add\NotFound.png" />
+    <Content Include="Assets\Icons\Add\Start.png" />
     <Content Include="Assets\Icons\Sources\Twitch.png" />
     <Content Include="Assets\Icons\Sources\Unknown.png" />
     <Content Include="Assets\Icons\Sources\Youtube.png" />
@@ -250,6 +268,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\AddPlaylist\AddPlaylistBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddPlaylist\AddPlaylistLoading.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddPlaylist\AddPlaylistMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddPlaylist\AddPlaylistNotFound.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AddPlaylist\AddPlaylistStart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AddVideo\AddVideoBase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -292,6 +330,7 @@
   <ItemGroup>
     <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

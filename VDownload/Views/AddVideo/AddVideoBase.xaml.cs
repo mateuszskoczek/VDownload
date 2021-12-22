@@ -60,7 +60,7 @@ namespace VDownload.Views.AddVideo
                         VObject video = new VObject(url);
                         await video.GetMetadata();
 
-                        // Navigate to video found page
+                        // Navigate to video main page
                         AddVideoContent.Navigate(typeof(AddVideoMain), video);
                         IsPrimaryButtonEnabled = true;
                     }

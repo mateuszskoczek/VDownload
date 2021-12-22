@@ -117,6 +117,66 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddPlaylistBase.CloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="AddPlaylistBase.PrimaryButtonText" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AddPlaylistBase.Title" xml:space="preserve">
+    <value>ADD PLAYLIST</value>
+  </data>
+  <data name="AddPlaylistDeletedVideosPanelButton" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="AddPlaylistDeletedVideosPanelTextBlock" xml:space="preserve">
+    <value>{x} videos removed</value>
+  </data>
+  <data name="AddPlaylistLocationSelectionApplyLocationButton.Content" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="AddPlaylistLocationSelectionTextBlock.Text" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="AddPlaylistNotFoundText" xml:space="preserve">
+    <value>Playlist not found. Try again.</value>
+  </data>
+  <data name="AddPlaylistSearchButton.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="AddPlaylistStartText.Text" xml:space="preserve">
+    <value>Paste URL and click "Search" button</value>
+  </data>
+  <data name="AddPlaylistUrlPathText.Text" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="AddPlaylistVideoDownloadOptionsMediaTypeRadiobuttonA" xml:space="preserve">
+    <value>Only audio</value>
+  </data>
+  <data name="AddPlaylistVideoDownloadOptionsMediaTypeRadiobuttonAV" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="AddPlaylistVideoDownloadOptionsMediaTypeRadiobuttonV" xml:space="preserve">
+    <value>Only video</value>
+  </data>
+  <data name="AddPlaylistVideoDownloadOptionsMediaTypeTextBlock" xml:space="preserve">
+    <value>Media type</value>
+  </data>
+  <data name="AddPlaylistVideoDownloadOptionsQualityTextBlock" xml:space="preserve">
+    <value>Quality</value>
+  </data>
+  <data name="AddPlaylistVideoDownloadOptionsTrimTextBlock" xml:space="preserve">
+    <value>Trim</value>
+  </data>
+  <data name="AddPlaylistVideoFileDataTextBlock" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="AddPlaylistVideoLocationDataTextBlock" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="AddPlaylistVideoQualityNoVideoStream" xml:space="preserve">
+    <value>Only audio</value>
+  </data>
   <data name="AddVideoBase.CloseButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -158,6 +218,12 @@
   </data>
   <data name="AddVideoStartText.Text" xml:space="preserve">
     <value>Paste URL and click "Search" button</value>
+  </data>
+  <data name="AppBarAddPlaylistButton.Label" xml:space="preserve">
+    <value>Add playlist</value>
+  </data>
+  <data name="AppBarAddPlaylistButton.Width" xml:space="preserve">
+    <value>85</value>
   </data>
   <data name="AppBarAddVideoButton.Label" xml:space="preserve">
     <value>Add video</value>

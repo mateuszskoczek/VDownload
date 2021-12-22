@@ -163,7 +163,7 @@
             <Grid VerticalAlignment="Center" Grid.Row="2" Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="AddVideoLocationDataLocationTextBlock" Text="//Location" FontSize="11" VerticalAlignment="Center" Grid.Column="0"/>

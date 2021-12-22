@@ -16,7 +16,7 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Image x:Name="AddVideoNotFoundImage" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Source="/Assets/Icons/AddVideo/NotFound.png" Grid.Row="0"/>
+        <Image x:Name="AddVideoNotFoundImage" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100" Source="/Assets/Icons/Add/NotFound.png" Grid.Row="0"/>
         <TextBlock x:Name="AddVideoNotFoundText" x:Uid="AddVideoNotFoundText" HorizontalAlignment="Center" Text="Video not found. Try again." TextWrapping="Wrap" VerticalAlignment="Top" Foreground="#AAAAAA" Grid.Row="1"/>
     </Grid>
 </Page>

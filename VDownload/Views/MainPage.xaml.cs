@@ -1,5 +1,6 @@
 ﻿// Internal
 using VDownload.Views.AddVideo;
+using VDownload.Views.AddPlaylist;
 using VDownload.Sources;
 using VDownload.Services;
 using VDownload.Objects.Enums;
@@ -63,6 +64,27 @@ namespace VDownload
 
                 // Create and attach video panel
                 video.AddVideoToList(VideoPanel);
+            }
+        }
+
+        // ADD PLAYLIST BUTTON
+        private async void AppBarAddPlaylistButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Create window
+            AddPlaylistBase addPlaylistPage = new AddPlaylistBase();
+            ContentDialogResult result = await addPlaylistPage.ShowAsync();
+
+            // Add videos to list
+            if (result == ContentDialogResult.Primary)
+            {
+                // Get videos list
+                VObject[] videos = (VObject[])addPlaylistPage.Content;
+
+                // Create and attach video panels
+                foreach (VObject video in videos)
+                {
+                    video.AddVideoToList(VideoPanel);
+                }
             }
         }
 

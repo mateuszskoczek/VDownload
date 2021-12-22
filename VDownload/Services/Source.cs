@@ -4,11 +4,15 @@ using VDownload.Objects.Enums;
 // System
 using System;
 using System.Linq;
+using System.IO;
+using Windows.Storage;
+using System.Diagnostics;
 
 namespace VDownload.Services
 {
     internal class Source
     {
+        // VIDEO SOURCE
         public static (VideoSource, string) GetVideoSourceData(Uri url)
         {
             // Twitch VOD
@@ -37,6 +41,28 @@ namespace VDownload.Services
             else
             {
                 return (VideoSource.Null, "");
+            }
+        }
+
+        // PLAYLIST SOURCE
+        public static (PlaylistSource, string) GetPlaylistSourceData(Uri url)
+        {
+            // Local file
+            if (url.IsFile)
+            {
+                return (PlaylistSource.LocalFile, url.AbsolutePath);
+            }
+
+            // Twitch Channel
+            else if (url.Host == "www.twitch.tv" && url.Segments.Length == 2)
+            {
+                return (PlaylistSource.TwitchChannel, url.Segments[url.Segments.Length - 1]);
+            }
+
+            // Unknown
+            else
+            {
+                return (PlaylistSource.Null, "");
             }
         }
     }

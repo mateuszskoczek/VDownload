@@ -27,7 +27,7 @@ namespace VDownload.Sources
         #region INIT
 
         // VIDEO METADATA
-        private string UniqueID { get; set; }
+        public string UniqueID { get; private set; }
         public VideoSource SourceType { get; private set; }
         public string ID { get; private set; }
         public string Title { get; private set; }
@@ -78,6 +78,8 @@ namespace VDownload.Sources
                     VideoSourceHandler = new Twitch.Clip(ID);
                     SourceIcon = new Uri("ms-appx:///Assets/Icons/Sources/Twitch.png");
                     break;
+                default:
+                    throw new ArgumentException();
             }
             UniqueID = Videos.GetUniqueID();
         }
@@ -612,7 +614,7 @@ namespace VDownload.Sources
             Grid.SetColumn(buttonsGrid, 2);
             baseGrid.Children.Add(buttonsGrid);
 
-            // Source icon
+            // Source button
             AppBarButton sourceButton = new AppBarButton
             {
                 Icon = new BitmapIcon { UriSource = SourceIcon, ShowAsMonochrome = false },
