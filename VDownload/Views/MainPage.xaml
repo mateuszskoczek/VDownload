@@ -40,7 +40,7 @@
             <!-- Left -->
             <AppBarButton Grid.Column="0" x:Name="AppBarDownloadAllButton" x:Uid="AppBarDownloadAllButton" Click="AppBarDownloadAllButton_Click" Icon="Download" Label="Download All" Width="90"/>
             <AppBarSeparator Grid.Column="1" VerticalAlignment="Center" Height="50"/>
-            <AppBarButton Grid.Column="2" x:Name="AppBarAddVideoButton" x:Uid="AppBarAddVideoButton" Click="AppBarAddVideoButton_Click" Icon="Add" Label="Add video" Width="75"/>
+            <AppBarButton Grid.Column="2" x:Name="AppBarAddVideoButton" x:Uid="AppBarAddVideoButton" Click="AppBarAddVideoButton_Click" Icon="Video" Label="Add video" Width="75"/>
             <AppBarButton Grid.Column="3" x:Name="AppBarAddPlaylistButton" x:Uid="AppBarAddPlaylistButton" Click="AppBarAddPlaylistButton_Click" Icon="List" Label="Add playlist" Width="85"/>
             <!-- Right -->
             <AppBarButton Grid.Column="5" x:Name="AppBarSettingsButton" x:Uid="AppBarSettingsButton" Click="AppBarSettingsButton_Click" Icon="Setting" Label="Settings" Width="65"/>

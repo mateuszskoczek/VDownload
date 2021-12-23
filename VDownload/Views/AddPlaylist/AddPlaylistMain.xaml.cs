@@ -62,9 +62,8 @@ namespace VDownload.Views.AddPlaylist
             // Get playlist object from parent
             base.OnNavigatedTo(e);
             Playlist = (PObject)e.Parameter;
-            await Playlist.InitPlaylistPanel(AddPlaylistVideoPanel);
-
-            
+            Playlist.PlaylistPanel = AddPlaylistVideoPanel;
+            await Playlist.InitPlaylistPanel();
         }
 
         // SELECT LOCATION

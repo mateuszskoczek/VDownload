@@ -30,13 +30,16 @@ namespace VDownload.Sources
         public PlaylistSource SourceType { get; private set; }
         public string ID { get; private set; }
         public Dictionary<VObject, TextBlock> VObjects { get; private set; }
+        private List<VObject> DeletedVObjects { get; set; }
+
+        // PLAYLIST PANEL OBJECTS
         public StackPanel PlaylistPanel { get; set; }
-        private List<VObject> DeletedVObjects = new List<VObject>();
         private Grid DeletedVideosPanel { get; set; }
 
         // CONSTRUCTOR
         public PObject(Uri url)
         {
+            DeletedVObjects = new List<VObject>();
             VObjects = new Dictionary<VObject, TextBlock>();
             (SourceType, ID) = Source.GetPlaylistSourceData(url);
             if (SourceType == PlaylistSource.Null)
@@ -54,30 +57,21 @@ namespace VDownload.Sources
         // GET VIDEOS
         public async Task GetVideos()
         {
+            VObject[] videos = null;
             switch (SourceType)
             {
                 case PlaylistSource.TwitchChannel:
-                    // TODO
+                    videos = await Twitch.Channel.GetVideos(ID);
                     break;
                 case PlaylistSource.Null:
                     throw new ArgumentException();
             }
-        }
 
-        // ADD VIDEOS TO LIST
-        public async Task InitPlaylistPanel(StackPanel parent)
-        {
-            // Attach to panel object to PObject
-            PlaylistPanel = parent;
-
-            // Add videos to panel
-            foreach (VObject video in VObjects.Keys.ToArray())
+            foreach(VObject video in videos)
             {
-                await HandleVideoOnList(video);
+                VObjects.Add(video, null);
             }
-
         }
-
 
         #endregion
 
@@ -85,8 +79,18 @@ namespace VDownload.Sources
 
         #region VIDEO PANEL
 
+        // INIT PLAYLIST PANEL
+        public async Task InitPlaylistPanel()
+        {
+            // Add videos to panel
+            foreach (VObject video in VObjects.Keys.ToArray())
+            {
+                await VideoPanelHandler(video);
+            }
+        }
+
         // VIDEO PANEL HANDLER
-        private async Task HandleVideoOnList(VObject Video)
+        private async Task VideoPanelHandler(VObject Video)
         {
             // Video panel
             Expander videoPanel = new Expander
@@ -99,18 +103,16 @@ namespace VDownload.Sources
 
 
             // Header
-            #region HEADER
-
-            Grid header = new Grid
+            Grid videoPanelHeader = new Grid
             {
                 Margin = new Thickness(0, 15, 0, 15),
             };
-            header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(15) });
-            header.ColumnDefinitions.Add(new ColumnDefinition());
-            header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(15) });
-            header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            videoPanel.Header = header;
+            videoPanelHeader.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            videoPanelHeader.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(15) });
+            videoPanelHeader.ColumnDefinitions.Add(new ColumnDefinition());
+            videoPanelHeader.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(15) });
+            videoPanelHeader.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            videoPanel.Header = videoPanelHeader;
             
             // Thumbnail
             Image thumbnailImage = new Image
@@ -119,8 +121,7 @@ namespace VDownload.Sources
                 Width = 120,
             };
             Grid.SetColumn(thumbnailImage, 0);
-            header.Children.Add(thumbnailImage);
-
+            videoPanelHeader.Children.Add(thumbnailImage);
 
 
             // Metadata grid
@@ -129,7 +130,7 @@ namespace VDownload.Sources
             metadataGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(10) });
             metadataGrid.RowDefinitions.Add(new RowDefinition());
             Grid.SetColumn(metadataGrid, 2);
-            header.Children.Add(metadataGrid);
+            videoPanelHeader.Children.Add(metadataGrid);
 
             // Title & Source icon grid
             Grid titleSourceGrid = new Grid();
@@ -260,7 +261,6 @@ namespace VDownload.Sources
             detailedMetadataGrid.Children.Add(durationDataTextBlock);
 
 
-
             // Delete button
             AppBarButton deleteButton = new AppBarButton
             {
@@ -277,25 +277,19 @@ namespace VDownload.Sources
                 DeletedVideosPanelHandler();
             };
             Grid.SetColumn(deleteButton, 4);
-            header.Children.Add(deleteButton);
-
-            #endregion
+            videoPanelHeader.Children.Add(deleteButton);
 
 
 
             // Content
-            #region CONTENT
-
             Grid content = new Grid
             {
                 HorizontalAlignment = HorizontalAlignment.Stretch,
-                //Margin = new Thickness(0, 15, 0, 15),
             };
             content.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             content.RowDefinitions.Add(new RowDefinition { Height = new GridLength(50) });
             content.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
             videoPanel.Content = content;
-
 
 
             // Download options
@@ -464,7 +458,6 @@ namespace VDownload.Sources
             trimTextBoxGrid.Children.Add(AddPlaylistVideoDownloadOptionsTrimEndTextBox);
 
 
-
             // File & location
             Grid fileLocationGrid = new Grid
             {
@@ -555,8 +548,6 @@ namespace VDownload.Sources
             };
             Grid.SetColumn(AddPlaylistVideoLocationDataChooseLocationButton, 2);
             locationGrid.Children.Add(AddPlaylistVideoLocationDataChooseLocationButton);
-
-            #endregion
 
 
 
@@ -725,7 +716,7 @@ namespace VDownload.Sources
             PlaylistPanel.Children.Add(videoPanel);
         }
 
-        // HANDLE DELETED VIDEOS PANEL
+        // DELETED VIDEOS PANEL HANDLER
         private void DeletedVideosPanelHandler()
         {
             if (DeletedVideosPanel == null)
@@ -762,7 +753,7 @@ namespace VDownload.Sources
                 {
                     foreach (VObject v in DeletedVObjects)
                     {
-                        await HandleVideoOnList(v);
+                        await VideoPanelHandler(v);
                     }
                     DeletedVObjects.Clear();
                     PlaylistPanel.Children.Remove(DeletedVideosPanel);
@@ -776,6 +767,7 @@ namespace VDownload.Sources
             }
             else
             {
+                // Update panel
                 ((TextBlock)DeletedVideosPanel.Children[0]).Text = ResourceLoader.GetForCurrentView().GetString("AddPlaylistDeletedVideosPanelTextBlock").Replace("{x}", DeletedVObjects.Count.ToString());
             }
         }

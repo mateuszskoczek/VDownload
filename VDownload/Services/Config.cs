@@ -50,7 +50,8 @@ namespace VDownload.Services
             { "use_mrfcrf444", "1" },
             { "use_hardware_acceleration", "1" },
             { "delete_temp_on_start", "1" },
-            { "delete_video_temp_after_error", "1" }
+            { "delete_video_temp_after_error", "1" },
+            { "max_playlist_videos", "0" },
         };
 
         // SETTINGS CONTAINER
