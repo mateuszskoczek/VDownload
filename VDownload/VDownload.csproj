@@ -119,52 +119,49 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Objects\Enums\PlaylistSource.cs" />
-    <Compile Include="Objects\Enums\VideoSource.cs" />
-    <Compile Include="Objects\Enums\VideoStatus.cs" />
-    <Compile Include="Services\Config.cs" />
-    <Compile Include="Services\Media.cs" />
-    <Compile Include="Services\Source.cs" />
-    <Compile Include="Services\Videos.cs" />
-    <Compile Include="Sources\PObject.cs" />
-    <Compile Include="Sources\Twitch\Channel.cs" />
-    <Compile Include="Sources\Twitch\Clip.cs" />
-    <Compile Include="Sources\Twitch\Vod.cs" />
-    <Compile Include="Sources\VObject.cs" />
-    <Compile Include="Views\AddPlaylist\AddPlaylistBase.xaml.cs">
-      <DependentUpon>AddPlaylistBase.xaml</DependentUpon>
+    <Compile Include="Core\Enums\AudioFileExtension.cs" />
+    <Compile Include="Core\Enums\LogMessageType.cs" />
+    <Compile Include="Core\Enums\MediaFileExtension.cs" />
+    <Compile Include="Core\Enums\MediaType.cs" />
+    <Compile Include="Core\Enums\StreamType.cs" />
+    <Compile Include="Core\Enums\VideoFileExtension.cs" />
+    <Compile Include="Core\Exceptions\TwitchAccessTokenNotFoundException.cs" />
+    <Compile Include="Core\Exceptions\TwitchAccessTokenNotValidException.cs" />
+    <Compile Include="Core\Globals\Assets.cs" />
+    <Compile Include="Core\Interfaces\IAStream.cs" />
+    <Compile Include="Core\Interfaces\IPlaylistService.cs" />
+    <Compile Include="Core\Interfaces\IVideoService.cs" />
+    <Compile Include="Core\Interfaces\IVStream.cs" />
+    <Compile Include="Core\Models\Stream.cs" />
+    <Compile Include="Core\Services\Config.cs" />
+    <Compile Include="Core\Services\Log.cs" />
+    <Compile Include="Core\Services\MediaProcessor.cs" />
+    <Compile Include="Core\Services\Sources\Twitch\Auth.cs" />
+    <Compile Include="Core\Services\Sources\Twitch\Channel.cs" />
+    <Compile Include="Core\Services\Sources\Twitch\Clip.cs" />
+    <Compile Include="Core\Services\Sources\Twitch\Vod.cs" />
+    <Compile Include="GUI\Controls\MainPageLayoutControl.xaml.cs">
+      <DependentUpon>MainPageLayoutControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddPlaylist\AddPlaylistLoading.xaml.cs">
-      <DependentUpon>AddPlaylistLoading.xaml</DependentUpon>
+    <Compile Include="GUI\Controls\SettingControl.xaml.cs">
+      <DependentUpon>SettingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddPlaylist\AddPlaylistMain.xaml.cs">
-      <DependentUpon>AddPlaylistMain.xaml</DependentUpon>
+    <Compile Include="GUI\Views\Home\HomeMain.xaml.cs">
+      <DependentUpon>HomeMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AddPlaylist\AddPlaylistNotFound.xaml.cs">
-      <DependentUpon>AddPlaylistNotFound.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddPlaylist\AddPlaylistStart.xaml.cs">
-      <DependentUpon>AddPlaylistStart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddVideo\AddVideoBase.xaml.cs">
-      <DependentUpon>AddVideoBase.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddVideo\AddVideoLoading.xaml.cs">
-      <DependentUpon>AddVideoLoading.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddVideo\AddVideoMain.xaml.cs">
-      <DependentUpon>AddVideoMain.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddVideo\AddVideoNotFound.xaml.cs">
-      <DependentUpon>AddVideoNotFound.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AddVideo\AddVideoStart.xaml.cs">
-      <DependentUpon>AddVideoStart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MainPage.xaml.cs">
+    <Compile Include="GUI\Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GUI\Views\Sources\SourcesMain.xaml.cs">
+      <DependentUpon>SourcesMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Views\Settings\SettingsMain.xaml.cs">
+      <DependentUpon>SettingsMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Views\Subscriptions\SubscriptionsMain.xaml.cs">
+      <DependentUpon>SubscriptionsMain.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -174,41 +171,43 @@
   <ItemGroup>
     <Content Include="Assets\Icons\Add\NotFound.png" />
     <Content Include="Assets\Icons\Add\Start.png" />
+    <Content Include="Assets\Icons\Error.png" />
+    <Content Include="Assets\Icons\MainPage\Sources.png" />
     <Content Include="Assets\Icons\Sources\Twitch.png" />
     <Content Include="Assets\Icons\Sources\Unknown.png" />
     <Content Include="Assets\Icons\Sources\Youtube.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Author.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Cancelled.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Date.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Done.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Downloading.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Duration.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Error.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Finalizing.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Idle.png" />
-    <Content Include="Assets\Icons\Universal\Dark\MediaType.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Path.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Transcoding.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Quality.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Trim.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Views.png" />
-    <Content Include="Assets\Icons\Universal\Dark\Waiting.png" />
-    <Content Include="Assets\Icons\Universal\Light\Author.png" />
-    <Content Include="Assets\Icons\Universal\Light\Cancelled.png" />
-    <Content Include="Assets\Icons\Universal\Light\Date.png" />
-    <Content Include="Assets\Icons\Universal\Light\Done.png" />
-    <Content Include="Assets\Icons\Universal\Light\Downloading.png" />
-    <Content Include="Assets\Icons\Universal\Light\Duration.png" />
-    <Content Include="Assets\Icons\Universal\Light\Error.png" />
-    <Content Include="Assets\Icons\Universal\Light\Finalizing.png" />
-    <Content Include="Assets\Icons\Universal\Light\Idle.png" />
-    <Content Include="Assets\Icons\Universal\Light\MediaType.png" />
-    <Content Include="Assets\Icons\Universal\Light\Path.png" />
-    <Content Include="Assets\Icons\Universal\Light\Transcoding.png" />
-    <Content Include="Assets\Icons\Universal\Light\Quality.png" />
-    <Content Include="Assets\Icons\Universal\Light\Trim.png" />
-    <Content Include="Assets\Icons\Universal\Light\Views.png" />
-    <Content Include="Assets\Icons\Universal\Light\Waiting.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Author.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Cancelled.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Date.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Done.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Downloading.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Duration.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Error.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Finalizing.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Idle.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\MediaType.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\File.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Transcoding.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Quality.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Trim.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Views.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Dark\Waiting.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Author.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Cancelled.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Date.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Done.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Downloading.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Duration.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Error.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Finalizing.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Idle.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\MediaType.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\File.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Transcoding.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Quality.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Trim.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Views.png" />
+    <Content Include="Assets\Icons\VideoMetadata\Light\Waiting.png" />
     <Content Include="Assets\Logo\Logo.png" />
     <Content Include="Assets\Logo\LargeTile.scale-100.png" />
     <Content Include="Assets\Logo\LargeTile.scale-125.png" />
@@ -268,49 +267,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Views\AddPlaylist\AddPlaylistBase.xaml">
+    <Page Include="GUI\Controls\MainPageLayoutControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddPlaylist\AddPlaylistLoading.xaml">
+    <Page Include="GUI\Controls\SettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddPlaylist\AddPlaylistMain.xaml">
+    <Page Include="GUI\Views\Home\HomeMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddPlaylist\AddPlaylistNotFound.xaml">
+    <Page Include="GUI\Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GUI\Views\Sources\SourcesMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddPlaylist\AddPlaylistStart.xaml">
+    <Page Include="GUI\Views\Settings\SettingsMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AddVideo\AddVideoBase.xaml">
+    <Page Include="GUI\Views\Subscriptions\SubscriptionsMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AddVideo\AddVideoLoading.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AddVideo\AddVideoMain.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AddVideo\AddVideoNotFound.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AddVideo\AddVideoStart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -321,16 +304,19 @@
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.7.0</Version>
+      <Version>2.8.0-prerelease.220118001</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\en-US\ResourcesOld.resw" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <PRIResource Include="Strings\en-US\Resources.resw" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

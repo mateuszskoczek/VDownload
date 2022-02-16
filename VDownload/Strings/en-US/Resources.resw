@@ -117,172 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddPlaylistBase.CloseButtonText" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="MainPageNavigationPanelHomeItem.Content" xml:space="preserve">
+    <value>Home</value>
   </data>
-  <data name="AddPlaylistBase.PrimaryButtonText" xml:space="preserve">
-    <value>Add</value>
+  <data name="MainPageNavigationPanelSourcesItem.Content" xml:space="preserve">
+    <value>Sources</value>
   </data>
-  <data name="AddPlaylistBase.Title" xml:space="preserve">
-    <value>ADD PLAYLIST</value>
+  <data name="MainPageNavigationPanelSubscriptionsItem.Content" xml:space="preserve">
+    <value>Subscriptions</value>
   </data>
-  <data name="AddPlaylistDeletedVideosPanelButton" xml:space="preserve">
-    <value>Restore</value>
+  <data name="SourcesMainPage.Title" xml:space="preserve">
+    <value>Sources</value>
   </data>
-  <data name="AddPlaylistDeletedVideosPanelTextBlock" xml:space="preserve">
-    <value>{x} videos removed</value>
+  <data name="SourcesMainTwitchLoginButtonTextLoading" xml:space="preserve">
+    <value>Loading...</value>
   </data>
-  <data name="AddPlaylistLocationSelectionApplyLocationButton.Content" xml:space="preserve">
-    <value>Apply</value>
+  <data name="SourcesMainTwitchLoginButtonTextLoggedIn" xml:space="preserve">
+    <value>Log out</value>
   </data>
-  <data name="AddPlaylistLocationSelectionTextBlock.Text" xml:space="preserve">
-    <value>Location</value>
+  <data name="SourcesMainTwitchLoginButtonTextNotLoggedIn" xml:space="preserve">
+    <value>Sign in</value>
   </data>
-  <data name="AddPlaylistNotFoundText" xml:space="preserve">
-    <value>Playlist not found. Try again.</value>
+  <data name="SourcesMainTwitchLoginErrorDialogDescriptionUnknown" xml:space="preserve">
+    <value>Unknown error</value>
   </data>
-  <data name="AddPlaylistSearchButton.Content" xml:space="preserve">
-    <value>Search</value>
+  <data name="SourcesMainTwitchLoginErrorDialogTitle" xml:space="preserve">
+    <value>Login to Twitch failed</value>
   </data>
-  <data name="AddPlaylistStartText.Text" xml:space="preserve">
-    <value>Paste URL and click "Search" button</value>
+  <data name="SourcesMainTwitchSettingControl.Title" xml:space="preserve">
+    <value>Twitch</value>
   </data>
-  <data name="AddPlaylistUrlPathText.Text" xml:space="preserve">
-    <value>URL</value>
+  <data name="SourcesMainTwitchSettingControlDescriptionLoading" xml:space="preserve">
+    <value>Loading...</value>
   </data>
-  <data name="AddPlaylistVideoDownloadOptionsMediaTypeRadiobuttonA" xml:space="preserve">
-    <value>Only audio</value>
+  <data name="SourcesMainTwitchSettingControlDescriptionLoggedIn" xml:space="preserve">
+    <value>Logged in as</value>
   </data>
-  <data name="AddPlaylistVideoDownloadOptionsMediaTypeRadiobuttonAV" xml:space="preserve">
-    <value>Normal</value>
-  </data>
-  <data name="AddPlaylistVideoDownloadOptionsMediaTypeRadiobuttonV" xml:space="preserve">
-    <value>Only video</value>
-  </data>
-  <data name="AddPlaylistVideoDownloadOptionsMediaTypeTextBlock" xml:space="preserve">
-    <value>Media type</value>
-  </data>
-  <data name="AddPlaylistVideoDownloadOptionsQualityTextBlock" xml:space="preserve">
-    <value>Quality</value>
-  </data>
-  <data name="AddPlaylistVideoDownloadOptionsTrimTextBlock" xml:space="preserve">
-    <value>Trim</value>
-  </data>
-  <data name="AddPlaylistVideoFileDataTextBlock" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="AddPlaylistVideoLocationDataTextBlock" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="AddPlaylistVideoQualityNoVideoStream" xml:space="preserve">
-    <value>Only audio</value>
-  </data>
-  <data name="AddVideoBase.CloseButtonText" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="AddVideoBase.PrimaryButtonText" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="AddVideoBase.Title" xml:space="preserve">
-    <value>ADD VIDEO</value>
-  </data>
-  <data name="AddVideoDownloadOptionsMediaTypeRadiobuttonA.Content" xml:space="preserve">
-    <value>Only audio</value>
-  </data>
-  <data name="AddVideoDownloadOptionsMediaTypeRadiobuttonAV.Content" xml:space="preserve">
-    <value>Normal</value>
-  </data>
-  <data name="AddVideoDownloadOptionsMediaTypeRadiobuttonV.Content" xml:space="preserve">
-    <value>Only video</value>
-  </data>
-  <data name="AddVideoDownloadOptionsMediaTypeTextBlock.Text" xml:space="preserve">
-    <value>Media type</value>
-  </data>
-  <data name="AddVideoDownloadOptionsQualityTextBlock.Text" xml:space="preserve">
-    <value>Quality</value>
-  </data>
-  <data name="AddVideoDownloadOptionsTrimTextBlock.Text" xml:space="preserve">
-    <value>Trim</value>
-  </data>
-  <data name="AddVideoFileDataTextBlock.Text" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="AddVideoLocationDataTextBlock.Text" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="AddVideoNotFoundText.Text" xml:space="preserve">
-    <value>Video not found. Try again.</value>
-  </data>
-  <data name="AddVideoSearchButton.Content" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="AddVideoStartText.Text" xml:space="preserve">
-    <value>Paste URL and click "Search" button</value>
-  </data>
-  <data name="AppBarAddPlaylistButton.Label" xml:space="preserve">
-    <value>Add playlist</value>
-  </data>
-  <data name="AppBarAddPlaylistButton.Width" xml:space="preserve">
-    <value>85</value>
-  </data>
-  <data name="AppBarAddVideoButton.Label" xml:space="preserve">
-    <value>Add video</value>
-  </data>
-  <data name="AppBarAddVideoButton.Width" xml:space="preserve">
-    <value>75</value>
-  </data>
-  <data name="AppBarDownloadAllButton.Label" xml:space="preserve">
-    <value>Download All</value>
-  </data>
-  <data name="AppBarDownloadAllButton.Width" xml:space="preserve">
-    <value>90</value>
-  </data>
-  <data name="AppBarSettingsButton.Label" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="AppBarSettingsButton.Width" xml:space="preserve">
-    <value>65</value>
-  </data>
-  <data name="VideoPanelMediaTypeDataA" xml:space="preserve">
-    <value>Only audio</value>
-  </data>
-  <data name="VideoPanelMediaTypeDataAV" xml:space="preserve">
-    <value>Audio &amp; Video</value>
-  </data>
-  <data name="VideoPanelMediaTypeDataV" xml:space="preserve">
-    <value>Only video</value>
-  </data>
-  <data name="VideoPanelProgressLabelCancelled" xml:space="preserve">
-    <value>Cancelled</value>
-  </data>
-  <data name="VideoPanelProgressLabelDone1" xml:space="preserve">
-    <value>Done in</value>
-  </data>
-  <data name="VideoPanelProgressLabelDone2" xml:space="preserve">
-    <value>seconds</value>
-  </data>
-  <data name="VideoPanelProgressLabelDownloading" xml:space="preserve">
-    <value>Downloading</value>
-  </data>
-  <data name="VideoPanelProgressLabelError" xml:space="preserve">
-    <value>An error occured!</value>
-  </data>
-  <data name="VideoPanelProgressLabelErrorInternetConnection" xml:space="preserve">
-    <value>Internet connection error</value>
-  </data>
-  <data name="VideoPanelProgressLabelFinalizing" xml:space="preserve">
-    <value>Finalizing</value>
-  </data>
-  <data name="VideoPanelProgressLabelIdle" xml:space="preserve">
-    <value>Idle</value>
-  </data>
-  <data name="VideoPanelProgressLabelTranscoding" xml:space="preserve">
-    <value>Transcoding</value>
-  </data>
-  <data name="VideoPanelProgressLabelWaiting" xml:space="preserve">
-    <value>Queued</value>
-  </data>
-  <data name="VideoPanelQualityNoVideoStream" xml:space="preserve">
-    <value>Only audio</value>
+  <data name="SourcesMainTwitchSettingControlDescriptionNotLoggedIn" xml:space="preserve">
+    <value>Not logged in. Twitch authentication is required to download videos.</value>
   </data>
 </root>
