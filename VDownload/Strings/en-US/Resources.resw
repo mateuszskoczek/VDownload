@@ -117,6 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="HomeOptionsBarAddPlaylistButton.Label" xml:space="preserve">
+    <value>Add playlist</value>
+  </data>
+  <data name="HomeOptionsBarAddPlaylistButton.Width" xml:space="preserve">
+    <value>85</value>
+  </data>
+  <data name="HomeOptionsBarAddPlaylistControlInfoBox.Subtitle" xml:space="preserve">
+    <value>- Twitch (Channel)
+
+Number of videos got from playlist
+The number in the numberbox indicades how many videos will be got from playlist. 0 = all.
+</value>
+  </data>
+  <data name="HomeOptionsBarAddPlaylistControlInfoBox.Title" xml:space="preserve">
+    <value>Supported sources</value>
+  </data>
+  <data name="HomeOptionsBarAddPlaylistControlSearchButton.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="HomeOptionsBarAddPlaylistControlUrlTextBox.PlaceholderText" xml:space="preserve">
+    <value>Playlist URL</value>
+  </data>
+  <data name="HomeOptionsBarAddVideoButton.Label" xml:space="preserve">
+    <value>Add video</value>
+  </data>
+  <data name="HomeOptionsBarAddVideoButton.Width" xml:space="preserve">
+    <value>75</value>
+  </data>
+  <data name="HomeOptionsBarAddVideoControlInfoBox.Subtitle" xml:space="preserve">
+    <value>- Twitch (VODs, Clips)</value>
+  </data>
+  <data name="HomeOptionsBarAddVideoControlInfoBox.Title" xml:space="preserve">
+    <value>Supported sources</value>
+  </data>
+  <data name="HomeOptionsBarAddVideoControlSearchButton.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="HomeOptionsBarAddVideoControlUrlTextBox.PlaceholderText" xml:space="preserve">
+    <value>Video URL</value>
+  </data>
+  <data name="HomeOptionsBarDownloadAllButton.Label" xml:space="preserve">
+    <value>Download all</value>
+  </data>
+  <data name="HomeOptionsBarDownloadAllButton.Width" xml:space="preserve">
+    <value>90</value>
+  </data>
+  <data name="HomeOptionsBarLoadSubscripionsButton.Label" xml:space="preserve">
+    <value>Load subscription</value>
+  </data>
+  <data name="HomeOptionsBarLoadSubscripionsButton.Width" xml:space="preserve">
+    <value>120</value>
+  </data>
   <data name="MainPageNavigationPanelHomeItem.Content" xml:space="preserve">
     <value>Home</value>
   </data>
@@ -126,34 +178,34 @@
   <data name="MainPageNavigationPanelSubscriptionsItem.Content" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
-  <data name="SourcesMainPage.Title" xml:space="preserve">
+  <data name="SourcesMainPageHeaderText.Text" xml:space="preserve">
     <value>Sources</value>
   </data>
-  <data name="SourcesMainTwitchLoginButtonTextLoading" xml:space="preserve">
+  <data name="SourcesTwitchLoginButton.Content" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="SourcesMainTwitchLoginButtonTextLoggedIn" xml:space="preserve">
+  <data name="SourcesTwitchLoginButtonTextLoggedIn" xml:space="preserve">
     <value>Log out</value>
   </data>
-  <data name="SourcesMainTwitchLoginButtonTextNotLoggedIn" xml:space="preserve">
+  <data name="SourcesTwitchLoginButtonTextNotLoggedIn" xml:space="preserve">
     <value>Sign in</value>
   </data>
-  <data name="SourcesMainTwitchLoginErrorDialogDescriptionUnknown" xml:space="preserve">
+  <data name="SourcesTwitchLoginErrorDialogDescriptionUnknown" xml:space="preserve">
     <value>Unknown error</value>
   </data>
-  <data name="SourcesMainTwitchLoginErrorDialogTitle" xml:space="preserve">
+  <data name="SourcesTwitchLoginErrorDialogTitle" xml:space="preserve">
     <value>Login to Twitch failed</value>
   </data>
-  <data name="SourcesMainTwitchSettingControl.Title" xml:space="preserve">
-    <value>Twitch</value>
-  </data>
-  <data name="SourcesMainTwitchSettingControlDescriptionLoading" xml:space="preserve">
+  <data name="SourcesTwitchSettingControl.Description" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="SourcesMainTwitchSettingControlDescriptionLoggedIn" xml:space="preserve">
+  <data name="SourcesTwitchSettingControl.Title" xml:space="preserve">
+    <value>Twitch</value>
+  </data>
+  <data name="SourcesTwitchSettingControlDescriptionLoggedIn" xml:space="preserve">
     <value>Logged in as</value>
   </data>
-  <data name="SourcesMainTwitchSettingControlDescriptionNotLoggedIn" xml:space="preserve">
+  <data name="SourcesTwitchSettingControlDescriptionNotLoggedIn" xml:space="preserve">
     <value>Not logged in. Twitch authentication is required to download videos.</value>
   </data>
 </root>

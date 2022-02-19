@@ -1,0 +1,38 @@
+﻿<UserControl
+    x:Class="VDownload.Views.Home.HomeOptionsBarAddPlaylistControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="100"
+    d:DesignWidth="400">
+
+    
+    <Grid x:Name="HomeOptionsBarAddPlaylistControlGrid" Margin="10" ColumnSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- URL TEXTBOX -->
+        <TextBox x:Name="HomeOptionsBarAddPlaylistControlUrlTextBox" x:Uid="HomeOptionsBarAddPlaylistControlUrlTextBox" Grid.Column="0" VerticalAlignment="Center"/>
+        
+        <!-- MAX VIDEOS NUMBERBOX -->
+        <muxc:NumberBox x:Name="HomeOptionsBarAddPlaylistControlMaxVideosNumberBox" Grid.Column="1" VerticalAlignment="Center" SpinButtonPlacementMode="Compact" Minimum="0" Value="{x:Bind DefaultMaxPlaylistVideos}"/>
+        
+        <!-- SEARCH BUTTON-->
+        <Button x:Name="HomeOptionsBarAddPlaylistControlSearchButton" x:Uid="HomeOptionsBarAddPlaylistControlSearchButton" Grid.Column="2" Click="HomeOptionsBarAddPlaylistControlSearchButton_Click"/>
+        
+        <!-- HELP BUTTON -->
+        <Button x:Name="HomeOptionsBarAddPlaylistControlHelpButton" Grid.Column="3" Content="?" Click="HomeOptionsBarAddPlaylistControlHelpButton_Click">
+            <Button.Resources>
+                <muxc:TeachingTip x:Name="HomeOptionsBarAddPlaylistControlInfoBox" x:Uid="HomeOptionsBarAddPlaylistControlInfoBox" Target="{x:Bind HomeOptionsBarAddPlaylistControlGrid}"/>
+            </Button.Resources>
+        </Button>
+    </Grid>
+</UserControl>

@@ -25,30 +25,16 @@ namespace VDownload
 
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Log.AddHeader("APP LAUNCHED");
-            Log.Break();
-
             // Rebuild configuration file
-            Log.AddHeader("REBUILDING CONFIGURATION FILE");
-            
             Config.Rebuild();
 
-            Log.Add("Configuration file rebuilded successfully");
-            Log.Break();
-
-
             // Delete temp on start
-            // TODO
-            Debug.WriteLine(Config.GetValue("delete_temp_on_start"));
             if ((bool)Config.GetValue("delete_temp_on_start"))
             {
-                Log.AddHeader("DELETING TEMPORARY FILES");
                 IReadOnlyList<IStorageItem> tempItems = await ApplicationData.Current.TemporaryFolder.GetItemsAsync();
                 List<Task> tasks = new List<Task>();
                 foreach (IStorageItem item in tempItems) tasks.Add(item.DeleteAsync().AsTask());
                 await Task.WhenAll(tasks);
-                Log.Add("Temporary files deleted successfully");
-                Log.Break();
             }
 
             // Do not repeat app initialization when the Window already has content,
@@ -70,7 +56,7 @@ namespace VDownload
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(GUI.Views.MainPage), e.Arguments);
+                    rootFrame.Navigate(typeof(Views.MainPage), e.Arguments);
                 }
 
                 // Ensure the current window is active
