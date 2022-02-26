@@ -20,16 +20,8 @@ namespace VDownload.Core.Services.Sources.Twitch
     {
         #region CONSTANTS
 
-        // METADATA TIME FORMATS
-        private static readonly string[] TimeFormats = new[]
-        {
-            @"h\hm\ms\s",
-            @"m\ms\s",
-            @"s\s",
-        };
-
         // STREAMS RESPONSE REGULAR EXPRESSIONS
-        private static readonly Regex L2Regex = new Regex(@"^#EXT-X-STREAM-INF:BANDWIDTH=\d+,CODECS=""(?<video_codec>\S+),(?<audio_codec>\S+)"",RESOLUTION=(?<width>\d+)x(?<height>\d+),VIDEO=""\w+"",FRAME-RATE=(?<frame_rate>\d+.\d+)");
+        private static readonly Regex L2Regex = new Regex(@"^#EXT-X-STREAM-INF:BANDWIDTH=\d+,CODECS=""(?<video_codec>\S+),(?<audio_codec>\S+)"",RESOLUTION=(?<width>\d+)x(?<height>\d+),VIDEO=""\w+""(,FRAME-RATE=(?<frame_rate>\d+.\d+))?");
 
         // CHUNK RESPONSE REGULAR EXPRESSION
         private static readonly Regex ChunkRegex = new Regex(@"#EXTINF:(?<duration>\d+.\d+),\n(?<filename>\S+.ts)");
@@ -52,6 +44,7 @@ namespace VDownload.Core.Services.Sources.Twitch
         #region PROPERTIES
 
         public string ID { get; private set; }
+        public Uri VideoUrl { get; private set; }
         public string Title { get; private set; }
         public string Author { get; private set; }
         public DateTime Date { get; private set; }
@@ -67,8 +60,11 @@ namespace VDownload.Core.Services.Sources.Twitch
         #region STANDARD METHODS
 
         // GET VOD METADATA
-        public async Task GetMetadataAsync()
+        public async Task GetMetadataAsync(CancellationToken cancellationToken = default)
         {
+            // Set cancellation token
+            cancellationToken.ThrowIfCancellationRequested();
+
             // Get access token
             string accessToken = await Auth.ReadAccessTokenAsync();
             if (accessToken == null) throw new TwitchAccessTokenNotFoundException();
@@ -91,18 +87,24 @@ namespace VDownload.Core.Services.Sources.Twitch
         }
         internal void GetMetadataAsync(JToken response)
         {
+            // Create unified video url
+            VideoUrl = new Uri($"https://www.twitch.tv/videos/{ID}");
+
             // Set parameters
             Title = ((string)response["title"]).Replace("\n", "");
             Author = (string)response["user_name"];
             Date = Convert.ToDateTime(response["created_at"]);
-            Duration = TimeSpan.ParseExact((string)response["duration"], TimeFormats, null);
+            Duration = ParseDuration((string)response["duration"]);
             Views = (long)response["view_count"];
-            Thumbnail = (string)response["thumbnail_url"] == string.Empty ? null : new Uri((string)response["thumbnail_url"]);
+            Thumbnail = (string)response["thumbnail_url"] == string.Empty ? null : new Uri(((string)response["thumbnail_url"]).Replace("%{width}", "1920").Replace("%{height}", "1080"));
         }
 
         // GET VOD STREAMS
-        public async Task GetStreamsAsync()
+        public async Task GetStreamsAsync(CancellationToken cancellationToken = default)
         {
+            // Set cancellation token
+            cancellationToken.ThrowIfCancellationRequested();
+
             // Create client
             WebClient client = new WebClient();
             client.Headers.Add("Client-Id", Auth.GQLApiClientID);
@@ -126,7 +128,7 @@ namespace VDownload.Core.Services.Sources.Twitch
                 Uri url = new Uri(response[i + 2]);
                 int width = int.Parse(line2.Groups["width"].Value);
                 int height = int.Parse(line2.Groups["height"].Value);
-                int frameRate = (int)Math.Round(double.Parse(line2.Groups["frame_rate"].Value));
+                int frameRate = line2.Groups["frame_rate"].Value != string.Empty ? (int)Math.Round(double.Parse(line2.Groups["frame_rate"].Value)) : 0;
                 string videoCodec = line2.Groups["video_codec"].Value;
                 string audioCodec = line2.Groups["audio_codec"].Value;
 
@@ -161,12 +163,7 @@ namespace VDownload.Core.Services.Sources.Twitch
             List<(Uri ChunkUrl, TimeSpan ChunkDuration)> chunksList = await ExtractChunksFromM3U8Async(audioVideoStream.Url);
 
             // Passive trim
-            if ((bool)Config.GetValue("twitch_vod_passive_trim"))
-            {
-                var trimResult = PassiveVideoTrim(chunksList, trimStart, trimEnd, Duration);
-                trimStart = trimResult.TrimStart;
-                trimEnd = trimResult.TrimEnd;
-            }
+            if ((bool)Config.GetValue("twitch_vod_passive_trim")) (trimStart, trimEnd) = PassiveVideoTrim(chunksList, trimStart, trimEnd, Duration);
 
             // Download
             StorageFile rawFile = await downloadingFolder.CreateFileAsync("raw.ts");
@@ -299,6 +296,20 @@ namespace VDownload.Core.Services.Sources.Twitch
                     stream.Close();
                 }
             });
+        }
+
+        // PARSE DURATION TO SECONDS
+        private static TimeSpan ParseDuration(string duration)
+        {
+            char[] separators = { 'h', 'm', 's' };
+            string[] durationParts = duration.Split(separators, StringSplitOptions.RemoveEmptyEntries).Reverse().ToArray();
+
+            TimeSpan timeSpan = new TimeSpan(
+                durationParts.Count() > 2 ? int.Parse(durationParts[2]) : 0,
+                durationParts.Count() > 1 ? int.Parse(durationParts[1]) : 0,
+                int.Parse(durationParts[0]));
+
+            return timeSpan;
         }
 
         #endregion

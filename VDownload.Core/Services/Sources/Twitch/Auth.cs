@@ -100,9 +100,15 @@ namespace VDownload.Core.Services.Sources.Twitch
 
                 return (true, login, expirationDate);
             }
-            catch (WebException)
+            catch (WebException wex)
             {
-                return (false, null, null);
+                if (wex.Response != null)
+                {
+                    JObject wexInfo = JObject.Parse(new StreamReader(wex.Response.GetResponseStream()).ReadToEnd());
+                    if ((int)wexInfo["status"] == 401) return (false, null, null);
+                    else throw;
+                }
+                else throw;
             }
         }
 

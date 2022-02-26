@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using VDownload.Core.Enums;
 using Windows.Media.Editing;
 using Windows.Storage;
 
@@ -24,6 +25,11 @@ namespace VDownload.Core.Services
             { "media_transcoding_use_mrfcrf444_algorithm", true },
             { "media_editing_algorithm", (int)MediaTrimmingPreference.Fast },
             { "default_max_playlist_videos", 0 },
+            { "default_media_type", (int)MediaType.AudioVideo },
+            { "default_filename", "[<date_pub:yyyy.MM.dd>] <title>" },
+            { "default_video_extension", (int)VideoFileExtension.MP4 },
+            { "default_audio_extension", (int)AudioFileExtension.MP3 },
+            { "default_location_type", (int)DefaultLocationType.Last },
         };
 
         #endregion

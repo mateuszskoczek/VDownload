@@ -1,0 +1,29 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SvgImageSource x:Key="AuthorIcon" UriSource="ms-appx:///Assets/Icons/AuthorLight.svg"/>
+            <SvgImageSource x:Key="ViewsIcon" UriSource="ms-appx:///Assets/Icons/ViewsLight.svg"/>
+            <SvgImageSource x:Key="DateIcon" UriSource="ms-appx:///Assets/Icons/DateLight.svg"/>
+            <SvgImageSource x:Key="DurationIcon" UriSource="ms-appx:///Assets/Icons/DurationLight.svg"/>
+            <SvgImageSource x:Key="MediaTypeIcon" UriSource="ms-appx:///Assets/Icons/MediaTypeLight.svg"/>
+            <SvgImageSource x:Key="QualityIcon" UriSource="ms-appx:///Assets/Icons/QualityLight.svg"/>
+            <SvgImageSource x:Key="TrimIcon" UriSource="ms-appx:///Assets/Icons/TrimLight.svg"/>
+            <SvgImageSource x:Key="FileIcon" UriSource="ms-appx:///Assets/Icons/FileLight.svg"/>
+            <SvgImageSource x:Key="LocationIcon" UriSource="ms-appx:///Assets/Icons/LocationLight.svg"/>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <SvgImageSource x:Key="AuthorIcon" UriSource="ms-appx:///Assets/Icons/AuthorDark.svg"/>
+            <SvgImageSource x:Key="ViewsIcon" UriSource="ms-appx:///Assets/Icons/ViewsDark.svg"/>
+            <SvgImageSource x:Key="DateIcon" UriSource="ms-appx:///Assets/Icons/DateDark.svg"/>
+            <SvgImageSource x:Key="DurationIcon" UriSource="ms-appx:///Assets/Icons/DurationDark.svg"/>
+            <SvgImageSource x:Key="MediaTypeIcon" UriSource="ms-appx:///Assets/Icons/MediaTypeDark.svg"/>
+            <SvgImageSource x:Key="QualityIcon" UriSource="ms-appx:///Assets/Icons/QualityDark.svg"/>
+            <SvgImageSource x:Key="TrimIcon" UriSource="ms-appx:///Assets/Icons/TrimDark.svg"/>
+            <SvgImageSource x:Key="FileIcon" UriSource="ms-appx:///Assets/Icons/FileDark.svg"/>
+            <SvgImageSource x:Key="LocationIcon" UriSource="ms-appx:///Assets/Icons/LocationDark.svg"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+    <SvgImageSource x:Key="ErrorIcon" UriSource="ms-appx:///Assets/Icons/Error.svg"/>
+</ResourceDictionary>

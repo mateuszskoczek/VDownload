@@ -121,10 +121,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\AudioFileExtension.cs" />
+    <Compile Include="Enums\DefaultLocationType.cs" />
     <Compile Include="Enums\MediaFileExtension.cs" />
     <Compile Include="Enums\MediaType.cs" />
+    <Compile Include="Enums\PlaylistSource.cs" />
     <Compile Include="Enums\StreamType.cs" />
     <Compile Include="Enums\VideoFileExtension.cs" />
+    <Compile Include="Enums\VideoSource.cs" />
+    <Compile Include="EventArgsObjects\VideoAddEventArgs.cs" />
     <Compile Include="EventArgsObjects\VideoSearchEventArgs.cs" />
     <Compile Include="EventArgsObjects\PlaylistSearchEventArgs.cs" />
     <Compile Include="Exceptions\TwitchAccessTokenNotFoundException.cs" />
@@ -136,6 +140,7 @@
     <Compile Include="Objects\Stream.cs" />
     <Compile Include="Services\Config.cs" />
     <Compile Include="Services\MediaProcessor.cs" />
+    <Compile Include="Services\Source.cs" />
     <Compile Include="Services\Sources\Twitch\Auth.cs" />
     <Compile Include="Services\Sources\Twitch\Channel.cs" />
     <Compile Include="Services\Sources\Twitch\Clip.cs" />

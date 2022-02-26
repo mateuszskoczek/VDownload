@@ -15,12 +15,17 @@
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="HomeMainOptionBarBackgroundColor" Color="#202020"/>
+                    <SolidColorBrush x:Key="HomeMainOptionBarBackgroundColor" Color="#1B1B1B"/>
+                    <SolidColorBrush x:Key="HomeMainAddingPanelBackgroundColor" Color="#212121"/>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="HomeMainOptionBarBackgroundColor" Color="#F5F5F5"/>
+                    <SolidColorBrush x:Key="HomeMainAddingPanelBackgroundColor" Color="#F5F5F5"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Icons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -33,10 +38,12 @@
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="HomeOptionBarButtonsStackPanel.(Grid.ColumnSpan)" Value="3"/>
+                        <Setter Target="HomeOptionBarButtonsStackPanel.(Grid.ColumnSpan)" Value="4"/>
                         <Setter Target="HomeOptionBarButtonsStackPanel.(Grid.Column)" Value="0"/>
                         <Setter Target="HomeOptionsBarAddingControl.(Grid.Row)" Value="0"/>
                         <Setter Target="HomeOptionsBarAddingControl.(Grid.ColumnSpan)" Value="3"/>
+                        <Setter Target="HomeOptionsBarSearchingStatusControl.(Grid.Row)" Value="0"/>
+                        <Setter Target="HomeOptionsBarSearchingStatusControl.(Grid.Column)" Value="3"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Normal">
@@ -45,40 +52,45 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="HomeOptionBarButtonsStackPanel.(Grid.ColumnSpan)" Value="1"/>
-                        <Setter Target="HomeOptionBarButtonsStackPanel.(Grid.Column)" Value="2"/>
+                        <Setter Target="HomeOptionBarButtonsStackPanel.(Grid.Column)" Value="3"/>
                         <Setter Target="HomeOptionsBarAddingControl.(Grid.Row)" Value="1"/>
                         <Setter Target="HomeOptionsBarAddingControl.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="HomeOptionsBarSearchingStatusControl.(Grid.Row)" Value="1"/>
+                        <Setter Target="HomeOptionsBarSearchingStatusControl.(Grid.Column)" Value="1"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition x:Name="HomeVideosListRow" Height="1*"/>
+            <RowDefinition x:Name="HomeOptionBarAndAddingPanelRow" Height="Auto"/>
         </Grid.RowDefinitions>
         
         <!-- VIDEOS LIST -->
         <StackPanel/>
 
         <!-- OPTIONS BAR AND ADDING PANEL -->
-        <Grid Grid.Row="1" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource HomeMainOptionBarBackgroundColor}">
+        <Grid Grid.Row="1" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource HomeMainAddingPanelBackgroundColor}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid x:Name="HomeOptionsBar" Grid.Row="1"> <!-- Options Bar -->
+            <ContentControl x:Name="HomeAddingPanel" Grid.Row="0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"/> <!-- Adding Panel -->
+            <Grid x:Name="HomeOptionsBar" Grid.Row="1" Background="{ThemeResource HomeMainOptionBarBackgroundColor}"> <!-- Options Bar -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <ContentPresenter x:Name="HomeOptionsBarAddingControl" Grid.Row="1" Grid.Column="0"/>
-                <StackPanel x:Name="HomeOptionBarButtonsStackPanel" Grid.Row="1" Grid.Column="2" Margin="3,0,3,0" HorizontalAlignment="Center"  Orientation="Horizontal">
+                <ContentPresenter x:Name="HomeOptionsBarSearchingStatusControl" Grid.Row="1" Grid.Column="1"/>
+                <StackPanel x:Name="HomeOptionBarButtonsStackPanel" Grid.Row="1" Grid.Column="3" Margin="3,0,3,0" HorizontalAlignment="Center"  Orientation="Horizontal">
                     <AppBarButton x:Name="HomeOptionsBarLoadSubscripionsButton" x:Uid="HomeOptionsBarLoadSubscripionsButton" Icon="Favorite" Label="Load subscriptions" Width="120"/>
                     <AppBarSeparator VerticalAlignment="Center" Height="50"/>
                     <AppBarToggleButton x:Name="HomeOptionsBarAddPlaylistButton" x:Uid="HomeOptionsBarAddPlaylistButton" Icon="List" Label="Add playlist" Width="85" Checked="HomeOptionsBarAddPlaylistButton_Checked" Unchecked="HomeOptionsBarAddingButtons_Unchecked"/>

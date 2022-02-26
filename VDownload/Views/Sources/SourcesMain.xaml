@@ -24,10 +24,10 @@
         <StackPanel Grid.Row="2" Spacing="10">
             <cc:SettingControl x:Name="SourcesTwitchSettingControl" x:Uid="SourcesTwitchSettingControl" Grid.Row="0" Title="Twitch"> <!-- Twitch -->
                 <cc:SettingControl.Icon>
-                    <BitmapIcon UriSource="ms-appx:///Assets/Icons/Sources/Twitch.png" ShowAsMonochrome="False"/>
+                    <BitmapImage UriSource="ms-appx:///Assets/Twitch.png"/>
                 </cc:SettingControl.Icon>
                 <cc:SettingControl.SettingContent>
-                    <Button x:Name="SourcesTwitchLoginButton" Click="SourcesTwitchLoginButton_Click"/>
+                    <Button x:Name="SourcesTwitchLoginButton" IsEnabled="False" Click="SourcesTwitchLoginButton_Click"/>
                 </cc:SettingControl.SettingContent>
             </cc:SettingControl>
         </StackPanel>

@@ -41,6 +41,7 @@ namespace VDownload.Core.Services.Sources.Twitch
         #region PROPERTIES
 
         public string ID { get; private set; }
+        public Uri VideoUrl { get; private set; }
         public string Title { get; private set; }
         public string Author { get; private set; }
         public DateTime Date { get; private set; }
@@ -56,8 +57,11 @@ namespace VDownload.Core.Services.Sources.Twitch
         #region STANDARD METHODS
 
         // GET CLIP METADATA
-        public async Task GetMetadataAsync()
+        public async Task GetMetadataAsync(CancellationToken cancellationToken = default)
         {
+            // Set cancellation token
+            cancellationToken.ThrowIfCancellationRequested();
+
             // Get access token
             string accessToken = await Auth.ReadAccessTokenAsync();
             if (accessToken == null) throw new TwitchAccessTokenNotFoundException();
@@ -74,7 +78,10 @@ namespace VDownload.Core.Services.Sources.Twitch
             // Get response
             client.QueryString.Add("id", ID);
             JToken response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/clips")).GetValue("data")[0];
-            
+
+            // Create unified video url
+            VideoUrl = new Uri($"https://clips.twitch.tv/{ID}");
+
             // Set parameters
             Title = (string)response["title"];
             Author = (string)response["broadcaster_name"];
@@ -84,8 +91,11 @@ namespace VDownload.Core.Services.Sources.Twitch
             Thumbnail = new Uri((string)response["thumbnail_url"]);
         }
 
-        public async Task GetStreamsAsync()
+        public async Task GetStreamsAsync(CancellationToken cancellationToken = default)
         {
+            // Set cancellation token
+            cancellationToken.ThrowIfCancellationRequested();
+
             // Create client
             WebClient client = new WebClient { Encoding = Encoding.UTF8 };
             client.Headers.Add("Client-ID", Auth.GQLApiClientID);

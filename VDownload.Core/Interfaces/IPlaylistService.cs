@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace VDownload.Core.Interfaces
 {
-    internal interface IPlaylistService
+    public interface IPlaylistService
     {
         #region PROPERTIES
 
@@ -15,9 +16,9 @@ namespace VDownload.Core.Interfaces
 
         #region METHODS
 
-        Task GetMetadataAsync();
+        Task GetMetadataAsync(CancellationToken cancellationToken = default);
 
-        Task GetVideosAsync(int numberOfVideos);
+        Task GetVideosAsync(int numberOfVideos, CancellationToken cancellationToken = default);
 
         #endregion
     }

@@ -2,8 +2,8 @@
 {
     public enum MediaType
     {
-        AudioVideo,
-        OnlyAudio,
-        OnlyVideo,
+        AudioVideo = 0,
+        OnlyAudio = 1,
+        OnlyVideo = 2,
     }
 }

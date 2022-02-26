@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Exceptions;
 using VDownload.Core.Interfaces;
@@ -37,8 +38,11 @@ namespace VDownload.Core.Services.Sources.Twitch
         #region STANDARD METHODS
 
         // GET CHANNEL METADATA
-        public async Task GetMetadataAsync()
+        public async Task GetMetadataAsync(CancellationToken cancellationToken = default)
         {
+            // Set cancellation token
+            cancellationToken.ThrowIfCancellationRequested();
+
             // Get access token
             string accessToken = await Auth.ReadAccessTokenAsync();
             if (accessToken == null) throw new TwitchAccessTokenNotFoundException();
@@ -62,8 +66,11 @@ namespace VDownload.Core.Services.Sources.Twitch
         }
 
         // GET CHANNEL VIDEOS
-        public async Task GetVideosAsync(int numberOfVideos)
+        public async Task GetVideosAsync(int numberOfVideos, CancellationToken cancellationToken = default)
         {
+            // Set cancellation token
+            cancellationToken.ThrowIfCancellationRequested();
+
             // Get access token
             string accessToken = await Auth.ReadAccessTokenAsync();
             if (accessToken == null) throw new TwitchAccessTokenNotFoundException();

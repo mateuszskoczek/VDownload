@@ -119,6 +119,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\TimeSpanToTextBoxMaskConverter.cs" />
+    <Compile Include="Converters\TimeSpanToTextBoxMaskElementsConverter.cs" />
     <Compile Include="Views\About\AboutMain.xaml.cs">
       <DependentUpon>AboutMain.xaml</DependentUpon>
     </Compile>
@@ -133,6 +136,12 @@
     </Compile>
     <Compile Include="Views\Home\HomeMain.xaml.cs">
       <DependentUpon>HomeMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\HomeVideoAddingPanel.xaml.cs">
+      <DependentUpon>HomeVideoAddingPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\HomeVideoPanel.xaml.cs">
+      <DependentUpon>HomeVideoPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -153,46 +162,25 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Icons\Add\NotFound.png" />
-    <Content Include="Assets\Icons\Add\Start.png" />
-    <Content Include="Assets\Icons\Error.png" />
-    <Content Include="Assets\Icons\MainPage\About.png" />
-    <Content Include="Assets\Icons\MainPage\Sources.png" />
-    <Content Include="Assets\Icons\Sources\Twitch.png" />
-    <Content Include="Assets\Icons\Sources\Unknown.png" />
-    <Content Include="Assets\Icons\Sources\Youtube.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Author.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Cancelled.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Date.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Done.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Downloading.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Duration.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Error.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Finalizing.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Idle.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\MediaType.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\File.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Transcoding.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Quality.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Trim.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Views.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Dark\Waiting.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Author.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Cancelled.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Date.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Done.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Downloading.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Duration.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Error.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Finalizing.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Idle.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\MediaType.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\File.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Transcoding.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Quality.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Trim.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Views.png" />
-    <Content Include="Assets\Icons\VideoMetadata\Light\Waiting.png" />
+    <Content Include="Assets\Icons\AuthorDark.svg" />
+    <Content Include="Assets\Icons\AuthorLight.svg" />
+    <Content Include="Assets\Icons\DateDark.svg" />
+    <Content Include="Assets\Icons\DateLight.svg" />
+    <Content Include="Assets\Icons\DurationDark.svg" />
+    <Content Include="Assets\Icons\DurationLight.svg" />
+    <Content Include="Assets\Icons\Error.svg" />
+    <Content Include="Assets\Icons\FileDark.svg" />
+    <Content Include="Assets\Icons\FileLight.svg" />
+    <Content Include="Assets\Icons\LocationDark.svg" />
+    <Content Include="Assets\Icons\LocationLight.svg" />
+    <Content Include="Assets\Icons\MediaTypeDark.svg" />
+    <Content Include="Assets\Icons\MediaTypeLight.svg" />
+    <Content Include="Assets\Icons\QualityDark.svg" />
+    <Content Include="Assets\Icons\QualityLight.svg" />
+    <Content Include="Assets\Icons\TrimDark.svg" />
+    <Content Include="Assets\Icons\TrimLight.svg" />
+    <Content Include="Assets\Icons\ViewsDark.svg" />
+    <Content Include="Assets\Icons\ViewsLight.svg" />
     <Content Include="Assets\Logo\Logo.png" />
     <Content Include="Assets\Logo\LargeTile.scale-100.png" />
     <Content Include="Assets\Logo\LargeTile.scale-125.png" />
@@ -244,13 +232,22 @@
     <Content Include="Assets\Logo\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Logo\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logo\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\Other\UnknownThumbnail.png" />
+    <Content Include="Assets\Twitch.png" />
+    <Content Include="Assets\UnknownThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Resources\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\About\AboutMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -268,6 +265,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Home\HomeMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Home\HomeVideoAddingPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Home\HomeVideoPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

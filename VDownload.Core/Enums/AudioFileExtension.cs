@@ -2,11 +2,11 @@
 {
     public enum AudioFileExtension
     {
-        MP3 = 4,
-        FLAC = 5,
-        WAV = 6,
-        M4A = 7,
-        ALAC = 8,
-        WMA = 9,
+        MP3 = 3,
+        FLAC = 4,
+        WAV = 5,
+        M4A = 6,
+        ALAC = 7,
+        WMA = 8,
     }
 }

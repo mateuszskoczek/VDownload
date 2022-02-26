@@ -20,21 +20,24 @@
                     <SolidColorBrush x:Key="SettingControlBackgroundColor" Color="#FBFBFB"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Converters.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
 
-    <Grid Padding="18" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource SettingControlBackgroundColor}">
+    <Grid MinHeight="65" Padding="18" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource SettingControlBackgroundColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="18"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="18"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="18"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <!-- ICON -->
-        <ContentPresenter Grid.Column="0" VerticalAlignment="Center" Width="20" Content="{x:Bind Icon, Mode=OneWay}"/>
+        <Image Grid.Column="0" VerticalAlignment="Center" Width="20" Source="{x:Bind Icon, Mode=OneWay}"/>
 
         <!-- TITLE & DESCRIPTION -->
         <Grid Grid.Column="2" VerticalAlignment="Center">
@@ -43,10 +46,10 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="{x:Bind Title, Mode=OneWay}"/>
-            <TextBlock Grid.Row="1" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" TextWrapping="Wrap" Text="{x:Bind Description, Mode=OneWay}"/>
+            <TextBlock Grid.Row="1" Visibility="{x:Bind Description, Converter={StaticResource StringToVisibilityConverter}}" FontSize="12" Foreground="{ThemeResource SystemBaseMediumColor}" TextWrapping="Wrap" Text="{x:Bind Description, Mode=OneWay}"/>
         </Grid>
 
         <!-- SETTING CONTROL -->
-        <ContentPresenter Grid.Column="4" VerticalAlignment="Center" Content="{x:Bind SettingContent, Mode=OneWay}"/>
+        <ContentPresenter Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{x:Bind SettingContent, Mode=OneWay}"/>
     </Grid>
 </UserControl>

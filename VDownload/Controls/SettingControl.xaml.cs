@@ -21,10 +21,10 @@ namespace VDownload.Controls
         #region PROPERTIES
 
         // ICON
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(IconElement), typeof(SettingControl), new PropertyMetadata(null));
-        public IconElement Icon
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(ImageSource), typeof(SettingControl), new PropertyMetadata(null));
+        public ImageSource Icon
         {
-            get => (IconElement)GetValue(IconProperty);
+            get => (ImageSource)GetValue(IconProperty);
             set => SetValue(IconProperty, value);
         }
 

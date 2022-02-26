@@ -2,8 +2,8 @@
 {
     public enum VideoFileExtension
     {
-        MP4 = 1,
-        WMV = 2,
-        HEVC = 3,
+        MP4 = 0,
+        WMV = 1,
+        HEVC = 2,
     }
 }

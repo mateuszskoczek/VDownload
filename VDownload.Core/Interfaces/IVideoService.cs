@@ -12,13 +12,16 @@ namespace VDownload.Core.Interfaces
     {
         #region PROPERTIES
 
+        // VIDEO PROPERTIES
         string ID { get; }
+        Uri VideoUrl { get; }
         string Title { get; }
         string Author { get; }
         DateTime Date { get; }
         TimeSpan Duration { get; }
         long Views { get; }
         Uri Thumbnail { get; }
+        Stream[] Streams { get; }
 
         #endregion
 
@@ -27,10 +30,10 @@ namespace VDownload.Core.Interfaces
         #region METHODS
 
         // GET VIDEO METADATA
-        Task GetMetadataAsync();
+        Task GetMetadataAsync(CancellationToken cancellationToken = default);
 
         // GET VIDEO STREAMS
-        Task GetStreamsAsync();
+        Task GetStreamsAsync(CancellationToken cancellationToken = default);
 
         // DOWNLOAD VIDEO
         Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, Stream audioVideoStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default);
