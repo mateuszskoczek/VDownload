@@ -121,13 +121,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Enums\AudioFileExtension.cs" />
-    <Compile Include="Enums\DefaultLocationType.cs" />
     <Compile Include="Enums\MediaFileExtension.cs" />
     <Compile Include="Enums\MediaType.cs" />
     <Compile Include="Enums\PlaylistSource.cs" />
     <Compile Include="Enums\StreamType.cs" />
     <Compile Include="Enums\VideoFileExtension.cs" />
     <Compile Include="Enums\VideoSource.cs" />
+    <Compile Include="Enums\VideoStatus.cs" />
     <Compile Include="EventArgsObjects\VideoAddEventArgs.cs" />
     <Compile Include="EventArgsObjects\VideoSearchEventArgs.cs" />
     <Compile Include="EventArgsObjects\PlaylistSearchEventArgs.cs" />

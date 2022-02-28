@@ -8,7 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    
+    
+    <Page.Resources>
+        <ResourceDictionary Source="ms-appx:///Resources/Icons.xaml"/>
+    </Page.Resources>
+    
     
     <Grid Padding="20">
         <Grid.RowDefinitions>
@@ -22,10 +27,7 @@
         
         <!-- CONTENT -->
         <StackPanel Grid.Row="2" Spacing="10">
-            <cc:SettingControl x:Name="SourcesTwitchSettingControl" x:Uid="SourcesTwitchSettingControl" Grid.Row="0" Title="Twitch"> <!-- Twitch -->
-                <cc:SettingControl.Icon>
-                    <BitmapImage UriSource="ms-appx:///Assets/Twitch.png"/>
-                </cc:SettingControl.Icon>
+            <cc:SettingControl x:Name="SourcesTwitchSettingControl" x:Uid="SourcesTwitchSettingControl" Grid.Row="0" Icon="{StaticResource TwitchIcon}" Title="Twitch"> <!-- Twitch -->
                 <cc:SettingControl.SettingContent>
                     <Button x:Name="SourcesTwitchLoginButton" IsEnabled="False" Click="SourcesTwitchLoginButton_Click"/>
                 </cc:SettingControl.SettingContent>

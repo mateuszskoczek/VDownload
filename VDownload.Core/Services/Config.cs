@@ -29,7 +29,11 @@ namespace VDownload.Core.Services
             { "default_filename", "[<date_pub:yyyy.MM.dd>] <title>" },
             { "default_video_extension", (int)VideoFileExtension.MP4 },
             { "default_audio_extension", (int)AudioFileExtension.MP3 },
-            { "default_location_type", (int)DefaultLocationType.Last },
+            { "custom_media_location", false },
+            { "custom_temp_location", false }, 
+            { "max_active_video_task", 5 },
+            { "replace_output_file_if_exists", false },
+            { "remove_task_when_successfully_ended", false }
         };
 
         #endregion

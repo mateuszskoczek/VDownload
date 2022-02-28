@@ -48,8 +48,8 @@ namespace VDownload.Core.Services
             // Init transcoder
             MediaTranscoder mediaTranscoder = new MediaTranscoder
             {
-                HardwareAccelerationEnabled = (bool)Config.GetValue("media_processor_use_hardware_acceleration"),
-                VideoProcessingAlgorithm = (bool)Config.GetValue("media_processor_use_mrfcrf444_algorithm") ? MediaVideoProcessingAlgorithm.MrfCrf444 : MediaVideoProcessingAlgorithm.Default,
+                HardwareAccelerationEnabled = (bool)Config.GetValue("media_transcoding_use_hardware_acceleration"),
+                VideoProcessingAlgorithm = (bool)Config.GetValue("media_transcoding_use_mrfcrf444_algorithm") ? MediaVideoProcessingAlgorithm.MrfCrf444 : MediaVideoProcessingAlgorithm.Default,
                 TrimStartTime = TrimStart,
                 TrimStopTime = TrimEnd,
             };

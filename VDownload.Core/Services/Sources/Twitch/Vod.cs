@@ -153,47 +153,57 @@ namespace VDownload.Core.Services.Sources.Twitch
         // DOWNLOAD AND TRANSCODE VOD
         public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, Stream audioVideoStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default)
         {
-            // Set cancellation token
-            cancellationToken.ThrowIfCancellationRequested();
-
             // Invoke DownloadingStarted event
-            DownloadingStarted?.Invoke(this, EventArgs.Empty);
+            if (!cancellationToken.IsCancellationRequested) DownloadingStarted?.Invoke(this, EventArgs.Empty);
 
             // Get video chunks
-            List<(Uri ChunkUrl, TimeSpan ChunkDuration)> chunksList = await ExtractChunksFromM3U8Async(audioVideoStream.Url);
+            List<(Uri ChunkUrl, TimeSpan ChunkDuration)> chunksList = null;
+            if (!cancellationToken.IsCancellationRequested) chunksList = await ExtractChunksFromM3U8Async(audioVideoStream.Url);
 
             // Passive trim
             if ((bool)Config.GetValue("twitch_vod_passive_trim")) (trimStart, trimEnd) = PassiveVideoTrim(chunksList, trimStart, trimEnd, Duration);
 
             // Download
-            StorageFile rawFile = await downloadingFolder.CreateFileAsync("raw.ts");
-            float chunksDownloaded = 0;
-
-            Task<byte[]> downloadTask;
-            Task writeTask;
-
-            downloadTask = DownloadChunkAsync(chunksList[0].ChunkUrl);
-            await downloadTask;
-            for (int i = 1; i < chunksList.Count; i++)
+            StorageFile rawFile = null;
+            if (!cancellationToken.IsCancellationRequested)
             {
-                writeTask = WriteChunkToFileAsync(rawFile, downloadTask.Result);
-                downloadTask = DownloadChunkAsync(chunksList[i].ChunkUrl);
-                await Task.WhenAll(writeTask, downloadTask);
-                DownloadingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(++chunksDownloaded * 100 / chunksList.Count), null));
-            }
-            await WriteChunkToFileAsync(rawFile, downloadTask.Result);
-            DownloadingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(++chunksDownloaded * 100 / chunksList.Count), null));
+                rawFile = await downloadingFolder.CreateFileAsync("raw.ts");
+                float chunksDownloaded = 0;
 
-            DownloadingCompleted?.Invoke(this, EventArgs.Empty);
+                Task<byte[]> downloadTask;
+                Task writeTask;
+
+                downloadTask = DownloadChunkAsync(chunksList[0].ChunkUrl);
+                await downloadTask;
+                for (int i = 1; i < chunksList.Count && !cancellationToken.IsCancellationRequested; i++)
+                {
+                    writeTask = WriteChunkToFileAsync(rawFile, downloadTask.Result);
+                    downloadTask = DownloadChunkAsync(chunksList[i].ChunkUrl);
+                    await Task.WhenAll(writeTask, downloadTask);
+                    DownloadingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(++chunksDownloaded * 100 / chunksList.Count), null));
+                }
+                if (!cancellationToken.IsCancellationRequested)
+                {
+                    await WriteChunkToFileAsync(rawFile, downloadTask.Result);
+                    DownloadingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(++chunksDownloaded * 100 / chunksList.Count), null));
+
+                    DownloadingCompleted?.Invoke(this, EventArgs.Empty);
+                }
+            }
+
 
             // Processing
-            StorageFile outputFile = await downloadingFolder.CreateFileAsync($"transcoded.{extension.ToString().ToLower()}");
+            StorageFile outputFile = null;
+            if (!cancellationToken.IsCancellationRequested)
+            {
+                outputFile = await downloadingFolder.CreateFileAsync($"transcoded.{extension.ToString().ToLower()}");
 
-            MediaProcessor mediaProcessor = new MediaProcessor(outputFile, trimStart, trimEnd);
-            mediaProcessor.ProcessingStarted += ProcessingStarted;
-            mediaProcessor.ProcessingProgressChanged += ProcessingProgressChanged;
-            mediaProcessor.ProcessingCompleted += ProcessingCompleted;
-            await mediaProcessor.Run(rawFile, extension, mediaType, cancellationToken);
+                MediaProcessor mediaProcessor = new MediaProcessor(outputFile, trimStart, trimEnd);
+                mediaProcessor.ProcessingStarted += ProcessingStarted;
+                mediaProcessor.ProcessingProgressChanged += ProcessingProgressChanged;
+                mediaProcessor.ProcessingCompleted += ProcessingCompleted;
+                await mediaProcessor.Run(rawFile, extension, mediaType, cancellationToken);
+            }
 
             // Return output file
             return outputFile;
@@ -298,7 +308,7 @@ namespace VDownload.Core.Services.Sources.Twitch
             });
         }
 
-        // PARSE DURATION TO SECONDS
+        // PARSE DURATION
         private static TimeSpan ParseDuration(string duration)
         {
             char[] separators = { 'h', 'm', 's' };
@@ -319,15 +329,10 @@ namespace VDownload.Core.Services.Sources.Twitch
         #region EVENT HANDLERS
 
         public event EventHandler DownloadingStarted;
-
         public event EventHandler<ProgressChangedEventArgs> DownloadingProgressChanged;
-
         public event EventHandler DownloadingCompleted;
-
         public event EventHandler ProcessingStarted;
-
         public event EventHandler<ProgressChangedEventArgs> ProcessingProgressChanged;
-
         public event EventHandler ProcessingCompleted;
 
         #endregion

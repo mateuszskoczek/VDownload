@@ -9,22 +9,13 @@
     xmlns:cc="using:VDownload.Controls"
     mc:Ignorable="d"
     Background="Transparent">
-    
-    
+
+
     <Page.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Dark">
-                    <SolidColorBrush x:Key="HomeMainOptionBarBackgroundColor" Color="#1B1B1B"/>
-                    <SolidColorBrush x:Key="HomeMainAddingPanelBackgroundColor" Color="#212121"/>
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Light">
-                    <SolidColorBrush x:Key="HomeMainOptionBarBackgroundColor" Color="#F5F5F5"/>
-                    <SolidColorBrush x:Key="HomeMainAddingPanelBackgroundColor" Color="#F5F5F5"/>
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Icons.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Colors.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -68,16 +59,16 @@
         </Grid.RowDefinitions>
         
         <!-- VIDEOS LIST -->
-        <StackPanel/>
+        <StackPanel x:Name="HomeVideosList"/>
 
         <!-- OPTIONS BAR AND ADDING PANEL -->
-        <Grid Grid.Row="1" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource HomeMainAddingPanelBackgroundColor}">
+        <Grid Grid.Row="1" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource HomeBackgroundColor}">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <ContentControl x:Name="HomeAddingPanel" Grid.Row="0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"/> <!-- Adding Panel -->
-            <Grid x:Name="HomeOptionsBar" Grid.Row="1" Background="{ThemeResource HomeMainOptionBarBackgroundColor}"> <!-- Options Bar -->
+            <Grid x:Name="HomeOptionsBar" Grid.Row="1" Background="{ThemeResource HomeOptionBarBackgroundColor}"> <!-- Options Bar -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -96,7 +87,7 @@
                     <AppBarToggleButton x:Name="HomeOptionsBarAddPlaylistButton" x:Uid="HomeOptionsBarAddPlaylistButton" Icon="List" Label="Add playlist" Width="85" Checked="HomeOptionsBarAddPlaylistButton_Checked" Unchecked="HomeOptionsBarAddingButtons_Unchecked"/>
                     <AppBarToggleButton x:Name="HomeOptionsBarAddVideoButton" x:Uid="HomeOptionsBarAddVideoButton" Icon="Video" Label="Add video" Width="75" Checked="HomeOptionsBarAddVideoButton_Checked" Unchecked="HomeOptionsBarAddingButtons_Unchecked"/>
                     <AppBarSeparator VerticalAlignment="Center" Height="50"/>
-                    <AppBarButton x:Name="HomeOptionsBarDownloadAllButton" x:Uid="HomeOptionsBarDownloadAllButton" Icon="Download" Label="Download All" Width="90"/>
+                    <AppBarButton x:Name="HomeOptionsBarDownloadAllButton" x:Uid="HomeOptionsBarDownloadAllButton" Icon="Download" Label="Download All" Width="90" Click="HomeOptionsBarDownloadAllButton_Click"/>
                 </StackPanel>
             </Grid>
         </Grid>

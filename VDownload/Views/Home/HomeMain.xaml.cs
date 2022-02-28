@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using VDownload.Core.Enums;
@@ -30,8 +31,8 @@ namespace VDownload.Views.Home
         #region PROPERTIES
 
         // SEARCHING STATUS CONTROLS
-        private readonly Microsoft.UI.Xaml.Controls.ProgressRing HomeOptionsBarSearchingStatusProgressRing = new Microsoft.UI.Xaml.Controls.ProgressRing { Width = 15, Height = 15, Margin = new Thickness(5), IsActive = true};
-        private readonly Image HomeOptionsBarSearchingStatusErrorImage = new Image { Width = 15, Height = 15, Margin = new Thickness(5), Source = (SvgImageSource)new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Icons.xaml")}["ErrorIcon"] };
+        private readonly Microsoft.UI.Xaml.Controls.ProgressRing HomeOptionsBarSearchingStatusProgressRing = new Microsoft.UI.Xaml.Controls.ProgressRing { Width = 15, Height = 15, Margin = new Thickness(5), IsActive = true };
+        private readonly Image HomeOptionsBarSearchingStatusErrorImage = new Image { Width = 15, Height = 15, Margin = new Thickness(5), Source = (SvgImageSource)new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Icons.xaml") }["ErrorIcon"] };
 
         CancellationTokenSource SearchingCancellationToken = new CancellationTokenSource();
 
@@ -121,7 +122,7 @@ namespace VDownload.Views.Home
                 catch (WebException wex)
                 {
                     HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-                    if (wex.Response == null) 
+                    if (wex.Response == null)
                     {
                         ContentDialog internetAccessErrorDialog = new ContentDialog
                         {
@@ -149,7 +150,22 @@ namespace VDownload.Views.Home
 
         private void HomeVideoAddingPanel_VideoAddRequest(object sender, VideoAddEventArgs e)
         {
+            // Uncheck video button
             HomeOptionsBarAddVideoButton.IsChecked = false;
+
+            // Create video panel/task
+            HomeVideoPanel videoPanel = new HomeVideoPanel(e.VideoService, e.MediaType, e.Stream, e.TrimStart, e.TrimEnd, e.Filename, e.Extension, e.Location);
+
+            videoPanel.VideoRemovingRequested += (s, a) =>
+            {
+                // Remove video panel/task from videos list
+                HomeVideosList.Children.Remove(videoPanel);
+                Home.HomeVideosList.VideoList.Remove(videoPanel);
+            };
+
+            // Add video panel/task to videos list
+            HomeVideosList.Children.Add(videoPanel);
+            Home.HomeVideosList.VideoList.Add(videoPanel);
         }
 
 
@@ -261,6 +277,12 @@ namespace VDownload.Views.Home
             HomeOptionsBarSearchingStatusControl.Content = null;
         }
 
-        #endregion
-    }
+        // DOWNLOAD ALL BUTTON CLICKED
+        private async void HomeOptionsBarDownloadAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (HomeVideoPanel videoPanel in Home.HomeVideosList.VideoList.Where(video => video.VideoStatus == VideoStatus.Idle)) await videoPanel.Start();
+        }
+
+    #endregion
+}
 }

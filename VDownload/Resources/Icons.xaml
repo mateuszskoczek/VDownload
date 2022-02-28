@@ -1,6 +1,9 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    
+    <!-- THEMED ICONS -->
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <SvgImageSource x:Key="AuthorIcon" UriSource="ms-appx:///Assets/Icons/AuthorLight.svg"/>
@@ -12,6 +15,14 @@
             <SvgImageSource x:Key="TrimIcon" UriSource="ms-appx:///Assets/Icons/TrimLight.svg"/>
             <SvgImageSource x:Key="FileIcon" UriSource="ms-appx:///Assets/Icons/FileLight.svg"/>
             <SvgImageSource x:Key="LocationIcon" UriSource="ms-appx:///Assets/Icons/LocationLight.svg"/>
+            <SvgImageSource x:Key="StateIdleIcon" UriSource="ms-appx:///Assets/Icons/StateIdleLight.svg"/>
+            <SvgImageSource x:Key="StateWaitingIcon" UriSource="ms-appx:///Assets/Icons/StateWaitingLight.svg"/>
+            <SvgImageSource x:Key="StateCancelledIcon" UriSource="ms-appx:///Assets/Icons/StateCancelledLight.svg"/>
+            <SvgImageSource x:Key="StateDownloadingIcon" UriSource="ms-appx:///Assets/Icons/StateDownloadingLight.svg"/>
+            <SvgImageSource x:Key="StateErrorIcon" UriSource="ms-appx:///Assets/Icons/StateErrorLight.svg"/>
+            <SvgImageSource x:Key="StateDoneIcon" UriSource="ms-appx:///Assets/Icons/StateDoneLight.svg"/>
+            <SvgImageSource x:Key="StateFinalizingIcon" UriSource="ms-appx:///Assets/Icons/StateFinalizingLight.svg"/>
+            <SvgImageSource x:Key="StateProcessingIcon" UriSource="ms-appx:///Assets/Icons/StateProcessingLight.svg"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SvgImageSource x:Key="AuthorIcon" UriSource="ms-appx:///Assets/Icons/AuthorDark.svg"/>
@@ -23,7 +34,22 @@
             <SvgImageSource x:Key="TrimIcon" UriSource="ms-appx:///Assets/Icons/TrimDark.svg"/>
             <SvgImageSource x:Key="FileIcon" UriSource="ms-appx:///Assets/Icons/FileDark.svg"/>
             <SvgImageSource x:Key="LocationIcon" UriSource="ms-appx:///Assets/Icons/LocationDark.svg"/>
+            <SvgImageSource x:Key="StateIdleIcon" UriSource="ms-appx:///Assets/Icons/StateIdleDark.svg"/>
+            <SvgImageSource x:Key="StateWaitingIcon" UriSource="ms-appx:///Assets/Icons/StateWaitingDark.svg"/>
+            <SvgImageSource x:Key="StateCancelledIcon" UriSource="ms-appx:///Assets/Icons/StateCancelledDark.svg"/>
+            <SvgImageSource x:Key="StateDownloadingIcon" UriSource="ms-appx:///Assets/Icons/StateDownloadingDark.svg"/>
+            <SvgImageSource x:Key="StateErrorIcon" UriSource="ms-appx:///Assets/Icons/StateErrorDark.svg"/>
+            <SvgImageSource x:Key="StateDoneIcon" UriSource="ms-appx:///Assets/Icons/StateDoneDark.svg"/>
+            <SvgImageSource x:Key="StateFinalizingIcon" UriSource="ms-appx:///Assets/Icons/StateFinalizingDark.svg"/>
+            <SvgImageSource x:Key="StateProcessingIcon" UriSource="ms-appx:///Assets/Icons/StateProcessingDark.svg"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+
+
+    <!-- SOURCE ICONS -->
+    <BitmapImage x:Key="TwitchIcon" UriSource="ms-appx:///Assets/Icons/Twitch.png"/>
+
+
+    <!-- OTHER ICONS-->
     <SvgImageSource x:Key="ErrorIcon" UriSource="ms-appx:///Assets/Icons/Error.svg"/>
 </ResourceDictionary>

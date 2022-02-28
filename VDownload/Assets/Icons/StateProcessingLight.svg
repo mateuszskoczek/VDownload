@@ -1,0 +1,18 @@
+<svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 1600 1600"><g transform="matrix(1.20108,0,0,1.20108,-160.865,-160.865)">
+        <circle cx="800" cy="466.667" r="116.667" style="fill:none;stroke:black;stroke-width:100px;"/>
+    </g>
+    <g transform="matrix(1.20108,0,0,1.20108,-160.865,-160.865)">
+        <circle cx="466.667" cy="800" r="116.667" style="fill:none;stroke:black;stroke-width:100px;"/>
+    </g>
+    <g transform="matrix(1.20108,0,0,1.20108,-160.865,-160.865)">
+        <circle cx="800" cy="1133.33" r="116.667" style="fill:none;stroke:black;stroke-width:100px;"/>
+    </g>
+    <g transform="matrix(1.20108,0,0,1.20108,-160.865,-160.865)">
+        <circle cx="1133.33" cy="800" r="116.667" style="fill:none;stroke:black;stroke-width:100px;"/>
+    </g>
+    <g transform="matrix(1.20108,0,0,1.20108,-160.865,-160.865)">
+        <circle cx="800" cy="800" r="616.667" style="fill:none;stroke:black;stroke-width:100px;"/>
+    </g>
+    <g transform="matrix(1.20108,0,0,1.20108,-160.865,-160.865)">
+        <circle cx="800" cy="800" r="66.667"/>
+    </g></svg>

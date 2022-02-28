@@ -140,6 +140,7 @@
     <Compile Include="Views\Home\HomeVideoAddingPanel.xaml.cs">
       <DependentUpon>HomeVideoAddingPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Home\HomeVideosList.cs" />
     <Compile Include="Views\Home\HomeVideoPanel.xaml.cs">
       <DependentUpon>HomeVideoPanel.xaml</DependentUpon>
     </Compile>
@@ -177,6 +178,22 @@
     <Content Include="Assets\Icons\MediaTypeLight.svg" />
     <Content Include="Assets\Icons\QualityDark.svg" />
     <Content Include="Assets\Icons\QualityLight.svg" />
+    <Content Include="Assets\Icons\StateCancelledDark.svg" />
+    <Content Include="Assets\Icons\StateCancelledLight.svg" />
+    <Content Include="Assets\Icons\StateDoneDark.svg" />
+    <Content Include="Assets\Icons\StateDoneLight.svg" />
+    <Content Include="Assets\Icons\StateDownloadingDark.svg" />
+    <Content Include="Assets\Icons\StateDownloadingLight.svg" />
+    <Content Include="Assets\Icons\StateErrorDark.svg" />
+    <Content Include="Assets\Icons\StateErrorLight.svg" />
+    <Content Include="Assets\Icons\StateFinalizingDark.svg" />
+    <Content Include="Assets\Icons\StateFinalizingLight.svg" />
+    <Content Include="Assets\Icons\StateIdleDark.svg" />
+    <Content Include="Assets\Icons\StateIdleLight.svg" />
+    <Content Include="Assets\Icons\StateProcessingDark.svg" />
+    <Content Include="Assets\Icons\StateProcessingLight.svg" />
+    <Content Include="Assets\Icons\StateWaitingDark.svg" />
+    <Content Include="Assets\Icons\StateWaitingLight.svg" />
     <Content Include="Assets\Icons\TrimDark.svg" />
     <Content Include="Assets\Icons\TrimLight.svg" />
     <Content Include="Assets\Icons\ViewsDark.svg" />
@@ -232,7 +249,7 @@
     <Content Include="Assets\Logo\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Logo\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logo\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\Twitch.png" />
+    <Content Include="Assets\Icons\Twitch.png" />
     <Content Include="Assets\UnknownThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
@@ -240,6 +257,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Resources\Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

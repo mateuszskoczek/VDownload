@@ -28,21 +28,21 @@ namespace VDownload.Views.Home
     {
         #region CONSTRUCTORS
 
-        public HomeVideoAddingPanel(IVideoService videoData)
+        public HomeVideoAddingPanel(IVideoService videoService)
         {
             this.InitializeComponent();
 
             // Set video service object
-            VideoData = videoData;
+            VideoService = videoService;
 
             // Set metadata
-            ThumbnailImage = new BitmapImage { UriSource = VideoData.Thumbnail ?? new Uri("ms-appx:///Assets/UnknownThumbnail.png") };
-            SourceImage = new BitmapIcon { ShowAsMonochrome = false, UriSource = new Uri($"ms-appx:///Assets/{VideoData.GetType().Namespace.Split(".").Last()}.png") };
-            Title = VideoData.Title;
-            Author = VideoData.Author;
-            Views = VideoData.Views.ToString();
-            Date = VideoData.Date.ToString(CultureInfo.InstalledUICulture.DateTimeFormat.ShortDatePattern);
-            Duration = $"{Math.Floor(VideoData.Duration.TotalHours):00}:{VideoData.Duration.Minutes:00}:{VideoData.Duration.Seconds:00}";
+            ThumbnailImage = new BitmapImage { UriSource = VideoService.Thumbnail ?? new Uri("ms-appx:///Assets/UnknownThumbnail.png") };
+            SourceImage = new BitmapIcon { UriSource = new Uri($"ms-appx:///Assets/Icons/{VideoService.GetType().Namespace.Split(".").Last()}.png"), ShowAsMonochrome = false };
+            Title = VideoService.Title;
+            Author = VideoService.Author;
+            Views = VideoService.Views.ToString();
+            Date = VideoService.Date.ToString(CultureInfo.InstalledUICulture.DateTimeFormat.ShortDatePattern);
+            Duration = $"{(Math.Floor(VideoService.Duration.TotalHours) > 0 ? $"{Math.Floor(VideoService.Duration.TotalHours):0}:" : "")}{VideoService.Duration.Minutes:00}:{VideoService.Duration.Seconds:00}";
 
 
             // Set media type
@@ -53,49 +53,50 @@ namespace VDownload.Views.Home
             HomeVideoAddingMediaTypeSettingControlComboBox.SelectedIndex = (int)Config.GetValue("default_media_type");
 
             // Set quality
-            foreach (Stream stream in VideoData.Streams)
+            foreach (Stream stream in VideoService.Streams)
             {
                 HomeVideoAddingQualitySettingControlComboBox.Items.Add($"{stream.Height}p{(stream.FrameRate > 0 ? stream.FrameRate.ToString() : "N/A")}");
             }
             HomeVideoAddingQualitySettingControlComboBox.SelectedIndex = 0;
 
             // Set trim start
-            if (Math.Floor(VideoData.Duration.TotalHours) > 0) HomeVideoAddingTrimStartTextBox.Text += $"{new string('0', Math.Floor(VideoData.Duration.TotalHours).ToString().Length)}:";
-            if (Math.Floor(VideoData.Duration.TotalMinutes) > 0) HomeVideoAddingTrimStartTextBox.Text += Math.Floor(VideoData.Duration.TotalHours) > 0 ? "00:" : $"{new string('0', VideoData.Duration.Minutes.ToString().Length)}:";
-            HomeVideoAddingTrimStartTextBox.Text += Math.Floor(VideoData.Duration.TotalMinutes) > 0 ? "00" : $"{new string('0', VideoData.Duration.Seconds.ToString().Length)}";
+            if (Math.Floor(VideoService.Duration.TotalHours) > 0) HomeVideoAddingTrimStartTextBox.Text += $"{new string('0', Math.Floor(VideoService.Duration.TotalHours).ToString().Length)}:";
+            if (Math.Floor(VideoService.Duration.TotalMinutes) > 0) HomeVideoAddingTrimStartTextBox.Text += Math.Floor(VideoService.Duration.TotalHours) > 0 ? "00:" : $"{new string('0', VideoService.Duration.Minutes.ToString().Length)}:";
+            HomeVideoAddingTrimStartTextBox.Text += Math.Floor(VideoService.Duration.TotalMinutes) > 0 ? "00" : $"{new string('0', VideoService.Duration.Seconds.ToString().Length)}";
 
             // Set trim end
-            if (Math.Floor(VideoData.Duration.TotalHours) > 0) HomeVideoAddingTrimEndTextBox.Text += $"{Math.Floor(VideoData.Duration.TotalHours)}:";
-            if (Math.Floor(VideoData.Duration.TotalMinutes) > 0) HomeVideoAddingTrimEndTextBox.Text += Math.Floor(VideoData.Duration.TotalHours) > 0 ? $"{VideoData.Duration.Minutes:00}:" : $"{VideoData.Duration.Minutes}:";
-            HomeVideoAddingTrimEndTextBox.Text += Math.Floor(VideoData.Duration.TotalMinutes) > 0 ? $"{VideoData.Duration.Seconds:00}" : $"{VideoData.Duration.Seconds}";
+            if (Math.Floor(VideoService.Duration.TotalHours) > 0) HomeVideoAddingTrimEndTextBox.Text += $"{Math.Floor(VideoService.Duration.TotalHours)}:";
+            if (Math.Floor(VideoService.Duration.TotalMinutes) > 0) HomeVideoAddingTrimEndTextBox.Text += Math.Floor(VideoService.Duration.TotalHours) > 0 ? $"{VideoService.Duration.Minutes:00}:" : $"{VideoService.Duration.Minutes}:";
+            HomeVideoAddingTrimEndTextBox.Text += Math.Floor(VideoService.Duration.TotalMinutes) > 0 ? $"{VideoService.Duration.Seconds:00}" : $"{VideoService.Duration.Seconds}";
 
             // Set filename
             string temporaryFilename = (string)Config.GetValue("default_filename");
             Dictionary<string, string> filenameStandardTemplates = new Dictionary<string, string>()
             {
-                { "<title>", VideoData.Title },
-                { "<author>", VideoData.Author },
-                { "<views>", VideoData.Views.ToString() },
-                { "<id>", VideoData.ID },
+                { "<title>", VideoService.Title },
+                { "<author>", VideoService.Author },
+                { "<views>", VideoService.Views.ToString() },
+                { "<id>", VideoService.ID },
             };
             foreach (KeyValuePair<string, string> template in filenameStandardTemplates) temporaryFilename = temporaryFilename.Replace(template.Key, template.Value);
             Dictionary<Regex, IFormattable> filenameFormatTemplates = new Dictionary<Regex, IFormattable>()
             {
-                { new Regex(@"<date_pub:(?<format>.*)>"), VideoData.Date },
+                { new Regex(@"<date_pub:(?<format>.*)>"), VideoService.Date },
                 { new Regex(@"<date_now:(?<format>.*)>"), DateTime.Now },
-                { new Regex(@"<duration:(?<format>.*)>"), VideoData.Duration },
+                { new Regex(@"<duration:(?<format>.*)>"), VideoService.Duration },
             };
             foreach (KeyValuePair<Regex, IFormattable> template in filenameFormatTemplates) foreach (Match templateMatch in template.Key.Matches(temporaryFilename)) temporaryFilename = temporaryFilename.Replace(templateMatch.Value, template.Value.ToString(templateMatch.Groups["format"].Value, null));
             HomeVideoAddingFilenameTextBox.Text = temporaryFilename;
+            Filename = temporaryFilename;
 
             // Set location
-            if ((DefaultLocationType)Config.GetValue("default_location_type") == DefaultLocationType.Last && StorageApplicationPermissions.FutureAccessList.ContainsItem("last_media_location"))
+            if (!(bool)Config.GetValue("custom_media_location") && StorageApplicationPermissions.FutureAccessList.ContainsItem("last_media_location"))
             {
                 Task<StorageFolder> task = StorageApplicationPermissions.FutureAccessList.GetFolderAsync("last_media_location").AsTask();
                 Location = task.Result;
                 HomeVideoAddingLocationSettingControl.Description = Location.Path;
             }
-            else if ((DefaultLocationType)Config.GetValue("default_location_type") == DefaultLocationType.Selected && StorageApplicationPermissions.FutureAccessList.ContainsItem("selected_media_location"))
+            else if ((bool)Config.GetValue("custom_media_location") && StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_media_location"))
             {
                 Task<StorageFolder> task = StorageApplicationPermissions.FutureAccessList.GetFolderAsync("selected_media_location").AsTask();
                 Location = task.Result;
@@ -115,7 +116,7 @@ namespace VDownload.Views.Home
         #region PROPERTIES
 
         // BASE VIDEO DATA
-        private IVideoService VideoData { get; set; }
+        private IVideoService VideoService { get; set; }
 
         // VIDEO DATA
         private ImageSource ThumbnailImage { get; set; }
@@ -148,7 +149,7 @@ namespace VDownload.Views.Home
             if (HomeVideoAddingMediaTypeSettingControlComboBox.SelectedIndex == (int)MediaType.OnlyAudio)
             {
                 HomeVideoAddingQualitySettingControl.Visibility = Visibility.Collapsed;
-                HomeVideoAddingQualitySettingControlComboBox.SelectedIndex = VideoData.Streams.Count() - 1;
+                HomeVideoAddingQualitySettingControlComboBox.SelectedIndex = VideoService.Streams.Count() - 1;
 
                 HomeVideoAddingExtensionComboBox.Items.Clear();
                 foreach (AudioFileExtension extension in Enum.GetValues(typeof(AudioFileExtension)))
@@ -174,7 +175,7 @@ namespace VDownload.Views.Home
         // QUALITY COMBOBOX SELECTION CHANGED
         private void HomeVideoAddingQualitySettingControlComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Stream = VideoData.Streams[HomeVideoAddingQualitySettingControlComboBox.SelectedIndex];
+            Stream = VideoService.Streams[HomeVideoAddingQualitySettingControlComboBox.SelectedIndex];
         }
 
         // TRIM START TEXTBOX TEXT CHANGED
@@ -189,15 +190,15 @@ namespace VDownload.Views.Home
 
                 TimeSpan parsedTimeSpan = new TimeSpan(hours, minutes, seconds);
 
-                if (parsedTimeSpan < VideoData.Duration && parsedTimeSpan > new TimeSpan(0)) TrimStart = parsedTimeSpan;
+                if (parsedTimeSpan < VideoService.Duration && parsedTimeSpan > new TimeSpan(0)) TrimStart = parsedTimeSpan;
                 else
                 {
                     TrimStart = new TimeSpan(0);
 
                     string newText = string.Empty;
-                    if (Math.Floor(VideoData.Duration.TotalHours) > 0) newText += $"{new string('0', Math.Floor(VideoData.Duration.TotalHours).ToString().Length)}:";
-                    if (Math.Floor(VideoData.Duration.TotalMinutes) > 0) newText += Math.Floor(VideoData.Duration.TotalHours) > 0 ? "00:" : $"{new string('0', VideoData.Duration.Minutes.ToString().Length)}:";
-                    newText += Math.Floor(VideoData.Duration.TotalMinutes) > 0 ? "00" : $"{new string('0', VideoData.Duration.Seconds.ToString().Length)}";
+                    if (Math.Floor(VideoService.Duration.TotalHours) > 0) newText += $"{new string('0', Math.Floor(VideoService.Duration.TotalHours).ToString().Length)}:";
+                    if (Math.Floor(VideoService.Duration.TotalMinutes) > 0) newText += Math.Floor(VideoService.Duration.TotalHours) > 0 ? "00:" : $"{new string('0', VideoService.Duration.Minutes.ToString().Length)}:";
+                    newText += Math.Floor(VideoService.Duration.TotalMinutes) > 0 ? "00" : $"{new string('0', VideoService.Duration.Seconds.ToString().Length)}";
 
                     if (newText != HomeVideoAddingTrimStartTextBox.Text) HomeVideoAddingTrimStartTextBox.Text = newText;
                 }
@@ -216,15 +217,15 @@ namespace VDownload.Views.Home
 
                 TimeSpan parsedTimeSpan = new TimeSpan(hours, minutes, seconds);
 
-                if (parsedTimeSpan < VideoData.Duration && parsedTimeSpan > new TimeSpan(0)) TrimEnd = parsedTimeSpan;
+                if (parsedTimeSpan < VideoService.Duration && parsedTimeSpan > new TimeSpan(0)) TrimEnd = parsedTimeSpan;
                 else
                 {
-                    TrimEnd = VideoData.Duration;
+                    TrimEnd = VideoService.Duration;
 
                     string newText = string.Empty;
-                    if (Math.Floor(VideoData.Duration.TotalHours) > 0) newText += $"{Math.Floor(VideoData.Duration.TotalHours)}:";
-                    if (Math.Floor(VideoData.Duration.TotalMinutes) > 0) newText += Math.Floor(VideoData.Duration.TotalHours) > 0 ? $"{TrimEnd.Minutes:00}:" : $"{TrimEnd.Minutes}:";
-                    newText += Math.Floor(VideoData.Duration.TotalMinutes) > 0 ? $"{TrimEnd.Seconds:00}" : $"{TrimEnd.Seconds}";
+                    if (Math.Floor(VideoService.Duration.TotalHours) > 0) newText += $"{Math.Floor(VideoService.Duration.TotalHours)}:";
+                    if (Math.Floor(VideoService.Duration.TotalMinutes) > 0) newText += Math.Floor(VideoService.Duration.TotalHours) > 0 ? $"{TrimEnd.Minutes:00}:" : $"{TrimEnd.Minutes}:";
+                    newText += Math.Floor(VideoService.Duration.TotalMinutes) > 0 ? $"{TrimEnd.Seconds:00}" : $"{TrimEnd.Seconds}";
 
                     if (newText != HomeVideoAddingTrimEndTextBox.Text) HomeVideoAddingTrimEndTextBox.Text = newText;
                 }
@@ -237,7 +238,11 @@ namespace VDownload.Views.Home
             string oldFilename = HomeVideoAddingFilenameTextBox.Text;
             string newFilename = oldFilename;
             foreach (char c in System.IO.Path.GetInvalidFileNameChars()) newFilename = newFilename.Replace(c, ' ');
-            if (oldFilename != newFilename) HomeVideoAddingFilenameTextBox.Text = newFilename;
+            if (oldFilename != newFilename)
+            {
+                HomeVideoAddingFilenameTextBox.Text = newFilename;
+                Filename = newFilename;
+            }
         }
 
         // EXTENSION COMBOBOX SELECTION CHANGED
@@ -274,7 +279,7 @@ namespace VDownload.Views.Home
         public async void HomeVideoAddingPanelSourceButton_Click(object sender, RoutedEventArgs e)
         {
             // Launch the website
-            await Windows.System.Launcher.LaunchUriAsync(VideoData.VideoUrl);
+            await Windows.System.Launcher.LaunchUriAsync(VideoService.VideoUrl);
         }
 
         // ADD BUTTON CLICKED
@@ -282,7 +287,7 @@ namespace VDownload.Views.Home
         {
             VideoAddEventArgs args = new VideoAddEventArgs
             {
-                VideoService = VideoData,
+                VideoService = VideoService,
                 MediaType = MediaType,
                 Stream = Stream,
                 TrimStart = TrimStart,
