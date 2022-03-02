@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Enums;
@@ -53,7 +55,7 @@ namespace VDownload.Views.Home
             Location = location;
 
             // Set metadata
-            ThumbnailImage = (BitmapImage)ImagesRes["UnknownThumbnailImage"];
+            ThumbnailImage = VideoService.Thumbnail != null ? new BitmapImage { UriSource = VideoService.Thumbnail } : (BitmapImage)ImagesRes["UnknownThumbnailImage"];
             SourceImage = new BitmapIcon { UriSource = new Uri($"ms-appx:///Assets/Sources/{VideoService.GetType().Namespace.Split(".").Last()}.png"), ShowAsMonochrome = false };
             Title = VideoService.Title;
             Author = VideoService.Author;
@@ -144,6 +146,8 @@ namespace VDownload.Views.Home
                     tempFolder = ApplicationData.Current.TemporaryFolder;
                 tempFolder = await tempFolder.CreateFolderAsync(uniqueID);
 
+                bool endedWithError = false;
+
                 try
                 {
                     // Throw exception if cancellation requested
@@ -212,6 +216,12 @@ namespace VDownload.Views.Home
                     HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextDone")} ({(Math.Floor(taskStopwatch.Elapsed.TotalHours) > 0 ? $"{ Math.Floor(taskStopwatch.Elapsed.TotalHours):0}:" : "")}{taskStopwatch.Elapsed.Minutes:00}:{taskStopwatch.Elapsed.Seconds:00})";
                     HomeTaskPanelStateProgressBar.Visibility = Visibility.Collapsed;
 
+                    // Show notification
+                    if ((bool)Config.GetValue("show_notification_when_task_ended_successfully"))
+                        new ToastContentBuilder()
+                            .AddText(ResourceLoader.GetForCurrentView().GetString("NotificationTaskEndedSuccessfullyHeader"))
+                            .AddText($"\"{Title}\" - {ResourceLoader.GetForCurrentView().GetString("NotificationTaskEndedSuccessfullyDescription")}")
+                            .Show();
                 }
                 catch (OperationCanceledException)
                 {
@@ -220,19 +230,46 @@ namespace VDownload.Views.Home
                     HomeTaskPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextCancelled");
                     HomeTaskPanelStateProgressBar.Visibility = Visibility.Collapsed;
                 }
+                catch (WebException ex)
+                {
+                    string errorInfo;
+                    if (ex.Response is null) errorInfo = ResourceLoader.GetForCurrentView().GetString("TaskErrorInternetConnection");
+                    else throw ex;
+
+                    // Set state controls
+                    HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateErrorIcon"];
+                    HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextError")} ({errorInfo})";
+                    HomeTaskPanelStateProgressBar.Visibility = Visibility.Collapsed;
+
+                    // Show notification
+                    if ((bool)Config.GetValue("show_notification_when_task_ended_unsuccessfully"))
+                        new ToastContentBuilder()
+                            .AddText(ResourceLoader.GetForCurrentView().GetString("NotificationTaskEndedUnsuccessfullyHeader"))
+                            .AddText($"\"{Title}\" - {ResourceLoader.GetForCurrentView().GetString("NotificationTaskEndedUnsuccessfullyDescription")} ({errorInfo})")
+                            .Show();
+                }
                 finally
                 {
-                    // Change icon
-                    HomeTaskPanelStartStopButton.Icon = new SymbolIcon(Symbol.Download);
-
                     // Set video status
                     TaskStatus = Core.Enums.TaskStatus.Idle;
 
-                    // Delete temporary files
-                    await tempFolder.DeleteAsync();
+                    // Change icon
+                    HomeTaskPanelStartStopButton.Icon = new SymbolIcon(Symbol.Download);
 
-                    // Dispose unique id
-                    TaskId.Dispose(uniqueID);
+                    if (!endedWithError || (bool)Config.GetValue("delete_task_temp_when_ended_with_error"))
+                    {
+                        // Delete temporary files
+                        await tempFolder.DeleteAsync();
+
+                        // Dispose unique id
+                        TaskId.Dispose(uniqueID);
+                    }
+
+                    if (!endedWithError && !CancellationTokenSource.IsCancellationRequested && (bool)Config.GetValue("remove_task_when_successfully_ended"))
+                    {
+                        // Remove task when successfully ended
+                        TaskRemovingRequested?.Invoke(this, EventArgs.Empty);
+                    }
                 }
             }
             else
@@ -268,7 +305,7 @@ namespace VDownload.Views.Home
         private void HomeTaskPanelRemoveButton_Click(object sender, RoutedEventArgs e)
         {
             if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting) CancellationTokenSource.Cancel();
-            TaskRemovingRequested?.Invoke(sender, EventArgs.Empty);
+            TaskRemovingRequested?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

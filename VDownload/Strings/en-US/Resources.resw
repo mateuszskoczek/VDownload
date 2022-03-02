@@ -205,6 +205,9 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="HomeTaskPanelStateTextDownloading" xml:space="preserve">
     <value>Downloading</value>
   </data>
+  <data name="HomeTaskPanelStateTextError" xml:space="preserve">
+    <value>An error occured</value>
+  </data>
   <data name="HomeTaskPanelStateTextFinalizing" xml:space="preserve">
     <value>Finalizing</value>
   </data>
@@ -259,6 +262,18 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="MediaTypeOnlyVideoText" xml:space="preserve">
     <value>Only video</value>
   </data>
+  <data name="NotificationTaskEndedSuccessfullyDescription" xml:space="preserve">
+    <value>downloading ended successfully</value>
+  </data>
+  <data name="NotificationTaskEndedSuccessfullyHeader" xml:space="preserve">
+    <value>Video downloading ended successfully</value>
+  </data>
+  <data name="NotificationTaskEndedUnsuccessfullyDescription" xml:space="preserve">
+    <value>an error occured</value>
+  </data>
+  <data name="NotificationTaskEndedUnsuccessfullyHeader" xml:space="preserve">
+    <value>Video downloading ended unsuccessfully</value>
+  </data>
   <data name="SourcesMainPageHeaderText.Text" xml:space="preserve">
     <value>Sources</value>
   </data>
@@ -294,5 +309,8 @@ The number in the numberbox indicades how many videos will be got from playlist.
   </data>
   <data name="SourcesTwitchSettingControlDescriptionNotLoggedIn" xml:space="preserve">
     <value>Not logged in. Twitch authentication is required to download videos.</value>
+  </data>
+  <data name="TaskErrorInternetConnection" xml:space="preserve">
+    <value>Internet connection error</value>
   </data>
 </root>

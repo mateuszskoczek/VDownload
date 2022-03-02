@@ -17,7 +17,7 @@ namespace VDownload.Core.Services
         {
             { "delete_temp_on_start", true },
             { "twitch_vod_passive_trim", true },
-            { "twitch_vod_downloading_chunk_retry_after_error", true },
+            { "twitch_vod_downloading_chunk_retry_after_error", false },
             { "twitch_vod_downloading_chunk_max_retries", 10 },
             { "twitch_vod_downloading_chunk_retries_delay", 5000 },
             { "media_transcoding_use_hardware_acceleration", true },
@@ -32,7 +32,10 @@ namespace VDownload.Core.Services
             { "custom_temp_location", false }, 
             { "max_active_video_task", 5 },
             { "replace_output_file_if_exists", false },
-            { "remove_task_when_successfully_ended", false }
+            { "remove_task_when_successfully_ended", false },
+            { "delete_task_temp_when_ended_with_error", false },
+            { "show_notification_when_task_ended_successfully", false },
+            { "show_notification_when_task_ended_unsuccessfully", false }
         };
 
         #endregion

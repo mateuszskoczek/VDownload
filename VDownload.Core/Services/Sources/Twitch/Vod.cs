@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -266,7 +267,7 @@ namespace VDownload.Core.Services.Sources.Twitch
         private static async Task<byte[]> DownloadChunkAsync(Uri chunkUrl, CancellationToken cancellationToken = default)
         {
             int retriesCount = 0;
-            while ((bool)Config.GetValue("twitch_vod_downloading_chunk_retry_after_error") && retriesCount < (int)Config.GetValue("twitch_vod_downloading_chunk_max_retries"))
+            while (true)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 try
@@ -276,13 +277,16 @@ namespace VDownload.Core.Services.Sources.Twitch
                         return await client.DownloadDataTaskAsync(chunkUrl);
                     }
                 }
-                catch
+                catch (WebException wex)
                 {
-                    retriesCount++;
-                    await Task.Delay((int)Config.GetValue("twitch_vod_downloading_chunk_retries_delay"));
+                    if ((bool)Config.GetValue("twitch_vod_downloading_chunk_retry_after_error") && retriesCount < (int)Config.GetValue("twitch_vod_downloading_chunk_max_retries"))
+                    {
+                        retriesCount++;
+                        await Task.Delay((int)Config.GetValue("twitch_vod_downloading_chunk_retries_delay"));
+                    }
+                    else throw wex;
                 }
             }
-            throw new WebException("An error occurs while downloading a Twitch VOD chunk");
         }
 
         // WRITE CHUNK TO FILE

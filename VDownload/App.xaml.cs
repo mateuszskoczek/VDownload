@@ -35,7 +35,8 @@ namespace VDownload
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             // Rebuild configuration file
-            Config.Rebuild();
+            //Config.Rebuild();
+            Config.SetDefault();
 
             // Delete temp on start
             if ((bool)Config.GetValue("delete_temp_on_start"))

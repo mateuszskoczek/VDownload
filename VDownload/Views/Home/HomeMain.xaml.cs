@@ -138,7 +138,7 @@ namespace VDownload.Views.Home
                 catch (WebException wex)
                 {
                     HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-                    if (wex.Response == null)
+                    if (wex.Response is null)
                     {
                         ContentDialog internetAccessErrorDialog = new ContentDialog
                         {
