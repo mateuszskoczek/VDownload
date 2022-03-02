@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
+    CornerRadius="{ThemeResource ControlCornerRadius}"
     d:DesignHeight="150"
     d:DesignWidth="800">
 
@@ -20,7 +21,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="{ThemeResource HomeBackgroundColor}" Padding="10" ColumnSpacing="10">
+    <Grid Background="{ThemeResource HomeBackgroundColor}" CornerRadius="{ThemeResource ControlCornerRadius}" Padding="10" ColumnSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>

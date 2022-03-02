@@ -145,6 +145,7 @@
     <Compile Include="Services\Sources\Twitch\Channel.cs" />
     <Compile Include="Services\Sources\Twitch\Clip.cs" />
     <Compile Include="Services\Sources\Twitch\Vod.cs" />
+    <Compile Include="Services\TaskId.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">

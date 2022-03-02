@@ -59,7 +59,9 @@
         </Grid.RowDefinitions>
         
         <!-- VIDEOS LIST -->
-        <StackPanel x:Name="HomeVideosList"/>
+        <ScrollViewer Margin="0,0,0,10" CornerRadius="{ThemeResource ControlCornerRadius}">
+            <StackPanel x:Name="HomeVideosList" Spacing="10"/>
+        </ScrollViewer>
 
         <!-- OPTIONS BAR AND ADDING PANEL -->
         <Grid Grid.Row="1" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource HomeBackgroundColor}">

@@ -59,8 +59,8 @@ At the moment, the application is in the **early stage of development**. Only so
 
 #### App development plans
 
-- **1.0-prerelease1** - with Twitch support only, all video and playlist download options and playlist subscription (Q1/Q2 2022)
-- **1.0-prerelease2** - Youtube support and issues from 1.0-prelease1 closed *[Q2 2022]*
+- **1.0-prerelease1** - with Twitch support only, all video and playlist download options and playlist subscription *[Q2 2022]*
+- **1.0-prerelease2** - Youtube support and issues from 1.0-prelease1 closed *[Q3 2022]*
 - **1.0** - issues from 1.0-prelease2 closed and support for Polish (and maybe German) language *[Q3 2022]*
 - **1.?** - new video services and language support and closing issues from previous versions. *[?]*
 - **2.0** - switch from Universal Windows Platform to Windows App SDK *[when Windows App SDK will be more developed and will offer elements which I use in UWP (e.g. Mica)]*

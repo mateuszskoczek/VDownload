@@ -86,6 +86,7 @@ namespace VDownload.Views.Home
                 { new Regex(@"<duration:(?<format>.*)>"), VideoService.Duration },
             };
             foreach (KeyValuePair<Regex, IFormattable> template in filenameFormatTemplates) foreach (Match templateMatch in template.Key.Matches(temporaryFilename)) temporaryFilename = temporaryFilename.Replace(templateMatch.Value, template.Value.ToString(templateMatch.Groups["format"].Value, null));
+            foreach (char c in System.IO.Path.GetInvalidFileNameChars()) temporaryFilename = temporaryFilename.Replace(c, ' ');
             HomeVideoAddingFilenameTextBox.Text = temporaryFilename;
             Filename = temporaryFilename;
 

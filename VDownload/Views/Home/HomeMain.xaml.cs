@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 using VDownload.Core.Enums;
 using VDownload.Core.EventArgsObjects;
 using VDownload.Core.Exceptions;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Services;
 using Windows.ApplicationModel.Resources;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
 namespace VDownload.Views.Home
 {
@@ -34,13 +38,26 @@ namespace VDownload.Views.Home
         private readonly Microsoft.UI.Xaml.Controls.ProgressRing HomeOptionsBarSearchingStatusProgressRing = new Microsoft.UI.Xaml.Controls.ProgressRing { Width = 15, Height = 15, Margin = new Thickness(5), IsActive = true };
         private readonly Image HomeOptionsBarSearchingStatusErrorImage = new Image { Width = 15, Height = 15, Margin = new Thickness(5), Source = (SvgImageSource)new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Icons.xaml") }["ErrorIcon"] };
 
-        CancellationTokenSource SearchingCancellationToken = new CancellationTokenSource();
+        // CANCELLATON TOKEN
+        private CancellationTokenSource SearchingCancellationToken = new CancellationTokenSource();
+
+        // HOME VIDEOS LIST
+        private static StackPanel HomeVideosListOldPanel = null;
+        public static List<HomeVideoPanel> VideoPanelsList = new List<HomeVideoPanel>();
 
         #endregion
 
 
 
-        #region BUTTONS EVENTS
+        #region EVENT HANDLERS VOIDS
+
+        // ON NAVIGATED TO
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (HomeVideosListOldPanel != null) HomeVideosListOldPanel.Children.Clear();
+            HomeVideosListOldPanel = HomeVideosList;
+            foreach (HomeVideoPanel homeVideoPanel in VideoPanelsList) HomeVideosList.Children.Add(homeVideoPanel);
+        }
 
         // ADD VIDEO BUTTON CHECKED
         private void HomeOptionsBarAddVideoButton_Checked(object sender, RoutedEventArgs e)
@@ -159,13 +176,13 @@ namespace VDownload.Views.Home
             videoPanel.VideoRemovingRequested += (s, a) =>
             {
                 // Remove video panel/task from videos list
+                VideoPanelsList.Remove(videoPanel);
                 HomeVideosList.Children.Remove(videoPanel);
-                Home.HomeVideosList.VideoList.Remove(videoPanel);
             };
 
             // Add video panel/task to videos list
             HomeVideosList.Children.Add(videoPanel);
-            Home.HomeVideosList.VideoList.Add(videoPanel);
+            VideoPanelsList.Add(videoPanel);
         }
 
 
@@ -277,12 +294,32 @@ namespace VDownload.Views.Home
             HomeOptionsBarSearchingStatusControl.Content = null;
         }
 
+
         // DOWNLOAD ALL BUTTON CLICKED
         private async void HomeOptionsBarDownloadAllButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (HomeVideoPanel videoPanel in Home.HomeVideosList.VideoList.Where(video => video.VideoStatus == VideoStatus.Idle)) await videoPanel.Start();
+            foreach (HomeVideoPanel videoPanel in HomeVideosList.Children.Where(video => ((HomeVideoPanel)video).VideoStatus == VideoStatus.Idle))
+            {
+                await Task.Delay(50);
+                videoPanel.Start();
+            }
         }
 
-    #endregion
-}
+        #endregion
+
+
+
+        #region METHODS
+
+        // WAIT IN QUEUE
+        public static async Task WaitInQueue(CancellationToken token)
+        {
+            while (VideoPanelsList.Where(video => video.VideoStatus == VideoStatus.InProgress).Count() >= (int)Config.GetValue("max_active_video_task") && !token.IsCancellationRequested)
+            {
+                await Task.Delay(50);
+            }
+        }
+
+        #endregion
+    }
 }

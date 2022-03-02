@@ -140,10 +140,10 @@
     <Compile Include="Views\Home\HomeVideoAddingPanel.xaml.cs">
       <DependentUpon>HomeVideoAddingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomeVideosList.cs" />
     <Compile Include="Views\Home\HomeVideoPanel.xaml.cs">
       <DependentUpon>HomeVideoPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Home\HomeVideosList.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

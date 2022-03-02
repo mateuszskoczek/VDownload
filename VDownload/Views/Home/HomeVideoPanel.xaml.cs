@@ -129,109 +129,121 @@ namespace VDownload.Views.Home
             HomeVideoPanelStateProgressBar.IsIndeterminate = true;
 
             // Wait in queue
-            await HomeVideosList.WaitInQueue(CancellationTokenSource.Token);
-
-            // Get task unique ID
-            string uniqueID = HomeVideosList.GetUniqueID();
-
-            // Get temporary folder
-            StorageFolder tempFolder;
-            if ((bool)Config.GetValue("custom_temp_location") && StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_temp_location"))
-                tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("custom_temp_location");
-            else
-                tempFolder = ApplicationData.Current.TemporaryFolder;
-            tempFolder = await tempFolder.CreateFolderAsync(uniqueID);
-
-            try
+            await HomeMain.WaitInQueue(CancellationTokenSource.Token);
+            if (!CancellationTokenSource.IsCancellationRequested)
             {
-                // Set cancellation token to throw exception on request
-                CancellationTokenSource.Token.ThrowIfCancellationRequested();
-
                 // Set video status
                 VideoStatus = VideoStatus.InProgress;
 
-                // Start stopwatch
-                Stopwatch taskStopwatch = Stopwatch.StartNew();
+                // Get task unique ID
+                string uniqueID = TaskId.Get();
 
-                // Set progress event handlers
-                VideoService.DownloadingStarted += (s, a) =>
+                // Get temporary folder
+                StorageFolder tempFolder;
+                if ((bool)Config.GetValue("custom_temp_location") && StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_temp_location"))
+                    tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("custom_temp_location");
+                else
+                    tempFolder = ApplicationData.Current.TemporaryFolder;
+                tempFolder = await tempFolder.CreateFolderAsync(uniqueID);
+
+                try
                 {
-                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
-                    HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextDownloading")} (0%)";
-                    HomeVideoPanelStateProgressBar.IsIndeterminate = false;
-                    HomeVideoPanelStateProgressBar.Value = 0;
-                };
-                VideoService.DownloadingProgressChanged += (s, a) =>
+                    // Set cancellation token to throw exception on request
+                    CancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    // Start stopwatch
+                    Stopwatch taskStopwatch = Stopwatch.StartNew();
+
+                    // Set progress event handlers
+                    VideoService.DownloadingStarted += (s, a) =>
+                    {
+                        HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
+                        HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextDownloading")} (0%)";
+                        HomeVideoPanelStateProgressBar.IsIndeterminate = false;
+                        HomeVideoPanelStateProgressBar.Value = 0;
+                    };
+                    VideoService.DownloadingProgressChanged += (s, a) =>
+                    {
+                        HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
+                        HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextDownloading")} ({a.ProgressPercentage}%)";
+                        HomeVideoPanelStateProgressBar.Value = a.ProgressPercentage;
+                    };
+                    VideoService.ProcessingStarted += (s, a) =>
+                    {
+                        HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
+                        HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextProcessing")} (0%)";
+                        HomeVideoPanelStateProgressBar.Value = 0;
+                    };
+                    VideoService.ProcessingProgressChanged += (s, a) =>
+                    {
+                        HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
+                        HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextProcessing")} ({a.ProgressPercentage}%)";
+                        HomeVideoPanelStateProgressBar.Value = a.ProgressPercentage;
+                    };
+
+                    // Request extended session
+                    ExtendedExecutionSession session = new ExtendedExecutionSession { Reason = ExtendedExecutionReason.Unspecified };
+                    await session.RequestExtensionAsync();
+
+                    // Start task
+                    StorageFile tempOutputFile = await VideoService.DownloadAndTranscodeAsync(tempFolder, Stream, Extension, MediaType, CancellationTokenSource.Token);
+
+                    // Dispose session
+                    session.Dispose();
+
+                    // Cancel if requested
+                    CancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                    // Set state controls
+                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateFinalizingIcon"];
+                    HomeVideoPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextFinalizing");
+                    HomeVideoPanelStateProgressBar.IsIndeterminate = true;
+
+                    // Move to output location
+                    StorageFile outputFile;
+                    Debug.WriteLine($"{Filename}.{Extension.ToString().ToLower()}");
+                    if (Location != null) outputFile = await Location.CreateFileAsync($"{Filename}.{Extension.ToString().ToLower()}", (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName);
+                    else outputFile = await DownloadsFolder.CreateFileAsync($"{Filename}.{Extension.ToString().ToLower()}", (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName);
+                    await tempOutputFile.MoveAndReplaceAsync(outputFile);
+
+                    // Stop stopwatch
+                    taskStopwatch.Stop();
+
+                    // Set state controls
+                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDoneIcon"];
+                    HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextDone")} ({(Math.Floor(taskStopwatch.Elapsed.TotalHours) > 0 ? $"{ Math.Floor(taskStopwatch.Elapsed.TotalHours):0}:" : "")}{taskStopwatch.Elapsed.Minutes:00}:{taskStopwatch.Elapsed.Seconds:00})";
+                    HomeVideoPanelStateProgressBar.Visibility = Visibility.Collapsed;
+
+                }
+                catch (OperationCanceledException)
                 {
-                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
-                    HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextDownloading")} ({a.ProgressPercentage}%)";
-                    HomeVideoPanelStateProgressBar.Value = a.ProgressPercentage;
-                };
-                VideoService.ProcessingStarted += (s, a) =>
+                    // Set state controls
+                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateCancelledIcon"];
+                    HomeVideoPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextCancelled");
+                    HomeVideoPanelStateProgressBar.Visibility = Visibility.Collapsed;
+                }
+                finally
                 {
-                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
-                    HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextProcessing")} (0%)";
-                    HomeVideoPanelStateProgressBar.Value = 0;
-                };
-                VideoService.ProcessingProgressChanged += (s, a) =>
-                {
-                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
-                    HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextProcessing")} ({a.ProgressPercentage}%)";
-                    HomeVideoPanelStateProgressBar.Value = a.ProgressPercentage;
-                };
+                    // Change icon
+                    HomeVideoPanelStartStopButton.Icon = new SymbolIcon(Symbol.Download);
 
-                // Request extended session
-                ExtendedExecutionSession session = new ExtendedExecutionSession { Reason = ExtendedExecutionReason.Unspecified };
-                await session.RequestExtensionAsync();
+                    // Set video status
+                    VideoStatus = VideoStatus.Idle;
 
-                // Start task
-                StorageFile tempOutputFile = await VideoService.DownloadAndTranscodeAsync(tempFolder, Stream, Extension, MediaType, CancellationTokenSource.Token);
+                    // Delete temporary files
+                    await tempFolder.DeleteAsync();
 
-                // Dispose session
-                session.Dispose();
-
-                // Cancel if requested
-                CancellationTokenSource.Token.ThrowIfCancellationRequested();
-
-                // Set state controls
-                HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateFinalizingIcon"];
-                HomeVideoPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextFinalizing");
-                HomeVideoPanelStateProgressBar.IsIndeterminate = true;
-
-                // Move to output location
-                StorageFile outputFile;
-                if (Location != null) outputFile = await Location.CreateFileAsync($"{Filename}.{Extension.ToString().ToLower()}", (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName);
-                else outputFile = await DownloadsFolder.CreateFileAsync($"{Filename}.{Extension.ToString().ToLower()}", (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName);
-                await tempOutputFile.MoveAndReplaceAsync(outputFile);
-
-                // Stop stopwatch
-                taskStopwatch.Stop();
-
-                // Set state controls
-                HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDoneIcon"];
-                HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextDone")} ({(Math.Floor(taskStopwatch.Elapsed.TotalHours) > 0 ? $"{ Math.Floor(taskStopwatch.Elapsed.TotalHours):0}:" : "")}{taskStopwatch.Elapsed.Minutes:00}:{taskStopwatch.Elapsed.Seconds:00})";
-                HomeVideoPanelStateProgressBar.Visibility = Visibility.Collapsed;
-
+                    // Dispose unique id
+                    TaskId.Dispose(uniqueID);
+                }
             }
-            catch (OperationCanceledException)
+            else
             {
                 // Set state controls
                 HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateCancelledIcon"];
                 HomeVideoPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextCancelled");
                 HomeVideoPanelStateProgressBar.Visibility = Visibility.Collapsed;
             }
-
-            // Change icon
-            HomeVideoPanelStartStopButton.Icon = new SymbolIcon(Symbol.Download);
-
-            // Set video status
-            VideoStatus = VideoStatus.Idle;
-
-            // Delete temporary files
-            await tempFolder.DeleteAsync();
-
-            // Dispose unique id
-            HomeVideosList.DisposeUniqueID(uniqueID);
         }
 
         #endregion

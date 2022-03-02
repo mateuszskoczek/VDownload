@@ -231,7 +231,6 @@ namespace VDownload.Core.Services.Sources.Twitch
 
             // Get playlist
             string response = await client.DownloadStringTaskAsync(streamUrl);
-            Debug.WriteLine(response);
             // Create dictionary
             List<(Uri ChunkUrl, TimeSpan ChunkDuration)> chunks = new List<(Uri ChunkUrl, TimeSpan ChunkDuration)>();
 
