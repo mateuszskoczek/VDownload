@@ -15,7 +15,7 @@ namespace VDownload.Core.Services
 {
     public class MediaProcessor
     {
-        #region CONSTRUCTOR
+        #region CONSTRUCTORS
 
         public MediaProcessor(StorageFile outputFile, TimeSpan trimStart, TimeSpan trimEnd)
         {
@@ -40,10 +40,11 @@ namespace VDownload.Core.Services
 
         #region STANDARD METHODS
 
+        // SINGLE AUDIO & VIDEO FILE PROCESSING
         public async Task Run(StorageFile audioVideoInputFile, MediaFileExtension extension, MediaType mediaType, CancellationToken cancellationToken = default)
         {
             // Invoke ProcessingStarted event
-            ProcessingStarted?.Invoke(this, EventArgs.Empty);
+            ProcessingStarted?.Invoke(this, System.EventArgs.Empty);
 
             // Init transcoder
             MediaTranscoder mediaTranscoder = new MediaTranscoder
@@ -55,31 +56,31 @@ namespace VDownload.Core.Services
             };
 
             // Start transcoding operation
+            cancellationToken.ThrowIfCancellationRequested();
             using (IRandomAccessStream outputFileOpened = await OutputFile.OpenAsync(FileAccessMode.ReadWrite))
             {
                 PrepareTranscodeResult transcodingPreparated = await mediaTranscoder.PrepareStreamTranscodeAsync(await audioVideoInputFile.OpenAsync(FileAccessMode.Read), outputFileOpened, await GetMediaEncodingProfile(audioVideoInputFile, extension, mediaType));
                 IAsyncActionWithProgress<double> transcodingTask = transcodingPreparated.TranscodeAsync();
-                try
-                {
-                    await transcodingTask.AsTask(cancellationToken, new Progress<double>((percent) => { ProcessingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(percent), null)); }));
-                    await outputFileOpened.FlushAsync();
-                }
-                catch (TaskCanceledException) { }
+                await transcodingTask.AsTask(cancellationToken, new Progress<double>((percent) => { ProcessingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(percent), null)); }));
+                await outputFileOpened.FlushAsync();
                 transcodingTask.Close();
             }
 
             // Invoke ProcessingCompleted event
-            ProcessingCompleted?.Invoke(this, EventArgs.Empty);
+            ProcessingCompleted?.Invoke(this, System.EventArgs.Empty);
         }
+
+        // SEPARATE AUDIO & VIDEO FILES PROCESSING
         public async Task Run(StorageFile audioFile, StorageFile videoFile, VideoFileExtension extension, CancellationToken cancellationToken = default) 
         {
             // Invoke ProcessingStarted event
-            ProcessingStarted?.Invoke(this, EventArgs.Empty);
+            ProcessingStarted?.Invoke(this, System.EventArgs.Empty);
 
             // Init editor
             MediaComposition mediaEditor = new MediaComposition();
 
             // Add media files
+            cancellationToken.ThrowIfCancellationRequested();
             Task<MediaClip> getVideoFileTask = MediaClip.CreateFromFileAsync(videoFile).AsTask();
             Task<BackgroundAudioTrack> getAudioFileTask = BackgroundAudioTrack.CreateFromFileAsync(audioFile).AsTask();
             await Task.WhenAll(getVideoFileTask, getAudioFileTask);
@@ -97,11 +98,14 @@ namespace VDownload.Core.Services
             // Start rendering operation
             var renderOperation = mediaEditor.RenderToFileAsync(OutputFile, (MediaTrimmingPreference)Config.GetValue("media_editing_algorithm"), await GetMediaEncodingProfile(videoFile, audioFile, (MediaFileExtension)extension, MediaType.AudioVideo));
             renderOperation.Progress += (info, progress) => { ProcessingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(progress), null)); };
+            cancellationToken.ThrowIfCancellationRequested();
             await renderOperation.AsTask(cancellationToken);
 
             // Invoke ProcessingCompleted event
-            ProcessingCompleted?.Invoke(this, EventArgs.Empty);
+            ProcessingCompleted?.Invoke(this, System.EventArgs.Empty);
         }
+
+        // SINGLE AUDIO OR VIDEO FILES PROCESSING
         public async Task Run(StorageFile audioFile, AudioFileExtension extension, CancellationToken cancellationToken = default) { await Run(audioFile, (MediaFileExtension)extension, MediaType.OnlyAudio, cancellationToken); }
         public async Task Run(StorageFile videoFile, VideoFileExtension extension, CancellationToken cancellationToken = default) { await Run(videoFile, (MediaFileExtension)extension, MediaType.OnlyVideo, cancellationToken); }
 

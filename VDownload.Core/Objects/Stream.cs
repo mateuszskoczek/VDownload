@@ -4,7 +4,7 @@ using VDownload.Core.Interfaces;
 
 namespace VDownload.Core.Objects
 {
-    public class Stream : IVStream, IAStream
+    public class Stream : IBaseStream
     {
         #region CONSTRUCTORS
 

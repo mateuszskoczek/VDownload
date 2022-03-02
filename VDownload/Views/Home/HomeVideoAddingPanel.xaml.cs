@@ -1,13 +1,11 @@
-﻿using Microsoft.Toolkit.Uwp.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VDownload.Core.Enums;
-using VDownload.Core.EventArgsObjects;
+using VDownload.Core.EventArgs;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Objects;
 using VDownload.Core.Services;
@@ -20,12 +18,18 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace VDownload.Views.Home
 {
     public sealed partial class HomeVideoAddingPanel : UserControl
     {
+        #region CONSTANTS
+
+        ResourceDictionary ImagesRes = new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Images.xaml") };
+
+        #endregion
+
+
+
         #region CONSTRUCTORS
 
         public HomeVideoAddingPanel(IVideoService videoService)
@@ -36,8 +40,8 @@ namespace VDownload.Views.Home
             VideoService = videoService;
 
             // Set metadata
-            ThumbnailImage = new BitmapImage { UriSource = VideoService.Thumbnail ?? new Uri("ms-appx:///Assets/UnknownThumbnail.png") };
-            SourceImage = new BitmapIcon { UriSource = new Uri($"ms-appx:///Assets/Icons/{VideoService.GetType().Namespace.Split(".").Last()}.png"), ShowAsMonochrome = false };
+            ThumbnailImage = VideoService.Thumbnail != null ? new BitmapImage { UriSource = VideoService.Thumbnail } : (BitmapImage)ImagesRes["UnknownThumbnailImage"];
+            SourceImage = new BitmapIcon { UriSource = new Uri($"ms-appx:///Assets/Sources/{VideoService.GetType().Namespace.Split(".").Last()}.png"), ShowAsMonochrome = false };
             Title = VideoService.Title;
             Author = VideoService.Author;
             Views = VideoService.Views.ToString();
@@ -53,7 +57,7 @@ namespace VDownload.Views.Home
             HomeVideoAddingMediaTypeSettingControlComboBox.SelectedIndex = (int)Config.GetValue("default_media_type");
 
             // Set quality
-            foreach (Stream stream in VideoService.Streams)
+            foreach (IBaseStream stream in VideoService.BaseStreams)
             {
                 HomeVideoAddingQualitySettingControlComboBox.Items.Add($"{stream.Height}p{(stream.FrameRate > 0 ? stream.FrameRate.ToString() : "N/A")}");
             }
@@ -130,7 +134,7 @@ namespace VDownload.Views.Home
 
         // VIDEO OPTIONS
         private MediaType MediaType { get; set; }
-        private Stream Stream { get; set; }
+        private IBaseStream Stream { get; set; }
         private TimeSpan TrimStart { get; set; }
         private TimeSpan TrimEnd { get; set; }
         private string Filename { get; set; }
@@ -150,7 +154,7 @@ namespace VDownload.Views.Home
             if (HomeVideoAddingMediaTypeSettingControlComboBox.SelectedIndex == (int)MediaType.OnlyAudio)
             {
                 HomeVideoAddingQualitySettingControl.Visibility = Visibility.Collapsed;
-                HomeVideoAddingQualitySettingControlComboBox.SelectedIndex = VideoService.Streams.Count() - 1;
+                HomeVideoAddingQualitySettingControlComboBox.SelectedIndex = VideoService.BaseStreams.Count() - 1;
 
                 HomeVideoAddingExtensionComboBox.Items.Clear();
                 foreach (AudioFileExtension extension in Enum.GetValues(typeof(AudioFileExtension)))
@@ -176,7 +180,7 @@ namespace VDownload.Views.Home
         // QUALITY COMBOBOX SELECTION CHANGED
         private void HomeVideoAddingQualitySettingControlComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Stream = VideoService.Streams[HomeVideoAddingQualitySettingControlComboBox.SelectedIndex];
+            Stream = VideoService.BaseStreams[HomeVideoAddingQualitySettingControlComboBox.SelectedIndex];
         }
 
         // TRIM START TEXTBOX TEXT CHANGED

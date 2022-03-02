@@ -140,10 +140,9 @@
     <Compile Include="Views\Home\HomeVideoAddingPanel.xaml.cs">
       <DependentUpon>HomeVideoAddingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomeVideoPanel.xaml.cs">
-      <DependentUpon>HomeVideoPanel.xaml</DependentUpon>
+    <Compile Include="Views\Home\HomeTaskPanel.xaml.cs">
+      <DependentUpon>HomeTaskPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomeVideosList.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -250,7 +249,8 @@
     <Content Include="Assets\Logo\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logo\Wide310x150Logo.scale-400.png" />
     <Content Include="Assets\Icons\Twitch.png" />
-    <Content Include="Assets\UnknownThumbnail.png" />
+    <Content Include="Assets\Images\UnknownThumbnail.png" />
+    <Content Include="Assets\Sources\Twitch.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -266,6 +266,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Images.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -293,7 +297,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\HomeVideoPanel.xaml">
+    <Page Include="Views\Home\HomeTaskPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,5 +1,5 @@
 ﻿using System;
-using VDownload.Core.EventArgsObjects;
+using VDownload.Core.EventArgs;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -18,16 +18,7 @@ namespace VDownload.Views.Home
 
 
 
-        #region PROPERTIES
-
-        // SEARCH BUTTON EVENT HANDLER
-        public event EventHandler<VideoSearchEventArgs> SearchButtonClicked;
-
-        #endregion
-
-
-
-        #region EVENT HANDLERS
+        #region EVENT HANDLERS VOIDS
 
         // SEARCH BUTTON CLICKED
         private void HomeOptionsBarAddVideoControlSearchButton_Click(object sender, RoutedEventArgs e)
@@ -49,6 +40,14 @@ namespace VDownload.Views.Home
             // Switch info box
             HomeOptionsBarAddVideoControlInfoBox.IsOpen = !HomeOptionsBarAddVideoControlInfoBox.IsOpen;
         }
+
+        #endregion
+
+
+
+        #region EVENT HANDLERS
+
+        public event EventHandler<VideoSearchEventArgs> SearchButtonClicked;
 
         #endregion
     }

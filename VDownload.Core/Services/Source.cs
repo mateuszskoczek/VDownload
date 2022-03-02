@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using VDownload.Core.Enums;
 
 namespace VDownload.Core.Services
@@ -12,6 +7,7 @@ namespace VDownload.Core.Services
     {
         #region CONSTANTS
 
+        // VIDEO SOURCES REGULAR EXPRESSIONS
         private static readonly (Regex Regex, VideoSource Type)[] VideoSources = new (Regex Regex, VideoSource Type)[]
         {
             (new Regex(@"^https://www.twitch.tv/videos/(?<id>\d+)"), VideoSource.TwitchVod),
@@ -19,6 +15,7 @@ namespace VDownload.Core.Services
             (new Regex(@"^https://clips.twitch.tv/(?<id>[^?]+)"), VideoSource.TwitchClip),
         };
 
+        // PLAYLIST SOURCES REGULAR EXPRESSIONS
         private static readonly (Regex Regex, PlaylistSource Type)[] PlaylistSources = new (Regex Regex, PlaylistSource Type)[]
         {
             (new Regex(@"^https://www.twitch.tv/(?<id>[^?]+)"), PlaylistSource.TwitchChannel),
@@ -30,6 +27,7 @@ namespace VDownload.Core.Services
 
         #region METHODS
 
+        // GET VIDEO SOURCE
         public static (VideoSource Type, string ID) GetVideoSource(string url)
         {
             foreach ((Regex Regex, VideoSource Type) Source in VideoSources)
@@ -40,6 +38,7 @@ namespace VDownload.Core.Services
             return (VideoSource.Null, null);
         }
 
+        // GET PLAYLIST SOURCE
         public static (PlaylistSource Type, string ID) GetPlaylistSource(string url)
         {
             foreach ((Regex Regex, PlaylistSource Type) Source in PlaylistSources)

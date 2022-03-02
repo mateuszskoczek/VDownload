@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Enums;
 using VDownload.Core.Interfaces;
-using VDownload.Core.Objects;
 using VDownload.Core.Services;
 using Windows.ApplicationModel.ExtendedExecution;
 using Windows.ApplicationModel.Resources;
@@ -16,15 +15,14 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace VDownload.Views.Home
 {
-    public sealed partial class HomeVideoPanel : UserControl
+    public sealed partial class HomeTaskPanel : UserControl
     {
         #region CONSTANTS
 
         ResourceDictionary IconsRes = new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Icons.xaml") };
+        ResourceDictionary ImagesRes = new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Images.xaml") };
 
         #endregion
 
@@ -32,12 +30,12 @@ namespace VDownload.Views.Home
 
         #region CONSTRUCTORS
 
-        public HomeVideoPanel(IVideoService videoService, MediaType mediaType, Stream stream, TimeSpan trimStart, TimeSpan trimEnd, string filename, MediaFileExtension extension, StorageFolder location)
+        public HomeTaskPanel(IVideoService videoService, MediaType mediaType, IBaseStream stream, TimeSpan trimStart, TimeSpan trimEnd, string filename, MediaFileExtension extension, StorageFolder location)
         {
             this.InitializeComponent();
 
             // Set video status
-            VideoStatus = VideoStatus.Idle;
+            TaskStatus = Core.Enums.TaskStatus.Idle;
 
             // Set video service object
             VideoService = videoService;
@@ -55,8 +53,8 @@ namespace VDownload.Views.Home
             Location = location;
 
             // Set metadata
-            ThumbnailImage = new BitmapImage { UriSource = VideoService.Thumbnail ?? new Uri("ms-appx:///Assets/UnknownThumbnail.png") };
-            SourceImage = new BitmapIcon { UriSource = new Uri($"ms-appx:///Assets/Icons/{VideoService.GetType().Namespace.Split(".").Last()}.png"), ShowAsMonochrome = false };
+            ThumbnailImage = (BitmapImage)ImagesRes["UnknownThumbnailImage"];
+            SourceImage = new BitmapIcon { UriSource = new Uri($"ms-appx:///Assets/Sources/{VideoService.GetType().Namespace.Split(".").Last()}.png"), ShowAsMonochrome = false };
             Title = VideoService.Title;
             Author = VideoService.Author;
             TimeSpan newDuration = TrimEnd.Subtract(TrimStart);
@@ -67,9 +65,9 @@ namespace VDownload.Views.Home
             File += $@"{(Location != null ? Location.Path : $@"{UserDataPaths.GetDefault().Downloads}\VDownload")}\{Filename}.{Extension.ToString().ToLower()}";
             
             // Set state controls
-            HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateIdleIcon"];
-            HomeVideoPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextIdle");
-            HomeVideoPanelStateProgressBar.Visibility = Visibility.Collapsed;
+            HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateIdleIcon"];
+            HomeTaskPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextIdle");
+            HomeTaskPanelStateProgressBar.Visibility = Visibility.Collapsed;
         }
 
         #endregion
@@ -79,9 +77,9 @@ namespace VDownload.Views.Home
         #region PROPERTIES
 
         // VIDEO STATUS
-        public VideoStatus VideoStatus { get; set; }
+        public Core.Enums.TaskStatus TaskStatus { get; set; }
 
-        // VIDEO CANECELLATION TOKEN
+        // TASK CANCELLATION TOKEN
         public CancellationTokenSource CancellationTokenSource { get; set; }
 
         // VIDEO SERVICE
@@ -89,7 +87,7 @@ namespace VDownload.Views.Home
 
         // VIDEO OPTIONS
         private MediaType MediaType { get; set; }
-        private Stream Stream { get; set; }
+        private IBaseStream Stream { get; set; }
         private TimeSpan TrimStart { get; set; }
         private TimeSpan TrimEnd { get; set; }
         private string Filename { get; set; }
@@ -114,26 +112,26 @@ namespace VDownload.Views.Home
         public async Task Start()
         {
             // Change icon
-            HomeVideoPanelStartStopButton.Icon = new SymbolIcon(Symbol.Stop);
+            HomeTaskPanelStartStopButton.Icon = new SymbolIcon(Symbol.Stop);
 
             // Create cancellation token
             CancellationTokenSource = new CancellationTokenSource();
 
-            // Set video status
-            VideoStatus = VideoStatus.Waiting;
+            // Set task status
+            TaskStatus = Core.Enums.TaskStatus.Waiting;
 
             // Set state controls
-            HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateWaitingIcon"];
-            HomeVideoPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextWaiting");
-            HomeVideoPanelStateProgressBar.Visibility = Visibility.Visible;
-            HomeVideoPanelStateProgressBar.IsIndeterminate = true;
+            HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateWaitingIcon"];
+            HomeTaskPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextWaiting");
+            HomeTaskPanelStateProgressBar.Visibility = Visibility.Visible;
+            HomeTaskPanelStateProgressBar.IsIndeterminate = true;
 
             // Wait in queue
             await HomeMain.WaitInQueue(CancellationTokenSource.Token);
             if (!CancellationTokenSource.IsCancellationRequested)
             {
-                // Set video status
-                VideoStatus = VideoStatus.InProgress;
+                // Set task status
+                TaskStatus = Core.Enums.TaskStatus.InProgress;
 
                 // Get task unique ID
                 string uniqueID = TaskId.Get();
@@ -148,7 +146,7 @@ namespace VDownload.Views.Home
 
                 try
                 {
-                    // Set cancellation token to throw exception on request
+                    // Throw exception if cancellation requested
                     CancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                     // Start stopwatch
@@ -157,28 +155,28 @@ namespace VDownload.Views.Home
                     // Set progress event handlers
                     VideoService.DownloadingStarted += (s, a) =>
                     {
-                        HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
-                        HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextDownloading")} (0%)";
-                        HomeVideoPanelStateProgressBar.IsIndeterminate = false;
-                        HomeVideoPanelStateProgressBar.Value = 0;
+                        HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
+                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextDownloading")} (0%)";
+                        HomeTaskPanelStateProgressBar.IsIndeterminate = false;
+                        HomeTaskPanelStateProgressBar.Value = 0;
                     };
                     VideoService.DownloadingProgressChanged += (s, a) =>
                     {
-                        HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
-                        HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextDownloading")} ({a.ProgressPercentage}%)";
-                        HomeVideoPanelStateProgressBar.Value = a.ProgressPercentage;
+                        HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
+                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextDownloading")} ({a.ProgressPercentage}%)";
+                        HomeTaskPanelStateProgressBar.Value = a.ProgressPercentage;
                     };
                     VideoService.ProcessingStarted += (s, a) =>
                     {
-                        HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
-                        HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextProcessing")} (0%)";
-                        HomeVideoPanelStateProgressBar.Value = 0;
+                        HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
+                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextProcessing")} (0%)";
+                        HomeTaskPanelStateProgressBar.Value = 0;
                     };
                     VideoService.ProcessingProgressChanged += (s, a) =>
                     {
-                        HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
-                        HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextProcessing")} ({a.ProgressPercentage}%)";
-                        HomeVideoPanelStateProgressBar.Value = a.ProgressPercentage;
+                        HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
+                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextProcessing")} ({a.ProgressPercentage}%)";
+                        HomeTaskPanelStateProgressBar.Value = a.ProgressPercentage;
                     };
 
                     // Request extended session
@@ -186,7 +184,8 @@ namespace VDownload.Views.Home
                     await session.RequestExtensionAsync();
 
                     // Start task
-                    StorageFile tempOutputFile = await VideoService.DownloadAndTranscodeAsync(tempFolder, Stream, Extension, MediaType, CancellationTokenSource.Token);
+                    CancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    StorageFile tempOutputFile = await VideoService.DownloadAndTranscodeAsync(tempFolder, Stream, Extension, MediaType, TrimStart, TrimEnd, CancellationTokenSource.Token);
 
                     // Dispose session
                     session.Dispose();
@@ -195,13 +194,12 @@ namespace VDownload.Views.Home
                     CancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                     // Set state controls
-                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateFinalizingIcon"];
-                    HomeVideoPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextFinalizing");
-                    HomeVideoPanelStateProgressBar.IsIndeterminate = true;
+                    HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateFinalizingIcon"];
+                    HomeTaskPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextFinalizing");
+                    HomeTaskPanelStateProgressBar.IsIndeterminate = true;
 
                     // Move to output location
                     StorageFile outputFile;
-                    Debug.WriteLine($"{Filename}.{Extension.ToString().ToLower()}");
                     if (Location != null) outputFile = await Location.CreateFileAsync($"{Filename}.{Extension.ToString().ToLower()}", (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName);
                     else outputFile = await DownloadsFolder.CreateFileAsync($"{Filename}.{Extension.ToString().ToLower()}", (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName);
                     await tempOutputFile.MoveAndReplaceAsync(outputFile);
@@ -210,25 +208,25 @@ namespace VDownload.Views.Home
                     taskStopwatch.Stop();
 
                     // Set state controls
-                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDoneIcon"];
-                    HomeVideoPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextDone")} ({(Math.Floor(taskStopwatch.Elapsed.TotalHours) > 0 ? $"{ Math.Floor(taskStopwatch.Elapsed.TotalHours):0}:" : "")}{taskStopwatch.Elapsed.Minutes:00}:{taskStopwatch.Elapsed.Seconds:00})";
-                    HomeVideoPanelStateProgressBar.Visibility = Visibility.Collapsed;
+                    HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDoneIcon"];
+                    HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextDone")} ({(Math.Floor(taskStopwatch.Elapsed.TotalHours) > 0 ? $"{ Math.Floor(taskStopwatch.Elapsed.TotalHours):0}:" : "")}{taskStopwatch.Elapsed.Minutes:00}:{taskStopwatch.Elapsed.Seconds:00})";
+                    HomeTaskPanelStateProgressBar.Visibility = Visibility.Collapsed;
 
                 }
                 catch (OperationCanceledException)
                 {
                     // Set state controls
-                    HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateCancelledIcon"];
-                    HomeVideoPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextCancelled");
-                    HomeVideoPanelStateProgressBar.Visibility = Visibility.Collapsed;
+                    HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateCancelledIcon"];
+                    HomeTaskPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextCancelled");
+                    HomeTaskPanelStateProgressBar.Visibility = Visibility.Collapsed;
                 }
                 finally
                 {
                     // Change icon
-                    HomeVideoPanelStartStopButton.Icon = new SymbolIcon(Symbol.Download);
+                    HomeTaskPanelStartStopButton.Icon = new SymbolIcon(Symbol.Download);
 
                     // Set video status
-                    VideoStatus = VideoStatus.Idle;
+                    TaskStatus = Core.Enums.TaskStatus.Idle;
 
                     // Delete temporary files
                     await tempFolder.DeleteAsync();
@@ -240,9 +238,9 @@ namespace VDownload.Views.Home
             else
             {
                 // Set state controls
-                HomeVideoPanelStateIcon.Source = (SvgImageSource)IconsRes["StateCancelledIcon"];
-                HomeVideoPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeVideoPanelStateTextCancelled");
-                HomeVideoPanelStateProgressBar.Visibility = Visibility.Collapsed;
+                HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateCancelledIcon"];
+                HomeTaskPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextCancelled");
+                HomeTaskPanelStateProgressBar.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -253,24 +251,24 @@ namespace VDownload.Views.Home
         #region EVENT HANDLERS VOIDS
 
         // SOURCE BUTTON CLICKED
-        private async void HomeVideoPanelSourceButton_Click(object sender, RoutedEventArgs e)
+        private async void HomeTaskPanelSourceButton_Click(object sender, RoutedEventArgs e)
         {
             // Launch the website
             await Windows.System.Launcher.LaunchUriAsync(VideoService.VideoUrl);
         }
 
         // START STOP BUTTON CLICKED
-        private async void HomeVideoPanelStartStopButton_Click(object sender, RoutedEventArgs e)
+        private async void HomeTaskPanelStartStopButton_Click(object sender, RoutedEventArgs e)
         {
-            if (VideoStatus == VideoStatus.InProgress || VideoStatus == VideoStatus.Waiting) CancellationTokenSource.Cancel();
+            if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting) CancellationTokenSource.Cancel();
             else await Start();
         }
 
         // REMOVE BUTTON CLICKED
-        private void HomeVideoPanelRemoveButton_Click(object sender, RoutedEventArgs e)
+        private void HomeTaskPanelRemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (VideoStatus == VideoStatus.InProgress || VideoStatus == VideoStatus.Waiting) CancellationTokenSource.Cancel();
-            VideoRemovingRequested?.Invoke(sender, EventArgs.Empty);
+            if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting) CancellationTokenSource.Cancel();
+            TaskRemovingRequested?.Invoke(sender, EventArgs.Empty);
         }
 
         #endregion
@@ -279,7 +277,7 @@ namespace VDownload.Views.Home
 
         #region EVENT HANDLERS
 
-        public event EventHandler VideoRemovingRequested;
+        public event EventHandler TaskRemovingRequested;
 
         #endregion
     }

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -51,7 +50,7 @@ namespace VDownload.Core.Services.Sources.Twitch
         public TimeSpan Duration { get; private set; }
         public long Views { get; private set; }
         public Uri Thumbnail { get; private set; }
-        public Stream[] Streams { get; private set; }
+        public IBaseStream[] BaseStreams { get; private set; }
 
         #endregion
 
@@ -62,14 +61,13 @@ namespace VDownload.Core.Services.Sources.Twitch
         // GET VOD METADATA
         public async Task GetMetadataAsync(CancellationToken cancellationToken = default)
         {
-            // Set cancellation token
-            cancellationToken.ThrowIfCancellationRequested();
-
             // Get access token
+            cancellationToken.ThrowIfCancellationRequested();
             string accessToken = await Auth.ReadAccessTokenAsync();
             if (accessToken == null) throw new TwitchAccessTokenNotFoundException();
 
             // Check access token
+            cancellationToken.ThrowIfCancellationRequested();
             var twitchAccessTokenValidation = await Auth.ValidateAccessTokenAsync(accessToken);
             if (!twitchAccessTokenValidation.IsValid) throw new TwitchAccessTokenNotValidException();
 
@@ -80,6 +78,7 @@ namespace VDownload.Core.Services.Sources.Twitch
 
             // Get response
             client.QueryString.Add("id", ID);
+            cancellationToken.ThrowIfCancellationRequested();
             JToken response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/videos")).GetValue("data")[0];
 
             // Set parameters
@@ -102,17 +101,16 @@ namespace VDownload.Core.Services.Sources.Twitch
         // GET VOD STREAMS
         public async Task GetStreamsAsync(CancellationToken cancellationToken = default)
         {
-            // Set cancellation token
-            cancellationToken.ThrowIfCancellationRequested();
-
             // Create client
             WebClient client = new WebClient();
             client.Headers.Add("Client-Id", Auth.GQLApiClientID);
 
             // Get video GQL access token
+            cancellationToken.ThrowIfCancellationRequested();
             JToken videoAccessToken = JObject.Parse(await client.UploadStringTaskAsync("https://gql.twitch.tv/gql", "{\"operationName\":\"PlaybackAccessToken_Template\",\"query\":\"query PlaybackAccessToken_Template($login: String!, $isLive: Boolean!, $vodID: ID!, $isVod: Boolean!, $playerType: String!) {  streamPlaybackAccessToken(channelName: $login, params: {platform: \\\"web\\\", playerBackend: \\\"mediaplayer\\\", playerType: $playerType}) @include(if: $isLive) {    value    signature    __typename  }  videoPlaybackAccessToken(id: $vodID, params: {platform: \\\"web\\\", playerBackend: \\\"mediaplayer\\\", playerType: $playerType}) @include(if: $isVod) {    value    signature    __typename  }}\",\"variables\":{\"isLive\":false,\"login\":\"\",\"isVod\":true,\"vodID\":\"" + ID + "\",\"playerType\":\"embed\"}}"))["data"]["videoPlaybackAccessToken"];
 
             // Get video streams
+            cancellationToken.ThrowIfCancellationRequested();
             string[] response = (await client.DownloadStringTaskAsync($"http://usher.twitch.tv/vod/{ID}?nauth={videoAccessToken["value"]}&nauthsig={videoAccessToken["signature"]}&allow_source=true&player=twitchweb")).Split("\n");
 
             // Init streams list
@@ -147,74 +145,64 @@ namespace VDownload.Core.Services.Sources.Twitch
             }
 
             // Set Streams parameter
-            Streams = streams.ToArray();
+            BaseStreams = streams.ToArray();
         }
 
         // DOWNLOAD AND TRANSCODE VOD
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, Stream audioVideoStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default)
+        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IBaseStream baseStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default)
         {
             // Invoke DownloadingStarted event
-            if (!cancellationToken.IsCancellationRequested) DownloadingStarted?.Invoke(this, EventArgs.Empty);
+            DownloadingStarted?.Invoke(this, System.EventArgs.Empty);
 
             // Get video chunks
-            List<(Uri ChunkUrl, TimeSpan ChunkDuration)> chunksList = null;
-            if (!cancellationToken.IsCancellationRequested) chunksList = await ExtractChunksFromM3U8Async(audioVideoStream.Url);
+            cancellationToken.ThrowIfCancellationRequested();
+            List<(Uri ChunkUrl, TimeSpan ChunkDuration)> chunksList = await ExtractChunksFromM3U8Async(baseStream.Url, cancellationToken);
 
             // Passive trim
             if ((bool)Config.GetValue("twitch_vod_passive_trim")) (trimStart, trimEnd) = PassiveVideoTrim(chunksList, trimStart, trimEnd, Duration);
 
             // Download
-            StorageFile rawFile = null;
-            if (!cancellationToken.IsCancellationRequested)
+            cancellationToken.ThrowIfCancellationRequested();
+            StorageFile rawFile = await downloadingFolder.CreateFileAsync("raw.ts");
+
+            float chunksDownloaded = 0;
+
+            Task<byte[]> downloadTask;
+            Task writeTask;
+
+            cancellationToken.ThrowIfCancellationRequested();
+            downloadTask = DownloadChunkAsync(chunksList[0].ChunkUrl);
+            await downloadTask;
+            for (int i = 1; i < chunksList.Count; i++)
             {
-                rawFile = await downloadingFolder.CreateFileAsync("raw.ts");
-                float chunksDownloaded = 0;
-
-                Task<byte[]> downloadTask;
-                Task writeTask;
-
-                downloadTask = DownloadChunkAsync(chunksList[0].ChunkUrl);
-                await downloadTask;
-                for (int i = 1; i < chunksList.Count && !cancellationToken.IsCancellationRequested; i++)
-                {
-                    writeTask = WriteChunkToFileAsync(rawFile, downloadTask.Result);
-                    downloadTask = DownloadChunkAsync(chunksList[i].ChunkUrl);
-                    await Task.WhenAll(writeTask, downloadTask);
-                    DownloadingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(++chunksDownloaded * 100 / chunksList.Count), null));
-                }
-                if (!cancellationToken.IsCancellationRequested)
-                {
-                    await WriteChunkToFileAsync(rawFile, downloadTask.Result);
-                    DownloadingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(++chunksDownloaded * 100 / chunksList.Count), null));
-
-                    DownloadingCompleted?.Invoke(this, EventArgs.Empty);
-                }
+                cancellationToken.ThrowIfCancellationRequested();
+                writeTask = WriteChunkToFileAsync(rawFile, downloadTask.Result);
+                downloadTask = DownloadChunkAsync(chunksList[i].ChunkUrl);
+                await Task.WhenAll(writeTask, downloadTask);
+                DownloadingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(++chunksDownloaded * 100 / chunksList.Count), null));
             }
+            cancellationToken.ThrowIfCancellationRequested();
+            await WriteChunkToFileAsync(rawFile, downloadTask.Result);
+            DownloadingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(++chunksDownloaded * 100 / chunksList.Count), null));
+
+            DownloadingCompleted?.Invoke(this, System.EventArgs.Empty);
 
 
             // Processing
-            StorageFile outputFile = null;
-            if (!cancellationToken.IsCancellationRequested)
-            {
-                outputFile = await downloadingFolder.CreateFileAsync($"transcoded.{extension.ToString().ToLower()}");
+            cancellationToken.ThrowIfCancellationRequested();
+            StorageFile outputFile = await downloadingFolder.CreateFileAsync($"transcoded.{extension.ToString().ToLower()}");
 
-                MediaProcessor mediaProcessor = new MediaProcessor(outputFile, trimStart, trimEnd);
-                mediaProcessor.ProcessingStarted += ProcessingStarted;
-                mediaProcessor.ProcessingProgressChanged += ProcessingProgressChanged;
-                mediaProcessor.ProcessingCompleted += ProcessingCompleted;
-                await mediaProcessor.Run(rawFile, extension, mediaType, cancellationToken);
-            }
+            MediaProcessor mediaProcessor = new MediaProcessor(outputFile, trimStart, trimEnd);
+            mediaProcessor.ProcessingStarted += ProcessingStarted;
+            mediaProcessor.ProcessingProgressChanged += ProcessingProgressChanged;
+            mediaProcessor.ProcessingCompleted += ProcessingCompleted;
+            cancellationToken.ThrowIfCancellationRequested();
+            await mediaProcessor.Run(rawFile, extension, mediaType, cancellationToken);
+            
 
             // Return output file
             return outputFile;
         }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, Stream audioVideoStream, MediaFileExtension extension, MediaType mediaType, CancellationToken cancellationToken = default) { return await DownloadAndTranscodeAsync(downloadingFolder, audioVideoStream, extension, mediaType, new TimeSpan(0), Duration, cancellationToken); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, IVStream videoStream, VideoFileExtension extension, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default) { throw new NotImplementedException("Twitch VOD download service doesn't support separate video and audio streams"); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, IVStream videoStream, VideoFileExtension extension, CancellationToken cancellationToken = default) { return await DownloadAndTranscodeAsync(downloadingFolder, audioStream, videoStream, extension, new TimeSpan(0), Duration, cancellationToken); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, AudioFileExtension extension, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default) { throw new NotImplementedException("Twitch VOD download service doesn't support separate video and audio streams"); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, AudioFileExtension extension, CancellationToken cancellationToken = default) { return await DownloadAndTranscodeAsync(downloadingFolder, audioStream, extension, new TimeSpan(0), Duration, cancellationToken); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IVStream videoStream, VideoFileExtension extension, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default) { throw new NotImplementedException("Twitch VOD download service doesn't support separate video and audio streams"); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IVStream videoStream, VideoFileExtension extension, CancellationToken cancellationToken = default) { return await DownloadAndTranscodeAsync(downloadingFolder, videoStream, extension, new TimeSpan(0), Duration, cancellationToken); }
 
         #endregion
 
@@ -223,14 +211,16 @@ namespace VDownload.Core.Services.Sources.Twitch
         #region LOCAL METHODS
 
         // GET CHUNKS DATA FROM M3U8 PLAYLIST
-        private static async Task<List<(Uri ChunkUrl, TimeSpan ChunkDuration)>> ExtractChunksFromM3U8Async(Uri streamUrl)
+        private static async Task<List<(Uri ChunkUrl, TimeSpan ChunkDuration)>> ExtractChunksFromM3U8Async(Uri streamUrl, CancellationToken cancellationToken = default)
         {
             // Create client
             WebClient client = new WebClient();
             client.Headers.Add("Client-Id", Auth.GQLApiClientID);
 
             // Get playlist
+            cancellationToken.ThrowIfCancellationRequested();
             string response = await client.DownloadStringTaskAsync(streamUrl);
+
             // Create dictionary
             List<(Uri ChunkUrl, TimeSpan ChunkDuration)> chunks = new List<(Uri ChunkUrl, TimeSpan ChunkDuration)>();
 
@@ -273,11 +263,12 @@ namespace VDownload.Core.Services.Sources.Twitch
         }
 
         // DOWNLOAD CHUNK
-        private static async Task<byte[]> DownloadChunkAsync(Uri chunkUrl)
+        private static async Task<byte[]> DownloadChunkAsync(Uri chunkUrl, CancellationToken cancellationToken = default)
         {
             int retriesCount = 0;
             while ((bool)Config.GetValue("twitch_vod_downloading_chunk_retry_after_error") && retriesCount < (int)Config.GetValue("twitch_vod_downloading_chunk_max_retries"))
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 try
                 {
                     using (WebClient client = new WebClient())

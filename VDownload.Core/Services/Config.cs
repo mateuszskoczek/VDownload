@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using VDownload.Core.Enums;
 using Windows.Media.Editing;
 using Windows.Storage;

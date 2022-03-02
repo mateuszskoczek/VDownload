@@ -1,10 +1,11 @@
 ﻿<UserControl
-    x:Class="VDownload.Views.Home.HomeVideoPanel"
+    x:Class="VDownload.Views.Home.HomeTaskPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VDownload.Views.Home"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     CornerRadius="{ThemeResource ControlCornerRadius}"
     d:DesignHeight="150"
@@ -52,12 +53,12 @@
             <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="{StaticResource MetadataTextSize}" Text="{x:Bind Duration}"/>
             <Image Grid.Row="2" Grid.Column="0" Width="{StaticResource MetadataIconSize}" Source="{ThemeResource FileIcon}"/>
             <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" FontSize="{StaticResource MetadataTextSize}" Text="{x:Bind File}"/>
-            <Image x:Name="HomeVideoPanelStateIcon" Grid.Row="3" Grid.Column="0" Width="{StaticResource MetadataIconSize}"/>
-            <TextBlock x:Name="HomeVideoPanelStateText" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" FontSize="{StaticResource MetadataTextSize}"/>
-            <muxc:ProgressBar x:Name="HomeVideoPanelStateProgressBar" Grid.Row="3" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
+            <Image x:Name="HomeTaskPanelStateIcon" Grid.Row="3" Grid.Column="0" Width="{StaticResource MetadataIconSize}"/>
+            <TextBlock x:Name="HomeTaskPanelStateText" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" FontSize="{StaticResource MetadataTextSize}"/>
+            <muxc:ProgressBar x:Name="HomeTaskPanelStateProgressBar" Grid.Row="3" Grid.Column="2" Margin="10,0,0,0" VerticalAlignment="Center"/>
         </Grid>
-        <AppBarButton Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Width="40" Height="48" Margin="-3" Icon="{x:Bind SourceImage}" Click="HomeVideoPanelSourceButton_Click"/>
-        <AppBarButton x:Name="HomeVideoPanelStartStopButton" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Width="40" Height="48" Margin="-3" Icon="Download" Click="HomeVideoPanelStartStopButton_Click"/>
-        <AppBarButton Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Width="40" Height="48" Margin="-3" Icon="Cancel" Click="HomeVideoPanelRemoveButton_Click"/>
+        <AppBarButton Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Width="40" Height="48" Margin="-3" Icon="{x:Bind SourceImage}" Click="HomeTaskPanelSourceButton_Click"/>
+        <AppBarButton x:Name="HomeTaskPanelStartStopButton" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Width="40" Height="48" Margin="-3" Icon="Download" Click="HomeTaskPanelStartStopButton_Click"/>
+        <AppBarButton Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Width="40" Height="48" Margin="-3" Icon="Cancel" Click="HomeTaskPanelRemoveButton_Click"/>
     </Grid>
 </UserControl>

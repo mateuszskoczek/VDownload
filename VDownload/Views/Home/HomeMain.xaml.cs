@@ -6,12 +6,11 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Enums;
-using VDownload.Core.EventArgsObjects;
+using VDownload.Core.EventArgs;
 using VDownload.Core.Exceptions;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Services;
 using Windows.ApplicationModel.Resources;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -42,8 +41,8 @@ namespace VDownload.Views.Home
         private CancellationTokenSource SearchingCancellationToken = new CancellationTokenSource();
 
         // HOME VIDEOS LIST
-        private static StackPanel HomeVideosListOldPanel = null;
-        public static List<HomeVideoPanel> VideoPanelsList = new List<HomeVideoPanel>();
+        private static StackPanel HomeTasksListParent = null;
+        public static List<HomeTaskPanel> TaskPanelsList = new List<HomeTaskPanel>();
 
         #endregion
 
@@ -54,9 +53,9 @@ namespace VDownload.Views.Home
         // ON NAVIGATED TO
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (HomeVideosListOldPanel != null) HomeVideosListOldPanel.Children.Clear();
-            HomeVideosListOldPanel = HomeVideosList;
-            foreach (HomeVideoPanel homeVideoPanel in VideoPanelsList) HomeVideosList.Children.Add(homeVideoPanel);
+            if (HomeTasksListParent != null) HomeTasksListParent.Children.Clear();
+            HomeTasksListParent = HomeTasksList;
+            foreach (HomeTaskPanel homeVideoPanel in TaskPanelsList) HomeTasksList.Children.Add(homeVideoPanel);
         }
 
         // ADD VIDEO BUTTON CHECKED
@@ -158,7 +157,7 @@ namespace VDownload.Views.Home
 
 
                 HomeOptionBarAndAddingPanelRow.Height = new GridLength(1, GridUnitType.Star);
-                HomeVideosListRow.Height = new GridLength(0);
+                HomeTasksListRow.Height = new GridLength(0);
                 HomeVideoAddingPanel addingPanel = new HomeVideoAddingPanel(videoService);
                 addingPanel.VideoAddRequest += HomeVideoAddingPanel_VideoAddRequest;
                 HomeAddingPanel.Content = addingPanel;
@@ -170,19 +169,19 @@ namespace VDownload.Views.Home
             // Uncheck video button
             HomeOptionsBarAddVideoButton.IsChecked = false;
 
-            // Create video panel/task
-            HomeVideoPanel videoPanel = new HomeVideoPanel(e.VideoService, e.MediaType, e.Stream, e.TrimStart, e.TrimEnd, e.Filename, e.Extension, e.Location);
+            // Create video task
+            HomeTaskPanel taskPanel = new HomeTaskPanel(e.VideoService, e.MediaType, e.Stream, e.TrimStart, e.TrimEnd, e.Filename, e.Extension, e.Location);
 
-            videoPanel.VideoRemovingRequested += (s, a) =>
+            taskPanel.TaskRemovingRequested += (s, a) =>
             {
-                // Remove video panel/task from videos list
-                VideoPanelsList.Remove(videoPanel);
-                HomeVideosList.Children.Remove(videoPanel);
+                // Remove task from tasks lists
+                TaskPanelsList.Remove(taskPanel);
+                HomeTasksList.Children.Remove(taskPanel);
             };
 
-            // Add video panel/task to videos list
-            HomeVideosList.Children.Add(videoPanel);
-            VideoPanelsList.Add(videoPanel);
+            // Add task to tasks lists
+            HomeTasksList.Children.Add(taskPanel);
+            TaskPanelsList.Add(taskPanel);
         }
 
 
@@ -287,7 +286,7 @@ namespace VDownload.Views.Home
             SearchingCancellationToken = new CancellationTokenSource();
 
             HomeOptionBarAndAddingPanelRow.Height = GridLength.Auto;
-            HomeVideosListRow.Height = new GridLength(1, GridUnitType.Star);
+            HomeTasksListRow.Height = new GridLength(1, GridUnitType.Star);
 
             HomeAddingPanel.Content = null;
             HomeOptionsBarAddingControl.Content = null;
@@ -298,7 +297,7 @@ namespace VDownload.Views.Home
         // DOWNLOAD ALL BUTTON CLICKED
         private async void HomeOptionsBarDownloadAllButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (HomeVideoPanel videoPanel in HomeVideosList.Children.Where(video => ((HomeVideoPanel)video).VideoStatus == VideoStatus.Idle))
+            foreach (HomeTaskPanel videoPanel in HomeTasksList.Children.Where((object video) => ((HomeTaskPanel)video).TaskStatus == Core.Enums.TaskStatus.Idle))
             {
                 await Task.Delay(50);
                 videoPanel.Start();
@@ -314,7 +313,7 @@ namespace VDownload.Views.Home
         // WAIT IN QUEUE
         public static async Task WaitInQueue(CancellationToken token)
         {
-            while (VideoPanelsList.Where(video => video.VideoStatus == VideoStatus.InProgress).Count() >= (int)Config.GetValue("max_active_video_task") && !token.IsCancellationRequested)
+            while (TaskPanelsList.Where((HomeTaskPanel video) => video.TaskStatus == Core.Enums.TaskStatus.InProgress).Count() >= (int)Config.GetValue("max_active_video_task") && !token.IsCancellationRequested)
             {
                 await Task.Delay(50);
             }

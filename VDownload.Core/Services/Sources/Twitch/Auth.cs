@@ -65,7 +65,7 @@ namespace VDownload.Core.Services.Sources.Twitch
             StorageFile authDataFile = await authDataFolder.CreateFileAsync("Twitch.auth", CreationCollisionOption.ReplaceExisting);
 
             // Save data
-            FileIO.WriteTextAsync(authDataFile, accessToken);
+            await FileIO.WriteTextAsync(authDataFile, accessToken);
         }
 
         // DELETE ACCESS TOKEN

@@ -1,6 +1,6 @@
 ﻿namespace VDownload.Core.Enums
 {
-    public enum VideoStatus
+    public enum TaskStatus
     {
         Idle,
         Waiting,

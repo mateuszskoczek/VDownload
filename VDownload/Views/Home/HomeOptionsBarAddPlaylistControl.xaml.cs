@@ -1,5 +1,5 @@
 ﻿using System;
-using VDownload.Core.EventArgsObjects;
+using VDownload.Core.EventArgs;
 using VDownload.Core.Services;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -23,9 +23,6 @@ namespace VDownload.Views.Home
 
         // MAX VIDEOS NUMBERBOX DEFAULT VALUE
         public int DefaultMaxPlaylistVideos = (int)Config.GetValue("default_max_playlist_videos");
-
-        // SEARCH BUTTON EVENT HANDLER
-        public event EventHandler<PlaylistSearchEventArgs> SearchButtonClicked;
 
         #endregion
 
@@ -54,6 +51,14 @@ namespace VDownload.Views.Home
             // Switch info box
             HomeOptionsBarAddPlaylistControlInfoBox.IsOpen = !HomeOptionsBarAddPlaylistControlInfoBox.IsOpen;
         }
+
+        #endregion
+
+
+
+        #region EVENT HANDLERS
+
+        public event EventHandler<PlaylistSearchEventArgs> SearchButtonClicked;
 
         #endregion
     }

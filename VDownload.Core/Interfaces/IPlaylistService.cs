@@ -7,6 +7,7 @@ namespace VDownload.Core.Interfaces
     {
         #region PROPERTIES
 
+        // PLAYLIST PROPERTIES
         string ID { get; }
         string Name { get; }
 
@@ -16,8 +17,10 @@ namespace VDownload.Core.Interfaces
 
         #region METHODS
 
+        // GET PLAYLIST METADATA
         Task GetMetadataAsync(CancellationToken cancellationToken = default);
 
+        // GET VIDEOS FROM PLAYLIST
         Task GetVideosAsync(int numberOfVideos, CancellationToken cancellationToken = default);
 
         #endregion

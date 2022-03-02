@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Enums;
-using VDownload.Core.Objects;
 using Windows.Storage;
 
 namespace VDownload.Core.Interfaces
@@ -21,7 +20,7 @@ namespace VDownload.Core.Interfaces
         TimeSpan Duration { get; }
         long Views { get; }
         Uri Thumbnail { get; }
-        Stream[] Streams { get; }
+        IBaseStream[] BaseStreams { get; }
 
         #endregion
 
@@ -36,14 +35,7 @@ namespace VDownload.Core.Interfaces
         Task GetStreamsAsync(CancellationToken cancellationToken = default);
 
         // DOWNLOAD VIDEO
-        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, Stream audioVideoStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default);
-        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, Stream audioVideoStream, MediaFileExtension extension, MediaType mediaType, CancellationToken cancellationToken = default);
-        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, IVStream videoStream, VideoFileExtension extension, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default);
-        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, IVStream videoStream, VideoFileExtension extension, CancellationToken cancellationToken = default);
-        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, AudioFileExtension extension, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default);
-        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, AudioFileExtension extension, CancellationToken cancellationToken = default);
-        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IVStream videoStream, VideoFileExtension extension, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default);
-        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IVStream videoStream, VideoFileExtension extension, CancellationToken cancellationToken = default);
+        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IBaseStream baseStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default);
 
         #endregion
 

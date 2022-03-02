@@ -11,18 +11,27 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using System.Diagnostics;
+using Windows.Storage.AccessCache;
 
 namespace VDownload
 {
     sealed partial class App : Application
     {
+        #region CONSTRUCTORS
+
         public App()
         {
             InitializeComponent();
             Suspending += OnSuspending;
         }
 
+        #endregion
+
+
+
+        #region EVENT HANDLERS VOIDS
+
+        // ON LAUNCHED
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             // Rebuild configuration file
@@ -31,7 +40,12 @@ namespace VDownload
             // Delete temp on start
             if ((bool)Config.GetValue("delete_temp_on_start"))
             {
-                IReadOnlyList<IStorageItem> tempItems = await ApplicationData.Current.TemporaryFolder.GetItemsAsync();
+                IReadOnlyList<IStorageItem> tempItems;
+                if ((bool)Config.GetValue("custom_temp_location") && StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_temp_location"))
+                    tempItems = await (await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("custom_temp_location")).GetItemsAsync();
+                else
+                    tempItems = await ApplicationData.Current.TemporaryFolder.GetItemsAsync();
+
                 List<Task> tasks = new List<Task>();
                 foreach (IStorageItem item in tempItems) tasks.Add(item.DeleteAsync().AsTask());
                 await Task.WhenAll(tasks);
@@ -64,16 +78,20 @@ namespace VDownload
             }
         }
 
+        // ON NAVIGATION FAILED
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
+        // ON SUSPENDING
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        #endregion
     }
 }

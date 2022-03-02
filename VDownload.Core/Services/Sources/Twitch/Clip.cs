@@ -48,7 +48,7 @@ namespace VDownload.Core.Services.Sources.Twitch
         public TimeSpan Duration { get; private set; }
         public long Views { get; private set; }
         public Uri Thumbnail { get; private set; }
-        public Stream[] Streams { get; private set; }
+        public IBaseStream[] BaseStreams { get; private set; }
 
         #endregion
 
@@ -59,14 +59,13 @@ namespace VDownload.Core.Services.Sources.Twitch
         // GET CLIP METADATA
         public async Task GetMetadataAsync(CancellationToken cancellationToken = default)
         {
-            // Set cancellation token
-            cancellationToken.ThrowIfCancellationRequested();
-
             // Get access token
+            cancellationToken.ThrowIfCancellationRequested();
             string accessToken = await Auth.ReadAccessTokenAsync();
             if (accessToken == null) throw new TwitchAccessTokenNotFoundException();
 
             // Check access token
+            cancellationToken.ThrowIfCancellationRequested();
             var twitchAccessTokenValidation = await Auth.ValidateAccessTokenAsync(accessToken);
             if (!twitchAccessTokenValidation.IsValid) throw new TwitchAccessTokenNotValidException();
 
@@ -93,14 +92,12 @@ namespace VDownload.Core.Services.Sources.Twitch
 
         public async Task GetStreamsAsync(CancellationToken cancellationToken = default)
         {
-            // Set cancellation token
-            cancellationToken.ThrowIfCancellationRequested();
-
             // Create client
             WebClient client = new WebClient { Encoding = Encoding.UTF8 };
             client.Headers.Add("Client-ID", Auth.GQLApiClientID);
 
             // Get video streams
+            cancellationToken.ThrowIfCancellationRequested();
             JToken[] response = JArray.Parse(await client.UploadStringTaskAsync("https://gql.twitch.tv/gql", "[{\"operationName\":\"VideoAccessToken_Clip\",\"variables\":{\"slug\":\"" + ID + "\"},\"extensions\":{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"36b89d2507fce29e5ca551df756d27c1cfe079e2609642b4390aa4c35796eb11\"}}}]"))[0]["data"]["clip"]["videoQualities"].ToArray();
             
             // Init streams list
@@ -126,60 +123,55 @@ namespace VDownload.Core.Services.Sources.Twitch
             }
             
             // Set Streams parameter
-            Streams = streams.ToArray();
+            BaseStreams = streams.ToArray();
         }
 
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, Stream audioVideoStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default)
+        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IBaseStream baseStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default)
         {
-            // Set cancellation token
-            cancellationToken.ThrowIfCancellationRequested();
-
             // Invoke DownloadingStarted event
-            DownloadingStarted?.Invoke(this, EventArgs.Empty);
+            DownloadingStarted?.Invoke(this, System.EventArgs.Empty);
 
             // Create client
             WebClient client = new WebClient();
             client.Headers.Add("Client-Id", Auth.GQLApiClientID);
 
             // Get video GQL access token
+            cancellationToken.ThrowIfCancellationRequested();
             JToken videoAccessToken = JArray.Parse(await client.UploadStringTaskAsync("https://gql.twitch.tv/gql", "[{\"operationName\":\"VideoAccessToken_Clip\",\"variables\":{\"slug\":\"" + ID + "\"},\"extensions\":{\"persistedQuery\":{\"version\":1,\"sha256Hash\":\"36b89d2507fce29e5ca551df756d27c1cfe079e2609642b4390aa4c35796eb11\"}}}]"))[0]["data"]["clip"]["playbackAccessToken"];
-            
+
             // Download
+            cancellationToken.ThrowIfCancellationRequested();
             StorageFile rawFile = await downloadingFolder.CreateFileAsync("raw.mp4");
             using (client = new WebClient())
             {
                 client.DownloadProgressChanged += (s, a) => { DownloadingProgressChanged(this, new ProgressChangedEventArgs(a.ProgressPercentage, null)); };
                 client.QueryString.Add("sig", (string)videoAccessToken["signature"]);
                 client.QueryString.Add("token", HttpUtility.UrlEncode((string)videoAccessToken["value"]));
+                cancellationToken.ThrowIfCancellationRequested();
                 using (cancellationToken.Register(client.CancelAsync))
                 {
-                    await client.DownloadFileTaskAsync(audioVideoStream.Url, rawFile.Path);
+                    await client.DownloadFileTaskAsync(baseStream.Url, rawFile.Path);
                 }
             }
-            DownloadingCompleted?.Invoke(this, EventArgs.Empty);
+            DownloadingCompleted?.Invoke(this, System.EventArgs.Empty);
 
             // Processing
             StorageFile outputFile = rawFile;
             if (extension != MediaFileExtension.MP4 || mediaType != MediaType.AudioVideo || trimStart > new TimeSpan(0) || trimEnd < Duration)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 outputFile = await downloadingFolder.CreateFileAsync($"transcoded.{extension.ToString().ToLower()}");
                 MediaProcessor mediaProcessor = new MediaProcessor(outputFile, trimStart, trimEnd);
                 mediaProcessor.ProcessingStarted += ProcessingStarted;
                 mediaProcessor.ProcessingProgressChanged += ProcessingProgressChanged;
                 mediaProcessor.ProcessingCompleted += ProcessingCompleted;
+                cancellationToken.ThrowIfCancellationRequested();
                 await mediaProcessor.Run(rawFile, extension, mediaType, cancellationToken);
             }
 
             // Return output file
             return outputFile;
         }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, Stream audioVideoStream, MediaFileExtension extension, MediaType mediaType, CancellationToken cancellationToken = default) { return await DownloadAndTranscodeAsync(downloadingFolder, audioVideoStream, extension, mediaType, new TimeSpan(0), Duration, cancellationToken); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, IVStream videoStream, VideoFileExtension extension, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default) { throw new NotImplementedException("Twitch Clip download service doesn't support separate video and audio streams"); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, IVStream videoStream, VideoFileExtension extension, CancellationToken cancellationToken = default) { return await DownloadAndTranscodeAsync(downloadingFolder, audioStream, videoStream, extension, new TimeSpan(0), Duration, cancellationToken); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, AudioFileExtension extension, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default) { throw new NotImplementedException("Twitch Clip download service doesn't support separate video and audio streams"); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IAStream audioStream, AudioFileExtension extension, CancellationToken cancellationToken = default) { return await DownloadAndTranscodeAsync(downloadingFolder, audioStream, extension, new TimeSpan(0), Duration, cancellationToken); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IVStream videoStream, VideoFileExtension extension, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default) { throw new NotImplementedException("Twitch Clip download service doesn't support separate video and audio streams"); }
-        public async Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IVStream videoStream, VideoFileExtension extension, CancellationToken cancellationToken = default) { return await DownloadAndTranscodeAsync(downloadingFolder, videoStream, extension, new TimeSpan(0), Duration, cancellationToken); }
 
         #endregion
 

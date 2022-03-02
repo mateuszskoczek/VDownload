@@ -54,13 +54,13 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="HomeVideosListRow" Height="1*"/>
+            <RowDefinition x:Name="HomeTasksListRow" Height="1*"/>
             <RowDefinition x:Name="HomeOptionBarAndAddingPanelRow" Height="Auto"/>
         </Grid.RowDefinitions>
         
         <!-- VIDEOS LIST -->
         <ScrollViewer Margin="0,0,0,10" CornerRadius="{ThemeResource ControlCornerRadius}">
-            <StackPanel x:Name="HomeVideosList" Spacing="10"/>
+            <StackPanel x:Name="HomeTasksList" Spacing="10"/>
         </ScrollViewer>
 
         <!-- OPTIONS BAR AND ADDING PANEL -->

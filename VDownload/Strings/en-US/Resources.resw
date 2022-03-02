@@ -196,6 +196,27 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="HomeOptionsBarVideoSearchingTwitchAccessTokenNotValidErrorDialogDescription" xml:space="preserve">
     <value>There is a problem with linked Twitch account. Check Twitch login status in Sources page.</value>
   </data>
+  <data name="HomeTaskPanelStateTextCancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="HomeTaskPanelStateTextDone" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="HomeTaskPanelStateTextDownloading" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
+  <data name="HomeTaskPanelStateTextFinalizing" xml:space="preserve">
+    <value>Finalizing</value>
+  </data>
+  <data name="HomeTaskPanelStateTextIdle" xml:space="preserve">
+    <value>Idle</value>
+  </data>
+  <data name="HomeTaskPanelStateTextProcessing" xml:space="preserve">
+    <value>Processing</value>
+  </data>
+  <data name="HomeTaskPanelStateTextWaiting" xml:space="preserve">
+    <value>Queued</value>
+  </data>
   <data name="HomeVideoAddingDownloadingOptionsHeaderTextBlock.Text" xml:space="preserve">
     <value>Downloading options</value>
   </data>
@@ -219,27 +240,6 @@ The number in the numberbox indicades how many videos will be got from playlist.
   </data>
   <data name="HomeVideoAddingTrimSettingControl.Title" xml:space="preserve">
     <value>Trim</value>
-  </data>
-  <data name="HomeVideoPanelStateTextCancelled" xml:space="preserve">
-    <value>Cancelled</value>
-  </data>
-  <data name="HomeVideoPanelStateTextDone" xml:space="preserve">
-    <value>Done</value>
-  </data>
-  <data name="HomeVideoPanelStateTextDownloading" xml:space="preserve">
-    <value>Downloading</value>
-  </data>
-  <data name="HomeVideoPanelStateTextFinalizing" xml:space="preserve">
-    <value>Finalizing</value>
-  </data>
-  <data name="HomeVideoPanelStateTextIdle" xml:space="preserve">
-    <value>Idle</value>
-  </data>
-  <data name="HomeVideoPanelStateTextProcessing" xml:space="preserve">
-    <value>Processing</value>
-  </data>
-  <data name="HomeVideoPanelStateTextWaiting" xml:space="preserve">
-    <value>Queued</value>
   </data>
   <data name="MainPageNavigationPanelHomeItem.Content" xml:space="preserve">
     <value>Home</value>
