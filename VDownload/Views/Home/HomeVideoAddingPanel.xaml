@@ -8,9 +8,7 @@
     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:cc="using:VDownload.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    mc:Ignorable="d">
     
     
     <UserControl.Resources>

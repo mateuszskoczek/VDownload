@@ -35,7 +35,9 @@ namespace VDownload.Core.Services
             { "remove_task_when_successfully_ended", false },
             { "delete_task_temp_when_ended_with_error", false },
             { "show_notification_when_task_ended_successfully", false },
-            { "show_notification_when_task_ended_unsuccessfully", false }
+            { "show_notification_when_task_ended_unsuccessfully", false },
+            { "show_warning_when_task_starts_on_metered_network", true },
+            { "delay_task_when_queued_task_starts_on_metered_network", true }
         };
 
         #endregion

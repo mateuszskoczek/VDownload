@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Connectivity;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -40,8 +41,12 @@ namespace VDownload.Views.Home
         // CANCELLATON TOKEN
         private CancellationTokenSource SearchingCancellationToken = new CancellationTokenSource();
 
+        // HOME TASKS LIST PLACEHOLDER
+        private readonly HomeTasksListPlaceholder HomeTasksListPlaceholder = new HomeTasksListPlaceholder();
+
         // HOME VIDEOS LIST
-        private static StackPanel HomeTasksListParent = null;
+        private static ContentControl HomeTasksListPlaceCurrent = null;
+        private static StackPanel HomeTasksList = null;
         public static List<HomeTaskPanel> TaskPanelsList = new List<HomeTaskPanel>();
 
         #endregion
@@ -53,9 +58,18 @@ namespace VDownload.Views.Home
         // ON NAVIGATED TO
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (HomeTasksListParent != null) HomeTasksListParent.Children.Clear();
-            HomeTasksListParent = HomeTasksList;
-            foreach (HomeTaskPanel homeVideoPanel in TaskPanelsList) HomeTasksList.Children.Add(homeVideoPanel);
+            HomeTasksListPlaceCurrent = HomeTasksListPlace;
+            if (HomeTasksList != null) HomeTasksList.Children.Clear();
+            HomeTasksList = new StackPanel { Spacing = 10 };
+            if (TaskPanelsList.Count > 0)
+            {
+                foreach (HomeTaskPanel homeVideoPanel in TaskPanelsList) HomeTasksList.Children.Add(homeVideoPanel);
+                HomeTasksListPlace.Content = HomeTasksList;
+            }
+            else
+            {
+                HomeTasksListPlace.Content = HomeTasksListPlaceholder;
+            }
         }
 
         // ADD VIDEO BUTTON CHECKED
@@ -73,6 +87,9 @@ namespace VDownload.Views.Home
         // ADD VIDEO SEARCH BUTTON CLICKED
         private async void HomeOptionsBarAddVideoControl_SearchButtonClicked(object sender, VideoSearchEventArgs e)
         {
+            HomeOptionBarAndAddingPanelRow.Height = GridLength.Auto;
+            HomeTasksListRow.Height = new GridLength(1, GridUnitType.Star);
+
             HomeAddingPanel.Content = null;
 
             // Cancel previous operations
@@ -166,6 +183,9 @@ namespace VDownload.Views.Home
 
         private void HomeVideoAddingPanel_VideoAddRequest(object sender, VideoAddEventArgs e)
         {
+            // Replace placeholder
+            HomeTasksListPlace.Content = HomeTasksList;
+
             // Uncheck video button
             HomeOptionsBarAddVideoButton.IsChecked = false;
 
@@ -177,6 +197,7 @@ namespace VDownload.Views.Home
                 // Remove task from tasks lists
                 TaskPanelsList.Remove(taskPanel);
                 HomeTasksList.Children.Remove(taskPanel);
+                if (TaskPanelsList.Count <= 0) HomeTasksListPlace.Content = HomeTasksListPlaceholder;
             };
 
             // Add task to tasks lists
@@ -297,10 +318,30 @@ namespace VDownload.Views.Home
         // DOWNLOAD ALL BUTTON CLICKED
         private async void HomeOptionsBarDownloadAllButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (HomeTaskPanel videoPanel in HomeTasksList.Children.Where((object video) => ((HomeTaskPanel)video).TaskStatus == Core.Enums.TaskStatus.Idle))
+            HomeTaskPanel[] idleTasks = TaskPanelsList.Where((HomeTaskPanel video) => video.TaskStatus == Core.Enums.TaskStatus.Idle).ToArray();
+            if (idleTasks.Count() > 0)
             {
-                await Task.Delay(50);
-                videoPanel.Start();
+                bool delay = (bool)Config.GetValue("delay_task_when_queued_task_starts_on_metered_network");
+                ContentDialogResult dialogResult = await new ContentDialog
+                {
+                    Title = ResourceLoader.GetForCurrentView().GetString("HomeDownloadAllButtonMeteredConnectionDialogTitle"),
+                    Content = ResourceLoader.GetForCurrentView().GetString("HomeDownloadAllButtonMeteredConnectionDialogDescription"),
+                    PrimaryButtonText = ResourceLoader.GetForCurrentView().GetString("HomeDownloadAllButtonMeteredConnectionDialogStartAndDelayText"),
+                    SecondaryButtonText = ResourceLoader.GetForCurrentView().GetString("HomeDownloadAllButtonMeteredConnectionDialogStartWithoutDelayText"),
+                    CloseButtonText = ResourceLoader.GetForCurrentView().GetString("HomeDownloadAllButtonMeteredConnectionDialogCancel"),
+                }.ShowAsync();
+                switch (dialogResult)
+                {
+                    case ContentDialogResult.Primary: delay = true; break;
+                    case ContentDialogResult.Secondary: delay = false; break;
+                    case ContentDialogResult.None: return;
+                }
+
+                foreach (HomeTaskPanel videoPanel in idleTasks)
+                {
+                    await Task.Delay(50);
+                    videoPanel.Start(delay);
+                }
             }
         }
 
@@ -311,11 +352,11 @@ namespace VDownload.Views.Home
         #region METHODS
 
         // WAIT IN QUEUE
-        public static async Task WaitInQueue(CancellationToken token)
+        public static async Task WaitInQueue(bool delayWhenOnMeteredConnection, CancellationToken token)
         {
-            while (TaskPanelsList.Where((HomeTaskPanel video) => video.TaskStatus == Core.Enums.TaskStatus.InProgress).Count() >= (int)Config.GetValue("max_active_video_task") && !token.IsCancellationRequested)
+            while ((TaskPanelsList.Where((HomeTaskPanel video) => video.TaskStatus == Core.Enums.TaskStatus.InProgress).Count() >= (int)Config.GetValue("max_active_video_task") || (delayWhenOnMeteredConnection && NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)) && !token.IsCancellationRequested)
             {
-                await Task.Delay(50);
+                await Task.Delay(100);
             }
         }
 

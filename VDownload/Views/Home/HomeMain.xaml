@@ -60,7 +60,7 @@
         
         <!-- VIDEOS LIST -->
         <ScrollViewer Margin="0,0,0,10" CornerRadius="{ThemeResource ControlCornerRadius}">
-            <StackPanel x:Name="HomeTasksList" Spacing="10"/>
+            <ContentControl x:Name="HomeTasksListPlace" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
         </ScrollViewer>
 
         <!-- OPTIONS BAR AND ADDING PANEL -->
@@ -69,7 +69,7 @@
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ContentControl x:Name="HomeAddingPanel" Grid.Row="0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"/> <!-- Adding Panel -->
+            <ContentControl x:Name="HomeAddingPanel" Grid.Row="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/> <!-- Adding Panel -->
             <Grid x:Name="HomeOptionsBar" Grid.Row="1" Background="{ThemeResource HomeOptionBarBackgroundColor}"> <!-- Options Bar -->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

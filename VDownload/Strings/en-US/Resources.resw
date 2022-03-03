@@ -120,6 +120,21 @@
   <data name="CloseErrorDialogButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="HomeDownloadAllButtonMeteredConnectionDialogCancel" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="HomeDownloadAllButtonMeteredConnectionDialogDescription" xml:space="preserve">
+    <value>You are on the metered connection now. You can delay tasks until the network changes. Do you want to start the tasks?</value>
+  </data>
+  <data name="HomeDownloadAllButtonMeteredConnectionDialogStartAndDelayText" xml:space="preserve">
+    <value>Yes (With delay)</value>
+  </data>
+  <data name="HomeDownloadAllButtonMeteredConnectionDialogStartWithoutDelayText" xml:space="preserve">
+    <value>Yes (Without delay)</value>
+  </data>
+  <data name="HomeDownloadAllButtonMeteredConnectionDialogTitle" xml:space="preserve">
+    <value>Metered connection detected</value>
+  </data>
   <data name="HomeOptionsBarAddPlaylistButton.Label" xml:space="preserve">
     <value>Add playlist</value>
   </data>
@@ -217,8 +232,29 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="HomeTaskPanelStateTextProcessing" xml:space="preserve">
     <value>Processing</value>
   </data>
+  <data name="HomeTaskPanelStateTextScheduled" xml:space="preserve">
+    <value>Scheduled</value>
+  </data>
   <data name="HomeTaskPanelStateTextWaiting" xml:space="preserve">
     <value>Queued</value>
+  </data>
+  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogCancel" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogDescription" xml:space="preserve">
+    <value>You are on the metered connection now. You can delay task until the network changes. Do you want to start the task?</value>
+  </data>
+  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogStartAndDelayText" xml:space="preserve">
+    <value>Yes (With delay)</value>
+  </data>
+  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogStartWithoutDelayText" xml:space="preserve">
+    <value>Yes (Without delay)</value>
+  </data>
+  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogTitle" xml:space="preserve">
+    <value>Metered connection detected</value>
+  </data>
+  <data name="HomeTasksListPlaceholderTextBlock.Text" xml:space="preserve">
+    <value>Click "Add video/playlist" button to start</value>
   </data>
   <data name="HomeVideoAddingDownloadingOptionsHeaderTextBlock.Text" xml:space="preserve">
     <value>Downloading options</value>

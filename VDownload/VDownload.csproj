@@ -137,6 +137,9 @@
     <Compile Include="Views\Home\HomeMain.xaml.cs">
       <DependentUpon>HomeMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Home\HomeTasksListPlaceholder.xaml.cs">
+      <DependentUpon>HomeTasksListPlaceholder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Home\HomeVideoAddingPanel.xaml.cs">
       <DependentUpon>HomeVideoAddingPanel.xaml</DependentUpon>
     </Compile>
@@ -202,6 +205,8 @@
     <Content Include="Assets\Icons\Twitch.svg" />
     <Content Include="Assets\Icons\ViewsDark.svg" />
     <Content Include="Assets\Icons\ViewsLight.svg" />
+    <Content Include="Assets\Images\HomeTasksListPlaceholderImage.svg" />
+    <Content Include="Assets\Images\UnknownThumbnail.png" />
     <Content Include="Assets\Logo\Logo.png" />
     <Content Include="Assets\Logo\LargeTile.scale-100.png" />
     <Content Include="Assets\Logo\LargeTile.scale-125.png" />
@@ -253,7 +258,6 @@
     <Content Include="Assets\Logo\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Logo\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logo\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\Images\UnknownThumbnail.png" />
     <Content Include="Assets\Sources\Twitch.png" />
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +301,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Home\HomeTasksListPlaceholder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Home\HomeVideoAddingPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -325,6 +333,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.13</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity">
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>7.1.2</Version>

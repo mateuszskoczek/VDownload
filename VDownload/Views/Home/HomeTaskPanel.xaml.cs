@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -113,13 +114,29 @@ namespace VDownload.Views.Home
 
         #region METHODS
 
-        public async Task Start()
+        public async Task Start(bool delayWhenOnMeteredConnection)
         {
             // Change icon
             HomeTaskPanelStartStopButton.Icon = new SymbolIcon(Symbol.Stop);
 
             // Create cancellation token
             CancellationTokenSource = new CancellationTokenSource();
+
+            // Scheduling
+            if (Schedule > 0)
+            {
+                DateTime ScheduledDateTime = DateTime.Now.AddMinutes(Schedule);
+
+                // Set task status
+                TaskStatus = Core.Enums.TaskStatus.Scheduled;
+
+                // Set state controls
+                HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateScheduledIcon"];
+                HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextScheduled")} ({ScheduledDateTime.ToString(CultureInfo.InstalledUICulture.DateTimeFormat.ShortDatePattern)} {ScheduledDateTime.ToString(CultureInfo.InstalledUICulture.DateTimeFormat.ShortTimePattern)})";
+                HomeTaskPanelStateProgressBar.Visibility = Visibility.Collapsed;
+
+                while (DateTime.Now < ScheduledDateTime && !CancellationTokenSource.IsCancellationRequested) await Task.Delay(100);
+            }
 
             // Set task status
             TaskStatus = Core.Enums.TaskStatus.Waiting;
@@ -131,7 +148,7 @@ namespace VDownload.Views.Home
             HomeTaskPanelStateProgressBar.IsIndeterminate = true;
 
             // Wait in queue
-            await HomeMain.WaitInQueue(CancellationTokenSource.Token);
+            await HomeMain.WaitInQueue(delayWhenOnMeteredConnection, CancellationTokenSource.Token);
             if (!CancellationTokenSource.IsCancellationRequested)
             {
                 // Set task status
@@ -280,6 +297,9 @@ namespace VDownload.Views.Home
                 HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateCancelledIcon"];
                 HomeTaskPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextCancelled");
                 HomeTaskPanelStateProgressBar.Visibility = Visibility.Collapsed;
+
+                // Change icon
+                HomeTaskPanelStartStopButton.Icon = new SymbolIcon(Symbol.Download);
             }
         }
 
@@ -300,7 +320,25 @@ namespace VDownload.Views.Home
         private async void HomeTaskPanelStartStopButton_Click(object sender, RoutedEventArgs e)
         {
             if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting || TaskStatus == Core.Enums.TaskStatus.Scheduled) CancellationTokenSource.Cancel();
-            else await Start();
+            else
+            {
+                bool delay = (bool)Config.GetValue("delay_task_when_queued_task_starts_on_metered_network");
+                ContentDialogResult dialogResult = await new ContentDialog
+                {
+                    Title = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogTitle"),
+                    Content = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogDescription"),
+                    PrimaryButtonText = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogStartAndDelayText"),
+                    SecondaryButtonText = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogStartWithoutDelayText"),
+                    CloseButtonText = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogCancel"),
+                }.ShowAsync();
+                switch (dialogResult)
+                {
+                    case ContentDialogResult.Primary: delay = true; break;
+                    case ContentDialogResult.Secondary: delay = false; break;
+                    case ContentDialogResult.None: return;
+                }
+                await Start(delay);
+            }
         }
 
         // REMOVE BUTTON CLICKED
