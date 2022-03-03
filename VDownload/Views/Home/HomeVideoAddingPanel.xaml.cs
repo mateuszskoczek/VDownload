@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using VDownload.Core.Enums;
 using VDownload.Core.EventArgs;
 using VDownload.Core.Interfaces;
-using VDownload.Core.Objects;
 using VDownload.Core.Services;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
@@ -112,6 +111,9 @@ namespace VDownload.Views.Home
                 Location = null;
                 HomeVideoAddingLocationSettingControl.Description = $@"{UserDataPaths.GetDefault().Downloads}\VDownload";
             }
+
+            // Set minutes to start
+            Schedule = 0;
         }
 
         #endregion
@@ -140,6 +142,7 @@ namespace VDownload.Views.Home
         private string Filename { get; set; }
         private MediaFileExtension Extension { get; set; }
         private StorageFolder Location { get; set; }
+        private double Schedule { get; set; }
 
         #endregion
 
@@ -256,6 +259,12 @@ namespace VDownload.Views.Home
             Extension = (MediaFileExtension)HomeVideoAddingExtensionComboBox.SelectedIndex + (MediaType == MediaType.OnlyAudio ? 3 : 0);
         }
 
+        // SCHEDULE NUMBERBOX VALUE CHANGED
+        private void HomeVideoAddingScheduleNumberBox_ValueChanged(Microsoft.UI.Xaml.Controls.NumberBox sender, Microsoft.UI.Xaml.Controls.NumberBoxValueChangedEventArgs args)
+        {
+            Schedule = HomeVideoAddingScheduleNumberBox.Value;
+        }
+
         // LOCATION BROWSE BUTTON CLICKED
         private async void HomeVideoAddingLocationBrowseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -300,6 +309,7 @@ namespace VDownload.Views.Home
                 Filename = Filename,
                 Extension = Extension,
                 Location = Location,
+                Schedule = Schedule,
             };
             VideoAddRequest?.Invoke(this, args);
         }

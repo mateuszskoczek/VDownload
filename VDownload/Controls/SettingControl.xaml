@@ -31,9 +31,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="18"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="18"/>
             <ColumnDefinition/>
+            <ColumnDefinition Width="18"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <!-- ICON -->

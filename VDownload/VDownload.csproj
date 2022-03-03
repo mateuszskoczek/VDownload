@@ -177,6 +177,8 @@
     <Content Include="Assets\Icons\MediaTypeLight.svg" />
     <Content Include="Assets\Icons\QualityDark.svg" />
     <Content Include="Assets\Icons\QualityLight.svg" />
+    <Content Include="Assets\Icons\ScheduleDark.svg" />
+    <Content Include="Assets\Icons\ScheduleLight.svg" />
     <Content Include="Assets\Icons\StateCancelledDark.svg" />
     <Content Include="Assets\Icons\StateCancelledLight.svg" />
     <Content Include="Assets\Icons\StateDoneDark.svg" />
@@ -191,10 +193,13 @@
     <Content Include="Assets\Icons\StateIdleLight.svg" />
     <Content Include="Assets\Icons\StateProcessingDark.svg" />
     <Content Include="Assets\Icons\StateProcessingLight.svg" />
+    <Content Include="Assets\Icons\StateScheduledDark.svg" />
+    <Content Include="Assets\Icons\StateScheduledLight.svg" />
     <Content Include="Assets\Icons\StateWaitingDark.svg" />
     <Content Include="Assets\Icons\StateWaitingLight.svg" />
     <Content Include="Assets\Icons\TrimDark.svg" />
     <Content Include="Assets\Icons\TrimLight.svg" />
+    <Content Include="Assets\Icons\Twitch.svg" />
     <Content Include="Assets\Icons\ViewsDark.svg" />
     <Content Include="Assets\Icons\ViewsLight.svg" />
     <Content Include="Assets\Logo\Logo.png" />
@@ -248,7 +253,6 @@
     <Content Include="Assets\Logo\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Logo\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Logo\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\Icons\Twitch.png" />
     <Content Include="Assets\Images\UnknownThumbnail.png" />
     <Content Include="Assets\Sources\Twitch.png" />
   </ItemGroup>

@@ -241,6 +241,15 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="HomeVideoAddingQualitySettingControl.Title" xml:space="preserve">
     <value>Quality</value>
   </data>
+  <data name="HomeVideoAddingScheduleSettingControl.Description" xml:space="preserve">
+    <value>Number of minutes to start the task (after clicking downloading button).</value>
+  </data>
+  <data name="HomeVideoAddingScheduleSettingControl.Title" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="HomeVideoAddingTaskOptionsHeaderTextBlock.Text" xml:space="preserve">
+    <value>Task options</value>
+  </data>
   <data name="HomeVideoAddingTrimSettingControl.Title" xml:space="preserve">
     <value>Trim</value>
   </data>

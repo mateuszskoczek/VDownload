@@ -10,7 +10,7 @@ VDownload is universal video downloader written in .NET/C# and Universal Windows
 
 ## Download and installation
 - Microsoft Store
-- GitHub Release
+- GitHub Releases
 
 
 
@@ -29,6 +29,7 @@ VDownload is universal video downloader written in .NET/C# and Universal Windows
 - Video downloading
 - Audio-only, video-only and audio-video downloading
 - Time trimming - download only the fragment you need
+- Task scheduling - start downloading after a certain amount of time
 - Playlist downloading
 - Playlist filtering - download only the videos you need
 - Playlist subscription - download new videos from saved playlists
@@ -50,6 +51,7 @@ If you want to support me and the development of the project you can:
 - **Donate me** via Paypal (link in the "Sponsor this project" section in Github repository and in the app itself in the "About" page)
 - **Report bugs and errors** in the "Issues" section of Github repository
 - **Propose new features and support of video services** in the "Issues" section of Github repository
+- **Translate the application into a language you know**
 
 
 #### App development status

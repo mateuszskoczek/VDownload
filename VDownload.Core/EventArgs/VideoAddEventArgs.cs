@@ -16,5 +16,6 @@ namespace VDownload.Core.EventArgs
         public string Filename { get; set; }
         public MediaFileExtension Extension { get; set; }
         public StorageFolder Location { get; set; }
+        public double Schedule { get; set; }
     }
 }

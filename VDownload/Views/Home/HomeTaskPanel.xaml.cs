@@ -32,7 +32,7 @@ namespace VDownload.Views.Home
 
         #region CONSTRUCTORS
 
-        public HomeTaskPanel(IVideoService videoService, MediaType mediaType, IBaseStream stream, TimeSpan trimStart, TimeSpan trimEnd, string filename, MediaFileExtension extension, StorageFolder location)
+        public HomeTaskPanel(IVideoService videoService, MediaType mediaType, IBaseStream stream, TimeSpan trimStart, TimeSpan trimEnd, string filename, MediaFileExtension extension, StorageFolder location, double schedule)
         {
             this.InitializeComponent();
 
@@ -53,6 +53,7 @@ namespace VDownload.Views.Home
             Filename = filename;
             Extension = extension;
             Location = location;
+            Schedule = schedule;
 
             // Set metadata
             ThumbnailImage = VideoService.Thumbnail != null ? new BitmapImage { UriSource = VideoService.Thumbnail } : (BitmapImage)ImagesRes["UnknownThumbnailImage"];
@@ -95,6 +96,7 @@ namespace VDownload.Views.Home
         private string Filename { get; set; }
         private MediaFileExtension Extension { get; set; }
         private StorageFolder Location { get; set; }
+        private double Schedule { get; set; }
 
         // VIDEO PANEL DATA
         private ImageSource ThumbnailImage { get; set; }
@@ -297,14 +299,14 @@ namespace VDownload.Views.Home
         // START STOP BUTTON CLICKED
         private async void HomeTaskPanelStartStopButton_Click(object sender, RoutedEventArgs e)
         {
-            if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting) CancellationTokenSource.Cancel();
+            if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting || TaskStatus == Core.Enums.TaskStatus.Scheduled) CancellationTokenSource.Cancel();
             else await Start();
         }
 
         // REMOVE BUTTON CLICKED
         private void HomeTaskPanelRemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting) CancellationTokenSource.Cancel();
+            if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting || TaskStatus == Core.Enums.TaskStatus.Scheduled) CancellationTokenSource.Cancel();
             TaskRemovingRequested?.Invoke(this, EventArgs.Empty);
         }
 

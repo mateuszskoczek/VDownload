@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:cc="using:VDownload.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -81,6 +82,7 @@
                         <Setter Target="HomeVideoAddingPanelDMetadataR2.Height" Value="Auto"/>
                         <Setter Target="HomeVideoAddingPanelDMetadataC1.Width" Value="1*"/>
                         <Setter Target="HomeVideoAddingPanelDMetadataC2.Width" Value="1*"/>
+                        <Setter Target="HomeVideoAddingFilenameTextBox.MaxWidth" Value="180"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -137,6 +139,7 @@
                         <Setter Target="HomeVideoAddingPanelDMetadataR2.Height" Value="1*"/>
                         <Setter Target="HomeVideoAddingPanelDMetadataC1.Width" Value="Auto"/>
                         <Setter Target="HomeVideoAddingPanelDMetadataC2.Width" Value="Auto"/>
+                        <Setter Target="HomeVideoAddingFilenameTextBox.MaxWidth" Value="250"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -232,7 +235,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="100"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox x:Name="HomeVideoAddingFilenameTextBox" Grid.Column="0" HorizontalAlignment="Stretch" MinWidth="150" MaxWidth="300" IsSpellCheckEnabled="False" TextChanged="HomeVideoAddingFilenameTextBox_TextChanged"/>
+                                <TextBox x:Name="HomeVideoAddingFilenameTextBox" Grid.Column="0" MaxWidth="300" HorizontalAlignment="Right" IsSpellCheckEnabled="False" TextChanged="HomeVideoAddingFilenameTextBox_TextChanged"/>
                                 <ComboBox x:Name="HomeVideoAddingExtensionComboBox" Grid.Column="1" HorizontalAlignment="Stretch" SelectionChanged="HomeVideoAddingExtensionComboBox_SelectionChanged"/>
                             </Grid>
                         </cc:SettingControl.SettingContent>
@@ -240,6 +243,14 @@
                     <cc:SettingControl x:Name="HomeVideoAddingLocationSettingControl" x:Uid="HomeVideoAddingLocationSettingControl" Icon="{ThemeResource LocationIcon}">
                         <cc:SettingControl.SettingContent>
                             <Button x:Uid="HomeVideoAddingLocationBrowseButton" Click="HomeVideoAddingLocationBrowseButton_Click"/>
+                        </cc:SettingControl.SettingContent>
+                    </cc:SettingControl>
+                </StackPanel>
+                <StackPanel Spacing="10">
+                    <TextBlock x:Uid="HomeVideoAddingTaskOptionsHeaderTextBlock" FontWeight="SemiBold"/>
+                    <cc:SettingControl x:Uid="HomeVideoAddingScheduleSettingControl" Icon="{ThemeResource ScheduleIcon}">
+                        <cc:SettingControl.SettingContent>
+                            <muxc:NumberBox x:Name="HomeVideoAddingScheduleNumberBox" MaxWidth="100" Value="0" Minimum="0" SpinButtonPlacementMode="Compact" ValueChanged="HomeVideoAddingScheduleNumberBox_ValueChanged"/>
                         </cc:SettingControl.SettingContent>
                     </cc:SettingControl>
                 </StackPanel>

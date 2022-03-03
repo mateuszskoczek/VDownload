@@ -170,7 +170,7 @@ namespace VDownload.Views.Home
             HomeOptionsBarAddVideoButton.IsChecked = false;
 
             // Create video task
-            HomeTaskPanel taskPanel = new HomeTaskPanel(e.VideoService, e.MediaType, e.Stream, e.TrimStart, e.TrimEnd, e.Filename, e.Extension, e.Location);
+            HomeTaskPanel taskPanel = new HomeTaskPanel(e.VideoService, e.MediaType, e.Stream, e.TrimStart, e.TrimEnd, e.Filename, e.Extension, e.Location, e.Schedule);
 
             taskPanel.TaskRemovingRequested += (s, a) =>
             {
