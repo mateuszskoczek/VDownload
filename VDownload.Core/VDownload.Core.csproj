@@ -128,6 +128,7 @@
     <Compile Include="Enums\VideoFileExtension.cs" />
     <Compile Include="Enums\VideoSource.cs" />
     <Compile Include="Enums\TaskStatus.cs" />
+    <Compile Include="EventArgs\PlaylistAddEventArgs.cs" />
     <Compile Include="EventArgs\VideoAddEventArgs.cs" />
     <Compile Include="EventArgs\VideoSearchEventArgs.cs" />
     <Compile Include="EventArgs\PlaylistSearchEventArgs.cs" />

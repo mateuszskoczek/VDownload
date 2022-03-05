@@ -90,8 +90,6 @@ namespace VDownload.Views.Sources
                     TwitchAuthWebView.Source = Core.Services.Sources.Twitch.Auth.AuthorizationUrl;
                     ElementCompositionPreview.SetAppWindowContent(TwitchAuthWindow, TwitchAuthWebView);
 
-                    TwitchAuthWindow.TryShowAsync();
-
                     // NavigationStarting event (only when redirected)
                     TwitchAuthWebView.NavigationStarting += async (s, a) =>
                     {
@@ -123,8 +121,8 @@ namespace VDownload.Views.Sources
                                 // Ignored errors
                                 string[] ignoredErrors = new[]
                                 {
-                                "The user denied you access",
-                            };
+                                    "The user denied you access",
+                                };
 
                                 // Errors translation
                                 Dictionary<string, string> errorsTranslation = new Dictionary<string, string>
@@ -146,6 +144,8 @@ namespace VDownload.Views.Sources
                                     await loginErrorDialog.ShowAsync();
                                 }
                             }
+
+                            await TwitchAuthWindow.TryShowAsync();
 
                             // Clear cache 
                             TwitchAuthWebView.CoreWebView2.CookieManager.DeleteAllCookies();

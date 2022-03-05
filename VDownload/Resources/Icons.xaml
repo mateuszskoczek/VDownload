@@ -22,6 +22,8 @@
             <SvgImageSource x:Key="StateFinalizingIcon" UriSource="ms-appx:///Assets/Icons/StateFinalizingLight.svg"/>
             <SvgImageSource x:Key="StateProcessingIcon" UriSource="ms-appx:///Assets/Icons/StateProcessingLight.svg"/>
             <SvgImageSource x:Key="StateScheduledIcon" UriSource="ms-appx:///Assets/Icons/StateScheduledLight.svg"/>
+            <SvgImageSource x:Key="ApplyToAllOptionsIcon" UriSource="ms-appx:///Assets/Icons/ApplyToAllOptionsLight.svg"/>
+            <SvgImageSource x:Key="FilterIcon" UriSource="ms-appx:///Assets/Icons/FilterLight.svg"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SvgImageSource x:Key="AuthorIcon" UriSource="ms-appx:///Assets/Icons/AuthorDark.svg"/>
@@ -43,6 +45,8 @@
             <SvgImageSource x:Key="StateFinalizingIcon" UriSource="ms-appx:///Assets/Icons/StateFinalizingDark.svg"/>
             <SvgImageSource x:Key="StateProcessingIcon" UriSource="ms-appx:///Assets/Icons/StateProcessingDark.svg"/>
             <SvgImageSource x:Key="StateScheduledIcon" UriSource="ms-appx:///Assets/Icons/StateScheduledDark.svg"/>
+            <SvgImageSource x:Key="ApplyToAllOptionsIcon" UriSource="ms-appx:///Assets/Icons/ApplyToAllOptionsDark.svg"/>
+            <SvgImageSource x:Key="FilterIcon" UriSource="ms-appx:///Assets/Icons/FilterDark.svg"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     <SvgImageSource x:Key="TwitchIcon" UriSource="ms-appx:///Assets/Icons/Twitch.svg"/>

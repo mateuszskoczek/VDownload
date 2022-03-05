@@ -28,8 +28,9 @@ namespace VDownload.Core.Services.Sources.Twitch
         #region PROPERTIES
 
         public string ID { get; private set; }
+        public Uri PlaylistUrl { get; private set; }
         public string Name { get; private set; }
-        public Vod[] Videos { get; private set; }
+        public IVideoService[] Videos { get; private set; }
 
         #endregion
 
@@ -60,6 +61,9 @@ namespace VDownload.Core.Services.Sources.Twitch
             cancellationToken.ThrowIfCancellationRequested();
             JToken response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/users"))["data"][0];
 
+            // Create unified playlist url
+            PlaylistUrl = new Uri($"https://twitch.tv/{ID}");
+
             // Set parameters
             if (!ID.All(char.IsDigit)) ID = (string)response["id"];
             Name = (string)response["display_name"];
@@ -79,6 +83,9 @@ namespace VDownload.Core.Services.Sources.Twitch
             // Set array of videos
             List<Vod> videos = new List<Vod>();
 
+            // Get all
+            bool getAll = numberOfVideos == 0;
+
             // Get videos
             int count;
             JToken[] videosData;
@@ -96,7 +103,7 @@ namespace VDownload.Core.Services.Sources.Twitch
                 client.Headers.Add("Client-Id", Auth.ClientID);
 
                 // Set number of videos to get in this iteration
-                count = numberOfVideos < 100 ? numberOfVideos : 100;
+                count = numberOfVideos < 100 && !getAll ? numberOfVideos : 100;
 
                 // Get response
                 client.QueryString.Add("user_id", ID);
@@ -119,7 +126,7 @@ namespace VDownload.Core.Services.Sources.Twitch
                     numberOfVideos--;
                 }
             }
-            while (numberOfVideos > 0 && count == videosData.Length);
+            while ((getAll || numberOfVideos > 0) && count == videosData.Length);
 
             // Wait for all getStreams tasks
             await Task.WhenAll(getStreamsTasks);

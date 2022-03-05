@@ -34,7 +34,14 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Image Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Height="120" Source="{x:Bind ThumbnailImage}"/>
-        <TextBlock Grid.Row="0" Grid.Column="1" FontSize="18" VerticalAlignment="Center" FontWeight="SemiBold" Text="{x:Bind Title}"/>
+        <Grid Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" ColumnSpacing="10" HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" FontSize="18" VerticalAlignment="Center" FontWeight="SemiBold" Text="{x:Bind Title}"/>
+            <TextBlock Grid.Column="1" FontSize="12" VerticalAlignment="Bottom" FontWeight="Light" Text="{x:Bind Author}" Margin="0,0,0,2"/>
+        </Grid>
         <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" ColumnSpacing="5">
             <Grid.RowDefinitions>
                 <RowDefinition/>

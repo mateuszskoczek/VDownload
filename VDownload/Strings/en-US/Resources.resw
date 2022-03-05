@@ -211,6 +211,93 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="HomeOptionsBarVideoSearchingTwitchAccessTokenNotValidErrorDialogDescription" xml:space="preserve">
     <value>There is a problem with linked Twitch account. Check Twitch login status in Sources page.</value>
   </data>
+  <data name="HomePlaylistAddingApplyToAllApplyButton.Content" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="HomePlaylistAddingApplyToAllLocationBrowseButton.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="HomePlaylistAddingApplyToAllLocationSettingControl.Title" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="HomePlaylistAddingApplyToAllScheduleSettingControl.Description" xml:space="preserve">
+    <value>Number of minutes to start the task (after clicking downloading button).</value>
+  </data>
+  <data name="HomePlaylistAddingApplyToAllScheduleSettingControl.Title" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="HomePlaylistAddingPanelApplyToAllOptionsHeaderTextBlock.Text" xml:space="preserve">
+    <value>Apply to all options</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterAuthorTextBlock.Text" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterAuthorTextBoxPlaceholderText" xml:space="preserve">
+    <value>Enter regular expression</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterDateTextBlock.Text" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterDurationTextBlock.Text" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterHeaderApplyButton.Content" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterHeaderCountTextBlockPrefix" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterHeaderTextBlock.Text" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterRemovedRestoreButton.Content" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterRemovedTextBlock.Text" xml:space="preserve">
+    <value>Removed</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterTitleTextBlock.Text" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterTitleTextBoxPlaceholderText" xml:space="preserve">
+    <value>Enter regular expression</value>
+  </data>
+  <data name="HomePlaylistAddingPanelFilterViewsTextBlock.Text" xml:space="preserve">
+    <value>Views</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelDownloadingOptionsHeaderTextBlock.Text" xml:space="preserve">
+    <value>Downloading options</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelFileOptionsHeaderTextBlock.Text" xml:space="preserve">
+    <value>File options</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelFileSettingControl.Title" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelLocationBrowseButton.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelLocationSettingControl.Title" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelMediaTypeSettingControl.Title" xml:space="preserve">
+    <value>Media type</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelQualitySettingControl.Title" xml:space="preserve">
+    <value>Quality</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelScheduleSettingControl.Description" xml:space="preserve">
+    <value>Number of minutes to start the task (after clicking downloading button).</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelScheduleSettingControl.Title" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelTaskOptionsHeaderTextBlock.Text" xml:space="preserve">
+    <value>Task options</value>
+  </data>
+  <data name="HomePlaylistAddingVideoPanelTrimSettingControl.Title" xml:space="preserve">
+    <value>Trim</value>
+  </data>
   <data name="HomeTaskPanelStateTextCancelled" xml:space="preserve">
     <value>Cancelled</value>
   </data>

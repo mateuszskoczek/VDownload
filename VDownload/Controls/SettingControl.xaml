@@ -27,12 +27,10 @@
     </UserControl.Resources>
 
 
-    <Grid MinHeight="65" Padding="18" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource SettingControlBackgroundColor}">
+    <Grid MinHeight="65" Padding="18" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource SettingControlBackgroundColor}" ColumnSpacing="18">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="18"/>
             <ColumnDefinition/>
-            <ColumnDefinition Width="18"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
@@ -40,7 +38,7 @@
         <Image Grid.Column="0" VerticalAlignment="Center" Width="20" Source="{x:Bind Icon, Mode=OneWay}"/>
 
         <!-- TITLE & DESCRIPTION -->
-        <Grid Grid.Column="2" VerticalAlignment="Center">
+        <Grid Grid.Column="1" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -50,6 +48,6 @@
         </Grid>
 
         <!-- SETTING CONTROL -->
-        <ContentPresenter Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Center" Content="{x:Bind SettingContent, Mode=OneWay}"/>
+        <ContentPresenter Grid.Column="2" VerticalAlignment="Center" Content="{x:Bind SettingContent, Mode=OneWay}"/>
     </Grid>
 </UserControl>

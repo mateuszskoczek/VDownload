@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace VDownload.Core.Interfaces
@@ -9,7 +10,9 @@ namespace VDownload.Core.Interfaces
 
         // PLAYLIST PROPERTIES
         string ID { get; }
+        Uri PlaylistUrl { get; }
         string Name { get; }
+        IVideoService[] Videos { get; }
 
         #endregion
 

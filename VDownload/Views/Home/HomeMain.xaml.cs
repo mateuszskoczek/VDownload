@@ -45,7 +45,7 @@ namespace VDownload.Views.Home
         private readonly HomeTasksListPlaceholder HomeTasksListPlaceholder = new HomeTasksListPlaceholder();
 
         // HOME VIDEOS LIST
-        private static ContentControl HomeTasksListPlaceCurrent = null;
+        private static ContentControl HomeTasksListPlaceCurrent { get; set; }
         private static StackPanel HomeTasksList = null;
         public static List<HomeTaskPanel> TaskPanelsList = new List<HomeTaskPanel>();
 
@@ -56,7 +56,7 @@ namespace VDownload.Views.Home
         #region EVENT HANDLERS VOIDS
 
         // ON NAVIGATED TO
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             HomeTasksListPlaceCurrent = HomeTasksListPlace;
             if (HomeTasksList != null) HomeTasksList.Children.Clear();
@@ -64,11 +64,11 @@ namespace VDownload.Views.Home
             if (TaskPanelsList.Count > 0)
             {
                 foreach (HomeTaskPanel homeVideoPanel in TaskPanelsList) HomeTasksList.Children.Add(homeVideoPanel);
-                HomeTasksListPlace.Content = HomeTasksList;
+                HomeTasksListPlaceCurrent.Content = HomeTasksList;
             }
             else
             {
-                HomeTasksListPlace.Content = HomeTasksListPlaceholder;
+                HomeTasksListPlaceCurrent.Content = HomeTasksListPlaceholder;
             }
         }
 
@@ -87,9 +87,9 @@ namespace VDownload.Views.Home
         // ADD VIDEO SEARCH BUTTON CLICKED
         private async void HomeOptionsBarAddVideoControl_SearchButtonClicked(object sender, VideoSearchEventArgs e)
         {
+            // Set UI
             HomeOptionBarAndAddingPanelRow.Height = GridLength.Auto;
             HomeTasksListRow.Height = new GridLength(1, GridUnitType.Star);
-
             HomeAddingPanel.Content = null;
 
             // Cancel previous operations
@@ -172,19 +172,21 @@ namespace VDownload.Views.Home
                 // Set searching status control to done (null)
                 HomeOptionsBarSearchingStatusControl.Content = null;
 
-
+                // Set UI
                 HomeOptionBarAndAddingPanelRow.Height = new GridLength(1, GridUnitType.Star);
                 HomeTasksListRow.Height = new GridLength(0);
+
                 HomeVideoAddingPanel addingPanel = new HomeVideoAddingPanel(videoService);
                 addingPanel.VideoAddRequest += HomeVideoAddingPanel_VideoAddRequest;
                 HomeAddingPanel.Content = addingPanel;
             }
         }
 
+        // ADD VIDEO REQUEST FROM VIDEO ADDING PANEL
         private void HomeVideoAddingPanel_VideoAddRequest(object sender, VideoAddEventArgs e)
         {
             // Replace placeholder
-            HomeTasksListPlace.Content = HomeTasksList;
+            HomeTasksListPlaceCurrent.Content = HomeTasksList;
 
             // Uncheck video button
             HomeOptionsBarAddVideoButton.IsChecked = false;
@@ -197,7 +199,7 @@ namespace VDownload.Views.Home
                 // Remove task from tasks lists
                 TaskPanelsList.Remove(taskPanel);
                 HomeTasksList.Children.Remove(taskPanel);
-                if (TaskPanelsList.Count <= 0) HomeTasksListPlace.Content = HomeTasksListPlaceholder;
+                if (TaskPanelsList.Count <= 0) HomeTasksListPlaceCurrent.Content = HomeTasksListPlaceholder;
             };
 
             // Add task to tasks lists
@@ -221,8 +223,14 @@ namespace VDownload.Views.Home
         // ADD PLAYLIST SEARCH BUTTON CLICKED
         private async void HomeOptionsBarAddPlaylistControl_SearchButtonClicked(object sender, PlaylistSearchEventArgs e)
         {
+            // Set UI
+            HomeOptionBarAndAddingPanelRow.Height = GridLength.Auto;
+            HomeTasksListRow.Height = new GridLength(1, GridUnitType.Star);
+            HomeAddingPanel.Content = null;
+
             // Cancel previous operations
             SearchingCancellationToken.Cancel();
+            SearchingCancellationToken = new CancellationTokenSource();
 
             // Set SearchingStatusControl
             HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusProgressRing;
@@ -295,6 +303,45 @@ namespace VDownload.Views.Home
                     }
                     else throw;
                 }
+
+                // Set searching status control to done (null)
+                HomeOptionsBarSearchingStatusControl.Content = null;
+
+                // Set UI
+                HomeOptionBarAndAddingPanelRow.Height = new GridLength(1, GridUnitType.Star);
+                HomeTasksListRow.Height = new GridLength(0);
+
+                HomePlaylistAddingPanel addingPanel = new HomePlaylistAddingPanel(playlistService);
+                addingPanel.PlaylistAddRequest += HomeVideoAddingPanel_PlayListAddRequest;
+                HomeAddingPanel.Content = addingPanel;
+            }
+        }
+
+        // ADD PLAYLIST REQUEST FROM PLAYLIST ADDING PANEL
+        private void HomeVideoAddingPanel_PlayListAddRequest(object sender, PlaylistAddEventArgs e)
+        {
+            // Replace placeholder
+            HomeTasksListPlaceCurrent.Content = HomeTasksList;
+
+            // Uncheck video button
+            HomeOptionsBarAddPlaylistButton.IsChecked = false;
+
+            // Create video tasks
+            foreach (var video in e.Videos)
+            {
+                HomeTaskPanel taskPanel = new HomeTaskPanel(video.VideoService, video.MediaType, video.Stream, video.TrimStart, video.TrimEnd, video.Filename, video.Extension, video.Location, video.Schedule);
+
+                taskPanel.TaskRemovingRequested += (s, a) =>
+                {
+                    // Remove task from tasks lists
+                    TaskPanelsList.Remove(taskPanel);
+                    HomeTasksList.Children.Remove(taskPanel);
+                    if (TaskPanelsList.Count <= 0) HomeTasksListPlaceCurrent.Content = HomeTasksListPlaceholder;
+                };
+
+                // Add task to tasks lists
+                HomeTasksList.Children.Add(taskPanel);
+                TaskPanelsList.Add(taskPanel);
             }
         }
 
@@ -340,7 +387,10 @@ namespace VDownload.Views.Home
                 foreach (HomeTaskPanel videoPanel in idleTasks)
                 {
                     await Task.Delay(50);
+
+                    #pragma warning disable CS4014
                     videoPanel.Start(delay);
+                    #pragma warning restore CS4014
                 }
             }
         }
