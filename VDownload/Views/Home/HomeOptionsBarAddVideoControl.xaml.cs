@@ -29,7 +29,7 @@ namespace VDownload.Views.Home
             // Invoke search button event handlers
             VideoSearchEventArgs args = new VideoSearchEventArgs
             {
-                Phrase = HomeOptionsBarAddVideoControlUrlTextBox.Text
+                Url = HomeOptionsBarAddVideoControlUrlTextBox.Text
             };
             SearchButtonClicked?.Invoke(this, args);
         }

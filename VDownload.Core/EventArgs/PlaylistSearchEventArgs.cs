@@ -2,7 +2,7 @@
 {
     public class PlaylistSearchEventArgs : System.EventArgs
     {
-        public string Phrase { get; set; }
-        public int Count { get; set; }
+        public string Url { get; set; }
+        public int VideosCount { get; set; }
     }
 }

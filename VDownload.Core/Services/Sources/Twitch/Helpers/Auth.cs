@@ -1,16 +1,12 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
-namespace VDownload.Core.Services.Sources.Twitch
+namespace VDownload.Core.Services.Sources.Twitch.Helpers
 {
     public class Auth
     {

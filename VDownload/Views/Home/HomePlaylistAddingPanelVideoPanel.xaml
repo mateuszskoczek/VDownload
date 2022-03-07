@@ -87,9 +87,9 @@
                     <cc:SettingControl x:Uid="HomePlaylistAddingVideoPanelTrimSettingControl" Icon="{ThemeResource TrimIcon}">
                         <cc:SettingControl.SettingContent>
                             <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBox x:Name="HomePlaylistAddingVideoPanelTrimStartTextBox" ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}" ex:TextBoxExtensions.Mask="{x:Bind VideoService.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomePlaylistAddingVideoPanelTrimStartTextBox_TextChanged"/>
+                                <TextBox x:Name="HomePlaylistAddingVideoPanelTrimStartTextBox" ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}" ex:TextBoxExtensions.Mask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomePlaylistAddingVideoPanelTrimStartTextBox_TextChanged"/>
                                 <TextBlock VerticalAlignment="Center" Text="-"/>
-                                <TextBox x:Name="HomePlaylistAddingVideoPanelTrimEndTextBox"  ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}"  ex:TextBoxExtensions.Mask="{x:Bind VideoService.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomePlaylistAddingVideoPanelTrimEndTextBox_TextChanged"/>
+                                <TextBox x:Name="HomePlaylistAddingVideoPanelTrimEndTextBox"  ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}"  ex:TextBoxExtensions.Mask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomePlaylistAddingVideoPanelTrimEndTextBox_TextChanged"/>
                             </StackPanel>
                         </cc:SettingControl.SettingContent>
                     </cc:SettingControl>

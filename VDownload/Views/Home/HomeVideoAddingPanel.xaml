@@ -217,9 +217,9 @@
                     <cc:SettingControl x:Uid="HomeVideoAddingTrimSettingControl" Icon="{ThemeResource TrimIcon}">
                         <cc:SettingControl.SettingContent>
                             <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBox x:Name="HomeVideoAddingTrimStartTextBox" ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}" ex:TextBoxExtensions.Mask="{x:Bind VideoService.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomeVideoAddingTrimStartTextBox_TextChanged"/>
+                                <TextBox x:Name="HomeVideoAddingTrimStartTextBox" ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}" ex:TextBoxExtensions.Mask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomeVideoAddingTrimStartTextBox_TextChanged"/>
                                 <TextBlock VerticalAlignment="Center" Text="-"/>
-                                <TextBox x:Name="HomeVideoAddingTrimEndTextBox"  ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}"  ex:TextBoxExtensions.Mask="{x:Bind VideoService.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomeVideoAddingTrimEndTextBox_TextChanged"/>
+                                <TextBox x:Name="HomeVideoAddingTrimEndTextBox"  ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}"  ex:TextBoxExtensions.Mask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomeVideoAddingTrimEndTextBox_TextChanged"/>
                             </StackPanel>
                         </cc:SettingControl.SettingContent>
                     </cc:SettingControl>

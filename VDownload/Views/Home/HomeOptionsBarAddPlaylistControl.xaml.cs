@@ -30,6 +30,12 @@ namespace VDownload.Views.Home
 
         #region EVENT HANDLERS
 
+        // NUMBERBOX FOCUS LOST
+        private void HomeOptionsBarAddPlaylistControlMaxVideosNumberBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (double.IsNaN(HomeOptionsBarAddPlaylistControlMaxVideosNumberBox.Value)) HomeOptionsBarAddPlaylistControlMaxVideosNumberBox.Value = DefaultMaxPlaylistVideos;
+        }
+
         // SEARCH BUTTON CLICKED
         private void HomeOptionsBarAddPlaylistControlSearchButton_Click(object sender, RoutedEventArgs e)
         {
@@ -39,8 +45,8 @@ namespace VDownload.Views.Home
             // Invoke search button event handlers
             PlaylistSearchEventArgs args = new PlaylistSearchEventArgs
             {
-                Phrase = HomeOptionsBarAddPlaylistControlUrlTextBox.Text,
-                Count = int.Parse(HomeOptionsBarAddPlaylistControlMaxVideosNumberBox.Text),
+                Url = HomeOptionsBarAddPlaylistControlUrlTextBox.Text,
+                VideosCount = int.Parse(HomeOptionsBarAddPlaylistControlMaxVideosNumberBox.Text),
             };
             SearchButtonClicked?.Invoke(this, args);
         }

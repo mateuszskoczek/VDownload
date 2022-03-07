@@ -1,16 +1,15 @@
 ﻿using System;
 using VDownload.Core.Enums;
 using VDownload.Core.Interfaces;
-using VDownload.Core.Objects;
 using Windows.Storage;
 
-namespace VDownload.Core.EventArgs
+namespace VDownload.Core.Structs
 {
-    public class VideoAddEventArgs : System.EventArgs
+    public struct TaskData
     {
         public IVideoService VideoService { get; set; }
         public MediaType MediaType { get; set; }
-        public IBaseStream Stream { get; set; }
+        public BaseStream Stream { get; set; }
         public TimeSpan TrimStart { get; set; }
         public TimeSpan TrimEnd { get; set; }
         public string Filename { get; set; }

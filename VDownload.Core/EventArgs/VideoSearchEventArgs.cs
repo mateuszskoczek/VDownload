@@ -2,6 +2,6 @@
 {
     public class VideoSearchEventArgs : System.EventArgs
     {
-        public string Phrase { get; set; }
+        public string Url { get; set; }
     }
 }

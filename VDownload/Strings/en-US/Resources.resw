@@ -182,7 +182,7 @@ The number in the numberbox indicades how many videos will be got from playlist.
     <value>90</value>
   </data>
   <data name="HomeOptionsBarLoadSubscripionsButton.Label" xml:space="preserve">
-    <value>Load subscription</value>
+    <value>Load subscriptions</value>
   </data>
   <data name="HomeOptionsBarLoadSubscripionsButton.Width" xml:space="preserve">
     <value>120</value>

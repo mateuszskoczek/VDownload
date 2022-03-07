@@ -7,21 +7,12 @@ namespace VDownload.Core.Services
     {
         #region CONSTANTS
 
-        // RANDOM
-        private static readonly Random Random = new Random();
-
         // ID SETTINGS
         private static readonly char[] IDChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
         private static readonly int IDLength = 10;
 
-        #endregion
-
-
-
-        #region PROPERTIES
-
-        // USED IDS LIST
-        private static readonly List<string> UsedIDs = new List<string>();
+        // IDS LIST
+        private static readonly List<string> IDList = new List<string>();
 
         #endregion
 
@@ -38,17 +29,17 @@ namespace VDownload.Core.Services
                 id = "";
                 while (id.Length < IDLength)
                 {
-                    id += IDChars[Random.Next(0, IDChars.Length)];
+                    id += IDChars[new Random().Next(0, IDChars.Length)];
                 }
-            } while (UsedIDs.Contains(id));
-            UsedIDs.Add(id);
+            } while (IDList.Contains(id));
+            IDList.Add(id);
             return id;
         }
 
         // DISPOSE TASK ID
         public static void Dispose(string id)
         {
-            UsedIDs.Remove(id);
+            IDList.Remove(id);
         }
 
         #endregion

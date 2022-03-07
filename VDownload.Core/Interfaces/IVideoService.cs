@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Enums;
+using VDownload.Core.Structs;
 using Windows.Storage;
 
 namespace VDownload.Core.Interfaces
@@ -14,13 +15,8 @@ namespace VDownload.Core.Interfaces
         // VIDEO PROPERTIES
         string ID { get; }
         Uri VideoUrl { get; }
-        string Title { get; }
-        string Author { get; }
-        DateTime Date { get; }
-        TimeSpan Duration { get; }
-        long Views { get; }
-        Uri Thumbnail { get; }
-        IBaseStream[] BaseStreams { get; }
+        Metadata Metadata { get; }
+        BaseStream[] BaseStreams { get; }
 
         #endregion
 
@@ -35,7 +31,7 @@ namespace VDownload.Core.Interfaces
         Task GetStreamsAsync(CancellationToken cancellationToken = default);
 
         // DOWNLOAD VIDEO
-        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, IBaseStream baseStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default);
+        Task<StorageFile> DownloadAndTranscodeAsync(StorageFolder downloadingFolder, BaseStream baseStream, MediaFileExtension extension, MediaType mediaType, TimeSpan trimStart, TimeSpan trimEnd, CancellationToken cancellationToken = default);
 
         #endregion
 
@@ -43,12 +39,8 @@ namespace VDownload.Core.Interfaces
 
         #region EVENT HANDLERS
 
-        event EventHandler DownloadingStarted;
-        event EventHandler<ProgressChangedEventArgs> DownloadingProgressChanged;
-        event EventHandler DownloadingCompleted;
-        event EventHandler ProcessingStarted;
-        event EventHandler<ProgressChangedEventArgs> ProcessingProgressChanged;
-        event EventHandler ProcessingCompleted;
+        event EventHandler<EventArgs.ProgressChangedEventArgs> DownloadingProgressChanged;
+        event EventHandler<EventArgs.ProgressChangedEventArgs> ProcessingProgressChanged;
 
         #endregion
     }

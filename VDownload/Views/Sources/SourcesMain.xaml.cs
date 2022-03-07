@@ -1,8 +1,10 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Microsoft.Toolkit.Uwp.Connectivity;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
@@ -25,36 +27,54 @@ namespace VDownload.Views.Sources
 
 
 
-        #region EVENT HANDLERS
+        #region MAIN EVENT HANDLERS VOIDS
 
-        // NAVIGATED TO THIS PAGE (Check all services)
+        // ON NAVIGATED TO THIS PAGE (Check all services)
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            // Check Twitch
+            Task[] checkingTasks = new Task[1];
+
+            checkingTasks[0] = CheckTwitch();
+
+            await Task.WhenAll(checkingTasks);
+        }
+
+        #endregion
+
+
+
+        #region TWITCH
+
+        // CHECK TWITCH LOGIN AT START
+        private async Task CheckTwitch()
+        {
             try
             {
-                string twitchAccessToken = await Core.Services.Sources.Twitch.Auth.ReadAccessTokenAsync();
-                (bool IsValid, string Login, DateTime? ExpirationDate) twitchAccessTokenValidation = await Core.Services.Sources.Twitch.Auth.ValidateAccessTokenAsync(twitchAccessToken);
-                if (twitchAccessToken != null && twitchAccessTokenValidation.IsValid)
+                string twitchAccessToken = await Core.Services.Sources.Twitch.Helpers.Auth.ReadAccessTokenAsync();
+                #pragma warning disable IDE0042 // Deconstruct variable declaration
+                (bool IsValid, string Login, DateTime? ExpirationDate) twitchAccessTokenValidation = await Core.Services.Sources.Twitch.Helpers.Auth.ValidateAccessTokenAsync(twitchAccessToken);
+                #pragma warning restore IDE0042 // Deconstruct variable declaration
+                if (twitchAccessTokenValidation.IsValid)
                 {
                     SourcesTwitchSettingControl.Description = $"{ResourceLoader.GetForCurrentView().GetString("SourcesTwitchSettingControlDescriptionLoggedIn")} {twitchAccessTokenValidation.Login}";
                     SourcesTwitchLoginButton.Content = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchLoginButtonTextLoggedIn");
                     SourcesTwitchLoginButton.IsEnabled = true;
                 }
-                else if (twitchAccessToken == null || !twitchAccessTokenValidation.IsValid)
+                else
                 {
-                    if (twitchAccessToken != null) await Core.Services.Sources.Twitch.Auth.DeleteAccessTokenAsync();
+                    if (twitchAccessToken != null) await Core.Services.Sources.Twitch.Helpers.Auth.DeleteAccessTokenAsync();
                     SourcesTwitchSettingControl.Description = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchSettingControlDescriptionNotLoggedIn");
                     SourcesTwitchLoginButton.Content = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchLoginButtonTextNotLoggedIn");
                     SourcesTwitchLoginButton.IsEnabled = true;
                 }
             }
-            catch (WebException wex)
+            catch (WebException)
             {
-                if (wex.Response == null)
+                if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
                 {
                     SourcesTwitchSettingControl.Description = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchSettingControlDescriptionInternetConnectionError");
                     SourcesTwitchLoginButton.Content = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchLoginButtonTextNotLoggedIn");
+                    SourcesTwitchLoginButton.IsEnabled = false;
                 }
                 else throw;
             }
@@ -65,15 +85,15 @@ namespace VDownload.Views.Sources
         {
             try
             {
-                string accessToken = await Core.Services.Sources.Twitch.Auth.ReadAccessTokenAsync();
-                var accessTokenValidation = await Core.Services.Sources.Twitch.Auth.ValidateAccessTokenAsync(accessToken);
-                if (accessToken != null && accessTokenValidation.IsValid)
+                string accessToken = await Core.Services.Sources.Twitch.Helpers.Auth.ReadAccessTokenAsync();
+                var accessTokenValidation = await Core.Services.Sources.Twitch.Helpers.Auth.ValidateAccessTokenAsync(accessToken);
+                if (accessTokenValidation.IsValid)
                 {
                     // Revoke access token
-                    await Core.Services.Sources.Twitch.Auth.RevokeAccessTokenAsync(accessToken);
+                    await Core.Services.Sources.Twitch.Helpers.Auth.RevokeAccessTokenAsync(accessToken);
 
                     // Delete access token
-                    await Core.Services.Sources.Twitch.Auth.DeleteAccessTokenAsync();
+                    await Core.Services.Sources.Twitch.Helpers.Auth.DeleteAccessTokenAsync();
 
                     // Update Twitch SettingControl
                     SourcesTwitchSettingControl.Description = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchSettingControlDescriptionNotLoggedIn");
@@ -85,21 +105,22 @@ namespace VDownload.Views.Sources
                     AppWindow TwitchAuthWindow = await AppWindow.TryCreateAsync();
                     TwitchAuthWindow.Title = "Twitch Authentication";
 
+                    #pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
                     WebView2 TwitchAuthWebView = new WebView2();
                     await TwitchAuthWebView.EnsureCoreWebView2Async();
-                    TwitchAuthWebView.Source = Core.Services.Sources.Twitch.Auth.AuthorizationUrl;
+                    TwitchAuthWebView.Source = Core.Services.Sources.Twitch.Helpers.Auth.AuthorizationUrl;
                     ElementCompositionPreview.SetAppWindowContent(TwitchAuthWindow, TwitchAuthWebView);
 
                     // NavigationStarting event (only when redirected)
                     TwitchAuthWebView.NavigationStarting += async (s, a) =>
                     {
-                        if (new Uri(a.Uri).Host == Core.Services.Sources.Twitch.Auth.RedirectUrl.Host)
+                        if (new Uri(a.Uri).Host == Core.Services.Sources.Twitch.Helpers.Auth.RedirectUrl.Host)
                         {
                             // Close window
                             await TwitchAuthWindow.CloseAsync();
 
                             // Get response
-                            string response = a.Uri.Replace(Core.Services.Sources.Twitch.Auth.RedirectUrl.OriginalString, "");
+                            string response = a.Uri.Replace(Core.Services.Sources.Twitch.Helpers.Auth.RedirectUrl.OriginalString, "");
 
                             if (response[1] == '#')
                             {
@@ -107,10 +128,10 @@ namespace VDownload.Views.Sources
                                 accessToken = response.Split('&')[0].Replace("/#access_token=", "");
 
                                 // Check token
-                                accessTokenValidation = await Core.Services.Sources.Twitch.Auth.ValidateAccessTokenAsync(accessToken);
+                                accessTokenValidation = await Core.Services.Sources.Twitch.Helpers.Auth.ValidateAccessTokenAsync(accessToken);
 
                                 // Save token
-                                await Core.Services.Sources.Twitch.Auth.SaveAccessTokenAsync(accessToken);
+                                await Core.Services.Sources.Twitch.Helpers.Auth.SaveAccessTokenAsync(accessToken);
 
                                 // Update Twitch SettingControl
                                 SourcesTwitchSettingControl.Description = $"{ResourceLoader.GetForCurrentView().GetString("SourcesTwitchSettingControlDescriptionLoggedIn")} {accessTokenValidation.Login}";
@@ -151,11 +172,12 @@ namespace VDownload.Views.Sources
                             TwitchAuthWebView.CoreWebView2.CookieManager.DeleteAllCookies();
                         }
                     };
+                    #pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
                 }
             }
             catch (WebException wex)
             {
-                if (wex.Response == null)
+                if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
                 {
                     SourcesTwitchSettingControl.Description = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchSettingControlDescriptionInternetConnectionError");
                     SourcesTwitchLoginButton.Content = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchLoginButtonTextNotLoggedIn");

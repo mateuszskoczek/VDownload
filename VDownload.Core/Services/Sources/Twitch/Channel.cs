@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Exceptions;
 using VDownload.Core.Interfaces;
+using VDownload.Core.Services.Sources.Twitch.Helpers;
 
 namespace VDownload.Core.Services.Sources.Twitch
 {
@@ -41,25 +42,15 @@ namespace VDownload.Core.Services.Sources.Twitch
         // GET CHANNEL METADATA
         public async Task GetMetadataAsync(CancellationToken cancellationToken = default)
         {
-            // Get access token
             cancellationToken.ThrowIfCancellationRequested();
-            string accessToken = await Auth.ReadAccessTokenAsync();
-            if (accessToken == null) throw new TwitchAccessTokenNotFoundException();
-
-            // Check access token
-            cancellationToken.ThrowIfCancellationRequested();
-            var twitchAccessTokenValidation = await Auth.ValidateAccessTokenAsync(accessToken);
-            if (!twitchAccessTokenValidation.IsValid) throw new TwitchAccessTokenNotValidException();
-
-            // Create client
-            WebClient client = new WebClient();
-            client.Headers.Add("Authorization", $"Bearer {accessToken}");
-            client.Headers.Add("Client-Id", Auth.ClientID);
 
             // Get response
-            client.QueryString.Add("login", ID);
-            cancellationToken.ThrowIfCancellationRequested();
-            JToken response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/users"))["data"][0];
+            JToken response = null;
+            using (WebClient client = await Client.Helix())
+            {
+                client.QueryString.Add("login", ID);
+                response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/users"))["data"][0];
+            }
 
             // Create unified playlist url
             PlaylistUrl = new Uri($"https://twitch.tv/{ID}");
@@ -72,12 +63,9 @@ namespace VDownload.Core.Services.Sources.Twitch
         // GET CHANNEL VIDEOS
         public async Task GetVideosAsync(int numberOfVideos, CancellationToken cancellationToken = default)
         {
-            // Get access token
             cancellationToken.ThrowIfCancellationRequested();
-            string accessToken = await Auth.ReadAccessTokenAsync();
-            if (accessToken == null) throw new TwitchAccessTokenNotFoundException();
 
-            // Set pagination
+            // Set page id
             string pagination = "";
 
             // Set array of videos
@@ -92,30 +80,24 @@ namespace VDownload.Core.Services.Sources.Twitch
             List<Task> getStreamsTasks = new List<Task>();
             do
             {
-                // Check access token
-                cancellationToken.ThrowIfCancellationRequested();
-                var twitchAccessTokenValidation = await Auth.ValidateAccessTokenAsync(accessToken);
-                if (!twitchAccessTokenValidation.IsValid) throw new TwitchAccessTokenNotValidException();
-
-                // Create client
-                WebClient client = new WebClient();
-                client.Headers.Add("Authorization", $"Bearer {accessToken}");
-                client.Headers.Add("Client-Id", Auth.ClientID);
-
                 // Set number of videos to get in this iteration
                 count = numberOfVideos < 100 && !getAll ? numberOfVideos : 100;
 
                 // Get response
-                client.QueryString.Add("user_id", ID);
-                client.QueryString.Add("first", count.ToString());
-                client.QueryString.Add("after", pagination);
+                JToken response = null;
+                using (WebClient client = await Client.Helix())
+                {
+                    client.QueryString.Add("user_id", ID);
+                    client.QueryString.Add("first", count.ToString());
+                    client.QueryString.Add("after", pagination);
+                    response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/videos"));
+                }
 
-                cancellationToken.ThrowIfCancellationRequested();
-                JToken response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/videos"));
-
+                // Set page id
                 pagination = (string)response["pagination"]["cursor"];
-                videosData = response["data"].ToArray();
 
+                // Set videos data
+                videosData = response["data"].ToArray();
                 foreach (JToken videoData in videosData)
                 {
                     Vod video = new Vod((string)videoData["id"]);
@@ -131,7 +113,7 @@ namespace VDownload.Core.Services.Sources.Twitch
             // Wait for all getStreams tasks
             await Task.WhenAll(getStreamsTasks);
 
-            // Set Videos parameter
+            // Set videos
             Videos = videos.ToArray();
         }
 

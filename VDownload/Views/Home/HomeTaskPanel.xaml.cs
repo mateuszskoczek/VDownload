@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
+﻿using Microsoft.Toolkit.Uwp.Connectivity;
+using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -7,8 +8,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Enums;
-using VDownload.Core.Interfaces;
 using VDownload.Core.Services;
+using VDownload.Core.Structs;
 using Windows.ApplicationModel.ExtendedExecution;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
@@ -24,8 +25,8 @@ namespace VDownload.Views.Home
     {
         #region CONSTANTS
 
-        private readonly ResourceDictionary IconsRes = new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Icons.xaml") };
-        private readonly ResourceDictionary ImagesRes = new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Images.xaml") };
+        private static readonly ResourceDictionary IconsRes = new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Icons.xaml") };
+        private static readonly ResourceDictionary ImagesRes = new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Images.xaml") };
 
         #endregion
 
@@ -33,40 +34,36 @@ namespace VDownload.Views.Home
 
         #region CONSTRUCTORS
 
-        public HomeTaskPanel(IVideoService videoService, MediaType mediaType, IBaseStream stream, TimeSpan trimStart, TimeSpan trimEnd, string filename, MediaFileExtension extension, StorageFolder location, double schedule)
+        public HomeTaskPanel(TaskData taskData)
         {
             this.InitializeComponent();
 
-            // Set video status
-            TaskStatus = Core.Enums.TaskStatus.Idle;
+            // Set task data
+            Data = taskData;
 
-            // Set video service object
-            VideoService = videoService;
+            // Set video status
+            Status = Core.Enums.TaskStatus.Idle;
 
             // Create video cancellation token
             CancellationTokenSource = new CancellationTokenSource();
 
-            // Set video options
-            MediaType = mediaType;
-            Stream = stream;
-            TrimStart = trimStart;
-            TrimEnd = trimEnd;
-            Filename = filename;
-            Extension = extension;
-            Location = location;
-            Schedule = schedule;
+            // Set thumbnail image
+            ThumbnailImage = Data.VideoService.Metadata.Thumbnail != null ? new BitmapImage { UriSource = Data.VideoService.Metadata.Thumbnail } : (BitmapImage)ImagesRes["UnknownThumbnailImage"];
 
-            // Set metadata
-            ThumbnailImage = VideoService.Thumbnail != null ? new BitmapImage { UriSource = VideoService.Thumbnail } : (BitmapImage)ImagesRes["UnknownThumbnailImage"];
-            SourceImage = new BitmapIcon { UriSource = new Uri($"ms-appx:///Assets/Sources/{VideoService.GetType().Namespace.Split(".").Last()}.png"), ShowAsMonochrome = false };
-            Title = VideoService.Title;
-            Author = VideoService.Author;
-            TimeSpan newDuration = TrimEnd.Subtract(TrimStart);
-            Duration += $"{(Math.Floor(newDuration.TotalHours) > 0 ? $"{Math.Floor(newDuration.TotalHours):0}:" : "")}{newDuration.Minutes:00}:{newDuration.Seconds:00}";
-            if (VideoService.Duration > newDuration) Duration += $" ({(Math.Floor(TrimStart.TotalHours) > 0 || Math.Floor(TrimEnd.TotalHours) > 0 ? $"{Math.Floor(TrimStart.TotalHours):0}:" : "")}{TrimStart.Minutes:00}:{TrimStart.Seconds:00} - {(Math.Floor(TrimStart.TotalHours) > 0 || Math.Floor(TrimEnd.TotalHours) > 0 ? $"{Math.Floor(TrimEnd.TotalHours):0}:" : "")}{TrimEnd.Minutes:00}:{TrimEnd.Seconds:00})";
-            MediaTypeQuality += ResourceLoader.GetForCurrentView().GetString($"MediaType{MediaType}Text");
-            if (MediaType != MediaType.OnlyAudio) MediaTypeQuality += $" ({Stream.Height}p{(Stream.FrameRate > 0 ? Stream.FrameRate.ToString() : "N/A")})";
-            File += $@"{(Location != null ? Location.Path : $@"{UserDataPaths.GetDefault().Downloads}\VDownload")}\{Filename}.{Extension.ToString().ToLower()}";
+            // Set source icon
+            SourceImage = new BitmapIcon { UriSource = new Uri($"ms-appx:///Assets/Sources/{Data.VideoService.GetType().Namespace.Split(".").Last()}.png"), ShowAsMonochrome = false };
+
+            // Set duration
+            TimeSpan newDuration = Data.TrimEnd.Subtract(Data.TrimStart);
+            Duration = TimeSpanCustomFormat.ToOptTHBaseMMSS(newDuration);
+            if (Data.VideoService.Metadata.Duration > newDuration) Duration += $" ({TimeSpanCustomFormat.ToOptTHBaseMMSS(Data.TrimStart, Data.TrimEnd)} - {TimeSpanCustomFormat.ToOptTHBaseMMSS(Data.TrimEnd, Data.TrimStart)})";
+
+            // Set media type
+            MediaTypeQuality += ResourceLoader.GetForCurrentView().GetString($"MediaType{Data.MediaType}Text");
+            if (Data.MediaType != MediaType.OnlyAudio) MediaTypeQuality += $" ({Data.Stream.Height}p{(Data.Stream.FrameRate > 0 ? Data.Stream.FrameRate.ToString() : "N/A")})";
+
+            // Set file
+            File += $@"{(Data.Location != null ? Data.Location.Path : $@"{UserDataPaths.GetDefault().Downloads}\VDownload")}\{Data.Filename}.{Data.Extension.ToString().ToLower()}";
             
             // Set state controls
             HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateIdleIcon"];
@@ -80,26 +77,16 @@ namespace VDownload.Views.Home
 
         #region PROPERTIES
 
-        // VIDEO STATUS
-        public Core.Enums.TaskStatus TaskStatus { get; set; }
+        // TASK STATUS
+        public Core.Enums.TaskStatus Status { get; set; }
 
         // TASK CANCELLATION TOKEN
         public CancellationTokenSource CancellationTokenSource { get; set; }
 
-        // VIDEO SERVICE
-        private IVideoService VideoService { get; set; }
+        // TASK DATA
+        private TaskData Data { get; set; }
 
-        // VIDEO OPTIONS
-        private MediaType MediaType { get; set; }
-        private IBaseStream Stream { get; set; }
-        private TimeSpan TrimStart { get; set; }
-        private TimeSpan TrimEnd { get; set; }
-        private string Filename { get; set; }
-        private MediaFileExtension Extension { get; set; }
-        private StorageFolder Location { get; set; }
-        private double Schedule { get; set; }
-
-        // VIDEO PANEL DATA
+        // TASK PANEL DATA
         private ImageSource ThumbnailImage { get; set; }
         private IconElement SourceImage { get; set; }
         private string Title { get; set; }
@@ -123,12 +110,12 @@ namespace VDownload.Views.Home
             CancellationTokenSource = new CancellationTokenSource();
 
             // Scheduling
-            if (Schedule > 0)
+            if (Data.Schedule > 0)
             {
-                DateTime ScheduledDateTime = DateTime.Now.AddMinutes(Schedule);
+                DateTime ScheduledDateTime = DateTime.Now.AddMinutes(Data.Schedule);
 
                 // Set task status
-                TaskStatus = Core.Enums.TaskStatus.Scheduled;
+                Status = Core.Enums.TaskStatus.Scheduled;
 
                 // Set state controls
                 HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateScheduledIcon"];
@@ -139,20 +126,19 @@ namespace VDownload.Views.Home
             }
 
             // Set task status
-            TaskStatus = Core.Enums.TaskStatus.Waiting;
+            Status = Core.Enums.TaskStatus.Waiting;
 
             // Set state controls
             HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateWaitingIcon"];
             HomeTaskPanelStateText.Text = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextWaiting");
             HomeTaskPanelStateProgressBar.Visibility = Visibility.Visible;
-            HomeTaskPanelStateProgressBar.IsIndeterminate = true;
 
             // Wait in queue
             await HomeMain.WaitInQueue(delayWhenOnMeteredConnection, CancellationTokenSource.Token);
             if (!CancellationTokenSource.IsCancellationRequested)
             {
                 // Set task status
-                TaskStatus = Core.Enums.TaskStatus.InProgress;
+                Status = Core.Enums.TaskStatus.InProgress;
 
                 // Get task unique ID
                 string uniqueID = TaskId.Get();
@@ -176,30 +162,17 @@ namespace VDownload.Views.Home
                     Stopwatch taskStopwatch = Stopwatch.StartNew();
 
                     // Set progress event handlers
-                    VideoService.DownloadingStarted += (s, a) =>
+                    Data.VideoService.DownloadingProgressChanged += (s, a) =>
                     {
                         HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
-                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextDownloading")} (0%)";
-                        HomeTaskPanelStateProgressBar.IsIndeterminate = false;
-                        HomeTaskPanelStateProgressBar.Value = 0;
+                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextDownloading")} ({Math.Round(a.Progress)}%)";
+                        HomeTaskPanelStateProgressBar.Value = a.Progress;
                     };
-                    VideoService.DownloadingProgressChanged += (s, a) =>
-                    {
-                        HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
-                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextDownloading")} ({a.ProgressPercentage}%)";
-                        HomeTaskPanelStateProgressBar.Value = a.ProgressPercentage;
-                    };
-                    VideoService.ProcessingStarted += (s, a) =>
+                    Data.VideoService.ProcessingProgressChanged += (s, a) =>
                     {
                         HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
-                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextProcessing")} (0%)";
-                        HomeTaskPanelStateProgressBar.Value = 0;
-                    };
-                    VideoService.ProcessingProgressChanged += (s, a) =>
-                    {
-                        HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
-                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextProcessing")} ({a.ProgressPercentage}%)";
-                        HomeTaskPanelStateProgressBar.Value = a.ProgressPercentage;
+                        HomeTaskPanelStateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelStateTextProcessing")} ({Math.Round(a.Progress)}%)";
+                        HomeTaskPanelStateProgressBar.Value = a.Progress;
                     };
 
                     // Request extended session
@@ -208,7 +181,7 @@ namespace VDownload.Views.Home
 
                     // Start task
                     CancellationTokenSource.Token.ThrowIfCancellationRequested();
-                    StorageFile tempOutputFile = await VideoService.DownloadAndTranscodeAsync(tempFolder, Stream, Extension, MediaType, TrimStart, TrimEnd, CancellationTokenSource.Token);
+                    StorageFile tempOutputFile = await Data.VideoService.DownloadAndTranscodeAsync(tempFolder, Data.Stream, Data.Extension, Data.MediaType, Data.TrimStart, Data.TrimEnd, CancellationTokenSource.Token);
 
                     // Dispose session
                     session.Dispose();
@@ -222,9 +195,9 @@ namespace VDownload.Views.Home
                     HomeTaskPanelStateProgressBar.IsIndeterminate = true;
 
                     // Move to output location
-                    StorageFile outputFile;
-                    if (Location != null) outputFile = await Location.CreateFileAsync($"{Filename}.{Extension.ToString().ToLower()}", (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName);
-                    else outputFile = await DownloadsFolder.CreateFileAsync($"{Filename}.{Extension.ToString().ToLower()}", (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName);
+                    string filename = $"{Data.Filename}.{Data.Extension.ToString().ToLower()}";
+                    CreationCollisionOption collisionOption = (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName;
+                    StorageFile outputFile = await (Data.Location != null ? Data.Location.CreateFileAsync(filename, collisionOption): DownloadsFolder.CreateFileAsync(filename, collisionOption));
                     await tempOutputFile.MoveAndReplaceAsync(outputFile);
 
                     // Stop stopwatch
@@ -270,7 +243,7 @@ namespace VDownload.Views.Home
                 finally
                 {
                     // Set video status
-                    TaskStatus = Core.Enums.TaskStatus.Idle;
+                    Status = Core.Enums.TaskStatus.Idle;
 
                     // Change icon
                     HomeTaskPanelStartStopButton.Icon = new SymbolIcon(Symbol.Download);
@@ -313,29 +286,32 @@ namespace VDownload.Views.Home
         private async void HomeTaskPanelSourceButton_Click(object sender, RoutedEventArgs e)
         {
             // Launch the website
-            await Windows.System.Launcher.LaunchUriAsync(VideoService.VideoUrl);
+            await Windows.System.Launcher.LaunchUriAsync(Data.VideoService.VideoUrl);
         }
 
         // START STOP BUTTON CLICKED
         private async void HomeTaskPanelStartStopButton_Click(object sender, RoutedEventArgs e)
         {
-            if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting || TaskStatus == Core.Enums.TaskStatus.Scheduled) CancellationTokenSource.Cancel();
+            if (Status == Core.Enums.TaskStatus.InProgress || Status == Core.Enums.TaskStatus.Waiting || Status == Core.Enums.TaskStatus.Scheduled) CancellationTokenSource.Cancel();
             else
             {
                 bool delay = (bool)Config.GetValue("delay_task_when_queued_task_starts_on_metered_network");
-                ContentDialogResult dialogResult = await new ContentDialog
+                if (NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
                 {
-                    Title = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogTitle"),
-                    Content = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogDescription"),
-                    PrimaryButtonText = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogStartAndDelayText"),
-                    SecondaryButtonText = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogStartWithoutDelayText"),
-                    CloseButtonText = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogCancel"),
-                }.ShowAsync();
-                switch (dialogResult)
-                {
-                    case ContentDialogResult.Primary: delay = true; break;
-                    case ContentDialogResult.Secondary: delay = false; break;
-                    case ContentDialogResult.None: return;
+                    ContentDialogResult dialogResult = await new ContentDialog
+                    {
+                        Title = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogTitle"),
+                        Content = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogDescription"),
+                        PrimaryButtonText = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogStartAndDelayText"),
+                        SecondaryButtonText = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogStartWithoutDelayText"),
+                        CloseButtonText = ResourceLoader.GetForCurrentView().GetString("HomeTaskPanelTaskStartMeteredConnectionDialogCancel"),
+                    }.ShowAsync();
+                    switch (dialogResult)
+                    {
+                        case ContentDialogResult.Primary: delay = true; break;
+                        case ContentDialogResult.Secondary: delay = false; break;
+                        case ContentDialogResult.None: return;
+                    }
                 }
                 await Start(delay);
             }
@@ -344,7 +320,7 @@ namespace VDownload.Views.Home
         // REMOVE BUTTON CLICKED
         private void HomeTaskPanelRemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (TaskStatus == Core.Enums.TaskStatus.InProgress || TaskStatus == Core.Enums.TaskStatus.Waiting || TaskStatus == Core.Enums.TaskStatus.Scheduled) CancellationTokenSource.Cancel();
+            if (Status == Core.Enums.TaskStatus.InProgress || Status == Core.Enums.TaskStatus.Waiting || Status == Core.Enums.TaskStatus.Scheduled) CancellationTokenSource.Cancel();
             TaskRemovingRequested?.Invoke(this, EventArgs.Empty);
         }
 

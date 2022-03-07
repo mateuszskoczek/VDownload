@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using VDownload.Core.Enums;
 using Windows.Media.Editing;
+using Windows.Media.Transcoding;
 using Windows.Storage;
 
 namespace VDownload.Core.Services
@@ -21,7 +22,7 @@ namespace VDownload.Core.Services
             { "twitch_vod_downloading_chunk_max_retries", 10 },
             { "twitch_vod_downloading_chunk_retries_delay", 5000 },
             { "media_transcoding_use_hardware_acceleration", true },
-            { "media_transcoding_use_mrfcrf444_algorithm", true },
+            { "media_transcoding_algorithm", (int)MediaVideoProcessingAlgorithm.MrfCrf444 },
             { "media_editing_algorithm", (int)MediaTrimmingPreference.Fast },
             { "default_max_playlist_videos", 0 },
             { "default_media_type", (int)MediaType.AudioVideo },

@@ -12,6 +12,7 @@ using VDownload.Core.Enums;
 using VDownload.Core.EventArgs;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Services;
+using VDownload.Core.Structs;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -44,20 +45,20 @@ namespace VDownload.Views.Home
             Name = PlaylistService.Name;
 
             // Add videos to list and search mins and maxes
-            MinViews = PlaylistService.Videos[0].Views;
-            MaxViews = PlaylistService.Videos[0].Views;
-            MinDate = PlaylistService.Videos[0].Date;
-            MaxDate = PlaylistService.Videos[0].Date;
-            MinDuration = PlaylistService.Videos[0].Duration;
-            MaxDuration = PlaylistService.Videos[0].Duration;
+            MinViews = PlaylistService.Videos[0].Metadata.Views;
+            MaxViews = PlaylistService.Videos[0].Metadata.Views;
+            MinDate = PlaylistService.Videos[0].Metadata.Date;
+            MaxDate = PlaylistService.Videos[0].Metadata.Date;
+            MinDuration = PlaylistService.Videos[0].Metadata.Duration;
+            MaxDuration = PlaylistService.Videos[0].Metadata.Duration;
             foreach (IVideoService video in PlaylistService.Videos)
             {
-                if (video.Views < MinViews) MinViews = video.Views;
-                if (video.Views > MaxViews) MaxViews = video.Views;
-                if (video.Date < MinDate) MinDate = video.Date;
-                if (video.Date > MaxDate) MaxDate = video.Date;
-                if (video.Duration < MinDuration) MinDuration = video.Duration;
-                if (video.Duration > MaxDuration) MaxDuration = video.Duration;
+                if (video.Metadata.Views < MinViews) MinViews = video.Metadata.Views;
+                if (video.Metadata.Views > MaxViews) MaxViews = video.Metadata.Views;
+                if (video.Metadata.Date < MinDate) MinDate = video.Metadata.Date;
+                if (video.Metadata.Date > MaxDate) MaxDate = video.Metadata.Date;
+                if (video.Metadata.Duration < MinDuration) MinDuration = video.Metadata.Duration;
+                if (video.Metadata.Duration > MaxDuration) MaxDuration = video.Metadata.Duration;
                 HomePlaylistAddingPanelVideoPanel videoPanel = new HomePlaylistAddingPanelVideoPanel(video);
                 videoPanel.DeleteRequested += (s, a) =>
                 {
@@ -190,6 +191,16 @@ namespace VDownload.Views.Home
             int.TryParse(maxSegments.ElementAtOrDefault(2), out int maxHours);
             TimeSpan maxDuration = new TimeSpan(maxHours, maxMinutes, maxSeconds);
 
+            // Title and author regex
+            Regex titleRegex = new Regex("");
+            Regex authorRegex = new Regex("");
+            try
+            {
+                titleRegex = new Regex(HomePlaylistAddingPanelFilterTitleTextBox.Text);
+                authorRegex = new Regex(HomePlaylistAddingPanelFilterAuthorTextBox.Text);
+            }
+            catch (ArgumentException) { }
+
             List<HomePlaylistAddingPanelVideoPanel> allVideos = new List<HomePlaylistAddingPanelVideoPanel>();
             foreach (HomePlaylistAddingPanelVideoPanel videoPanel in HomePlaylistAddingPanelVideosList.Children) allVideos.Add(videoPanel);
             foreach (HomePlaylistAddingPanelVideoPanel videoPanel in HiddenVideos) allVideos.Add(videoPanel);
@@ -198,24 +209,19 @@ namespace VDownload.Views.Home
 
             foreach (HomePlaylistAddingPanelVideoPanel videoPanel in allVideos)
             {
-                Regex titleRegex = new Regex("");
-                Regex authorRegex = new Regex("");
-                try
-                {
-                    titleRegex = new Regex(HomePlaylistAddingPanelFilterTitleTextBox.Text);
-                    authorRegex = new Regex(HomePlaylistAddingPanelFilterAuthorTextBox.Text);
-                }
-                catch (ArgumentException) { }
-                if (!titleRegex.IsMatch(videoPanel.VideoService.Title)) HiddenVideos.Add(videoPanel);
-                else if (!authorRegex.IsMatch(videoPanel.VideoService.Author)) HiddenVideos.Add(videoPanel);
-                else if (HomePlaylistAddingPanelFilterMinViewsNumberBox.Value > videoPanel.VideoService.Views) HiddenVideos.Add(videoPanel);
-                else if (HomePlaylistAddingPanelFilterMaxViewsNumberBox.Value < videoPanel.VideoService.Views) HiddenVideos.Add(videoPanel);
-                else if (HomePlaylistAddingPanelFilterMinDateDatePicker.Date > videoPanel.VideoService.Date) HiddenVideos.Add(videoPanel);
-                else if (HomePlaylistAddingPanelFilterMaxDateDatePicker.Date < videoPanel.VideoService.Date) HiddenVideos.Add(videoPanel);
-                else if (minDuration > videoPanel.VideoService.Duration) HiddenVideos.Add(videoPanel);
-                else if (maxDuration < videoPanel.VideoService.Duration) HiddenVideos.Add(videoPanel);
+                if (
+                    !titleRegex.IsMatch(videoPanel.VideoService.Metadata.Title) ||
+                    !authorRegex.IsMatch(videoPanel.VideoService.Metadata.Author) ||
+                    HomePlaylistAddingPanelFilterMinViewsNumberBox.Value > videoPanel.VideoService.Metadata.Views ||
+                    HomePlaylistAddingPanelFilterMaxViewsNumberBox.Value < videoPanel.VideoService.Metadata.Views ||
+                    HomePlaylistAddingPanelFilterMinDateDatePicker.Date > videoPanel.VideoService.Metadata.Date ||
+                    HomePlaylistAddingPanelFilterMaxDateDatePicker.Date < videoPanel.VideoService.Metadata.Date ||
+                    minDuration > videoPanel.VideoService.Metadata.Duration ||
+                    maxDuration < videoPanel.VideoService.Metadata.Duration
+                ) HiddenVideos.Add(videoPanel);
                 else HomePlaylistAddingPanelVideosList.Children.Add(videoPanel);
             }
+
             HomePlaylistAddingPanelFilterHeaderCountTextBlock.Text = HiddenVideos.Count + DeletedVideos.Count > 0 ? $"{ResourceLoader.GetForCurrentView().GetString("HomePlaylistAddingPanelFilterHeaderCountTextBlockPrefix")}: {HiddenVideos.Count + DeletedVideos.Count}" : "";
         }
 
@@ -327,18 +333,22 @@ namespace VDownload.Views.Home
 
                 TimeSpan parsedTimeSpan = new TimeSpan(hours, minutes, seconds);
 
-                if (parsedTimeSpan < MinDuration && parsedTimeSpan > MaxDuration)
+                if (parsedTimeSpan < MinDuration || parsedTimeSpan > MaxDuration)
                 {
-                    if (Math.Floor(MaxDuration.TotalHours) > 0) HomePlaylistAddingPanelFilterMinDurationTextBox.Text += $"{Math.Floor(MinDuration.TotalHours)}:";
-                    if (Math.Floor(MaxDuration.TotalMinutes) > 0) HomePlaylistAddingPanelFilterMinDurationTextBox.Text += Math.Floor(MaxDuration.TotalHours) > 0 ? $"{MinDuration.Minutes:00}:" : $"{MinDuration.Minutes}:";
-                    HomePlaylistAddingPanelFilterMinDurationTextBox.Text += Math.Floor(MaxDuration.TotalMinutes) > 0 ? $"{MinDuration.Seconds:00}" : $"{MinDuration.Seconds}";
+                    string newMinDuration = "";
+                    if (Math.Floor(MaxDuration.TotalHours) > 0) newMinDuration += $"{Math.Floor(MinDuration.TotalHours)}:";
+                    if (Math.Floor(MaxDuration.TotalMinutes) > 0) newMinDuration += Math.Floor(MaxDuration.TotalHours) > 0 ? $"{MinDuration.Minutes:00}:" : $"{MinDuration.Minutes}:";
+                    newMinDuration += Math.Floor(MaxDuration.TotalMinutes) > 0 ? $"{MinDuration.Seconds:00}" : $"{MinDuration.Seconds}";
+                    HomePlaylistAddingPanelFilterMinDurationTextBox.Text = newMinDuration;
                 }
             }
             else
             {
-                if (Math.Floor(MaxDuration.TotalHours) > 0) HomePlaylistAddingPanelFilterMinDurationTextBox.Text += $"{Math.Floor(MinDuration.TotalHours)}:";
-                if (Math.Floor(MaxDuration.TotalMinutes) > 0) HomePlaylistAddingPanelFilterMinDurationTextBox.Text += Math.Floor(MaxDuration.TotalHours) > 0 ? $"{MinDuration.Minutes:00}:" : $"{MinDuration.Minutes}:";
-                HomePlaylistAddingPanelFilterMinDurationTextBox.Text += Math.Floor(MaxDuration.TotalMinutes) > 0 ? $"{MinDuration.Seconds:00}" : $"{MinDuration.Seconds}";
+                string newMinDuration = "";
+                if (Math.Floor(MaxDuration.TotalHours) > 0) newMinDuration += $"{Math.Floor(MinDuration.TotalHours)}:";
+                if (Math.Floor(MaxDuration.TotalMinutes) > 0) newMinDuration += Math.Floor(MaxDuration.TotalHours) > 0 ? $"{MinDuration.Minutes:00}:" : $"{MinDuration.Minutes}:";
+                newMinDuration += Math.Floor(MaxDuration.TotalMinutes) > 0 ? $"{MinDuration.Seconds:00}" : $"{MinDuration.Seconds}";
+                HomePlaylistAddingPanelFilterMinDurationTextBox.Text = newMinDuration;
             }
             FilterChanged();
         }
@@ -355,18 +365,22 @@ namespace VDownload.Views.Home
 
                 TimeSpan parsedTimeSpan = new TimeSpan(hours, minutes, seconds);
 
-                if (parsedTimeSpan < MinDuration && parsedTimeSpan > MaxDuration)
+                if (parsedTimeSpan < MinDuration || parsedTimeSpan > MaxDuration)
                 {
-                    if (Math.Floor(MaxDuration.TotalHours) > 0) HomePlaylistAddingPanelFilterMaxDurationTextBox.Text += $"{Math.Floor(MaxDuration.TotalHours)}:";
-                    if (Math.Floor(MaxDuration.TotalMinutes) > 0) HomePlaylistAddingPanelFilterMaxDurationTextBox.Text += Math.Floor(MaxDuration.TotalHours) > 0 ? $"{MaxDuration.Minutes:00}:" : $"{MaxDuration.Minutes}:";
-                    HomePlaylistAddingPanelFilterMaxDurationTextBox.Text += Math.Floor(MaxDuration.TotalMinutes) > 0 ? $"{MaxDuration.Seconds:00}" : $"{MaxDuration.Seconds}";
+                    string newMaxDuration = "";
+                    if (Math.Floor(MaxDuration.TotalHours) > 0) newMaxDuration += $"{Math.Floor(MaxDuration.TotalHours)}:";
+                    if (Math.Floor(MaxDuration.TotalMinutes) > 0) newMaxDuration += Math.Floor(MaxDuration.TotalHours) > 0 ? $"{MaxDuration.Minutes:00}:" : $"{MaxDuration.Minutes}:";
+                    newMaxDuration += Math.Floor(MaxDuration.TotalMinutes) > 0 ? $"{MaxDuration.Seconds:00}" : $"{MaxDuration.Seconds}";
+                    HomePlaylistAddingPanelFilterMaxDurationTextBox.Text = newMaxDuration;
                 }
             }
             else
             {
-                if (Math.Floor(MaxDuration.TotalHours) > 0) HomePlaylistAddingPanelFilterMaxDurationTextBox.Text += $"{Math.Floor(MaxDuration.TotalHours)}:";
-                if (Math.Floor(MaxDuration.TotalMinutes) > 0) HomePlaylistAddingPanelFilterMaxDurationTextBox.Text += Math.Floor(MaxDuration.TotalHours) > 0 ? $"{MaxDuration.Minutes:00}:" : $"{MaxDuration.Minutes}:";
-                HomePlaylistAddingPanelFilterMaxDurationTextBox.Text += Math.Floor(MaxDuration.TotalMinutes) > 0 ? $"{MaxDuration.Seconds:00}" : $"{MaxDuration.Seconds}";
+                string newMaxDuration = "";
+                if (Math.Floor(MaxDuration.TotalHours) > 0) newMaxDuration += $"{Math.Floor(MaxDuration.TotalHours)}:";
+                if (Math.Floor(MaxDuration.TotalMinutes) > 0) newMaxDuration += Math.Floor(MaxDuration.TotalHours) > 0 ? $"{MaxDuration.Minutes:00}:" : $"{MaxDuration.Minutes}:";
+                newMaxDuration += Math.Floor(MaxDuration.TotalMinutes) > 0 ? $"{MaxDuration.Seconds:00}" : $"{MaxDuration.Seconds}";
+                HomePlaylistAddingPanelFilterMaxDurationTextBox.Text = newMaxDuration;
             }
             FilterChanged();
         }
@@ -385,6 +399,7 @@ namespace VDownload.Views.Home
             DeletedVideos.Clear();
         }
 
+
         // SOURCE BUTTON CLICKED
         private async void HomePlaylistAddingPanelSourceButton_Click(object sender, RoutedEventArgs e)
         {
@@ -395,15 +410,33 @@ namespace VDownload.Views.Home
         // ADD BUTTON CLICKED
         private void HomePlaylistAddingPanelAddButton_Click(object sender, RoutedEventArgs e)
         {
-            var videos = new List<(IVideoService VideoService, MediaType MediaType, IBaseStream Stream, TimeSpan TrimStart, TimeSpan TrimEnd, string Filename, MediaFileExtension Extension, StorageFolder Location, double Schedule)>();
+            // Pack tasks data
+            List<TaskData> taskDataList = new List<TaskData>();
             foreach (HomePlaylistAddingPanelVideoPanel videoPanel in HomePlaylistAddingPanelVideosList.Children)
             {
-                videos.Add((videoPanel.VideoService, videoPanel.MediaType, videoPanel.Stream, videoPanel.TrimStart, videoPanel.TrimEnd, videoPanel.Filename, videoPanel.Extension, videoPanel.Location, videoPanel.Schedule));
+                TaskData taskData = new TaskData
+                {
+                    VideoService = videoPanel.VideoService,
+                    MediaType = videoPanel.MediaType,
+                    Stream = videoPanel.Stream,
+                    TrimStart = videoPanel.TrimStart,
+                    TrimEnd = videoPanel.TrimEnd,
+                    Filename = videoPanel.Filename,
+                    Extension = videoPanel.Extension,
+                    Location = videoPanel.Location,
+                    Schedule = videoPanel.Schedule,
+                };
+                taskDataList.Add(taskData);
             }
-            PlaylistAddEventArgs eventArgs = new PlaylistAddEventArgs { Videos = videos.ToArray() };
-            PlaylistAddRequest?.Invoke(this, eventArgs);
-        }
 
+            // Request tasks adding
+            TasksAddingRequestedEventArgs eventArgs = new TasksAddingRequestedEventArgs 
+            { 
+                TaskData = taskDataList.ToArray(),
+                RequestSource = TaskAddingRequestSource.Playlist
+            };
+            TasksAddingRequested?.Invoke(this, eventArgs);
+        }
 
         #endregion
 
@@ -411,7 +444,7 @@ namespace VDownload.Views.Home
 
         #region EVENT HANDLERS
 
-        public event EventHandler<PlaylistAddEventArgs> PlaylistAddRequest;
+        public event EventHandler<TasksAddingRequestedEventArgs> TasksAddingRequested;
 
         #endregion
     }

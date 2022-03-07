@@ -15,10 +15,9 @@
     </Page.Resources>
     
     
-    <Grid Padding="20">
+    <Grid Padding="20" RowSpacing="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         
@@ -26,7 +25,7 @@
         <TextBlock x:Name="SourcesMainPageHeaderText" x:Uid="SourcesMainPageHeaderText" Grid.Row="0" FontSize="28" FontWeight="SemiBold"/>
         
         <!-- CONTENT -->
-        <StackPanel Grid.Row="2" Spacing="10">
+        <StackPanel Grid.Row="1" Spacing="10">
             <cc:SettingControl x:Name="SourcesTwitchSettingControl" x:Uid="SourcesTwitchSettingControl" Grid.Row="0" Icon="{StaticResource TwitchIcon}" Title="Twitch"> <!-- Twitch -->
                 <cc:SettingControl.SettingContent>
                     <Button x:Name="SourcesTwitchLoginButton" IsEnabled="False" Click="SourcesTwitchLoginButton_Click"/>

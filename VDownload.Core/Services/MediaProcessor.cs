@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,66 +14,50 @@ namespace VDownload.Core.Services
 {
     public class MediaProcessor
     {
-        #region CONSTRUCTORS
-
-        public MediaProcessor(StorageFile outputFile, TimeSpan trimStart, TimeSpan trimEnd)
-        {
-            OutputFile = outputFile;
-            TrimStart = trimStart;
-            TrimEnd = trimEnd;
-        }
-
-        #endregion
-
-
-
-        #region PROPERTIES
-
-        public StorageFile OutputFile { get; private set; }
-        public TimeSpan TrimStart { get; private set; }
-        public TimeSpan TrimEnd { get; private set; }
-
-        #endregion
-
-
-
         #region STANDARD METHODS
 
         // SINGLE AUDIO & VIDEO FILE PROCESSING
-        public async Task Run(StorageFile audioVideoInputFile, MediaFileExtension extension, MediaType mediaType, CancellationToken cancellationToken = default)
+        public async Task Run(StorageFile mediaFile, MediaFileExtension extension, MediaType mediaType, StorageFile outputFile, TimeSpan? trimStart = null, TimeSpan? trimEnd = null, CancellationToken cancellationToken = default)
         {
-            // Invoke ProcessingStarted event
-            ProcessingStarted?.Invoke(this, System.EventArgs.Empty);
+            // Invoke event at start
+            cancellationToken.ThrowIfCancellationRequested();
+            ProgressChanged(this, new EventArgs.ProgressChangedEventArgs(0));
 
             // Init transcoder
             MediaTranscoder mediaTranscoder = new MediaTranscoder
             {
                 HardwareAccelerationEnabled = (bool)Config.GetValue("media_transcoding_use_hardware_acceleration"),
-                VideoProcessingAlgorithm = (bool)Config.GetValue("media_transcoding_use_mrfcrf444_algorithm") ? MediaVideoProcessingAlgorithm.MrfCrf444 : MediaVideoProcessingAlgorithm.Default,
-                TrimStartTime = TrimStart,
-                TrimStopTime = TrimEnd,
+                VideoProcessingAlgorithm = (MediaVideoProcessingAlgorithm)Config.GetValue("media_transcoding_algorithm"),
             };
+            if (trimStart != null) mediaTranscoder.TrimStartTime = (TimeSpan)trimStart;
+            if (trimEnd != null) mediaTranscoder.TrimStopTime = (TimeSpan)trimEnd;
 
             // Start transcoding operation
-            cancellationToken.ThrowIfCancellationRequested();
-            using (IRandomAccessStream outputFileOpened = await OutputFile.OpenAsync(FileAccessMode.ReadWrite))
+            using (IRandomAccessStream openedOutputFile = await outputFile.OpenAsync(FileAccessMode.ReadWrite))
             {
-                PrepareTranscodeResult transcodingPreparated = await mediaTranscoder.PrepareStreamTranscodeAsync(await audioVideoInputFile.OpenAsync(FileAccessMode.Read), outputFileOpened, await GetMediaEncodingProfile(audioVideoInputFile, extension, mediaType));
+                // Prepare transcode task
+                PrepareTranscodeResult transcodingPreparated = await mediaTranscoder.PrepareStreamTranscodeAsync(await mediaFile.OpenAsync(FileAccessMode.Read), openedOutputFile, await GetMediaEncodingProfile(mediaFile, extension, mediaType));
+                
+                // Start transcoding
                 IAsyncActionWithProgress<double> transcodingTask = transcodingPreparated.TranscodeAsync();
-                await transcodingTask.AsTask(cancellationToken, new Progress<double>((percent) => { ProcessingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(percent), null)); }));
-                await outputFileOpened.FlushAsync();
+                await transcodingTask.AsTask(cancellationToken, new Progress<double>((percent) => { ProgressChanged(this, new EventArgs.ProgressChangedEventArgs(percent)); }));
+                cancellationToken.ThrowIfCancellationRequested();
+
+                // Finalizing
+                await openedOutputFile.FlushAsync();
                 transcodingTask.Close();
             }
 
-            // Invoke ProcessingCompleted event
-            ProcessingCompleted?.Invoke(this, System.EventArgs.Empty);
+            // Invoke event at end
+            ProgressChanged(this, new EventArgs.ProgressChangedEventArgs(100, true));
         }
 
         // SEPARATE AUDIO & VIDEO FILES PROCESSING
-        public async Task Run(StorageFile audioFile, StorageFile videoFile, VideoFileExtension extension, CancellationToken cancellationToken = default) 
+        public async Task Run(StorageFile audioFile, StorageFile videoFile, VideoFileExtension extension, StorageFile outputFile, TimeSpan? trimStart = null, TimeSpan? trimEnd = null, CancellationToken cancellationToken = default) 
         {
-            // Invoke ProcessingStarted event
-            ProcessingStarted?.Invoke(this, System.EventArgs.Empty);
+            // Invoke event at start
+            cancellationToken.ThrowIfCancellationRequested();
+            ProgressChanged(this, new EventArgs.ProgressChangedEventArgs(0));
 
             // Init editor
             MediaComposition mediaEditor = new MediaComposition();
@@ -86,28 +69,36 @@ namespace VDownload.Core.Services
             await Task.WhenAll(getVideoFileTask, getAudioFileTask);
 
             MediaClip videoElement = getVideoFileTask.Result;
-            videoElement.TrimTimeFromStart = TrimStart;
-            videoElement.TrimTimeFromEnd = TrimEnd;
+            if (trimStart != null) videoElement.TrimTimeFromStart = (TimeSpan)trimStart;
+            if (trimEnd != null) videoElement.TrimTimeFromEnd = (TimeSpan)trimEnd;
             BackgroundAudioTrack audioElement = getAudioFileTask.Result;
-            audioElement.TrimTimeFromStart = TrimStart;
-            audioElement.TrimTimeFromEnd = TrimEnd;
+            if (trimStart != null) audioElement.TrimTimeFromStart = (TimeSpan)trimStart;
+            if (trimEnd != null) audioElement.TrimTimeFromEnd = (TimeSpan)trimEnd;
 
-            mediaEditor.Clips.Add(getVideoFileTask.Result);
-            mediaEditor.BackgroundAudioTracks.Add(getAudioFileTask.Result);
+            mediaEditor.Clips.Add(videoElement);
+            mediaEditor.BackgroundAudioTracks.Add(audioElement);
 
             // Start rendering operation
-            var renderOperation = mediaEditor.RenderToFileAsync(OutputFile, (MediaTrimmingPreference)Config.GetValue("media_editing_algorithm"), await GetMediaEncodingProfile(videoFile, audioFile, (MediaFileExtension)extension, MediaType.AudioVideo));
-            renderOperation.Progress += (info, progress) => { ProcessingProgressChanged(this, new ProgressChangedEventArgs((int)Math.Round(progress), null)); };
+            var renderOperation = mediaEditor.RenderToFileAsync(outputFile, (MediaTrimmingPreference)Config.GetValue("media_editing_algorithm"), await GetMediaEncodingProfile(videoFile, audioFile, (MediaFileExtension)extension, MediaType.AudioVideo));
+            renderOperation.Progress += (info, progress) => { ProgressChanged(this, new EventArgs.ProgressChangedEventArgs(progress)); };
             cancellationToken.ThrowIfCancellationRequested();
             await renderOperation.AsTask(cancellationToken);
 
-            // Invoke ProcessingCompleted event
-            ProcessingCompleted?.Invoke(this, System.EventArgs.Empty);
+            // Invoke event at end
+            ProgressChanged(this, new EventArgs.ProgressChangedEventArgs(100, true));
         }
 
-        // SINGLE AUDIO OR VIDEO FILES PROCESSING
-        public async Task Run(StorageFile audioFile, AudioFileExtension extension, CancellationToken cancellationToken = default) { await Run(audioFile, (MediaFileExtension)extension, MediaType.OnlyAudio, cancellationToken); }
-        public async Task Run(StorageFile videoFile, VideoFileExtension extension, CancellationToken cancellationToken = default) { await Run(videoFile, (MediaFileExtension)extension, MediaType.OnlyVideo, cancellationToken); }
+        // AUDIO FILE PROCESSING
+        public async Task Run(StorageFile audioFile, AudioFileExtension extension, StorageFile outputFile, TimeSpan? trimStart = null, TimeSpan? trimEnd = null, CancellationToken cancellationToken = default) 
+        { 
+            await Run(audioFile, (MediaFileExtension)extension, MediaType.OnlyAudio, outputFile, trimStart, trimEnd, cancellationToken); 
+        }
+
+        // VIDEO FILE PROCESSING
+        public async Task Run(StorageFile videoFile, VideoFileExtension extension, StorageFile outputFile, TimeSpan? trimStart = null, TimeSpan? trimEnd = null, CancellationToken cancellationToken = default)
+        { 
+            await Run(videoFile, (MediaFileExtension)extension, MediaType.OnlyVideo, outputFile, trimStart, trimEnd, cancellationToken); 
+        }
 
         #endregion
 
@@ -116,7 +107,7 @@ namespace VDownload.Core.Services
         #region LOCAL METHODS
 
         // GET ENCODING PROFILE
-        public static async Task<MediaEncodingProfile> GetMediaEncodingProfile(StorageFile videoFile, StorageFile audioFile, MediaFileExtension extension, MediaType mediaType)
+        private static async Task<MediaEncodingProfile> GetMediaEncodingProfile(StorageFile videoFile, StorageFile audioFile, MediaFileExtension extension, MediaType mediaType)
         {
             // Create profile object
             MediaEncodingProfile profile;
@@ -164,7 +155,10 @@ namespace VDownload.Core.Services
             // Return profile
             return profile;
         }
-        public static async Task<MediaEncodingProfile> GetMediaEncodingProfile(StorageFile audioVideoFile, MediaFileExtension extension, MediaType mediaType) { return await GetMediaEncodingProfile(audioVideoFile, audioVideoFile, extension, mediaType);  }
+        private static async Task<MediaEncodingProfile> GetMediaEncodingProfile(StorageFile audioVideoFile, MediaFileExtension extension, MediaType mediaType)
+        { 
+            return await GetMediaEncodingProfile(audioVideoFile, audioVideoFile, extension, mediaType);  
+        }
 
         #endregion
 
@@ -172,9 +166,7 @@ namespace VDownload.Core.Services
 
         #region EVENT HANDLERS
 
-        public event EventHandler ProcessingStarted;
-        public event EventHandler<ProgressChangedEventArgs> ProcessingProgressChanged;
-        public event EventHandler ProcessingCompleted;
+        public event EventHandler<EventArgs.ProgressChangedEventArgs> ProgressChanged;
 
         #endregion
     }

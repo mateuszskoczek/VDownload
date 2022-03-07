@@ -23,7 +23,7 @@
         <TextBox x:Name="HomeOptionsBarAddPlaylistControlUrlTextBox" x:Uid="HomeOptionsBarAddPlaylistControlUrlTextBox" Grid.Column="0" VerticalAlignment="Center"/>
         
         <!-- MAX VIDEOS NUMBERBOX -->
-        <muxc:NumberBox x:Name="HomeOptionsBarAddPlaylistControlMaxVideosNumberBox" Grid.Column="1" VerticalAlignment="Center" SpinButtonPlacementMode="Compact" Minimum="0" Value="{x:Bind DefaultMaxPlaylistVideos}"/>
+        <muxc:NumberBox x:Name="HomeOptionsBarAddPlaylistControlMaxVideosNumberBox" Grid.Column="1" VerticalAlignment="Center" SpinButtonPlacementMode="Compact" Minimum="0" Value="{x:Bind DefaultMaxPlaylistVideos}" LostFocus="HomeOptionsBarAddPlaylistControlMaxVideosNumberBox_LostFocus"/>
         
         <!-- SEARCH BUTTON-->
         <Button x:Name="HomeOptionsBarAddPlaylistControlSearchButton" x:Uid="HomeOptionsBarAddPlaylistControlSearchButton" Grid.Column="2" Click="HomeOptionsBarAddPlaylistControlSearchButton_Click"/>
