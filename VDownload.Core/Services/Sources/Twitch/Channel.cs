@@ -49,7 +49,9 @@ namespace VDownload.Core.Services.Sources.Twitch
             using (WebClient client = await Client.Helix())
             {
                 client.QueryString.Add("login", ID);
-                response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/users"))["data"][0];
+                response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/users"))["data"];
+                if (((JArray)response).Count > 0) response = response[0];
+                else throw new MediaNotFoundException($"Twitch Channel (ID: {ID}) was not found");
             }
 
             // Create unified playlist url

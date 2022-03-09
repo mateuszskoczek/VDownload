@@ -12,6 +12,7 @@ using VDownload.Core.Exceptions;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Services;
 using VDownload.Core.Structs;
+using VDownload.Views.Home.Controls;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -22,21 +23,6 @@ namespace VDownload.Views.Home
 {
     public sealed partial class HomeMain : Page
     {
-        #region CONSTANTS
-
-        // RESOURCES
-        private static readonly ResourceDictionary ImageRes = new ResourceDictionary { Source = new Uri("ms-appx:///Resources/Icons.xaml") };
-
-        // SEARCHING STATUS CONTROLS
-        private static readonly Microsoft.UI.Xaml.Controls.ProgressRing HomeOptionsBarSearchingStatusProgressRing = new Microsoft.UI.Xaml.Controls.ProgressRing { Width = 15, Height = 15, Margin = new Thickness(5), IsActive = true };
-        private static readonly Image HomeOptionsBarSearchingStatusErrorImage = new Image { Width = 15, Height = 15, Margin = new Thickness(5), Source = (SvgImageSource)ImageRes["ErrorIcon"] };
-
-        // TASKS LIST PLACEHOLDER
-        private static readonly HomeTasksListPlaceholder HomeTasksListPlaceholder = new HomeTasksListPlaceholder();
-
-        #endregion
-
-
         #region CONSTRUCTORS
 
         public HomeMain()
@@ -87,231 +73,72 @@ namespace VDownload.Views.Home
             }
             else
             {
-                HomeTasksListCurrentParent.Content = HomeTasksListPlaceholder;
+                HomeTasksListCurrentParent.Content = new HomeTasksListPlaceholder();
             }
         }
 
 
-        // ADD VIDEO BUTTON CHECKED
-        private void HomeOptionsBarAddVideoButton_Checked(object sender, RoutedEventArgs e)
+        // SEARCH VIDEO BUTTON CHECKED
+        private void HomeOptionsBarVideoSearchButton_Checked(object sender, RoutedEventArgs e)
         {
             // Uncheck playlist button
-            HomeOptionsBarAddPlaylistButton.IsChecked = false;
+            HomeOptionsBarPlaylistSearchButton.IsChecked = false;
 
             // Create video adding control
-            HomeOptionsBarAddVideoControl homeOptionsBarAddVideoControl = new HomeOptionsBarAddVideoControl();
-            homeOptionsBarAddVideoControl.SearchButtonClicked += HomeOptionsBarAddVideoControl_SearchButtonClicked;
-            HomeOptionsBarAddingControl.Content = homeOptionsBarAddVideoControl;
+            HomeOptionsBarVideoSearch homeOptionsBarSearchVideoControl = new HomeOptionsBarVideoSearch();
+            homeOptionsBarSearchVideoControl.VideoSearchSuccessed += HomeOptionsBarVideoSearchControl_VideoSearchSuccessed;
+            homeOptionsBarSearchVideoControl.SearchButtonClick += (s, a) =>
+            {
+                SearchingCancellationToken.Cancel();
+                SearchingCancellationToken = new CancellationTokenSource();
+                homeOptionsBarSearchVideoControl.CancellationToken = SearchingCancellationToken.Token;
+            };
+            HomeOptionsBarAddingControl.Content = homeOptionsBarSearchVideoControl;
         }
 
-        // ADD VIDEO SEARCH BUTTON CLICKED
-        private async void HomeOptionsBarAddVideoControl_SearchButtonClicked(object sender, VideoSearchEventArgs e)
+        // VIDEO SEARCH SUCCESSED
+        private void HomeOptionsBarVideoSearchControl_VideoSearchSuccessed(object sender, VideoSearchSuccessedEventArgs e)
         {
             // Set UI
-            HomeOptionBarAndAddingPanelRow.Height = GridLength.Auto;
-            HomeTasksListRow.Height = new GridLength(1, GridUnitType.Star);
-            HomeAddingPanel.Content = null;
+            HomeOptionBarAndAddingPanelRow.Height = new GridLength(1, GridUnitType.Star);
+            HomeTasksListRow.Height = new GridLength(0);
 
-            // Cancel previous operations
-            SearchingCancellationToken.Cancel();
-            SearchingCancellationToken = new CancellationTokenSource();
-
-            // Set SearchingStatusControl
-            HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusProgressRing;
-
-            // Parse url
-            (VideoSource Type, string ID) source = Source.GetVideoSource(e.Url);
-
-            // Check url
-            if (source.Type == VideoSource.Null)
-            {
-                HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-            }
-            else
-            {
-                // Select video service
-                IVideoService videoService = null;
-                switch (source.Type)
-                {
-                    case VideoSource.TwitchVod: videoService = new Core.Services.Sources.Twitch.Vod(source.ID); break;
-                    case VideoSource.TwitchClip: videoService = new Core.Services.Sources.Twitch.Clip(source.ID); break;
-                }
-
-                // Get metadata and streams
-                try
-                {
-                    await videoService.GetMetadataAsync(SearchingCancellationToken.Token);
-                    await videoService.GetStreamsAsync(SearchingCancellationToken.Token);
-                }
-                catch (OperationCanceledException)
-                {
-                    HomeOptionsBarSearchingStatusControl.Content = null;
-                    return;
-                }
-                catch (TwitchAccessTokenNotFoundException)
-                {
-                    HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-                    ContentDialog twitchAccessTokenNotFoundErrorDialog = new ContentDialog
-                    {
-                        Title = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarVideoSearchingErrorDialogTitle"),
-                        Content = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarVideoSearchingTwitchAccessTokenNotFoundErrorDialogDescription"),
-                        CloseButtonText = ResourceLoader.GetForCurrentView().GetString("CloseErrorDialogButtonText"),
-                    };
-                    await twitchAccessTokenNotFoundErrorDialog.ShowAsync();
-                    return;
-                }
-                catch (TwitchAccessTokenNotValidException)
-                {
-                    HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-                    ContentDialog twitchAccessTokenNotValidErrorDialog = new ContentDialog
-                    {
-                        Title = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarVideoSearchingErrorDialogTitle"),
-                        Content = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarVideoSearchingTwitchAccessTokenNotValidErrorDialogDescription"),
-                        CloseButtonText = ResourceLoader.GetForCurrentView().GetString("CloseErrorDialogButtonText"),
-                    };
-                    await twitchAccessTokenNotValidErrorDialog.ShowAsync();
-                    return;
-                }
-                catch (WebException wex)
-                {
-                    HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-                    if (wex.Response is null)
-                    {
-                        ContentDialog internetAccessErrorDialog = new ContentDialog
-                        {
-                            Title = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarVideoSearchingErrorDialogTitle"),
-                            Content = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarVideoSearchingInternetConnectionErrorDialogDescription"),
-                            CloseButtonText = ResourceLoader.GetForCurrentView().GetString("CloseErrorDialogButtonText"),
-                        };
-                        await internetAccessErrorDialog.ShowAsync();
-                        return;
-                    }
-                    else throw;
-                }
-
-                // Set searching status control to done (null)
-                HomeOptionsBarSearchingStatusControl.Content = null;
-
-                // Set UI
-                HomeOptionBarAndAddingPanelRow.Height = new GridLength(1, GridUnitType.Star);
-                HomeTasksListRow.Height = new GridLength(0);
-
-                // Open adding panel
-                HomeVideoAddingPanel addingPanel = new HomeVideoAddingPanel(videoService);
-                addingPanel.TasksAddingRequested += HomeTasksAddingRequest;
-                HomeAddingPanel.Content = addingPanel;
-            }
+            // Open adding panel
+            HomeVideoAddingPanel addingPanel = new HomeVideoAddingPanel(e.VideoService);
+            addingPanel.TasksAddingRequested += HomeTasksAddingRequest;
+            HomeAddingPanel.Content = addingPanel;
         }
 
 
-        // ADD PLAYLIST BUTTON CHECKED
-        private void HomeOptionsBarAddPlaylistButton_Checked(object sender, RoutedEventArgs e)
+        // SEARCH PLAYLIST BUTTON CHECKED
+        private void HomeOptionsBarPlaylistSearchButton_Checked(object sender, RoutedEventArgs e)
         {
             // Uncheck video button
-            HomeOptionsBarAddVideoButton.IsChecked = false;
+            HomeOptionsBarVideoSearchButton.IsChecked = false;
 
             // Create playlist adding control
-            HomeOptionsBarAddPlaylistControl homeOptionsBarAddPlaylistControl = new HomeOptionsBarAddPlaylistControl();
-            homeOptionsBarAddPlaylistControl.SearchButtonClicked += HomeOptionsBarAddPlaylistControl_SearchButtonClicked;
-            HomeOptionsBarAddingControl.Content = homeOptionsBarAddPlaylistControl;
+            HomeOptionsBarPlaylistSearch homeOptionsBarPlaylistSearchControl = new HomeOptionsBarPlaylistSearch();
+            homeOptionsBarPlaylistSearchControl.PlaylistSearchSuccessed += HomeOptionsBarPlaylistSearchControl_PlaylistSearchSuccessed;
+            homeOptionsBarPlaylistSearchControl.SearchButtonClick += (s, a) =>
+            {
+                SearchingCancellationToken.Cancel();
+                SearchingCancellationToken = new CancellationTokenSource();
+                homeOptionsBarPlaylistSearchControl.CancellationToken = SearchingCancellationToken.Token;
+            };
+            HomeOptionsBarAddingControl.Content = homeOptionsBarPlaylistSearchControl;
         }
 
-        // ADD PLAYLIST SEARCH BUTTON CLICKED
-        private async void HomeOptionsBarAddPlaylistControl_SearchButtonClicked(object sender, PlaylistSearchEventArgs e)
+        // PLAYLIST SEARCH SUCCESSED
+        private void HomeOptionsBarPlaylistSearchControl_PlaylistSearchSuccessed(object sender, PlaylistSearchSuccessedEventArgs e)
         {
             // Set UI
-            HomeOptionBarAndAddingPanelRow.Height = GridLength.Auto;
-            HomeTasksListRow.Height = new GridLength(1, GridUnitType.Star);
-            HomeAddingPanel.Content = null;
+            HomeOptionBarAndAddingPanelRow.Height = new GridLength(1, GridUnitType.Star);
+            HomeTasksListRow.Height = new GridLength(0);
 
-            // Cancel previous operations
-            SearchingCancellationToken.Cancel();
-            SearchingCancellationToken = new CancellationTokenSource();
-
-            // Set SearchingStatusControl
-            HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusProgressRing;
-
-            // Parse url
-            (PlaylistSource Type, string ID) source = Source.GetPlaylistSource(e.Url);
-
-            // Check url
-            if (source.Type == PlaylistSource.Null)
-            {
-                HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-            }
-            else
-            {
-                // Select video service
-                IPlaylistService playlistService = null;
-                switch (source.Type)
-                {
-                    case PlaylistSource.TwitchChannel: playlistService = new Core.Services.Sources.Twitch.Channel(source.ID); break;
-                }
-
-                // Get metadata and streams
-                try
-                {
-                    await playlistService.GetMetadataAsync(SearchingCancellationToken.Token);
-                    await playlistService.GetVideosAsync(e.VideosCount, SearchingCancellationToken.Token);
-                }
-                catch (OperationCanceledException)
-                {
-                    HomeOptionsBarSearchingStatusControl.Content = null;
-                    return;
-                }
-                catch (TwitchAccessTokenNotFoundException)
-                {
-                    HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-                    ContentDialog twitchAccessTokenNotFoundErrorDialog = new ContentDialog
-                    {
-                        Title = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarPlaylistSearchingErrorDialogTitle"),
-                        Content = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarPlaylistSearchingTwitchAccessTokenNotFoundErrorDialogDescription"),
-                        CloseButtonText = ResourceLoader.GetForCurrentView().GetString("CloseErrorDialogButtonText"),
-                    };
-                    await twitchAccessTokenNotFoundErrorDialog.ShowAsync();
-                    return;
-                }
-                catch (TwitchAccessTokenNotValidException)
-                {
-                    HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-                    ContentDialog twitchAccessTokenNotValidErrorDialog = new ContentDialog
-                    {
-                        Title = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarPlaylistSearchingErrorDialogTitle"),
-                        Content = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarPlaylistSearchingTwitchAccessTokenNotValidErrorDialogDescription"),
-                        CloseButtonText = ResourceLoader.GetForCurrentView().GetString("CloseErrorDialogButtonText"),
-                    };
-                    await twitchAccessTokenNotValidErrorDialog.ShowAsync();
-                    return;
-                }
-                catch (WebException wex)
-                {
-                    HomeOptionsBarSearchingStatusControl.Content = HomeOptionsBarSearchingStatusErrorImage;
-                    if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
-                    {
-                        ContentDialog internetAccessErrorDialog = new ContentDialog
-                        {
-                            Title = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarPlaylistSearchingErrorDialogTitle"),
-                            Content = ResourceLoader.GetForCurrentView().GetString("HomeOptionsBarPlaylistSearchingInternetConnectionErrorDialogDescription"),
-                            CloseButtonText = ResourceLoader.GetForCurrentView().GetString("CloseErrorDialogButtonText"),
-                        };
-                        await internetAccessErrorDialog.ShowAsync();
-                        return;
-                    }
-                    else throw;
-                }
-
-                // Set searching status control to done (null)
-                HomeOptionsBarSearchingStatusControl.Content = null;
-
-                // Set UI
-                HomeOptionBarAndAddingPanelRow.Height = new GridLength(1, GridUnitType.Star);
-                HomeTasksListRow.Height = new GridLength(0);
-                
-                // Open adding panel
-                HomePlaylistAddingPanel addingPanel = new HomePlaylistAddingPanel(playlistService);
-                addingPanel.TasksAddingRequested += HomeTasksAddingRequest;
-                HomeAddingPanel.Content = addingPanel;
-            }
+            // Open adding panel
+            HomePlaylistAddingPanel addingPanel = new HomePlaylistAddingPanel(e.PlaylistService);
+            addingPanel.TasksAddingRequested += HomeTasksAddingRequest;
+            HomeAddingPanel.Content = addingPanel;
         }
 
 
@@ -324,8 +151,8 @@ namespace VDownload.Views.Home
             // Uncheck button
             switch (e.RequestSource)
             {
-                case TaskAddingRequestSource.Video: HomeOptionsBarAddVideoButton.IsChecked = false; break;
-                case TaskAddingRequestSource.Playlist: HomeOptionsBarAddPlaylistButton.IsChecked = false; break;
+                case TaskAddingRequestSource.Video: HomeOptionsBarVideoSearchButton.IsChecked = false; break;
+                case TaskAddingRequestSource.Playlist: HomeOptionsBarPlaylistSearchButton.IsChecked = false; break;
             }
             
             // Create video tasks
@@ -338,7 +165,7 @@ namespace VDownload.Views.Home
                     // Remove task from tasks lists
                     TasksList.Remove(taskPanel);
                     HomeTasksList.Children.Remove(taskPanel);
-                    if (TasksList.Count <= 0) HomeTasksListCurrentParent.Content = HomeTasksListPlaceholder;
+                    if (TasksList.Count <= 0) HomeTasksListCurrentParent.Content = new HomeTasksListPlaceholder();
                 };
 
                 // Add task to tasks lists
@@ -400,7 +227,7 @@ namespace VDownload.Views.Home
 
                 foreach (HomeTaskPanel videoPanel in idleTasks)
                 {
-                    await Task.Delay(10);
+                    await Task.Delay(1);
 
                     #pragma warning disable CS4014
                     videoPanel.Start(delay);

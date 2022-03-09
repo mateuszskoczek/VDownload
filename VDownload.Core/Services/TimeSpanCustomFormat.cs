@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VDownload.Core.Services
 {
@@ -15,17 +12,15 @@ namespace VDownload.Core.Services
             string formattedTimeSpan = string.Empty;
 
             int maxTHLength = 0;
-            if (Math.Floor(timeSpan.TotalHours) > 0)
+            foreach (TimeSpan format in formatBase.Concat(new TimeSpan[] { timeSpan }))
             {
-                maxTHLength = Math.Floor(timeSpan.TotalHours).ToString().Length;
-                foreach (TimeSpan format in formatBase)
-                {
-                    int THLength = Math.Floor(format.TotalHours) > 0 ? Math.Floor(timeSpan.TotalHours).ToString().Length : 0;
-                    if (THLength > maxTHLength) maxTHLength = THLength;
-                }
-                formattedTimeSpan += $"{((int)Math.Floor(timeSpan.TotalHours)).ToString($"D{maxTHLength}")}:";
+                int THLength = Math.Floor(format.TotalHours) > 0 ? Math.Floor(timeSpan.TotalHours).ToString().Length : 0;
+                if (THLength > maxTHLength) maxTHLength = THLength;
             }
+            formattedTimeSpan += $"{((int)Math.Floor(timeSpan.TotalHours)).ToString($"D{maxTHLength}")}:";
+
             formattedTimeSpan += maxTHLength == 0 ? $"{timeSpan.Minutes}:" : $"{timeSpan.Minutes:00}:";
+
             formattedTimeSpan += $"{timeSpan.Seconds:00}";
 
             return formattedTimeSpan;
@@ -37,22 +32,20 @@ namespace VDownload.Core.Services
             string formattedTimeSpan = string.Empty;
 
             int maxTHLength = 0;
-            if (Math.Floor(timeSpan.TotalHours) > 0)
+            foreach (TimeSpan format in formatBase.Concat(new TimeSpan[] { timeSpan }))
             {
-                maxTHLength = Math.Floor(timeSpan.TotalHours).ToString().Length;
-                foreach (TimeSpan format in formatBase)
-                {
-                    int THLength = Math.Floor(format.TotalHours) > 0 ? Math.Floor(timeSpan.TotalHours).ToString().Length : 0;
-                    if (THLength > maxTHLength) maxTHLength = THLength;
-                }
-                formattedTimeSpan += $"{((int)Math.Floor(timeSpan.TotalHours)).ToString($"D{maxTHLength}")}:";
+                int THLength = Math.Floor(format.TotalHours) > 0 ? Math.Floor(timeSpan.TotalHours).ToString().Length : 0;
+                if (THLength > maxTHLength) maxTHLength = THLength;
             }
+            formattedTimeSpan += $"{((int)Math.Floor(timeSpan.TotalHours)).ToString($"D{maxTHLength}")}:";
+
             bool MM = false;
-            if (Math.Floor(timeSpan.TotalMinutes) > 0)
+            if (Math.Floor(timeSpan.TotalMinutes) > 0 || maxTHLength > 0)
             {
                 formattedTimeSpan += maxTHLength > 0 ? $"{timeSpan.Minutes:00}:" : $"{timeSpan.Minutes}:";
                 MM = true;
             }
+
             formattedTimeSpan += MM ? $"{timeSpan.Seconds:00}:" : $"{timeSpan.Seconds}:";
 
             return formattedTimeSpan;

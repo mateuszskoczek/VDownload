@@ -130,8 +130,9 @@
     <Compile Include="Enums\TaskStatus.cs" />
     <Compile Include="EventArgs\ProgressChangedEventArgs.cs" />
     <Compile Include="EventArgs\TasksAddingRequestedEventArgs.cs" />
-    <Compile Include="EventArgs\VideoSearchEventArgs.cs" />
-    <Compile Include="EventArgs\PlaylistSearchEventArgs.cs" />
+    <Compile Include="EventArgs\PlaylistSearchSuccessedEventArgs.cs" />
+    <Compile Include="EventArgs\VideoSearchSuccessedEventArgs.cs" />
+    <Compile Include="Exceptions\MediaNotFoundException.cs" />
     <Compile Include="Exceptions\TwitchAccessTokenNotFoundException.cs" />
     <Compile Include="Exceptions\TwitchAccessTokenNotValidException.cs" />
     <Compile Include="Interfaces\IPlaylistService.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Services\Sources\Twitch\Clip.cs" />
     <Compile Include="Services\Sources\Twitch\Vod.cs" />
     <Compile Include="Services\TaskId.cs" />
+    <Compile Include="Structs\TaskOptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">

@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace VDownload.Views.Home
+namespace VDownload.Views.Home.Controls
 {
     public sealed partial class HomeTaskPanel : UserControl
     {
@@ -54,16 +54,16 @@ namespace VDownload.Views.Home
             SourceImage = new BitmapIcon { UriSource = new Uri($"ms-appx:///Assets/Sources/{Data.VideoService.GetType().Namespace.Split(".").Last()}.png"), ShowAsMonochrome = false };
 
             // Set duration
-            TimeSpan newDuration = Data.TrimEnd.Subtract(Data.TrimStart);
+            TimeSpan newDuration = Data.TaskOptions.TrimEnd.Subtract(Data.TaskOptions.TrimStart);
             Duration = TimeSpanCustomFormat.ToOptTHBaseMMSS(newDuration);
-            if (Data.VideoService.Metadata.Duration > newDuration) Duration += $" ({TimeSpanCustomFormat.ToOptTHBaseMMSS(Data.TrimStart, Data.TrimEnd)} - {TimeSpanCustomFormat.ToOptTHBaseMMSS(Data.TrimEnd, Data.TrimStart)})";
+            if (Data.VideoService.Metadata.Duration > newDuration) Duration += $" ({TimeSpanCustomFormat.ToOptTHBaseMMSS(Data.TaskOptions.TrimStart, Data.TaskOptions.TrimEnd)} - {TimeSpanCustomFormat.ToOptTHBaseMMSS(Data.TaskOptions.TrimEnd, Data.TaskOptions.TrimStart)})";
 
             // Set media type
-            MediaTypeQuality += ResourceLoader.GetForCurrentView().GetString($"MediaType{Data.MediaType}Text");
-            if (Data.MediaType != MediaType.OnlyAudio) MediaTypeQuality += $" ({Data.Stream.Height}p{(Data.Stream.FrameRate > 0 ? Data.Stream.FrameRate.ToString() : "N/A")})";
+            MediaTypeQuality += ResourceLoader.GetForCurrentView().GetString($"MediaType{Data.TaskOptions.MediaType}Text");
+            if (Data.TaskOptions.MediaType != MediaType.OnlyAudio) MediaTypeQuality += $" ({Data.TaskOptions.Stream.Height}p{(Data.TaskOptions.Stream.FrameRate > 0 ? Data.TaskOptions.Stream.FrameRate.ToString() : "N/A")})";
 
             // Set file
-            File += $@"{(Data.Location != null ? Data.Location.Path : $@"{UserDataPaths.GetDefault().Downloads}\VDownload")}\{Data.Filename}.{Data.Extension.ToString().ToLower()}";
+            File += $@"{(Data.TaskOptions.Location != null ? Data.TaskOptions.Location.Path : $@"{UserDataPaths.GetDefault().Downloads}\VDownload")}\{Data.TaskOptions.Filename}.{Data.TaskOptions.Extension.ToString().ToLower()}";
             
             // Set state controls
             HomeTaskPanelStateIcon.Source = (SvgImageSource)IconsRes["StateIdleIcon"];
@@ -110,9 +110,9 @@ namespace VDownload.Views.Home
             CancellationTokenSource = new CancellationTokenSource();
 
             // Scheduling
-            if (Data.Schedule > 0)
+            if (Data.TaskOptions.Schedule > 0)
             {
-                DateTime ScheduledDateTime = DateTime.Now.AddMinutes(Data.Schedule);
+                DateTime ScheduledDateTime = DateTime.Now.AddMinutes(Data.TaskOptions.Schedule);
 
                 // Set task status
                 Status = Core.Enums.TaskStatus.Scheduled;
@@ -181,7 +181,7 @@ namespace VDownload.Views.Home
 
                     // Start task
                     CancellationTokenSource.Token.ThrowIfCancellationRequested();
-                    StorageFile tempOutputFile = await Data.VideoService.DownloadAndTranscodeAsync(tempFolder, Data.Stream, Data.Extension, Data.MediaType, Data.TrimStart, Data.TrimEnd, CancellationTokenSource.Token);
+                    StorageFile tempOutputFile = await Data.VideoService.DownloadAndTranscodeAsync(tempFolder, Data.TaskOptions.Stream, Data.TaskOptions.Extension, Data.TaskOptions.MediaType, Data.TaskOptions.TrimStart, Data.TaskOptions.TrimEnd, CancellationTokenSource.Token);
 
                     // Dispose session
                     session.Dispose();
@@ -195,9 +195,9 @@ namespace VDownload.Views.Home
                     HomeTaskPanelStateProgressBar.IsIndeterminate = true;
 
                     // Move to output location
-                    string filename = $"{Data.Filename}.{Data.Extension.ToString().ToLower()}";
+                    string filename = $"{Data.TaskOptions.Filename}.{Data.TaskOptions.Extension.ToString().ToLower()}";
                     CreationCollisionOption collisionOption = (bool)Config.GetValue("replace_output_file_if_exists") ? CreationCollisionOption.ReplaceExisting : CreationCollisionOption.GenerateUniqueName;
-                    StorageFile outputFile = await (Data.Location != null ? Data.Location.CreateFileAsync(filename, collisionOption): DownloadsFolder.CreateFileAsync(filename, collisionOption));
+                    StorageFile outputFile = await (Data.TaskOptions.Location != null ? Data.TaskOptions.Location.CreateFileAsync(filename, collisionOption): DownloadsFolder.CreateFileAsync(filename, collisionOption));
                     await tempOutputFile.MoveAndReplaceAsync(outputFile);
 
                     // Stop stopwatch

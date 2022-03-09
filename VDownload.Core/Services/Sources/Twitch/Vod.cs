@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Enums;
+using VDownload.Core.Exceptions;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Services.Sources.Twitch.Helpers;
 using VDownload.Core.Structs;
@@ -52,7 +54,16 @@ namespace VDownload.Core.Services.Sources.Twitch
             {
                 client.QueryString.Add("id", ID);
                 cancellationToken.ThrowIfCancellationRequested();
-                response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/videos")).GetValue("data")[0];
+                try
+                {
+                    response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/videos")).GetValue("data")[0];
+                }
+                catch (WebException ex)
+                {
+                    if (ex.Response != null && new StreamReader(ex.Response.GetResponseStream()).ReadToEnd().Contains("Not Found")) throw new MediaNotFoundException($"Twitch VOD (ID: {ID}) was not found");
+                    else if (ex.Response != null && new StreamReader(ex.Response.GetResponseStream()).ReadToEnd() == string.Empty && ex.Message.Contains("400")) throw new MediaNotFoundException($"Twitch VOD (ID: {ID}) was not found");
+                    else throw;
+                }
             }
 
             // Set parameters

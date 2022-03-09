@@ -120,6 +120,39 @@
   <data name="CloseErrorDialogButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="HomeAddingDownloadingOptionsHeaderTextBlock.Text" xml:space="preserve">
+    <value>Downloading options</value>
+  </data>
+  <data name="HomeAddingFileOptionsHeaderTextBlock.Text" xml:space="preserve">
+    <value>File options</value>
+  </data>
+  <data name="HomeAddingFileSettingControl.Title" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="HomeAddingLocationBrowseButton.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="HomeAddingLocationSettingControl.Title" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="HomeAddingMediaTypeSettingControl.Title" xml:space="preserve">
+    <value>Media type</value>
+  </data>
+  <data name="HomeAddingQualitySettingControl.Title" xml:space="preserve">
+    <value>Quality</value>
+  </data>
+  <data name="HomeAddingScheduleSettingControl.Description" xml:space="preserve">
+    <value>Number of minutes to start the task (after clicking downloading button).</value>
+  </data>
+  <data name="HomeAddingScheduleSettingControl.Title" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="HomeAddingTaskOptionsHeaderTextBlock.Text" xml:space="preserve">
+    <value>Task options</value>
+  </data>
+  <data name="HomeAddingTrimSettingControl.Title" xml:space="preserve">
+    <value>Trim</value>
+  </data>
   <data name="HomeDownloadAllButtonMeteredConnectionDialogCancel" xml:space="preserve">
     <value>No</value>
   </data>
@@ -135,46 +168,6 @@
   <data name="HomeDownloadAllButtonMeteredConnectionDialogTitle" xml:space="preserve">
     <value>Metered connection detected</value>
   </data>
-  <data name="HomeOptionsBarAddPlaylistButton.Label" xml:space="preserve">
-    <value>Add playlist</value>
-  </data>
-  <data name="HomeOptionsBarAddPlaylistButton.Width" xml:space="preserve">
-    <value>85</value>
-  </data>
-  <data name="HomeOptionsBarAddPlaylistControlInfoBox.Subtitle" xml:space="preserve">
-    <value>- Twitch (Channel)
-
-Number of videos got from playlist
-The number in the numberbox indicades how many videos will be got from playlist. 0 = all.
-</value>
-  </data>
-  <data name="HomeOptionsBarAddPlaylistControlInfoBox.Title" xml:space="preserve">
-    <value>Supported sources</value>
-  </data>
-  <data name="HomeOptionsBarAddPlaylistControlSearchButton.Content" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="HomeOptionsBarAddPlaylistControlUrlTextBox.PlaceholderText" xml:space="preserve">
-    <value>Playlist URL</value>
-  </data>
-  <data name="HomeOptionsBarAddVideoButton.Label" xml:space="preserve">
-    <value>Add video</value>
-  </data>
-  <data name="HomeOptionsBarAddVideoButton.Width" xml:space="preserve">
-    <value>75</value>
-  </data>
-  <data name="HomeOptionsBarAddVideoControlInfoBox.Subtitle" xml:space="preserve">
-    <value>- Twitch (VODs, Clips)</value>
-  </data>
-  <data name="HomeOptionsBarAddVideoControlInfoBox.Title" xml:space="preserve">
-    <value>Supported sources</value>
-  </data>
-  <data name="HomeOptionsBarAddVideoControlSearchButton.Content" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="HomeOptionsBarAddVideoControlUrlTextBox.PlaceholderText" xml:space="preserve">
-    <value>Video URL</value>
-  </data>
   <data name="HomeOptionsBarDownloadAllButton.Label" xml:space="preserve">
     <value>Download all</value>
   </data>
@@ -187,6 +180,28 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="HomeOptionsBarLoadSubscripionsButton.Width" xml:space="preserve">
     <value>120</value>
   </data>
+  <data name="HomeOptionsBarPlaylistSearchButton.Label" xml:space="preserve">
+    <value>Playlist search</value>
+  </data>
+  <data name="HomeOptionsBarPlaylistSearchButton.Width" xml:space="preserve">
+    <value>95</value>
+  </data>
+  <data name="HomeOptionsBarPlaylistSearchControlInfoBox.Subtitle" xml:space="preserve">
+    <value>- Twitch (Channel)
+
+Number of videos got from playlist
+The number in the numberbox indicades how many videos will be got from playlist. 0 = all.
+</value>
+  </data>
+  <data name="HomeOptionsBarPlaylistSearchControlInfoBox.Title" xml:space="preserve">
+    <value>Supported sources</value>
+  </data>
+  <data name="HomeOptionsBarPlaylistSearchControlSearchButton.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="HomeOptionsBarPlaylistSearchControlUrlTextBox.PlaceholderText" xml:space="preserve">
+    <value>Playlist URL</value>
+  </data>
   <data name="HomeOptionsBarPlaylistSearchingErrorDialogTitle" xml:space="preserve">
     <value>Playlist search error</value>
   </data>
@@ -198,6 +213,24 @@ The number in the numberbox indicades how many videos will be got from playlist.
   </data>
   <data name="HomeOptionsBarPlaylistSearchingTwitchAccessTokenNotValidErrorDialogDescription" xml:space="preserve">
     <value>There is a problem with linked Twitch account. Check Twitch login status in Sources page.</value>
+  </data>
+  <data name="HomeOptionsBarVideoSearchButton.Label" xml:space="preserve">
+    <value>Video search</value>
+  </data>
+  <data name="HomeOptionsBarVideoSearchButton.Width" xml:space="preserve">
+    <value>90</value>
+  </data>
+  <data name="HomeOptionsBarVideoSearchControlInfoBox.Subtitle" xml:space="preserve">
+    <value>- Twitch (VODs, Clips)</value>
+  </data>
+  <data name="HomeOptionsBarVideoSearchControlInfoBox.Title" xml:space="preserve">
+    <value>Supported sources</value>
+  </data>
+  <data name="HomeOptionsBarVideoSearchControlSearchButton.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="HomeOptionsBarVideoSearchControlUrlTextBox.PlaceholderText" xml:space="preserve">
+    <value>Video URL</value>
   </data>
   <data name="HomeOptionsBarVideoSearchingErrorDialogTitle" xml:space="preserve">
     <value>Video search error</value>
@@ -341,40 +374,7 @@ The number in the numberbox indicades how many videos will be got from playlist.
     <value>Metered connection detected</value>
   </data>
   <data name="HomeTasksListPlaceholderTextBlock.Text" xml:space="preserve">
-    <value>Click "Add video/playlist" button to start</value>
-  </data>
-  <data name="HomeVideoAddingDownloadingOptionsHeaderTextBlock.Text" xml:space="preserve">
-    <value>Downloading options</value>
-  </data>
-  <data name="HomeVideoAddingFileOptionsHeaderTextBlock.Text" xml:space="preserve">
-    <value>File options</value>
-  </data>
-  <data name="HomeVideoAddingFileSettingControl.Title" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="HomeVideoAddingLocationBrowseButton.Content" xml:space="preserve">
-    <value>Browse</value>
-  </data>
-  <data name="HomeVideoAddingLocationSettingControl.Title" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="HomeVideoAddingMediaTypeSettingControl.Title" xml:space="preserve">
-    <value>Media type</value>
-  </data>
-  <data name="HomeVideoAddingQualitySettingControl.Title" xml:space="preserve">
-    <value>Quality</value>
-  </data>
-  <data name="HomeVideoAddingScheduleSettingControl.Description" xml:space="preserve">
-    <value>Number of minutes to start the task (after clicking downloading button).</value>
-  </data>
-  <data name="HomeVideoAddingScheduleSettingControl.Title" xml:space="preserve">
-    <value>Schedule</value>
-  </data>
-  <data name="HomeVideoAddingTaskOptionsHeaderTextBlock.Text" xml:space="preserve">
-    <value>Task options</value>
-  </data>
-  <data name="HomeVideoAddingTrimSettingControl.Title" xml:space="preserve">
-    <value>Trim</value>
+    <value>Click "Video/Playlist search" button to start</value>
   </data>
   <data name="MainPageNavigationPanelHomeItem.Content" xml:space="preserve">
     <value>Home</value>

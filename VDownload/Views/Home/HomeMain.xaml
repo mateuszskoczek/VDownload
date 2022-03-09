@@ -84,12 +84,12 @@
                 <ContentPresenter x:Name="HomeOptionsBarAddingControl" Grid.Row="1" Grid.Column="0"/>
                 <ContentPresenter x:Name="HomeOptionsBarSearchingStatusControl" Grid.Row="1" Grid.Column="1"/>
                 <StackPanel x:Name="HomeOptionBarButtonsStackPanel" Grid.Row="1" Grid.Column="3" Margin="3,0,3,0" HorizontalAlignment="Center"  Orientation="Horizontal">
-                    <AppBarButton x:Name="HomeOptionsBarLoadSubscripionsButton" x:Uid="HomeOptionsBarLoadSubscripionsButton" Icon="Favorite" Label="Load subscriptions" Width="120"/>
+                    <AppBarButton x:Name="HomeOptionsBarLoadSubscripionsButton" x:Uid="HomeOptionsBarLoadSubscripionsButton" Icon="Favorite" Width="120"/>
                     <AppBarSeparator VerticalAlignment="Center" Height="50"/>
-                    <AppBarToggleButton x:Name="HomeOptionsBarAddPlaylistButton" x:Uid="HomeOptionsBarAddPlaylistButton" Icon="List" Label="Add playlist" Width="85" Checked="HomeOptionsBarAddPlaylistButton_Checked" Unchecked="HomeOptionsBarAddingButtons_Unchecked"/>
-                    <AppBarToggleButton x:Name="HomeOptionsBarAddVideoButton" x:Uid="HomeOptionsBarAddVideoButton" Icon="Video" Label="Add video" Width="75" Checked="HomeOptionsBarAddVideoButton_Checked" Unchecked="HomeOptionsBarAddingButtons_Unchecked"/>
+                    <AppBarToggleButton x:Name="HomeOptionsBarPlaylistSearchButton" x:Uid="HomeOptionsBarPlaylistSearchButton" Icon="List" Width="85" Checked="HomeOptionsBarPlaylistSearchButton_Checked" Unchecked="HomeOptionsBarAddingButtons_Unchecked"/>
+                    <AppBarToggleButton x:Name="HomeOptionsBarVideoSearchButton" x:Uid="HomeOptionsBarVideoSearchButton" Icon="Video" Width="75" Checked="HomeOptionsBarVideoSearchButton_Checked" Unchecked="HomeOptionsBarAddingButtons_Unchecked"/>
                     <AppBarSeparator VerticalAlignment="Center" Height="50"/>
-                    <AppBarButton x:Name="HomeOptionsBarDownloadAllButton" x:Uid="HomeOptionsBarDownloadAllButton" Icon="Download" Label="Download All" Width="90" Click="HomeOptionsBarDownloadAllButton_Click"/>
+                    <AppBarButton x:Name="HomeOptionsBarDownloadAllButton" x:Uid="HomeOptionsBarDownloadAllButton" Icon="Download" Width="90" Click="HomeOptionsBarDownloadAllButton_Click"/>
                 </StackPanel>
             </Grid>
         </Grid>

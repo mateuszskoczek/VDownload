@@ -125,11 +125,14 @@
     <Compile Include="Views\About\AboutMain.xaml.cs">
       <DependentUpon>AboutMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomeOptionsBarAddPlaylistControl.xaml.cs">
-      <DependentUpon>HomeOptionsBarAddPlaylistControl.xaml</DependentUpon>
+    <Compile Include="Views\Home\Controls\HomeAddingVideoOptions.xaml.cs">
+      <DependentUpon>HomeAddingVideoOptions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomeOptionsBarAddVideoControl.xaml.cs">
-      <DependentUpon>HomeOptionsBarAddVideoControl.xaml</DependentUpon>
+    <Compile Include="Views\Home\Controls\HomeOptionsBarPlaylistSearch.xaml.cs">
+      <DependentUpon>HomeOptionsBarPlaylistSearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\Controls\HomeOptionsBarVideoSearch.xaml.cs">
+      <DependentUpon>HomeOptionsBarVideoSearch.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SettingControl.xaml.cs">
       <DependentUpon>SettingControl.xaml</DependentUpon>
@@ -140,16 +143,16 @@
     <Compile Include="Views\Home\HomePlaylistAddingPanel.xaml.cs">
       <DependentUpon>HomePlaylistAddingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomePlaylistAddingPanelVideoPanel.xaml.cs">
-      <DependentUpon>HomePlaylistAddingPanelVideoPanel.xaml</DependentUpon>
+    <Compile Include="Views\Home\Controls\HomeSerialAddingVideoPanel.xaml.cs">
+      <DependentUpon>HomeSerialAddingVideoPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomeTasksListPlaceholder.xaml.cs">
+    <Compile Include="Views\Home\Controls\HomeTasksListPlaceholder.xaml.cs">
       <DependentUpon>HomeTasksListPlaceholder.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Home\HomeVideoAddingPanel.xaml.cs">
       <DependentUpon>HomeVideoAddingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomeTaskPanel.xaml.cs">
+    <Compile Include="Views\Home\Controls\HomeTaskPanel.xaml.cs">
       <DependentUpon>HomeTaskPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
@@ -295,11 +298,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\HomeOptionsBarAddPlaylistControl.xaml">
+    <Page Include="Views\Home\Controls\HomeAddingVideoOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Home\Controls\HomeOptionsBarPlaylistSearch.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Home\HomeOptionsBarAddVideoControl.xaml">
+    <Page Include="Views\Home\Controls\HomeOptionsBarVideoSearch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -315,11 +322,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\HomePlaylistAddingPanelVideoPanel.xaml">
+    <Page Include="Views\Home\Controls\HomeSerialAddingVideoPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\HomeTasksListPlaceholder.xaml">
+    <Page Include="Views\Home\Controls\HomeTasksListPlaceholder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -327,7 +334,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\HomeTaskPanel.xaml">
+    <Page Include="Views\Home\Controls\HomeTaskPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml.Controls;
 
-namespace VDownload.Views.Home
+namespace VDownload.Views.Home.Controls
 {
     public sealed partial class HomeTasksListPlaceholder : UserControl
     {

@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="VDownload.Views.Home.HomeOptionsBarPlaylistSearch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="100"
+    d:DesignWidth="400">
+
+    
+    <Grid x:Name="HomeOptionsBarPlaylistSearchControlGrid" Margin="10" ColumnSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- URL TEXTBOX -->
+        <TextBox x:Name="HomeOptionsBarPlaylistSearchControlUrlTextBox" x:Uid="HomeOptionsBarPlaylistSearchControlUrlTextBox" Grid.Column="0" VerticalAlignment="Center"/>
+        
+        <!-- MAX VIDEOS NUMBERBOX -->
+        <muxc:NumberBox x:Name="HomeOptionsBarPlaylistSearchControlMaxVideosNumberBox" Grid.Column="1" VerticalAlignment="Center" SpinButtonPlacementMode="Compact" Minimum="0" LostFocus="HomeOptionsBarPlaylistSearchControlMaxVideosNumberBox_LostFocus"/>
+        
+        <!-- SEARCH BUTTON-->
+        <Button x:Name="HomeOptionsBarPlaylistSearchControlSearchButton" x:Uid="HomeOptionsBarPlaylistSearchControlSearchButton" Grid.Column="2" Click="HomeOptionsBarPlaylistSearchControlSearchButton_Click"/>
+        
+        <!-- HELP BUTTON -->
+        <Button x:Name="HomeOptionsBarPlaylistSearchControlHelpButton" Grid.Column="3" Content="?" Click="HomeOptionsBarPlaylistSearchControlHelpButton_Click">
+            <Button.Resources>
+                <muxc:TeachingTip x:Name="HomeOptionsBarPlaylistSearchControlInfoBox" x:Uid="HomeOptionsBarPlaylistSearchControlInfoBox" Target="{x:Bind HomeOptionsBarPlaylistSearchControlGrid}"/>
+            </Button.Resources>
+        </Button>
+
+        <!-- STATUS CONTROL -->
+        <ContentPresenter x:Name="HomeOptionsBarPlaylistSearchControlStatusControl" Margin="-10,0,0,0" Grid.Column="4"/>
+    </Grid>
+</UserControl>

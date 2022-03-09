@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:cc="using:VDownload.Controls"
+    Loading="HomePlaylistAddingPanel_Loading"
     mc:Ignorable="d">
 
 
@@ -69,7 +70,7 @@
                         <cc:SettingControl x:Uid="HomePlaylistAddingApplyToAllScheduleSettingControl" Icon="{ThemeResource ScheduleIcon}">
                             <cc:SettingControl.SettingContent>
                                 <StackPanel Spacing="10" Orientation="Horizontal">
-                                    <muxc:NumberBox x:Name="HomePlaylistAddingApplyToAllScheduleNumberBox" MaxWidth="100" Value="0" Minimum="0" SpinButtonPlacementMode="Compact" ValueChanged="HomePlaylistAddingApplyToAllScheduleNumberBox_ValueChanged"/>
+                                    <muxc:NumberBox x:Name="HomePlaylistAddingApplyToAllScheduleNumberBox" MaxWidth="100" Value="0" Minimum="0" SpinButtonPlacementMode="Compact" LostFocus="HomePlaylistAddingApplyToAllScheduleNumberBox_LostFocus"/>
                                     <Button x:Uid="HomePlaylistAddingApplyToAllApplyButton" Click="HomePlaylistAddingApplyToAllApplyScheduleButton_Click"/>
                                 </StackPanel>
                             </cc:SettingControl.SettingContent>

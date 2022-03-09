@@ -8,6 +8,7 @@
     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI"
     xmlns:cc="using:VDownload.Controls"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Loading="HomeVideoAddingPanel_Loading"
     mc:Ignorable="d">
     
     
@@ -80,7 +81,6 @@
                         <Setter Target="HomeVideoAddingPanelDMetadataR2.Height" Value="Auto"/>
                         <Setter Target="HomeVideoAddingPanelDMetadataC1.Width" Value="1*"/>
                         <Setter Target="HomeVideoAddingPanelDMetadataC2.Width" Value="1*"/>
-                        <Setter Target="HomeVideoAddingFilenameTextBox.MaxWidth" Value="180"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -137,7 +137,6 @@
                         <Setter Target="HomeVideoAddingPanelDMetadataR2.Height" Value="1*"/>
                         <Setter Target="HomeVideoAddingPanelDMetadataC1.Width" Value="Auto"/>
                         <Setter Target="HomeVideoAddingPanelDMetadataC2.Width" Value="Auto"/>
-                        <Setter Target="HomeVideoAddingFilenameTextBox.MaxWidth" Value="250"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -199,60 +198,9 @@
             </Grid>
         </Grid>
         
-        <!-- PROPERTIES PANEL -->
+        <!-- Options PANEL -->
         <ScrollViewer Grid.Row="1">
-            <StackPanel Spacing="30">
-                <StackPanel>
-                    <TextBlock x:Uid="HomeVideoAddingDownloadingOptionsHeaderTextBlock" Margin="0,0,0,10" FontWeight="SemiBold"/>
-                    <cc:SettingControl x:Uid="HomeVideoAddingMediaTypeSettingControl" Margin="0,0,0,10" Icon="{ThemeResource MediaTypeIcon}">
-                        <cc:SettingControl.SettingContent>
-                            <ComboBox x:Name="HomeVideoAddingMediaTypeSettingControlComboBox" Width="150" SelectionChanged="HomeVideoAddingMediaTypeSettingControlComboBox_SelectionChanged"/>
-                        </cc:SettingControl.SettingContent>
-                    </cc:SettingControl>
-                    <cc:SettingControl x:Name="HomeVideoAddingQualitySettingControl" Margin="0,0,0,10" x:Uid="HomeVideoAddingQualitySettingControl" Icon="{ThemeResource QualityIcon}">
-                        <cc:SettingControl.SettingContent>
-                            <ComboBox x:Name="HomeVideoAddingQualitySettingControlComboBox" Width="150" SelectionChanged="HomeVideoAddingQualitySettingControlComboBox_SelectionChanged"/>
-                        </cc:SettingControl.SettingContent>
-                    </cc:SettingControl>
-                    <cc:SettingControl x:Uid="HomeVideoAddingTrimSettingControl" Icon="{ThemeResource TrimIcon}">
-                        <cc:SettingControl.SettingContent>
-                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBox x:Name="HomeVideoAddingTrimStartTextBox" ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}" ex:TextBoxExtensions.Mask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomeVideoAddingTrimStartTextBox_TextChanged"/>
-                                <TextBlock VerticalAlignment="Center" Text="-"/>
-                                <TextBox x:Name="HomeVideoAddingTrimEndTextBox"  ex:TextBoxExtensions.CustomMask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskElementsConverter}}"  ex:TextBoxExtensions.Mask="{x:Bind VideoService.Metadata.Duration, Converter={StaticResource TimeSpanToTextBoxMaskConverter}}" TextChanged="HomeVideoAddingTrimEndTextBox_TextChanged"/>
-                            </StackPanel>
-                        </cc:SettingControl.SettingContent>
-                    </cc:SettingControl>
-                </StackPanel>
-                <StackPanel Spacing="10">
-                    <TextBlock x:Uid="HomeVideoAddingFileOptionsHeaderTextBlock" FontWeight="SemiBold"/>
-                    <cc:SettingControl x:Uid="HomeVideoAddingFileSettingControl" Icon="{ThemeResource FileIcon}">
-                        <cc:SettingControl.SettingContent>
-                            <Grid ColumnSpacing="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="100"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="HomeVideoAddingFilenameTextBox" Grid.Column="0" MaxWidth="300" HorizontalAlignment="Right" IsSpellCheckEnabled="False" TextChanged="HomeVideoAddingFilenameTextBox_TextChanged"/>
-                                <ComboBox x:Name="HomeVideoAddingExtensionComboBox" Grid.Column="1" HorizontalAlignment="Stretch" SelectionChanged="HomeVideoAddingExtensionComboBox_SelectionChanged"/>
-                            </Grid>
-                        </cc:SettingControl.SettingContent>
-                    </cc:SettingControl>
-                    <cc:SettingControl x:Name="HomeVideoAddingLocationSettingControl" x:Uid="HomeVideoAddingLocationSettingControl" Icon="{ThemeResource LocationIcon}">
-                        <cc:SettingControl.SettingContent>
-                            <Button x:Uid="HomeVideoAddingLocationBrowseButton" Click="HomeVideoAddingLocationBrowseButton_Click"/>
-                        </cc:SettingControl.SettingContent>
-                    </cc:SettingControl>
-                </StackPanel>
-                <StackPanel Spacing="10">
-                    <TextBlock x:Uid="HomeVideoAddingTaskOptionsHeaderTextBlock" FontWeight="SemiBold"/>
-                    <cc:SettingControl x:Uid="HomeVideoAddingScheduleSettingControl" Icon="{ThemeResource ScheduleIcon}">
-                        <cc:SettingControl.SettingContent>
-                            <muxc:NumberBox x:Name="HomeVideoAddingScheduleNumberBox" MaxWidth="100" Value="0" Minimum="0" SpinButtonPlacementMode="Compact" ValueChanged="HomeVideoAddingScheduleNumberBox_ValueChanged"/>
-                        </cc:SettingControl.SettingContent>
-                    </cc:SettingControl>
-                </StackPanel>
-            </StackPanel>
+            <ContentControl x:Name="HomeVideoAddingOptionsControlParent" HorizontalContentAlignment="Stretch"/>
         </ScrollViewer>
     </Grid>
 </UserControl>

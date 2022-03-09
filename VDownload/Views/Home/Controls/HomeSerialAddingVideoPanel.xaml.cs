@@ -1,28 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using VDownload.Core.Enums;
-using VDownload.Core.EventArgs;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Services;
-using VDownload.Core.Structs;
-using VDownload.Views.Home.Controls;
-using Windows.ApplicationModel.Resources;
-using Windows.Storage;
-using Windows.Storage.AccessCache;
-using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace VDownload.Views.Home
+namespace VDownload.Views.Home.Controls
 {
-    public sealed partial class HomeVideoAddingPanel : UserControl
+    public sealed partial class HomeSerialAddingVideoPanel : UserControl
     {
         #region CONSTANTS
 
@@ -34,7 +23,7 @@ namespace VDownload.Views.Home
 
         #region CONSTRUCTORS
 
-        public HomeVideoAddingPanel(IVideoService videoService)
+        public HomeSerialAddingVideoPanel(IVideoService videoService)
         {
             this.InitializeComponent();
 
@@ -61,7 +50,7 @@ namespace VDownload.Views.Home
         #region PROPERTIES
 
         // BASE VIDEO DATA
-        private IVideoService VideoService { get; set; }
+        public IVideoService VideoService { get; set; }
 
         // VIDEO DATA
         private ImageSource ThumbnailImage { get; set; }
@@ -73,7 +62,7 @@ namespace VDownload.Views.Home
         private string Duration { get; set; }
 
         // OPTIONS CONTROL
-        private HomeAddingVideoOptions HomeVideoAddingOptionsControl { get; set; }
+        public HomeAddingVideoOptions HomeVideoAddingOptionsControl { get; private set; }
 
         #endregion
 
@@ -81,46 +70,24 @@ namespace VDownload.Views.Home
 
         #region EVENT HANDLERS VOIDS
 
-        private async void HomeVideoAddingPanel_Loading(FrameworkElement sender, object args)
+        // ON CONTROL LOADING
+        private async void HomeSerialAddingVideoPanel_Loading(FrameworkElement sender, object args)
         {
             await HomeVideoAddingOptionsControl.Init();
-            HomeVideoAddingOptionsControlParent.Content = HomeVideoAddingOptionsControl;
+            HomeSerialAddingVideoExpander.Content = HomeVideoAddingOptionsControl;
         }
 
         // SOURCE BUTTON CLICKED
-        public async void HomeVideoAddingPanelSourceButton_Click(object sender, RoutedEventArgs e)
+        private async void HomeSerialAddingVideoPanelSourceButton_Click(object sender, RoutedEventArgs e)
         {
             // Launch the website
             await Windows.System.Launcher.LaunchUriAsync(VideoService.VideoUrl);
         }
 
-        // ADD BUTTON CLICKED
-        public void HomeVideoAddingPanelAddButton_Click(object sender, RoutedEventArgs e)
+        // DELETE BUTTON CLICKED
+        private void HomeSerialAddingVideoPanelDeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            // Pack task data
-            TaskData taskData = new TaskData
-            {
-                VideoService = VideoService,
-                TaskOptions = new TaskOptions()
-                {
-                    MediaType = HomeVideoAddingOptionsControl.MediaType,
-                    Stream = HomeVideoAddingOptionsControl.Stream,
-                    TrimStart = HomeVideoAddingOptionsControl.TrimStart,
-                    TrimEnd = HomeVideoAddingOptionsControl.TrimEnd,
-                    Filename = HomeVideoAddingOptionsControl.Filename,
-                    Extension = HomeVideoAddingOptionsControl.Extension,
-                    Location = HomeVideoAddingOptionsControl.Location,
-                    Schedule = HomeVideoAddingOptionsControl.Schedule,
-                }
-            };
-
-            // Request task adding
-            TasksAddingRequestedEventArgs eventArgs = new TasksAddingRequestedEventArgs
-            {
-                TaskData = new TaskData[] { taskData },
-                RequestSource = TaskAddingRequestSource.Video
-            };
-            TasksAddingRequested?.Invoke(this, eventArgs);
+            DeleteRequested?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion
@@ -129,7 +96,7 @@ namespace VDownload.Views.Home
 
         #region EVENT HANDLERS
 
-        public event EventHandler<TasksAddingRequestedEventArgs> TasksAddingRequested;
+        public event EventHandler DeleteRequested;
 
         #endregion
     }

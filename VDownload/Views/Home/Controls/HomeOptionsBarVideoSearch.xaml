@@ -1,0 +1,38 @@
+﻿<UserControl
+    x:Class="VDownload.Views.Home.HomeOptionsBarVideoSearch"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="100"
+    d:DesignWidth="400">
+
+
+    <Grid x:Name="HomeOptionsBarVideoSearchControlGrid" Margin="10" ColumnSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- URL TEXTBOX -->
+        <TextBox x:Name="HomeOptionsBarVideoSearchControlUrlTextBox" x:Uid="HomeOptionsBarVideoSearchControlUrlTextBox" Grid.Column="0" VerticalAlignment="Center"/>
+        
+        <!-- SEARCH BUTTON -->
+        <Button x:Name="HomeOptionsBarVideoSearchControlSearchButton" x:Uid="HomeOptionsBarVideoSearchControlSearchButton" Grid.Column="1" Click="HomeOptionsBarVideoSearchControlSearchButton_Click"/>
+        
+        <!-- INFO BUTTON -->
+        <Button x:Name="HomeOptionsBarVideoSearchControlHelpButton" x:Uid="HomeOptionsBarVideoSearchControlHelpButton" Grid.Column="2" Content="?" Click="HomeOptionsBarVideoSearchControlHelpButton_Click">
+            <Button.Resources>
+                <muxc:TeachingTip x:Name="HomeOptionsBarVideoSearchControlInfoBox" x:Uid="HomeOptionsBarAddVideoControlInfoBox" Target="{x:Bind HomeOptionsBarVideoSearchControlGrid}"/>
+            </Button.Resources>
+        </Button>
+        
+        <!-- STATUS CONTROL -->
+        <ContentPresenter x:Name="HomeOptionBarVideoSearchControlStatusControl" Margin="-10,0,0,0" Grid.Column="3"/>
+    </Grid>
+</UserControl>

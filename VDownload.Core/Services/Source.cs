@@ -18,7 +18,7 @@ namespace VDownload.Core.Services
         // PLAYLIST SOURCES REGULAR EXPRESSIONS
         private static readonly (Regex Regex, PlaylistSource Type)[] PlaylistSources = new (Regex Regex, PlaylistSource Type)[]
         {
-            (new Regex(@"^https://www.twitch.tv/(?<id>[^?]+)"), PlaylistSource.TwitchChannel),
+            (new Regex(@"^https://www.twitch.tv/(?<id>[^?/]+)"), PlaylistSource.TwitchChannel),
         };
 
         #endregion

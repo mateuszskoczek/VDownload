@@ -54,7 +54,9 @@ namespace VDownload.Core.Services.Sources.Twitch
             using (WebClient client = await Client.Helix())
             {
                 client.QueryString.Add("id", ID);
-                response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/clips")).GetValue("data")[0];
+                response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/clips")).GetValue("data");
+                if (((JArray)response).Count > 0) response = response[0];
+                else throw new MediaNotFoundException($"Twitch Clip (ID: {ID}) was not found");
             }
 
             // Create unified video url
