@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="VDownload.Views.Sources.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Views.Sources"
+    xmlns:cc="using:VDownload.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    
+    <Page.Resources>
+        <ResourceDictionary Source="ms-appx:///Resources/Icons.xaml"/>
+    </Page.Resources>
+    
+    
+    <Grid Padding="20" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Uid="Sources_HeaderTextBlock" Grid.Row="0" FontSize="28" FontWeight="SemiBold"/>
+        
+        <StackPanel Grid.Row="1" Spacing="10">
+            <cc:SettingControl x:Name="TwitchSettingControl" x:Uid="Sources_TwitchSettingControl" Grid.Row="0" Icon="{StaticResource TwitchIcon}" Title="Twitch">
+                <cc:SettingControl.SettingContent>
+                    <Button x:Name="TwitchSettingControlLoginButton" x:Uid="Sources_TwitchSettingControl_LoginButton" IsEnabled="False" Click="TwitchSettingControlLoginButton_Click"/>
+                </cc:SettingControl.SettingContent>
+            </cc:SettingControl>
+        </StackPanel>
+    </Grid>
+</Page>
