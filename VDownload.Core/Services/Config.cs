@@ -6,7 +6,7 @@ using Windows.Storage;
 
 namespace VDownload.Core.Services
 {
-    public class Config
+    public static class Config
     {
         #region CONSTANTS
 

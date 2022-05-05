@@ -17,13 +17,15 @@ using Windows.Storage;
 
 namespace VDownload.Core.Services.Sources.Twitch
 {
-    public class Vod : IVideoService
+    [Serializable]
+    public class Vod : IVideo
     {
         #region CONSTRUCTORS
 
         public Vod(string id)
         {
             ID = id;
+            Source = VideoSource.TwitchVod;
         }
 
         #endregion
@@ -32,8 +34,9 @@ namespace VDownload.Core.Services.Sources.Twitch
 
         #region PROPERTIES
 
+        public VideoSource Source { get; private set; }
         public string ID { get; private set; }
-        public Uri VideoUrl { get; private set; }
+        public Uri Url { get; private set; }
         public Metadata Metadata { get; private set; }
         public BaseStream[] BaseStreams { get; private set; }
 
@@ -72,7 +75,7 @@ namespace VDownload.Core.Services.Sources.Twitch
         internal void GetMetadataAsync(JToken response)
         {
             // Create unified video url
-            VideoUrl = new Uri($"https://www.twitch.tv/videos/{ID}");
+            Url = new Uri($"https://www.twitch.tv/videos/{ID}");
 
             // Set metadata
             Metadata = new Metadata()

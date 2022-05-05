@@ -104,7 +104,7 @@ namespace VDownload.Views.Home
             HomeTasksListRow.Height = new GridLength(0);
 
             // Open adding panel
-            HomeVideoAddingPanel addingPanel = new HomeVideoAddingPanel(e.VideoService);
+            HomeVideoAddingPanel addingPanel = new HomeVideoAddingPanel(e.Video);
             addingPanel.TasksAddingRequested += HomeTasksAddingRequest;
             HomeAddingPanel.Content = addingPanel;
         }

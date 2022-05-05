@@ -8,6 +8,7 @@ using VDownload.Core.EventArgs;
 using VDownload.Core.Exceptions;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Services;
+using VDownload.Core.Services.Sources;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -52,7 +53,7 @@ namespace VDownload.Views.Home
 
 
 
-        #region EVENT HANDLERS
+        #region EVENT HANDLERS VOIDS
 
         // NUMBERBOX FOCUS LOST
         private void HomeOptionsBarPlaylistSearchControlMaxVideosNumberBox_LostFocus(object sender, RoutedEventArgs e)
@@ -73,22 +74,13 @@ namespace VDownload.Views.Home
             HomeOptionsBarPlaylistSearchControlStatusControl.Content = HomeOptionsBarPlaylistSearchStatusProgressRing;
 
             // Parse url
-            (PlaylistSource Type, string ID) source = Source.GetPlaylistSource(HomeOptionsBarPlaylistSearchControlUrlTextBox.Text);
-
-            // Check url
-            if (source.Type == PlaylistSource.Null)
+            IPlaylist playlistService = Source.GetPlaylist(HomeOptionsBarPlaylistSearchControlUrlTextBox.Text);
+            if (playlistService == null)
             {
                 HomeOptionsBarPlaylistSearchControlStatusControl.Content = HomeOptionsBarPlaylistSearchStatusErrorImage;
             }
             else
             {
-                // Select video service
-                IPlaylistService playlistService = null;
-                switch (source.Type)
-                {
-                    case PlaylistSource.TwitchChannel: playlistService = new Core.Services.Sources.Twitch.Channel(source.ID); break;
-                }
-
                 // Get metadata and streams
                 try
                 {

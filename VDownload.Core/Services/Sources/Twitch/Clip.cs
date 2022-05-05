@@ -18,13 +18,15 @@ using Windows.Storage;
 
 namespace VDownload.Core.Services.Sources.Twitch
 {
-    public class Clip : IVideoService
+    [Serializable]
+    public class Clip : IVideo
     {
         #region CONSTRUCTORS
 
         public Clip(string id)
         {
             ID = id;
+            Source = VideoSource.TwitchClip;
         }
 
         #endregion
@@ -33,8 +35,9 @@ namespace VDownload.Core.Services.Sources.Twitch
 
         #region PROPERTIES
 
+        public VideoSource Source { get; private set; }
         public string ID { get; private set; }
-        public Uri VideoUrl { get; private set; }
+        public Uri Url { get; private set; }
         public Metadata Metadata { get; private set; }
         public BaseStream[] BaseStreams { get; private set; }
 
@@ -60,7 +63,7 @@ namespace VDownload.Core.Services.Sources.Twitch
             }
 
             // Create unified video url
-            VideoUrl = new Uri($"https://clips.twitch.tv/{ID}");
+            Url = new Uri($"https://clips.twitch.tv/{ID}");
 
             // Set metadata
             Metadata = new Metadata()

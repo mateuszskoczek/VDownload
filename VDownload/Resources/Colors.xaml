@@ -7,12 +7,16 @@
             <SolidColorBrush x:Key="HomeOptionBarBackgroundColor" Color="#F5F5F5"/>
             <SolidColorBrush x:Key="HomePlaylistAddingVideoPanelContentBackgroundColor" Color="#F5F5F5"/>
             <SolidColorBrush x:Key="HomePlaylistAddingApplyToAllContentBackgroundColor" Color="#F5F5F5"/>
+            <SolidColorBrush x:Key="SubscriptionsSubscriptionPanelBackgroundColor" Color="#F5F5F5"/>
+            <SolidColorBrush x:Key="SubscriptionsAddingPanelBackgroundColor" Color="#F5F5F5"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="HomeBackgroundColor" Color="#242424"/>
             <SolidColorBrush x:Key="HomeOptionBarBackgroundColor" Color="#1B1B1B"/>
             <SolidColorBrush x:Key="HomePlaylistAddingVideoPanelContentBackgroundColor" Color="#272727"/>
             <SolidColorBrush x:Key="HomePlaylistAddingApplyToAllContentBackgroundColor" Color="#272727"/>
+            <SolidColorBrush x:Key="SubscriptionsSubscriptionPanelBackgroundColor" Color="#272727"/>
+            <SolidColorBrush x:Key="SubscriptionsAddingPanelBackgroundColor" Color="#272727"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     <SolidColorBrush x:Key="HomeTasksListPlaceholderTextColor" Color="#AAAAAA"/>

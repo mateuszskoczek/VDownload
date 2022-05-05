@@ -30,7 +30,7 @@ namespace VDownload.Views.Home.Controls
     {
         #region CONSTRUCTORS
 
-        public HomeAddingVideoOptions(IVideoService videoService)
+        public HomeAddingVideoOptions(IVideo videoService)
         {
             this.InitializeComponent();
 
@@ -112,7 +112,7 @@ namespace VDownload.Views.Home.Controls
         #region PROPERTIES
 
         // VIDEO SERVICE
-        private IVideoService VideoService { get; set; }
+        private IVideo VideoService { get; set; }
 
         // TASK OPTIONS
         public MediaType MediaType { get; private set; }

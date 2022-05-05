@@ -23,7 +23,7 @@ namespace VDownload.Views.Home.Controls
 
         #region CONSTRUCTORS
 
-        public HomeSerialAddingVideoPanel(IVideoService videoService)
+        public HomeSerialAddingVideoPanel(IVideo videoService)
         {
             this.InitializeComponent();
 
@@ -50,7 +50,7 @@ namespace VDownload.Views.Home.Controls
         #region PROPERTIES
 
         // BASE VIDEO DATA
-        public IVideoService VideoService { get; set; }
+        public IVideo VideoService { get; set; }
 
         // VIDEO DATA
         private ImageSource ThumbnailImage { get; set; }
@@ -81,7 +81,7 @@ namespace VDownload.Views.Home.Controls
         private async void HomeSerialAddingVideoPanelSourceButton_Click(object sender, RoutedEventArgs e)
         {
             // Launch the website
-            await Windows.System.Launcher.LaunchUriAsync(VideoService.VideoUrl);
+            await Windows.System.Launcher.LaunchUriAsync(VideoService.Url);
         }
 
         // DELETE BUTTON CLICKED

@@ -34,9 +34,9 @@ namespace VDownload.Views
         private readonly Dictionary<string, Type> Pages = new Dictionary<string, Type>()
         {
             {"home", typeof(Home.HomeMain)},
-            {"subscriptions", typeof(Subscriptions.SubscriptionsMain)},
+            {"subscriptions", typeof(Subscriptions.MainPage)},
             {"about", typeof(About.AboutMain)},
-            {"sources", typeof(Sources.SourcesMain)},
+            {"sources", typeof(Sources.MainPage)},
             {"settings", typeof(Settings.SettingsMain)},
         };
 

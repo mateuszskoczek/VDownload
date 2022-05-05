@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace VDownload.Core.Structs
 {
+    [Serializable]
     public struct Metadata
     {
         public string Title { get; set; }

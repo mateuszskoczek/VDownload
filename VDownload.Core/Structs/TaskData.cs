@@ -7,7 +7,7 @@ namespace VDownload.Core.Structs
 {
     public struct TaskData
     {
-        public IVideoService VideoService { get; set; }
+        public IVideo VideoService { get; set; }
         public TaskOptions TaskOptions { get; set; }
     }
 }

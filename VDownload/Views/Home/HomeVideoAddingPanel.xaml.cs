@@ -34,7 +34,7 @@ namespace VDownload.Views.Home
 
         #region CONSTRUCTORS
 
-        public HomeVideoAddingPanel(IVideoService videoService)
+        public HomeVideoAddingPanel(IVideo videoService)
         {
             this.InitializeComponent();
 
@@ -61,7 +61,7 @@ namespace VDownload.Views.Home
         #region PROPERTIES
 
         // BASE VIDEO DATA
-        private IVideoService VideoService { get; set; }
+        private IVideo VideoService { get; set; }
 
         // VIDEO DATA
         private ImageSource ThumbnailImage { get; set; }
@@ -91,7 +91,7 @@ namespace VDownload.Views.Home
         public async void HomeVideoAddingPanelSourceButton_Click(object sender, RoutedEventArgs e)
         {
             // Launch the website
-            await Windows.System.Launcher.LaunchUriAsync(VideoService.VideoUrl);
+            await Windows.System.Launcher.LaunchUriAsync(VideoService.Url);
         }
 
         // ADD BUTTON CLICKED

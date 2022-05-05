@@ -26,7 +26,7 @@ namespace VDownload.Views.Home
     {
         #region CONSTRUCTORS
 
-        public HomePlaylistAddingPanel(IPlaylistService playlistService)
+        public HomePlaylistAddingPanel(IPlaylist playlistService)
         {
             this.InitializeComponent();
 
@@ -41,7 +41,7 @@ namespace VDownload.Views.Home
         #region PROPERTIES
 
         // BASE PLAYLIST DATA
-        private IPlaylistService PlaylistService { get; set; }
+        private IPlaylist PlaylistService { get; set; }
 
         // PLAYLIST DATA
         private IconElement SourceImage { get; set; }
@@ -84,7 +84,7 @@ namespace VDownload.Views.Home
             MaxDate = PlaylistService.Videos[0].Metadata.Date;
             MinDuration = PlaylistService.Videos[0].Metadata.Duration;
             MaxDuration = PlaylistService.Videos[0].Metadata.Duration;
-            foreach (IVideoService video in PlaylistService.Videos)
+            foreach (IVideo video in PlaylistService.Videos)
             {
                 // Set mins and maxes
                 if (video.Metadata.Views < MinViews) MinViews = video.Metadata.Views;
@@ -375,7 +375,7 @@ namespace VDownload.Views.Home
         private async void HomePlaylistAddingPanelSourceButton_Click(object sender, RoutedEventArgs e)
         {
             // Launch the website
-            await Windows.System.Launcher.LaunchUriAsync(PlaylistService.PlaylistUrl);
+            await Windows.System.Launcher.LaunchUriAsync(PlaylistService.Url);
         }
 
         // ADD BUTTON CLICKED

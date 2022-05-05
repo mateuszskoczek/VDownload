@@ -4,6 +4,6 @@ namespace VDownload.Core.EventArgs
 {
     public class VideoSearchSuccessedEventArgs : System.EventArgs
     {
-        public IVideoService VideoService { get; set; }
+        public IVideo Video { get; set; }
     }
 }

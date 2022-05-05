@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VDownload.Core.Services
 {
-    public class TaskId
+    public static class TaskId
     {
         #region CONSTANTS
 

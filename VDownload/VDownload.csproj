@@ -158,14 +158,17 @@
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Sources\SourcesMain.xaml.cs">
-      <DependentUpon>SourcesMain.xaml</DependentUpon>
+    <Compile Include="Views\Sources\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Settings\SettingsMain.xaml.cs">
       <DependentUpon>SettingsMain.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Subscriptions\SubscriptionsMain.xaml.cs">
-      <DependentUpon>SubscriptionsMain.xaml</DependentUpon>
+    <Compile Include="Views\Subscriptions\Controls\SubscriptionPanel.xaml.cs">
+      <DependentUpon>SubscriptionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Subscriptions\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -342,7 +345,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Sources\SourcesMain.xaml">
+    <Page Include="Views\Sources\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -350,7 +353,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Subscriptions\SubscriptionsMain.xaml">
+    <Page Include="Views\Subscriptions\Controls\SubscriptionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Subscriptions\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -369,7 +376,7 @@
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.8.0-prerelease.220118001</Version>
+      <Version>2.8.0-prerelease.220413001</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -383,6 +390,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\en-US\DialogResources.resw" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

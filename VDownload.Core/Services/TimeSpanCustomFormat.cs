@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace VDownload.Core.Services
 {
-    public class TimeSpanCustomFormat
+    public static class TimeSpanCustomFormat
     {
         // (TH:)MM:SS
         public static string ToOptTHBaseMMSS(TimeSpan timeSpan, params TimeSpan[] formatBase)

@@ -406,18 +406,6 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="NotificationTaskEndedUnsuccessfullyHeader" xml:space="preserve">
     <value>Video downloading ended unsuccessfully</value>
   </data>
-  <data name="SourcesMainPageHeaderText.Text" xml:space="preserve">
-    <value>Sources</value>
-  </data>
-  <data name="SourcesTwitchLoginButton.Content" xml:space="preserve">
-    <value>Loading...</value>
-  </data>
-  <data name="SourcesTwitchLoginButtonTextLoggedIn" xml:space="preserve">
-    <value>Log out</value>
-  </data>
-  <data name="SourcesTwitchLoginButtonTextNotLoggedIn" xml:space="preserve">
-    <value>Sign in</value>
-  </data>
   <data name="SourcesTwitchLoginErrorDialogDescriptionInternetConnectionError" xml:space="preserve">
     <value>Unable to connect to Twitch servers. Check your internet connection.</value>
   </data>
@@ -427,20 +415,50 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="SourcesTwitchLoginErrorDialogTitle" xml:space="preserve">
     <value>Login to Twitch failed</value>
   </data>
-  <data name="SourcesTwitchSettingControl.Description" xml:space="preserve">
+  <data name="Sources_HeaderTextBlock.Text" xml:space="preserve">
+    <value>Sources</value>
+  </data>
+  <data name="Sources_TwitchSettingControl.Description" xml:space="preserve">
     <value>Loading...</value>
   </data>
-  <data name="SourcesTwitchSettingControl.Title" xml:space="preserve">
+  <data name="Sources_TwitchSettingControl.Title" xml:space="preserve">
     <value>Twitch</value>
   </data>
-  <data name="SourcesTwitchSettingControlDescriptionInternetConnectionError" xml:space="preserve">
+  <data name="Sources_TwitchSettingControl_Description_AccessTokenExpired" xml:space="preserve">
+    <value>Your Twitch access token has expired. Please sign in.</value>
+  </data>
+  <data name="Sources_TwitchSettingControl_Description_InternetNotAvailable" xml:space="preserve">
     <value>Unable to connect to Twitch servers. Check your internet connection.</value>
   </data>
-  <data name="SourcesTwitchSettingControlDescriptionLoggedIn" xml:space="preserve">
+  <data name="Sources_TwitchSettingControl_Description_LoggedIn" xml:space="preserve">
     <value>Logged in as</value>
   </data>
-  <data name="SourcesTwitchSettingControlDescriptionNotLoggedIn" xml:space="preserve">
+  <data name="Sources_TwitchSettingControl_Description_NotLoggedIn" xml:space="preserve">
     <value>Not logged in. Twitch authentication is required to download videos.</value>
+  </data>
+  <data name="Sources_TwitchSettingControl_LoginButton.Content" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Sources_TwitchSettingControl_LoginButton_Content_LoggedIn" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="Sources_TwitchSettingControl_LoginButton_Content_NotLoggedIn" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="Subscriptions_AddingButton.Content" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Subscriptions_AddingTextBox.PlaceholderText" xml:space="preserve">
+    <value>Playlist URL</value>
+  </data>
+  <data name="Subscriptions_HeaderTextBlock.Text" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
+  <data name="Subscriptions_SubscriptionPanel_CountTextBlock.Text" xml:space="preserve">
+    <value>Loading...</value>
+  </data>
+  <data name="Subscriptions_SubscriptionPanel_CountTextBlock_SyncText" xml:space="preserve">
+    <value>Syncing...</value>
   </data>
   <data name="TaskErrorInternetConnection" xml:space="preserve">
     <value>Internet connection error</value>

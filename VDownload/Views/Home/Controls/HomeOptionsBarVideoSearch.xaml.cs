@@ -7,6 +7,7 @@ using VDownload.Core.EventArgs;
 using VDownload.Core.Exceptions;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Services;
+using VDownload.Core.Services.Sources;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -63,23 +64,15 @@ namespace VDownload.Views.Home
             HomeOptionBarVideoSearchControlStatusControl.Content = HomeOptionsBarVideoSearchStatusProgressRing;
 
             // Parse url
-            (VideoSource Type, string ID) source = Source.GetVideoSource(HomeOptionsBarVideoSearchControlUrlTextBox.Text);
+            IVideo videoService = Source.GetVideo(HomeOptionsBarVideoSearchControlUrlTextBox.Text);
 
             // Check url
-            if (source.Type == VideoSource.Null)
+            if (videoService == null)
             {
                 HomeOptionBarVideoSearchControlStatusControl.Content = HomeOptionsBarVideoSearchStatusErrorImage;
             }
             else
             {
-                // Select video service
-                IVideoService videoService = null;
-                switch (source.Type)
-                {
-                    case VideoSource.TwitchVod: videoService = new Core.Services.Sources.Twitch.Vod(source.ID); break;
-                    case VideoSource.TwitchClip: videoService = new Core.Services.Sources.Twitch.Clip(source.ID); break;
-                }
-
                 // Get metadata and streams
                 try
                 {
@@ -141,7 +134,7 @@ namespace VDownload.Views.Home
                 HomeOptionBarVideoSearchControlStatusControl.Content = null;
 
                 // Invoke search successed event
-                VideoSearchSuccessed?.Invoke(this, new VideoSearchSuccessedEventArgs { VideoService = videoService });
+                VideoSearchSuccessed?.Invoke(this, new VideoSearchSuccessedEventArgs { Video = videoService });
             }
         }
 

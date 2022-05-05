@@ -7,19 +7,22 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using VDownload.Core.Enums;
 using VDownload.Core.Exceptions;
 using VDownload.Core.Interfaces;
 using VDownload.Core.Services.Sources.Twitch.Helpers;
 
 namespace VDownload.Core.Services.Sources.Twitch
 {
-    public class Channel : IPlaylistService
+    [Serializable]
+    public class Channel : IPlaylist
     {
         #region CONSTRUCTORS
 
         public Channel(string id)
         {
             ID = id;
+            Source = PlaylistSource.TwitchChannel;
         }
 
         #endregion
@@ -29,9 +32,11 @@ namespace VDownload.Core.Services.Sources.Twitch
         #region PROPERTIES
 
         public string ID { get; private set; }
-        public Uri PlaylistUrl { get; private set; }
+        public PlaylistSource Source { get; private set; }
+        public Uri Url { get; private set; }
         public string Name { get; private set; }
-        public IVideoService[] Videos { get; private set; }
+        public IVideo[] Videos { get; private set; }
+        private string UniqueUserID { get; set; }
 
         #endregion
 
@@ -55,14 +60,15 @@ namespace VDownload.Core.Services.Sources.Twitch
             }
 
             // Create unified playlist url
-            PlaylistUrl = new Uri($"https://twitch.tv/{ID}");
+            Url = new Uri($"https://twitch.tv/{ID}");
 
             // Set parameters
-            if (!ID.All(char.IsDigit)) ID = (string)response["id"];
+            UniqueUserID = (string)response["id"];
             Name = (string)response["display_name"];
         }
 
         // GET CHANNEL VIDEOS
+        public async Task GetVideosAsync(CancellationToken cancellationToken = default) => await GetVideosAsync(0, cancellationToken);
         public async Task GetVideosAsync(int numberOfVideos, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -89,7 +95,7 @@ namespace VDownload.Core.Services.Sources.Twitch
                 JToken response = null;
                 using (WebClient client = await Client.Helix())
                 {
-                    client.QueryString.Add("user_id", ID);
+                    client.QueryString.Add("user_id", UniqueUserID);
                     client.QueryString.Add("first", count.ToString());
                     client.QueryString.Add("after", pagination);
                     response = JObject.Parse(await client.DownloadStringTaskAsync("https://api.twitch.tv/helix/videos"));

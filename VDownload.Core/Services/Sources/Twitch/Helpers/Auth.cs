@@ -8,17 +8,12 @@ using Windows.Storage;
 
 namespace VDownload.Core.Services.Sources.Twitch.Helpers
 {
-    public class Auth
+    public static class Auth
     {
         #region CONSTANTS
 
-        // CLIENT ID
         public readonly static string ClientID = "yukkqkwp61wsv3u1pya17crpyaa98y";
-
-        // GQL API CLIENT ID
         public readonly static string GQLApiClientID = "kimne78kx3ncx6brgo4mv6wki5h1ko";
-
-        // REDIRECT URL
         public readonly static Uri RedirectUrl = new Uri("https://www.vd.com");
 
         // AUTHORIZATION URL
@@ -35,16 +30,13 @@ namespace VDownload.Core.Services.Sources.Twitch.Helpers
 
         #region METHODS
 
-        // READ ACCESS TOKEN
         public static async Task<string> ReadAccessTokenAsync()
         {
             try
             {
-                // Get file
                 StorageFolder authDataFolder = await ApplicationData.Current.LocalCacheFolder.GetFolderAsync("AuthData");
                 StorageFile authDataFile = await authDataFolder.GetFileAsync("Twitch.auth");
 
-                // Return data
                 return await FileIO.ReadTextAsync(authDataFile);
             }
             catch (FileNotFoundException) 
@@ -53,42 +45,33 @@ namespace VDownload.Core.Services.Sources.Twitch.Helpers
             }
         }
 
-        // SAVE ACCESS TOKEN
         public static async Task SaveAccessTokenAsync(string accessToken)
         {
-            // Get file
             StorageFolder authDataFolder = await ApplicationData.Current.LocalCacheFolder.CreateFolderAsync("AuthData", CreationCollisionOption.OpenIfExists);
             StorageFile authDataFile = await authDataFolder.CreateFileAsync("Twitch.auth", CreationCollisionOption.ReplaceExisting);
 
-            // Save data
             await FileIO.WriteTextAsync(authDataFile, accessToken);
         }
 
-        // DELETE ACCESS TOKEN
         public static async Task DeleteAccessTokenAsync()
         {
             try
             {
-                // Get file
                 StorageFolder authDataFolder = await ApplicationData.Current.LocalCacheFolder.GetFolderAsync("AuthData");
                 StorageFile authDataFile = await authDataFolder.GetFileAsync("Twitch.auth");
 
-                // Delete file
                 await authDataFile.DeleteAsync();
             }
             catch (FileNotFoundException) { }
         } 
 
-        // VALIDATE ACCESS TOKEN
         public static async Task<(bool IsValid, string Login, DateTime? ExpirationDate)> ValidateAccessTokenAsync(string accessToken)
         {
-            // Create client
             WebClient client = new WebClient { Encoding = Encoding.UTF8 };
             client.Headers.Add("Authorization", $"Bearer {accessToken}");
 
             try
             {
-                // Check access token
                 JObject response = JObject.Parse(await client.DownloadStringTaskAsync("https://id.twitch.tv/oauth2/validate"));
 
                 string login = response["login"].ToString();
@@ -108,13 +91,10 @@ namespace VDownload.Core.Services.Sources.Twitch.Helpers
             }
         }
 
-        // REVOKE ACCESS TOKEN
         public static async Task RevokeAccessTokenAsync(string accessToken)
         {
-            // Create client
             WebClient client = new WebClient { Encoding = Encoding.UTF8 };
 
-            // Revoke access token
             await client.UploadStringTaskAsync(new Uri("https://id.twitch.tv/oauth2/revoke"), $"client_id={ClientID}&token={accessToken}");
         }
 

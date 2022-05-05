@@ -286,7 +286,7 @@ namespace VDownload.Views.Home.Controls
         private async void HomeTaskPanelSourceButton_Click(object sender, RoutedEventArgs e)
         {
             // Launch the website
-            await Windows.System.Launcher.LaunchUriAsync(Data.VideoService.VideoUrl);
+            await Windows.System.Launcher.LaunchUriAsync(Data.VideoService.Url);
         }
 
         // START STOP BUTTON CLICKED
