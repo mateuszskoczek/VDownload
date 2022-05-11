@@ -16,8 +16,8 @@
 
         #region PROPERTIES
 
-        public double Progress { get; set; }
-        public bool IsCompleted { get; set; }
+        public double Progress { get; private set; }
+        public bool IsCompleted { get; private set; }
 
         #endregion
     }

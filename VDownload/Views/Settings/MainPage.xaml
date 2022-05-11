@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="VDownload.Views.Settings.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Views.Settings"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cc="using:VDownload.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Padding="20" RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock x:Uid="Settings_HeaderTextBlock" Grid.Row="0" FontSize="28" FontWeight="SemiBold"/>
+
+        <ScrollViewer Grid.Row="1">
+            <StackPanel VerticalAlignment="Stretch" Spacing="10">
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+    
+</Page>

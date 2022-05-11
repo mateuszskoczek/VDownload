@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Interfaces;
 
@@ -32,15 +33,15 @@ namespace VDownload.Core.Services
 
         #region PUBLIC METHODS
 
-        public async Task<IVideo[]> GetNewVideosAsync()
+        public async Task<IVideo[]> GetNewVideosAsync(CancellationToken cancellationToken = default)
         {
-            await Playlist.GetVideosAsync();
+            await Playlist.GetVideosAsync(cancellationToken);
             return GetUnsavedVideos();
         }
 
-        public async Task<IVideo[]> GetNewVideosAndUpdateAsync()
+        public async Task<IVideo[]> GetNewVideosAndUpdateAsync(CancellationToken cancellationToken = default)
         {
-            await Playlist.GetVideosAsync();
+            await Playlist.GetVideosAsync(cancellationToken);
             IVideo[] newVideos = GetUnsavedVideos();
             SavedVideos = Playlist.Videos;
             return newVideos;

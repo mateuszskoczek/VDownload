@@ -10,10 +10,6 @@ namespace VDownload.Core.Services
     {
         #region CONSTANTS
 
-        // SETTINGS CONTAINER
-        private static readonly ApplicationDataContainer SettingsContainer = ApplicationData.Current.LocalSettings;
-
-        // DEFAULT SETTINGS
         private static readonly Dictionary<string, object> DefaultSettings = new Dictionary<string, object>()
         {
             { "delete_temp_on_start", true },
@@ -45,37 +41,33 @@ namespace VDownload.Core.Services
 
 
 
-        #region METHODS
+        #region PUBLIC METHODS
 
-        // GET VALUE
         public static object GetValue(string key)
         {
-            return SettingsContainer.Values[key];
+            return ApplicationData.Current.LocalSettings.Values[key];
         }
 
-        // SET VALUE
         public static void SetValue(string key, object value)
         {
-            SettingsContainer.Values[key] = value;
+            ApplicationData.Current.LocalSettings.Values[key] = value;
         }
 
-        // SET DEFAULT
         public static void SetDefault()
         {
             foreach (KeyValuePair<string, object> s in DefaultSettings)
             {
-                SettingsContainer.Values[s.Key] = s.Value;
+                ApplicationData.Current.LocalSettings.Values[s.Key] = s.Value;
             }
         }
 
-        // REBUILD
         public static void Rebuild()
         {
             foreach (KeyValuePair<string, object> s in DefaultSettings)
             {
-                if (!SettingsContainer.Values.ContainsKey(s.Key))
+                if (!ApplicationData.Current.LocalSettings.Values.ContainsKey(s.Key))
                 {
-                    SettingsContainer.Values[s.Key] = s.Value;
+                    ApplicationData.Current.LocalSettings.Values[s.Key] = s.Value;
                 }
             }
         }

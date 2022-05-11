@@ -1,0 +1,109 @@
+﻿<Page
+    x:Class="VDownload.Views.Home.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Views.Home"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:cc="using:VDownload.Controls"
+    mc:Ignorable="d"
+    Background="Transparent">
+
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Icons.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Colors.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Images.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+
+    <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Compact">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="OptionsBarButtonsStackPanel.(Grid.ColumnSpan)" Value="4"/>
+                        <Setter Target="OptionsBarButtonsStackPanel.(Grid.Column)" Value="0"/>
+                        <Setter Target="SearchControlPresenter.(Grid.Row)" Value="0"/>
+                        <Setter Target="SearchControlPresenter.(Grid.ColumnSpan)" Value="3"/>
+                        <Setter Target="OptionsBarSearchingStatusControl.(Grid.Row)" Value="0"/>
+                        <Setter Target="OptionsBarSearchingStatusControl.(Grid.Column)" Value="3"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Normal">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger x:Name="NormalStateAdaptiveTrigger" MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="OptionsBarButtonsStackPanel.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="OptionsBarButtonsStackPanel.(Grid.Column)" Value="3"/>
+                        <Setter Target="SearchControlPresenter.(Grid.Row)" Value="1"/>
+                        <Setter Target="SearchControlPresenter.(Grid.ColumnSpan)" Value="1"/>
+                        <Setter Target="SearchingStatusControlPresenter.(Grid.Row)" Value="1"/>
+                        <Setter Target="SearchingStatusControlPresenter.(Grid.Column)" Value="1"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="DownloadTaskControlsStackPanelRow" Height="1*"/>
+            <RowDefinition x:Name="OptionsBarAndAddingPanelRow" Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <ScrollViewer Margin="0,0,0,10" CornerRadius="{ThemeResource ControlCornerRadius}">
+            <cc:PlaceholderableStackPanel x:Name="DownloadTaskControlsStackPanel" Spacing="10">
+                <cc:PlaceholderableStackPanel.Placeholder>
+                    <Viewbox Width="250">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0" Source="{StaticResource HomeTasksListPlaceholderImage}" Width="120"/>
+                            <TextBlock Grid.Row="1" x:Uid="Home_DownloadTaskControlsStackPanel_Placeholder_TextBlock" Foreground="{StaticResource HomeTasksListPlaceholderTextColor}"/>
+                        </Grid>
+                    </Viewbox>
+                </cc:PlaceholderableStackPanel.Placeholder>
+            </cc:PlaceholderableStackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Row="1" CornerRadius="{ThemeResource ControlCornerRadius}" Background="{ThemeResource HomeBackgroundColor}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ContentPresenter x:Name="AddingPanelPresenter" Grid.Row="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+            <Grid x:Name="OptionsBar" Grid.Row="1" Background="{ThemeResource HomeOptionBarBackgroundColor}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ContentPresenter x:Name="SearchControlPresenter" Grid.Row="1" Grid.Column="0"/>
+                <ContentPresenter x:Name="SearchingStatusControlPresenter" Grid.Row="1" Grid.Column="1"/>
+                <StackPanel x:Name="OptionsBarButtonsStackPanel" Grid.Row="1" Grid.Column="3" Margin="3,0,3,0" HorizontalAlignment="Center"  Orientation="Horizontal">
+                    <AppBarToggleButton x:Name="LoadSubscripionsButton" x:Uid="Home_OptionsBar_LoadSubscripionsButton" Icon="Favorite" Width="120" Checked="LoadSubscripionsButton_Checked"  Unchecked="AddingButtons_Unchecked"/>
+                    <AppBarSeparator VerticalAlignment="Center" Height="50"/>
+                    <AppBarToggleButton x:Name="PlaylistSearchButton" x:Uid="Home_OptionsBar_PlaylistSearchButton" Icon="List" Width="85" Checked="PlaylistSearchButton_Checked" Unchecked="AddingButtons_Unchecked"/>
+                    <AppBarToggleButton x:Name="VideoSearchButton" x:Uid="Home_OptionsBar_VideoSearchButton" Icon="Video" Width="75" Checked="VideoSearchButton_Checked" Unchecked="AddingButtons_Unchecked"/>
+                    <AppBarSeparator VerticalAlignment="Center" Height="50"/>
+                    <AppBarButton x:Name="DownloadAllButton" x:Uid="Home_OptionsBar_DownloadAllButton" Icon="Download" Width="90" Click="DownloadAllButton_Click"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

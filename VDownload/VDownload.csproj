@@ -119,41 +119,50 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PlaceholderableStackPanel.xaml.cs">
+      <DependentUpon>PlaceholderableStackPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\TimeSpanToTextBoxMaskConverter.cs" />
     <Compile Include="Converters\TimeSpanToTextBoxMaskElementsConverter.cs" />
-    <Compile Include="Views\About\AboutMain.xaml.cs">
-      <DependentUpon>AboutMain.xaml</DependentUpon>
+    <Compile Include="Views\About\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\Controls\HomeAddingVideoOptions.xaml.cs">
-      <DependentUpon>HomeAddingVideoOptions.xaml</DependentUpon>
+    <Compile Include="Views\Home\Controls\SerialVideoAddingControl.xaml.cs">
+      <DependentUpon>SerialVideoAddingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\Controls\HomeOptionsBarPlaylistSearch.xaml.cs">
-      <DependentUpon>HomeOptionsBarPlaylistSearch.xaml</DependentUpon>
+    <Compile Include="Views\Home\Controls\VideoAddingOptionsControl.xaml.cs">
+      <DependentUpon>VideoAddingOptionsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\Controls\HomeOptionsBarVideoSearch.xaml.cs">
-      <DependentUpon>HomeOptionsBarVideoSearch.xaml</DependentUpon>
+    <Compile Include="Views\Home\Controls\SubscriptionsLoadControl.xaml.cs">
+      <DependentUpon>SubscriptionsLoadControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\Controls\PlaylistSearchControl.xaml.cs">
+      <DependentUpon>PlaylistSearchControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Home\Controls\VideoSearchControl.xaml.cs">
+      <DependentUpon>VideoSearchControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SettingControl.xaml.cs">
       <DependentUpon>SettingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomeMain.xaml.cs">
-      <DependentUpon>HomeMain.xaml</DependentUpon>
+    <Compile Include="Views\Home\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomePlaylistAddingPanel.xaml.cs">
-      <DependentUpon>HomePlaylistAddingPanel.xaml</DependentUpon>
+    <Compile Include="Views\Home\SubscriptionsAddingPanel.xaml.cs">
+      <DependentUpon>SubscriptionsAddingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\Controls\HomeSerialAddingVideoPanel.xaml.cs">
-      <DependentUpon>HomeSerialAddingVideoPanel.xaml</DependentUpon>
+    <Compile Include="Views\Home\PlaylistAddingPanel.xaml.cs">
+      <DependentUpon>PlaylistAddingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\Controls\HomeTasksListPlaceholder.xaml.cs">
-      <DependentUpon>HomeTasksListPlaceholder.xaml</DependentUpon>
+    <Compile Include="Views\Home\Controls\SerialVideoAddingVideoControl.xaml.cs">
+      <DependentUpon>SerialVideoAddingVideoControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\HomeVideoAddingPanel.xaml.cs">
-      <DependentUpon>HomeVideoAddingPanel.xaml</DependentUpon>
+    <Compile Include="Views\Home\VideoAddingPanel.xaml.cs">
+      <DependentUpon>VideoAddingPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Home\Controls\HomeTaskPanel.xaml.cs">
-      <DependentUpon>HomeTaskPanel.xaml</DependentUpon>
+    <Compile Include="Views\Home\Controls\DownloadTaskControl.xaml.cs">
+      <DependentUpon>DownloadTaskControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -161,8 +170,8 @@
     <Compile Include="Views\Sources\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Settings\SettingsMain.xaml.cs">
-      <DependentUpon>SettingsMain.xaml</DependentUpon>
+    <Compile Include="Views\Settings\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Subscriptions\Controls\SubscriptionPanel.xaml.cs">
       <DependentUpon>SubscriptionPanel.xaml</DependentUpon>
@@ -214,8 +223,8 @@
     <Content Include="Assets\Icons\StateProcessingLight.svg" />
     <Content Include="Assets\Icons\StateScheduledDark.svg" />
     <Content Include="Assets\Icons\StateScheduledLight.svg" />
-    <Content Include="Assets\Icons\StateWaitingDark.svg" />
-    <Content Include="Assets\Icons\StateWaitingLight.svg" />
+    <Content Include="Assets\Icons\StateQueuedDark.svg" />
+    <Content Include="Assets\Icons\StateQueuedLight.svg" />
     <Content Include="Assets\Icons\TrimDark.svg" />
     <Content Include="Assets\Icons\TrimLight.svg" />
     <Content Include="Assets\Icons\Twitch.svg" />
@@ -281,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\PlaceholderableStackPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Colors.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -297,19 +310,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\About\AboutMain.xaml">
+    <Page Include="Views\About\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\Controls\HomeAddingVideoOptions.xaml">
+    <Page Include="Views\Home\Controls\SerialVideoAddingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\Controls\HomeOptionsBarPlaylistSearch.xaml">
+    <Page Include="Views\Home\Controls\VideoAddingOptionsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Home\Controls\SubscriptionsLoadControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Home\Controls\HomeOptionsBarVideoSearch.xaml">
+    <Page Include="Views\Home\Controls\PlaylistSearchControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Home\Controls\VideoSearchControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -317,27 +338,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\HomeMain.xaml">
+    <Page Include="Views\Home\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\HomePlaylistAddingPanel.xaml">
+    <Page Include="Views\Home\SubscriptionsAddingPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Home\PlaylistAddingPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\Controls\HomeSerialAddingVideoPanel.xaml">
+    <Page Include="Views\Home\Controls\SerialVideoAddingVideoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\Controls\HomeTasksListPlaceholder.xaml">
+    <Page Include="Views\Home\VideoAddingPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Home\HomeVideoAddingPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Home\Controls\HomeTaskPanel.xaml">
+    <Page Include="Views\Home\Controls\DownloadTaskControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -349,7 +370,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Settings\SettingsMain.xaml">
+    <Page Include="Views\Settings\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,32 @@
+﻿<UserControl
+    x:Class="VDownload.Views.Home.Controls.PlaylistSearchControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    d:DesignHeight="100"
+    d:DesignWidth="400">
+
+    
+    <Grid x:Name="Grid" Margin="10" ColumnSpacing="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="UrlTextBox" x:Uid="Home_OptionsBar_PlaylistSearchControl_UrlTextBox" Grid.Column="0" VerticalAlignment="Center"/>
+        <muxc:NumberBox x:Name="MaxVideosNumberBox" Grid.Column="1" VerticalAlignment="Center" SpinButtonPlacementMode="Compact" Minimum="0" LostFocus="MaxVideosNumberBox_LostFocus"/>
+        <Button x:Name="SearchButton" x:Uid="Home_OptionsBar_PlaylistSearchControl_SearchButton" Grid.Column="2" Click="SearchButton_Click"/>
+        <Button x:Name="HelpButton" Grid.Column="3" Content="?" Click="HelpButton_Click">
+            <Button.Resources>
+                <muxc:TeachingTip x:Name="InfoBox" x:Uid="Home_OptionsBar_PlaylistSearchControl_InfoBox" Target="{x:Bind Grid}"/>
+            </Button.Resources>
+        </Button>
+        <ContentPresenter x:Name="StatusControlPresenter" Margin="-10,0,0,0" Grid.Column="4"/>
+    </Grid>
+</UserControl>

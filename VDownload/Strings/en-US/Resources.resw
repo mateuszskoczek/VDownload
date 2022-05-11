@@ -117,303 +117,210 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CloseErrorDialogButtonText" xml:space="preserve">
-    <value>OK</value>
+  <data name="Base_MediaType_AudioVideoText" xml:space="preserve">
+    <value>Audio &amp; Video</value>
   </data>
-  <data name="HomeAddingDownloadingOptionsHeaderTextBlock.Text" xml:space="preserve">
+  <data name="Base_MediaType_OnlyAudioText" xml:space="preserve">
+    <value>Only audio</value>
+  </data>
+  <data name="Base_MediaType_OnlyVideoText" xml:space="preserve">
+    <value>Only video</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_AuthorTextBlock.Text" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_AuthorTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter regular expression</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_DateTextBlock.Text" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_DurationTextBlock.Text" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_Header_CountTextBlockPrefix" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_Header_TextBlock.Text" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_Removed_RestoreButton.Content" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_Removed_TextBlock.Text" xml:space="preserve">
+    <value>Removed</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_TitleTextBlock.Text" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_TitleTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter regular expression</value>
+  </data>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_Filter_ViewsTextBlock.Text" xml:space="preserve">
+    <value>Views</value>
+  </data>
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_DownloadingOptions_HeaderTextBlock.Text" xml:space="preserve">
     <value>Downloading options</value>
   </data>
-  <data name="HomeAddingFileOptionsHeaderTextBlock.Text" xml:space="preserve">
-    <value>File options</value>
-  </data>
-  <data name="HomeAddingFileSettingControl.Title" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="HomeAddingLocationBrowseButton.Content" xml:space="preserve">
-    <value>Browse</value>
-  </data>
-  <data name="HomeAddingLocationSettingControl.Title" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="HomeAddingMediaTypeSettingControl.Title" xml:space="preserve">
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_DownloadingOptions_MediaTypeSettingControl.Title" xml:space="preserve">
     <value>Media type</value>
   </data>
-  <data name="HomeAddingQualitySettingControl.Title" xml:space="preserve">
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_DownloadingOptions_QualitySettingControl.Title" xml:space="preserve">
     <value>Quality</value>
   </data>
-  <data name="HomeAddingScheduleSettingControl.Description" xml:space="preserve">
-    <value>Number of minutes to start the task (after clicking downloading button).</value>
-  </data>
-  <data name="HomeAddingScheduleSettingControl.Title" xml:space="preserve">
-    <value>Schedule</value>
-  </data>
-  <data name="HomeAddingTaskOptionsHeaderTextBlock.Text" xml:space="preserve">
-    <value>Task options</value>
-  </data>
-  <data name="HomeAddingTrimSettingControl.Title" xml:space="preserve">
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_DownloadingOptions_TrimSettingControl.Title" xml:space="preserve">
     <value>Trim</value>
   </data>
-  <data name="HomeDownloadAllButtonMeteredConnectionDialogCancel" xml:space="preserve">
-    <value>No</value>
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_FileOptions_FileLocationSettingControl.Title" xml:space="preserve">
+    <value>Location</value>
   </data>
-  <data name="HomeDownloadAllButtonMeteredConnectionDialogDescription" xml:space="preserve">
-    <value>You are on the metered connection now. You can delay tasks until the network changes. Do you want to start the tasks?</value>
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_FileOptions_FileLocationSettingControl_BrowseButton.Content" xml:space="preserve">
+    <value>Browse</value>
   </data>
-  <data name="HomeDownloadAllButtonMeteredConnectionDialogStartAndDelayText" xml:space="preserve">
-    <value>Yes (With delay)</value>
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_FileOptions_FileSettingControl.Title" xml:space="preserve">
+    <value>File</value>
   </data>
-  <data name="HomeDownloadAllButtonMeteredConnectionDialogStartWithoutDelayText" xml:space="preserve">
-    <value>Yes (Without delay)</value>
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_FileOptions_HeaderTextBlock.Text" xml:space="preserve">
+    <value>File options</value>
   </data>
-  <data name="HomeDownloadAllButtonMeteredConnectionDialogTitle" xml:space="preserve">
-    <value>Metered connection detected</value>
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_TaskOptions_HeaderTextBlock.Text" xml:space="preserve">
+    <value>Task options</value>
   </data>
-  <data name="HomeOptionsBarDownloadAllButton.Label" xml:space="preserve">
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_TaskOptions_ScheduleSettingControl.Description" xml:space="preserve">
+    <value>Number of minutes to start the task (after clicking downloading button).</value>
+  </data>
+  <data name="Home_Adding_Base_DownloadingTaskOptionsControl_TaskOptions_ScheduleSettingControl.Title" xml:space="preserve">
+    <value>Schedule</value>
+  </data>
+  <data name="Home_DownloadTaskControlsStackPanel_Placeholder_TextBlock.Text" xml:space="preserve">
+    <value>Click "Video/Playlist search" button to start</value>
+  </data>
+  <data name="Home_DownloadTaskControl_Error_InternetNotAvailable" xml:space="preserve">
+    <value>Internet connection error</value>
+  </data>
+  <data name="Home_DownloadTaskControl_Notification_EndedSuccessfully_Description" xml:space="preserve">
+    <value>downloading ended successfully</value>
+  </data>
+  <data name="Home_DownloadTaskControl_Notification_EndedSuccessfully_Header" xml:space="preserve">
+    <value>Video downloading ended successfully</value>
+  </data>
+  <data name="Home_DownloadTaskControl_Notification_EndedUnsuccessfully_Description" xml:space="preserve">
+    <value>an error occured</value>
+  </data>
+  <data name="Home_DownloadTaskControl_Notification_EndedUnsuccessfully_Header" xml:space="preserve">
+    <value>Video downloading ended unsuccessfully</value>
+  </data>
+  <data name="Home_DownloadTaskControl_State_Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Home_DownloadTaskControl_State_Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Home_DownloadTaskControl_State_Downloading" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
+  <data name="Home_DownloadTaskControl_State_Error" xml:space="preserve">
+    <value>An error occured</value>
+  </data>
+  <data name="Home_DownloadTaskControl_State_Finalizing" xml:space="preserve">
+    <value>Finalizing</value>
+  </data>
+  <data name="Home_DownloadTaskControl_State_Idle" xml:space="preserve">
+    <value>Idle</value>
+  </data>
+  <data name="Home_DownloadTaskControl_State_Processing" xml:space="preserve">
+    <value>Processing</value>
+  </data>
+  <data name="Home_DownloadTaskControl_State_Queued" xml:space="preserve">
+    <value>Queued</value>
+  </data>
+  <data name="Home_DownloadTaskControl_State_Scheduled" xml:space="preserve">
+    <value>Scheduled</value>
+  </data>
+  <data name="Home_OptionsBar_DownloadAllButton.Label" xml:space="preserve">
     <value>Download all</value>
   </data>
-  <data name="HomeOptionsBarDownloadAllButton.Width" xml:space="preserve">
+  <data name="Home_OptionsBar_DownloadAllButton.Width" xml:space="preserve">
     <value>90</value>
   </data>
-  <data name="HomeOptionsBarLoadSubscripionsButton.Label" xml:space="preserve">
+  <data name="Home_OptionsBar_LoadSubscripionsButton.Label" xml:space="preserve">
     <value>Load subscriptions</value>
   </data>
-  <data name="HomeOptionsBarLoadSubscripionsButton.Width" xml:space="preserve">
+  <data name="Home_OptionsBar_LoadSubscripionsButton.Width" xml:space="preserve">
     <value>120</value>
   </data>
-  <data name="HomeOptionsBarPlaylistSearchButton.Label" xml:space="preserve">
+  <data name="Home_OptionsBar_PlaylistSearchButton.Label" xml:space="preserve">
     <value>Playlist search</value>
   </data>
-  <data name="HomeOptionsBarPlaylistSearchButton.Width" xml:space="preserve">
+  <data name="Home_OptionsBar_PlaylistSearchButton.Width" xml:space="preserve">
     <value>95</value>
   </data>
-  <data name="HomeOptionsBarPlaylistSearchControlInfoBox.Subtitle" xml:space="preserve">
+  <data name="Home_OptionsBar_PlaylistSearchControl_InfoBox.Subtitle" xml:space="preserve">
     <value>- Twitch (Channel)
 
 Number of videos got from playlist
 The number in the numberbox indicades how many videos will be got from playlist. 0 = all.
 </value>
   </data>
-  <data name="HomeOptionsBarPlaylistSearchControlInfoBox.Title" xml:space="preserve">
+  <data name="Home_OptionsBar_PlaylistSearchControl_InfoBox.Title" xml:space="preserve">
     <value>Supported sources</value>
   </data>
-  <data name="HomeOptionsBarPlaylistSearchControlSearchButton.Content" xml:space="preserve">
+  <data name="Home_OptionsBar_PlaylistSearchControl_SearchButton.Content" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="HomeOptionsBarPlaylistSearchControlUrlTextBox.PlaceholderText" xml:space="preserve">
+  <data name="Home_OptionsBar_PlaylistSearchControl_UrlTextBox.PlaceholderText" xml:space="preserve">
     <value>Playlist URL</value>
   </data>
-  <data name="HomeOptionsBarPlaylistSearchingErrorDialogTitle" xml:space="preserve">
-    <value>Playlist search error</value>
-  </data>
-  <data name="HomeOptionsBarPlaylistSearchingInternetConnectionErrorDialogDescription" xml:space="preserve">
-    <value>Unable to connect to servers. Check your internet connection.</value>
-  </data>
-  <data name="HomeOptionsBarPlaylistSearchingTwitchAccessTokenNotFoundErrorDialogDescription" xml:space="preserve">
-    <value>To get information about Twitch playlists (Channels), you have to link your Twitch account with VDownload. Go to Sources page to sign in.</value>
-  </data>
-  <data name="HomeOptionsBarPlaylistSearchingTwitchAccessTokenNotValidErrorDialogDescription" xml:space="preserve">
-    <value>There is a problem with linked Twitch account. Check Twitch login status in Sources page.</value>
-  </data>
-  <data name="HomeOptionsBarVideoSearchButton.Label" xml:space="preserve">
+  <data name="Home_OptionsBar_VideoSearchButton.Label" xml:space="preserve">
     <value>Video search</value>
   </data>
-  <data name="HomeOptionsBarVideoSearchButton.Width" xml:space="preserve">
+  <data name="Home_OptionsBar_VideoSearchButton.Width" xml:space="preserve">
     <value>90</value>
   </data>
-  <data name="HomeOptionsBarVideoSearchControlInfoBox.Subtitle" xml:space="preserve">
-    <value>- Twitch (VODs, Clips)</value>
-  </data>
-  <data name="HomeOptionsBarVideoSearchControlInfoBox.Title" xml:space="preserve">
-    <value>Supported sources</value>
-  </data>
-  <data name="HomeOptionsBarVideoSearchControlSearchButton.Content" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="HomeOptionsBarVideoSearchControlUrlTextBox.PlaceholderText" xml:space="preserve">
-    <value>Video URL</value>
-  </data>
-  <data name="HomeOptionsBarVideoSearchingErrorDialogTitle" xml:space="preserve">
-    <value>Video search error</value>
-  </data>
-  <data name="HomeOptionsBarVideoSearchingInternetConnectionErrorDialogDescription" xml:space="preserve">
-    <value>Unable to connect to servers. Check your internet connection.</value>
-  </data>
-  <data name="HomeOptionsBarVideoSearchingTwitchAccessTokenNotFoundErrorDialogDescription" xml:space="preserve">
-    <value>To get information about Twitch videos (VODs and Clips), you have to link your Twitch account with VDownload. Go to Sources page to sign in.</value>
-  </data>
-  <data name="HomeOptionsBarVideoSearchingTwitchAccessTokenNotValidErrorDialogDescription" xml:space="preserve">
-    <value>There is a problem with linked Twitch account. Check Twitch login status in Sources page.</value>
-  </data>
-  <data name="HomePlaylistAddingApplyToAllApplyButton.Content" xml:space="preserve">
+  <data name="Home_Adding_Base_SerialVideoAddingControl_ApplyToAllOptions_Base_ApplyButton.Content" xml:space="preserve">
     <value>Apply</value>
   </data>
-  <data name="HomePlaylistAddingApplyToAllLocationBrowseButton.Content" xml:space="preserve">
-    <value>Browse</value>
-  </data>
-  <data name="HomePlaylistAddingApplyToAllLocationSettingControl.Title" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="HomePlaylistAddingApplyToAllScheduleSettingControl.Description" xml:space="preserve">
-    <value>Number of minutes to start the task (after clicking downloading button).</value>
-  </data>
-  <data name="HomePlaylistAddingApplyToAllScheduleSettingControl.Title" xml:space="preserve">
-    <value>Schedule</value>
-  </data>
-  <data name="HomePlaylistAddingPanelApplyToAllOptionsHeaderTextBlock.Text" xml:space="preserve">
+  <data name="Home_Adding_Base_SerialVideoAddingControl_ApplyToAllOptions_HeaderTextBlock.Text" xml:space="preserve">
     <value>Apply to all options</value>
   </data>
-  <data name="HomePlaylistAddingPanelFilterAuthorTextBlock.Text" xml:space="preserve">
-    <value>Author</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterAuthorTextBoxPlaceholderText" xml:space="preserve">
-    <value>Enter regular expression</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterDateTextBlock.Text" xml:space="preserve">
-    <value>Date</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterDurationTextBlock.Text" xml:space="preserve">
-    <value>Duration</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterHeaderApplyButton.Content" xml:space="preserve">
-    <value>Apply</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterHeaderCountTextBlockPrefix" xml:space="preserve">
-    <value>Hidden</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterHeaderTextBlock.Text" xml:space="preserve">
-    <value>Filter</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterRemovedRestoreButton.Content" xml:space="preserve">
-    <value>Restore</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterRemovedTextBlock.Text" xml:space="preserve">
-    <value>Removed</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterTitleTextBlock.Text" xml:space="preserve">
-    <value>Title</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterTitleTextBoxPlaceholderText" xml:space="preserve">
-    <value>Enter regular expression</value>
-  </data>
-  <data name="HomePlaylistAddingPanelFilterViewsTextBlock.Text" xml:space="preserve">
-    <value>Views</value>
-  </data>
-  <data name="HomePlaylistAddingVideoPanelDownloadingOptionsHeaderTextBlock.Text" xml:space="preserve">
-    <value>Downloading options</value>
-  </data>
-  <data name="HomePlaylistAddingVideoPanelFileOptionsHeaderTextBlock.Text" xml:space="preserve">
-    <value>File options</value>
-  </data>
-  <data name="HomePlaylistAddingVideoPanelFileSettingControl.Title" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="HomePlaylistAddingVideoPanelLocationBrowseButton.Content" xml:space="preserve">
-    <value>Browse</value>
-  </data>
-  <data name="HomePlaylistAddingVideoPanelLocationSettingControl.Title" xml:space="preserve">
+  <data name="Home_Adding_Base_SerialVideoAddingControl_ApplyToAllOptions_LocationSettingControl.Title" xml:space="preserve">
     <value>Location</value>
   </data>
-  <data name="HomePlaylistAddingVideoPanelMediaTypeSettingControl.Title" xml:space="preserve">
-    <value>Media type</value>
+  <data name="Home_Adding_Base_SerialVideoAddingControl_ApplyToAllOptions_LocationSettingControl_BrowseButton.Content" xml:space="preserve">
+    <value>Browse</value>
   </data>
-  <data name="HomePlaylistAddingVideoPanelQualitySettingControl.Title" xml:space="preserve">
-    <value>Quality</value>
-  </data>
-  <data name="HomePlaylistAddingVideoPanelScheduleSettingControl.Description" xml:space="preserve">
+  <data name="Home_Adding_Base_SerialVideoAddingControl_ApplyToAllOptions_ScheduleSettingControl.Description" xml:space="preserve">
     <value>Number of minutes to start the task (after clicking downloading button).</value>
   </data>
-  <data name="HomePlaylistAddingVideoPanelScheduleSettingControl.Title" xml:space="preserve">
+  <data name="Home_Adding_Base_SerialVideoAddingControl_ApplyToAllOptions_ScheduleSettingControl.Title" xml:space="preserve">
     <value>Schedule</value>
   </data>
-  <data name="HomePlaylistAddingVideoPanelTaskOptionsHeaderTextBlock.Text" xml:space="preserve">
-    <value>Task options</value>
+  <data name="Home_OptionsBar_SubscriptionsLoadControl_InfoTextBlock_Loading" xml:space="preserve">
+    <value>Loading new videos</value>
   </data>
-  <data name="HomePlaylistAddingVideoPanelTrimSettingControl.Title" xml:space="preserve">
-    <value>Trim</value>
+  <data name="Home_OptionsBar_VideoSearchControl_InfoBox.Subtitle" xml:space="preserve">
+    <value>- Twitch (VODs, Clips)</value>
   </data>
-  <data name="HomeTaskPanelStateTextCancelled" xml:space="preserve">
-    <value>Cancelled</value>
+  <data name="Home_OptionsBar_VideoSearchControl_InfoBox.Title" xml:space="preserve">
+    <value>Supported sources</value>
   </data>
-  <data name="HomeTaskPanelStateTextDone" xml:space="preserve">
-    <value>Done</value>
+  <data name="Home_OptionsBar_VideoSearchControl_SearchButton.Content" xml:space="preserve">
+    <value>Search</value>
   </data>
-  <data name="HomeTaskPanelStateTextDownloading" xml:space="preserve">
-    <value>Downloading</value>
+  <data name="Home_OptionsBar_VideoSearchControl_UrlTextBox.PlaceholderText" xml:space="preserve">
+    <value>Video URL</value>
   </data>
-  <data name="HomeTaskPanelStateTextError" xml:space="preserve">
-    <value>An error occured</value>
+  <data name="Main_NavigationPanel_About.Content" xml:space="preserve">
+    <value>About</value>
   </data>
-  <data name="HomeTaskPanelStateTextFinalizing" xml:space="preserve">
-    <value>Finalizing</value>
-  </data>
-  <data name="HomeTaskPanelStateTextIdle" xml:space="preserve">
-    <value>Idle</value>
-  </data>
-  <data name="HomeTaskPanelStateTextProcessing" xml:space="preserve">
-    <value>Processing</value>
-  </data>
-  <data name="HomeTaskPanelStateTextScheduled" xml:space="preserve">
-    <value>Scheduled</value>
-  </data>
-  <data name="HomeTaskPanelStateTextWaiting" xml:space="preserve">
-    <value>Queued</value>
-  </data>
-  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogCancel" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogDescription" xml:space="preserve">
-    <value>You are on the metered connection now. You can delay task until the network changes. Do you want to start the task?</value>
-  </data>
-  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogStartAndDelayText" xml:space="preserve">
-    <value>Yes (With delay)</value>
-  </data>
-  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogStartWithoutDelayText" xml:space="preserve">
-    <value>Yes (Without delay)</value>
-  </data>
-  <data name="HomeTaskPanelTaskStartMeteredConnectionDialogTitle" xml:space="preserve">
-    <value>Metered connection detected</value>
-  </data>
-  <data name="HomeTasksListPlaceholderTextBlock.Text" xml:space="preserve">
-    <value>Click "Video/Playlist search" button to start</value>
-  </data>
-  <data name="MainPageNavigationPanelHomeItem.Content" xml:space="preserve">
+  <data name="Main_NavigationPanel_Home.Content" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="MainPageNavigationPanelSourcesItem.Content" xml:space="preserve">
+  <data name="Main_NavigationPanel_Sources.Content" xml:space="preserve">
     <value>Sources</value>
   </data>
-  <data name="MainPageNavigationPanelSubscriptionsItem.Content" xml:space="preserve">
+  <data name="Main_NavigationPanel_Subscriptions.Content" xml:space="preserve">
     <value>Subscriptions</value>
-  </data>
-  <data name="MediaTypeAudioVideoText" xml:space="preserve">
-    <value>Audio &amp; Video</value>
-  </data>
-  <data name="MediaTypeOnlyAudioText" xml:space="preserve">
-    <value>Only audio</value>
-  </data>
-  <data name="MediaTypeOnlyVideoText" xml:space="preserve">
-    <value>Only video</value>
-  </data>
-  <data name="NotificationTaskEndedSuccessfullyDescription" xml:space="preserve">
-    <value>downloading ended successfully</value>
-  </data>
-  <data name="NotificationTaskEndedSuccessfullyHeader" xml:space="preserve">
-    <value>Video downloading ended successfully</value>
-  </data>
-  <data name="NotificationTaskEndedUnsuccessfullyDescription" xml:space="preserve">
-    <value>an error occured</value>
-  </data>
-  <data name="NotificationTaskEndedUnsuccessfullyHeader" xml:space="preserve">
-    <value>Video downloading ended unsuccessfully</value>
-  </data>
-  <data name="SourcesTwitchLoginErrorDialogDescriptionInternetConnectionError" xml:space="preserve">
-    <value>Unable to connect to Twitch servers. Check your internet connection.</value>
-  </data>
-  <data name="SourcesTwitchLoginErrorDialogDescriptionUnknown" xml:space="preserve">
-    <value>Unknown error</value>
-  </data>
-  <data name="SourcesTwitchLoginErrorDialogTitle" xml:space="preserve">
-    <value>Login to Twitch failed</value>
   </data>
   <data name="Sources_HeaderTextBlock.Text" xml:space="preserve">
     <value>Sources</value>
@@ -424,11 +331,11 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="Sources_TwitchSettingControl.Title" xml:space="preserve">
     <value>Twitch</value>
   </data>
-  <data name="Sources_TwitchSettingControl_Description_AccessTokenExpired" xml:space="preserve">
-    <value>Your Twitch access token has expired. Please sign in.</value>
-  </data>
   <data name="Sources_TwitchSettingControl_Description_InternetNotAvailable" xml:space="preserve">
     <value>Unable to connect to Twitch servers. Check your internet connection.</value>
+  </data>
+  <data name="Sources_TwitchSettingControl_Description_InvalidAccessToken" xml:space="preserve">
+    <value>Your Twitch access token is invalid (maybe expired?). Please sign in to get new access token.</value>
   </data>
   <data name="Sources_TwitchSettingControl_Description_LoggedIn" xml:space="preserve">
     <value>Logged in as</value>
@@ -440,7 +347,7 @@ The number in the numberbox indicades how many videos will be got from playlist.
     <value>Loading...</value>
   </data>
   <data name="Sources_TwitchSettingControl_LoginButton_Content_LoggedIn" xml:space="preserve">
-    <value>Log out</value>
+    <value>Sign out</value>
   </data>
   <data name="Sources_TwitchSettingControl_LoginButton_Content_NotLoggedIn" xml:space="preserve">
     <value>Sign in</value>
@@ -460,7 +367,16 @@ The number in the numberbox indicades how many videos will be got from playlist.
   <data name="Subscriptions_SubscriptionPanel_CountTextBlock_SyncText" xml:space="preserve">
     <value>Syncing...</value>
   </data>
-  <data name="TaskErrorInternetConnection" xml:space="preserve">
-    <value>Internet connection error</value>
+  <data name="Home_Adding_Subscriptions_HeaderTextBlock.Text" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
+  <data name="Home_OptionsBar_SubscriptionsLoadControl_InfoTextBlock_Found" xml:space="preserve">
+    <value>Found videos</value>
+  </data>
+  <data name="Home_OptionsBar_SubscriptionsLoadControl_LoadVideosButton.Content" xml:space="preserve">
+    <value>Load</value>
+  </data>
+  <data name="Settings_HeaderTextBlock.Text" xml:space="preserve">
+    <value>Settings</value>
   </data>
 </root>

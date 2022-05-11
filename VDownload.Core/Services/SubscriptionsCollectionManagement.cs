@@ -27,7 +27,7 @@ namespace VDownload.Core.Services
         public static async Task<(Subscription Subscription, StorageFile SubscriptionFile)[]> GetSubscriptionsAsync()
         {
             List<(Subscription Subscription, StorageFile SubscriptionFile)> subscriptions = new List<(Subscription Subscription,StorageFile SubscriptionFile)> ();
-            StorageFolder subscriptionsFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(SubscriptionsFolderName, CreationCollisionOption.OpenIfExists);
+            StorageFolder subscriptionsFolder = await SubscriptionFolderLocation.CreateFolderAsync(SubscriptionsFolderName, CreationCollisionOption.OpenIfExists);
             BinaryFormatter formatter = new BinaryFormatter();
             foreach (StorageFile file in await subscriptionsFolder.GetFilesAsync())
             {
@@ -43,7 +43,7 @@ namespace VDownload.Core.Services
 
         public static async Task<StorageFile> CreateSubscriptionFileAsync(Subscription subscription)
         {
-            StorageFolder subscriptionsFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(SubscriptionsFolderName, CreationCollisionOption.OpenIfExists);
+            StorageFolder subscriptionsFolder = await SubscriptionFolderLocation.CreateFolderAsync(SubscriptionsFolderName, CreationCollisionOption.OpenIfExists);
             try
             {
                 StorageFile subscriptionFile = await subscriptionsFolder.CreateFileAsync($"{(int)subscription.Playlist.Source}-{subscription.Playlist.ID}.{SubscriptionFileExtension}", CreationCollisionOption.FailIfExists);

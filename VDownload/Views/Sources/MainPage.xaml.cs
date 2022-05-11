@@ -5,7 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
+using VDownload.Core.Structs;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
@@ -39,24 +41,103 @@ namespace VDownload.Views.Sources
             await Task.WhenAll(checkingTasks);
         }
 
+        private async void TwitchSettingControlLoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            async Task ShowDialog(string localErrorKey, string unknownErrorInfo = null)
+            {
+                StringBuilder content = new StringBuilder(ResourceLoader.GetForCurrentView("DialogResources").GetString($"Sources_TwitchLogin_{localErrorKey}_Content"));
+                if (!string.IsNullOrEmpty(unknownErrorInfo))
+                {
+                    content.Append($" {unknownErrorInfo}");
+                }
+                ContentDialog errorDialog = new ContentDialog
+                {
+                    Title = ResourceLoader.GetForCurrentView("DialogResources").GetString("Sources_TwitchLogin_Base_Title"),
+                    Content = content.ToString(),
+                    CloseButtonText = ResourceLoader.GetForCurrentView().GetString("Base_CloseButtonText"),
+                };
+                await errorDialog.ShowAsync();
+            }
+
+            TwitchAccessTokenValidationData accessTokenValidation = TwitchAccessTokenValidationData.Null;
+            try
+            {
+                string accessToken = await Core.Services.Sources.Twitch.Helpers.Authorization.ReadAccessTokenAsync();
+                accessTokenValidation = await Core.Services.Sources.Twitch.Helpers.Authorization.ValidateAccessTokenAsync(accessToken);
+            }
+            catch (WebException)
+            {
+                if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+                {
+                    goto Check;
+                }
+                else throw;
+            }
+
+            if (accessTokenValidation.IsValid)
+            {
+                await Core.Services.Sources.Twitch.Helpers.Authorization.RevokeAccessTokenAsync(accessTokenValidation.AccessToken);
+                await Core.Services.Sources.Twitch.Helpers.Authorization.DeleteAccessTokenAsync();
+            }
+            else
+            {
+                string response = await LoginToTwitch();
+                accessTokenValidation = TwitchAccessTokenValidationData.Null;
+                try
+                {
+                    accessTokenValidation = await Core.Services.Sources.Twitch.Helpers.Authorization.ValidateAccessTokenAsync(response);
+                }
+                catch (WebException)
+                {
+                    if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+                    {
+                        await ShowDialog("InternetNotAvailable");
+                        goto Check;
+                    }
+                    else throw;
+                }
+                if (accessTokenValidation.IsValid)
+                {
+                    await Core.Services.Sources.Twitch.Helpers.Authorization.SaveAccessTokenAsync(accessTokenValidation.AccessToken);
+                }
+                else
+                {
+                    Dictionary<string, string> errorCodes = new Dictionary<string, string>
+                    {
+                        {"The user denied you access", string.Empty},
+                    };
+
+                    if (!string.IsNullOrEmpty(response))
+                    {
+                        if (errorCodes.ContainsKey(response))
+                        {
+                            if (!string.IsNullOrEmpty(errorCodes[response]))
+                            {
+                                await ShowDialog(errorCodes[response]);
+                            }
+                        }
+                        else
+                        {
+                            await ShowDialog("Unknown", response);
+                        }
+                    }
+                }
+            }
+            Check: await CheckTwitch();
+        }
+
         #endregion
 
 
 
         #region PRIVATE METHODS
 
-
-
-        #endregion
-
         private async Task CheckTwitch()
         {
             try
             {
-                string twitchAccessToken = await Core.Services.Sources.Twitch.Helpers.Auth.ReadAccessTokenAsync();
-                #pragma warning disable IDE0042 // Deconstruct variable declaration
-                (bool IsValid, string Login, DateTime? ExpirationDate) twitchAccessTokenValidation = await Core.Services.Sources.Twitch.Helpers.Auth.ValidateAccessTokenAsync(twitchAccessToken);
-                #pragma warning restore IDE0042 // Deconstruct variable declaration
+                string twitchAccessToken = await Core.Services.Sources.Twitch.Helpers.Authorization.ReadAccessTokenAsync();
+                TwitchAccessTokenValidationData twitchAccessTokenValidation = await Core.Services.Sources.Twitch.Helpers.Authorization.ValidateAccessTokenAsync(twitchAccessToken);
                 if (twitchAccessTokenValidation.IsValid)
                 {
                     TwitchSettingControl.Description = $"{ResourceLoader.GetForCurrentView().GetString("Sources_TwitchSettingControl_Description_LoggedIn")} {twitchAccessTokenValidation.Login}";
@@ -66,18 +147,17 @@ namespace VDownload.Views.Sources
                 {
                     if (twitchAccessToken != null)
                     {
-                        TwitchSettingControl.Description = ResourceLoader.GetForCurrentView().GetString("Sources_TwitchSettingControl_Description_AccessTokenExpired");
+                        TwitchSettingControl.Description = ResourceLoader.GetForCurrentView().GetString("Sources_TwitchSettingControl_Description_InvalidAccessToken");
                     }
-                    else if (twitchAccessTokenValidation.ExpirationDate < DateTime.Now)
+                    else
                     {
                         TwitchSettingControl.Description = ResourceLoader.GetForCurrentView().GetString("Sources_TwitchSettingControl_Description_NotLoggedIn");
                     }
-                    Debug.WriteLine(twitchAccessTokenValidation.ExpirationDate.Value.ToString("dd.MM.yyyy"));
                     TwitchSettingControlLoginButton.Content = ResourceLoader.GetForCurrentView().GetString("Sources_TwitchSettingControl_LoginButton_Content_NotLoggedIn");
                 }
                 TwitchSettingControlLoginButton.IsEnabled = true;
             }
-            catch (WebException ex)
+            catch (WebException)
             {
                 if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
                 {
@@ -89,122 +169,54 @@ namespace VDownload.Views.Sources
             }
         }
 
-        #region TWITCH
-
-
-
-        // TWITCH LOGIN BUTTON CLICKED
-        private async void TwitchSettingControlLoginButton_Click(object sender, RoutedEventArgs e)
+        private async Task<string> LoginToTwitch()
         {
-            try
-            {
-                string accessToken = await Core.Services.Sources.Twitch.Helpers.Auth.ReadAccessTokenAsync();
-                var accessTokenValidation = await Core.Services.Sources.Twitch.Helpers.Auth.ValidateAccessTokenAsync(accessToken);
-                if (accessTokenValidation.IsValid)
-                {
-                    // Revoke access token
-                    await Core.Services.Sources.Twitch.Helpers.Auth.RevokeAccessTokenAsync(accessToken);
-
-                    // Delete access token
-                    await Core.Services.Sources.Twitch.Helpers.Auth.DeleteAccessTokenAsync();
-
-                    // Update Twitch SettingControl
-                    TwitchSettingControl.Description = ResourceLoader.GetForCurrentView().GetString("Sources_TwitchSettingControl_Description_NotLoggedIn");
-                    TwitchSettingControlLoginButton.Content = ResourceLoader.GetForCurrentView().GetString("Sources_TwitchSettingControl_LoginButton_Content_NotLoggedIn");
-                }
-                else
-                {
-                    // Open new window
-                    AppWindow TwitchAuthWindow = await AppWindow.TryCreateAsync();
-                    TwitchAuthWindow.Title = "Twitch Authentication";
+            string response = string.Empty;
+            AppWindow TwitchAuthWindow = await AppWindow.TryCreateAsync();
+            TwitchAuthWindow.Title = "Twitch Authentication";
 
 #pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
-                    WebView2 TwitchAuthWebView = new WebView2();
-                    await TwitchAuthWebView.EnsureCoreWebView2Async();
-                    TwitchAuthWebView.Source = Core.Services.Sources.Twitch.Helpers.Auth.AuthorizationUrl;
-                    ElementCompositionPreview.SetAppWindowContent(TwitchAuthWindow, TwitchAuthWebView);
 
-                    // NavigationStarting event (only when redirected)
-                    TwitchAuthWebView.NavigationStarting += async (s, a) =>
-                    {
-                        if (new Uri(a.Uri).Host == Core.Services.Sources.Twitch.Helpers.Auth.RedirectUrl.Host)
-                        {
-                            // Close window
-                            await TwitchAuthWindow.CloseAsync();
+            WebView2 TwitchAuthWebView = new WebView2();
+            await TwitchAuthWebView.EnsureCoreWebView2Async();
+            TwitchAuthWebView.Source = Core.Services.Sources.Twitch.Helpers.Authorization.AuthorizationUrl;
 
-                            // Get response
-                            string response = a.Uri.Replace(Core.Services.Sources.Twitch.Helpers.Auth.RedirectUrl.OriginalString, "");
+            ElementCompositionPreview.SetAppWindowContent(TwitchAuthWindow, TwitchAuthWebView);
 
-                            if (response[1] == '#')
-                            {
-                                // Get access token
-                                accessToken = response.Split('&')[0].Replace("/#access_token=", "");
-
-                                // Check token
-                                accessTokenValidation = await Core.Services.Sources.Twitch.Helpers.Auth.ValidateAccessTokenAsync(accessToken);
-
-                                // Save token
-                                await Core.Services.Sources.Twitch.Helpers.Auth.SaveAccessTokenAsync(accessToken);
-
-                                // Update Twitch SettingControl
-                                TwitchSettingControl.Description = $"{ResourceLoader.GetForCurrentView().GetString("Sources_TwitchSettingControl_Description_LoggedIn")} {accessTokenValidation.Login}";
-                                TwitchSettingControlLoginButton.Content = ResourceLoader.GetForCurrentView().GetString("Sources_TwitchSettingControl_LoginButton_Content_LoggedIn");
-                            }
-                            else
-                            {
-                                // Ignored errors
-                                string[] ignoredErrors = new[]
-                                {
-                                    "The user denied you access",
-                                };
-
-                                // Errors translation
-                                Dictionary<string, string> errorsTranslation = new Dictionary<string, string>
-                                {
-
-                                };
-
-                                // Get error info
-                                string errorInfo = (response.Split('&')[1].Replace("error_description=", "")).Replace('+', ' ');
-                                if (!ignoredErrors.Contains(errorInfo))
-                                {
-                                    // Error
-                                    ContentDialog loginErrorDialog = new ContentDialog
-                                    {
-                                        Title = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchLoginErrorDialogTitle"),
-                                        Content = errorsTranslation.Keys.Contains(errorInfo) ? errorsTranslation[errorInfo] : $"{ResourceLoader.GetForCurrentView().GetString("SourcesTwitchLoginErrorDialogDescriptionUnknown")} ({errorInfo})",
-                                        CloseButtonText = ResourceLoader.GetForCurrentView().GetString("CloseErrorDialogButtonText"),
-                                    };
-                                    await loginErrorDialog.ShowAsync();
-                                }
-                            }
-                        }
-                    };
-                    #pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
-
-                    await TwitchAuthWindow.TryShowAsync();
-
-                    // Clear cache 
-                    TwitchAuthWebView.CoreWebView2.CookieManager.DeleteAllCookies();
-                }
-            }
-            catch (WebException wex)
+            TwitchAuthWebView.NavigationStarting += async (s, a) =>
             {
-                if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+                if (new Uri(a.Uri).Host == Core.Services.Sources.Twitch.Helpers.Authorization.RedirectUrl.Host)
                 {
-                    TwitchSettingControl.Description = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchSettingControlDescriptionInternetConnectionError");
-                    TwitchSettingControlLoginButton.Content = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchLoginButtonTextNotLoggedIn");
-                    TwitchSettingControlLoginButton.IsEnabled = false;
-                    ContentDialog internetAccessErrorDialog = new ContentDialog
+                    string login_response = a.Uri.Replace(Core.Services.Sources.Twitch.Helpers.Authorization.RedirectUrl.OriginalString, "");
+
+                    if (login_response[1] == '#')
                     {
-                        Title = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchLoginErrorDialogTitle"),
-                        Content = ResourceLoader.GetForCurrentView().GetString("SourcesTwitchLoginErrorDialogDescriptionInternetConnectionError"),
-                        CloseButtonText = ResourceLoader.GetForCurrentView().GetString("CloseErrorDialogButtonText"),
-                    };
-                    await internetAccessErrorDialog.ShowAsync();
+                        response = login_response.Split('&')[0].Replace("/#access_token=", "");
+                    }
+                    else
+                    {
+                        response = (login_response.Split('&')[1].Replace("error_description=", "")).Replace('+', ' ');
+                    }
+
+                    await TwitchAuthWindow.CloseAsync();
                 }
-                else throw;
+            };
+
+            await TwitchAuthWindow.TryShowAsync();
+
+            try
+            {
+                while (TwitchAuthWindow.IsVisible)
+                {
+                    await Task.Delay(1);
+                }
             }
+            catch (ObjectDisposedException) { }
+
+            TwitchAuthWebView.CoreWebView2.CookieManager.DeleteAllCookies();
+#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
+
+            return response;
         }
 
         #endregion

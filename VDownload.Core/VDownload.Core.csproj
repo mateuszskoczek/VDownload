@@ -124,41 +124,49 @@
     <Compile Include="Enums\MediaFileExtension.cs" />
     <Compile Include="Enums\MediaType.cs" />
     <Compile Include="Enums\PlaylistSource.cs" />
-    <Compile Include="Enums\SubscriptionStatus.cs" />
-    <Compile Include="Enums\TaskAddingRequestSource.cs" />
+    <Compile Include="Enums\DownloadTasksAddingRequestSource.cs" />
     <Compile Include="Enums\VideoFileExtension.cs" />
     <Compile Include="Enums\VideoSource.cs" />
-    <Compile Include="Enums\TaskStatus.cs" />
+    <Compile Include="Enums\DownloadTaskStatus.cs" />
+    <Compile Include="EventArgs\DownloadTaskEndedUnsuccessfullyEventArgs.cs" />
+    <Compile Include="EventArgs\DownloadTaskEndedSuccessfullyEventArgs.cs" />
+    <Compile Include="EventArgs\DownloadTaskScheduledEventArgs.cs" />
     <Compile Include="EventArgs\ProgressChangedEventArgs.cs" />
-    <Compile Include="EventArgs\TasksAddingRequestedEventArgs.cs" />
+    <Compile Include="EventArgs\DownloadTasksAddingRequestedEventArgs.cs" />
     <Compile Include="EventArgs\PlaylistSearchSuccessedEventArgs.cs" />
+    <Compile Include="EventArgs\SubscriptionLoadSuccessedEventArgs.cs" />
     <Compile Include="EventArgs\VideoSearchSuccessedEventArgs.cs" />
     <Compile Include="Exceptions\MediaNotFoundException.cs" />
     <Compile Include="Exceptions\SubscriptionExistsException.cs" />
     <Compile Include="Exceptions\TwitchAccessTokenNotFoundException.cs" />
     <Compile Include="Exceptions\TwitchAccessTokenNotValidException.cs" />
+    <Compile Include="Extensions\TimeSpanExtension.cs" />
     <Compile Include="Interfaces\IPlaylist.cs" />
     <Compile Include="Interfaces\IVideo.cs" />
-    <Compile Include="Services\Sources\Twitch\Helpers\Client.cs" />
+    <Compile Include="Services\DownloadTasksCollectionManagement.cs" />
+    <Compile Include="Services\OutputFile.cs" />
+    <Compile Include="Sources\AuthorizationData.cs" />
+    <Compile Include="Sources\Twitch\Helpers\Client.cs" />
     <Compile Include="Services\Subscription.cs" />
     <Compile Include="Services\SubscriptionsCollectionManagement.cs" />
-    <Compile Include="Services\TimeSpanCustomFormat.cs" />
     <Compile Include="Structs\BaseStream.cs" />
-    <Compile Include="Structs\Metadata.cs" />
-    <Compile Include="Structs\TaskData.cs" />
+    <Compile Include="Services\DownloadTask.cs" />
     <Compile Include="Services\Config.cs" />
     <Compile Include="Services\MediaProcessor.cs" />
-    <Compile Include="Services\Sources\Source.cs" />
-    <Compile Include="Services\Sources\Twitch\Helpers\Auth.cs" />
-    <Compile Include="Services\Sources\Twitch\Channel.cs" />
-    <Compile Include="Services\Sources\Twitch\Clip.cs" />
-    <Compile Include="Services\Sources\Twitch\Vod.cs" />
-    <Compile Include="Services\TaskId.cs" />
-    <Compile Include="Structs\TaskOptions.cs" />
+    <Compile Include="Sources\Source.cs" />
+    <Compile Include="Sources\Twitch\Helpers\Authorization.cs" />
+    <Compile Include="Sources\Twitch\Channel.cs" />
+    <Compile Include="Sources\Twitch\Clip.cs" />
+    <Compile Include="Sources\Twitch\Vod.cs" />
+    <Compile Include="Structs\TrimData.cs" />
+    <Compile Include="Structs\TwitchAccessTokenValidationData.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.13</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity">
+      <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>

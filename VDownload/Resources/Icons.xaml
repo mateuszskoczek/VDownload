@@ -14,7 +14,7 @@
             <SvgImageSource x:Key="LocationIcon" UriSource="ms-appx:///Assets/Icons/LocationLight.svg"/>
             <SvgImageSource x:Key="ScheduleIcon" UriSource="ms-appx:///Assets/Icons/ScheduleLight.svg"/>
             <SvgImageSource x:Key="StateIdleIcon" UriSource="ms-appx:///Assets/Icons/StateIdleLight.svg"/>
-            <SvgImageSource x:Key="StateWaitingIcon" UriSource="ms-appx:///Assets/Icons/StateWaitingLight.svg"/>
+            <SvgImageSource x:Key="StateQueuedIcon" UriSource="ms-appx:///Assets/Icons/StateWaitingLight.svg"/>
             <SvgImageSource x:Key="StateCancelledIcon" UriSource="ms-appx:///Assets/Icons/StateCancelledLight.svg"/>
             <SvgImageSource x:Key="StateDownloadingIcon" UriSource="ms-appx:///Assets/Icons/StateDownloadingLight.svg"/>
             <SvgImageSource x:Key="StateErrorIcon" UriSource="ms-appx:///Assets/Icons/StateErrorLight.svg"/>
@@ -37,7 +37,7 @@
             <SvgImageSource x:Key="LocationIcon" UriSource="ms-appx:///Assets/Icons/LocationDark.svg"/>
             <SvgImageSource x:Key="ScheduleIcon" UriSource="ms-appx:///Assets/Icons/ScheduleDark.svg"/>
             <SvgImageSource x:Key="StateIdleIcon" UriSource="ms-appx:///Assets/Icons/StateIdleDark.svg"/>
-            <SvgImageSource x:Key="StateWaitingIcon" UriSource="ms-appx:///Assets/Icons/StateWaitingDark.svg"/>
+            <SvgImageSource x:Key="StateQueuedIcon" UriSource="ms-appx:///Assets/Icons/StateWaitingDark.svg"/>
             <SvgImageSource x:Key="StateCancelledIcon" UriSource="ms-appx:///Assets/Icons/StateCancelledDark.svg"/>
             <SvgImageSource x:Key="StateDownloadingIcon" UriSource="ms-appx:///Assets/Icons/StateDownloadingDark.svg"/>
             <SvgImageSource x:Key="StateErrorIcon" UriSource="ms-appx:///Assets/Icons/StateErrorDark.svg"/>

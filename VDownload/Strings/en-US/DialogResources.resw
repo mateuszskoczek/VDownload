@@ -117,8 +117,83 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Base_CancelButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="Base_CloseButtonText" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="Home_DownloadAll_MeteredConnection_Content" xml:space="preserve">
+    <value>You are on the metered connection now. You can delay tasks until the network changes. Do you want to start the tasks?</value>
+  </data>
+  <data name="Home_DownloadAll_MeteredConnection_StartWithDelayButtonText" xml:space="preserve">
+    <value>Yes (With delay)</value>
+  </data>
+  <data name="Home_DownloadAll_MeteredConnection_StartWithoutDelayButtonText" xml:space="preserve">
+    <value>Yes (Without delay)</value>
+  </data>
+  <data name="Home_DownloadAll_MeteredConnection_Title" xml:space="preserve">
+    <value>Metered connection detected</value>
+  </data>
+  <data name="Home_DownloadTaskControl_Start_MeteredConnection_Content" xml:space="preserve">
+    <value>You are on the metered connection now. You can delay task until the network changes. Do you want to start the task?</value>
+  </data>
+  <data name="Home_DownloadTaskControl_Start_MeteredConnection_StartWithDelayButtonText" xml:space="preserve">
+    <value>Yes (With delay)</value>
+  </data>
+  <data name="Home_DownloadTaskControl_Start_MeteredConnection_StartWithoutDelayButtonText1" xml:space="preserve">
+    <value>Yes (Without delay)</value>
+  </data>
+  <data name="Home_DownloadTaskControl_Start_MeteredConnection_Title" xml:space="preserve">
+    <value>Metered connection detected</value>
+  </data>
+  <data name="Home_OptionsBar_PlaylistSearchControl_Base_Title" xml:space="preserve">
+    <value>Playlist search error</value>
+  </data>
+  <data name="Home_OptionsBar_PlaylistSearchControl_InternetNotAvailable_Content" xml:space="preserve">
+    <value>Unable to connect to servers. Check your internet connection.</value>
+  </data>
+  <data name="Home_OptionsBar_PlaylistSearchControl_TwitchAccessTokenNotFound_Content" xml:space="preserve">
+    <value>To get information about Twitch playlists (Channels), you have to link your Twitch account with VDownload. Go to Sources page to sign in.</value>
+  </data>
+  <data name="Home_OptionsBar_PlaylistSearchControl_TwitchAccessTokenNotValid_Content" xml:space="preserve">
+    <value>There is a problem with linked Twitch account. Check Twitch login status in Sources page.</value>
+  </data>
+  <data name="Home_OptionsBar_SubscriptionsLoadControl_Base_Title" xml:space="preserve">
+    <value>Subscriptions loading error</value>
+  </data>
+  <data name="Home_OptionsBar_SubscriptionsLoadControl_InternetNotAvailable_Content" xml:space="preserve">
+    <value>Unable to connect to servers. Check your internet connection.</value>
+  </data>
+  <data name="Home_OptionsBar_SubscriptionsLoadControl_MediaNotFound_Content" xml:space="preserve">
+    <value>Subscribed playlist not found. Name:</value>
+  </data>
+  <data name="Home_OptionsBar_SubscriptionsLoadControl_TwitchAccessTokenNotFound_Content" xml:space="preserve">
+    <value>To get information about Twitch videos and playlists, you have to link your Twitch account with VDownload. Go to Sources page to sign in.</value>
+  </data>
+  <data name="Home_OptionsBar_SubscriptionsLoadControl_TwitchAccessTokenNotValid_Content" xml:space="preserve">
+    <value>There is a problem with linked Twitch account. Check Twitch login status in Sources page.</value>
+  </data>
+  <data name="Home_OptionsBar_VideoSearchControl_Base_Title" xml:space="preserve">
+    <value>Video search error</value>
+  </data>
+  <data name="Home_OptionsBar_VideoSearchControl_InternetNotAvailable_Content" xml:space="preserve">
+    <value>Unable to connect to servers. Check your internet connection.</value>
+  </data>
+  <data name="Home_OptionsBar_VideoSearchControl_TwitchAccessTokenNotFound_Content" xml:space="preserve">
+    <value>To get information about Twitch videos (VODs and Clips), you have to link your Twitch account with VDownload. Go to Sources page to sign in.</value>
+  </data>
+  <data name="Home_OptionsBar_VideoSearchControl_TwitchAccessTokenNotValid_Content" xml:space="preserve">
+    <value>There is a problem with linked Twitch account. Check Twitch login status in Sources page.</value>
+  </data>
+  <data name="Sources_TwitchLogin_Base_Title" xml:space="preserve">
+    <value>Login to Twitch failed</value>
+  </data>
+  <data name="Sources_TwitchLogin_InternetNotAvailable_Content" xml:space="preserve">
+    <value>Unable to connect to servers. Check your internet connection.</value>
+  </data>
+  <data name="Sources_TwitchLogin_Unknown_Content" xml:space="preserve">
+    <value>Unknown error. </value>
   </data>
   <data name="Subscription_Adding_Base_Title" xml:space="preserve">
     <value>Playlist adding error</value>
