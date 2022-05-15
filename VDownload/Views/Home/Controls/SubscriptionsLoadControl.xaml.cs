@@ -144,6 +144,8 @@ namespace VDownload.Views.Home.Controls
             }
 
             LoadingSuccessed.Invoke(this, new SubscriptionLoadSuccessedEventArgs(loadedVideos.ToArray()));
+
+            ProgressRing.Visibility = Visibility.Collapsed;
         }
 
         #endregion

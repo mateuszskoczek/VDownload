@@ -17,7 +17,15 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <PackageCertificateThumbprint>19004779324CA6C66C5D4549F0161C153221ABD8</PackageCertificateThumbprint>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -186,27 +194,59 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Icons\ActiveTasksNumberDark.svg" />
+    <Content Include="Assets\Icons\ActiveTasksNumberLight.svg" />
     <Content Include="Assets\Icons\ApplyToAllOptionsDark.svg" />
     <Content Include="Assets\Icons\ApplyToAllOptionsLight.svg" />
     <Content Include="Assets\Icons\AuthorDark.svg" />
     <Content Include="Assets\Icons\AuthorLight.svg" />
+    <Content Include="Assets\Icons\CustomMediaLocationDark.svg" />
+    <Content Include="Assets\Icons\CustomMediaLocationLight.svg" />
     <Content Include="Assets\Icons\DateDark.svg" />
     <Content Include="Assets\Icons\DateLight.svg" />
+    <Content Include="Assets\Icons\DefaultAudioExtensionDark.svg" />
+    <Content Include="Assets\Icons\DefaultAudioExtensionLight.svg" />
+    <Content Include="Assets\Icons\DefaultMediaTypeDark.svg" />
+    <Content Include="Assets\Icons\DefaultMediaTypeLight.svg" />
+    <Content Include="Assets\Icons\DefaultVideoExtensionDark.svg" />
+    <Content Include="Assets\Icons\DefaultVideoExtensionLight.svg" />
+    <Content Include="Assets\Icons\DeleteTasksTemporaryFilesIfEndedWithErrorDark.svg" />
+    <Content Include="Assets\Icons\DeleteTasksTemporaryFilesIfEndedWithErrorLight.svg" />
+    <Content Include="Assets\Icons\DeleteTemporaryFilesOnStartDark.svg" />
+    <Content Include="Assets\Icons\DeleteTemporaryFilesOnStartLight.svg" />
     <Content Include="Assets\Icons\DurationDark.svg" />
     <Content Include="Assets\Icons\DurationLight.svg" />
+    <Content Include="Assets\Icons\EditingAlgorithmDark.svg" />
+    <Content Include="Assets\Icons\EditingAlgorithmLight.svg" />
     <Content Include="Assets\Icons\Error.svg" />
     <Content Include="Assets\Icons\FileDark.svg" />
     <Content Include="Assets\Icons\FileLight.svg" />
+    <Content Include="Assets\Icons\FilenameTemplateDark.svg" />
+    <Content Include="Assets\Icons\FilenameTemplateLight.svg" />
     <Content Include="Assets\Icons\FilterDark.svg" />
     <Content Include="Assets\Icons\FilterLight.svg" />
+    <Content Include="Assets\Icons\LastMediaLocationDark.svg" />
+    <Content Include="Assets\Icons\LastMediaLocationLight.svg" />
     <Content Include="Assets\Icons\LocationDark.svg" />
     <Content Include="Assets\Icons\LocationLight.svg" />
     <Content Include="Assets\Icons\MediaTypeDark.svg" />
     <Content Include="Assets\Icons\MediaTypeLight.svg" />
+    <Content Include="Assets\Icons\MeteredConnectionDelayDark.svg" />
+    <Content Include="Assets\Icons\MeteredConnectionDelayLight.svg" />
+    <Content Include="Assets\Icons\MeteredConnectionWarningDark.svg" />
+    <Content Include="Assets\Icons\MeteredConnectionWarningLight.svg" />
     <Content Include="Assets\Icons\QualityDark.svg" />
     <Content Include="Assets\Icons\QualityLight.svg" />
+    <Content Include="Assets\Icons\RemoveSuccessfullyEndedTaskDark.svg" />
+    <Content Include="Assets\Icons\RemoveSuccessfullyEndedTaskLight.svg" />
+    <Content Include="Assets\Icons\ReplaceFileDark.svg" />
+    <Content Include="Assets\Icons\ReplaceFileLight.svg" />
     <Content Include="Assets\Icons\ScheduleDark.svg" />
     <Content Include="Assets\Icons\ScheduleLight.svg" />
+    <Content Include="Assets\Icons\ShowNotifcationWhenSuccessfulDark.svg" />
+    <Content Include="Assets\Icons\ShowNotifcationWhenSuccessfulLight.svg" />
+    <Content Include="Assets\Icons\ShowNotifcationWhenUnsuccessfulDark.svg" />
+    <Content Include="Assets\Icons\ShowNotifcationWhenUnsuccessfulLight.svg" />
     <Content Include="Assets\Icons\StateCancelledDark.svg" />
     <Content Include="Assets\Icons\StateCancelledLight.svg" />
     <Content Include="Assets\Icons\StateDoneDark.svg" />
@@ -225,9 +265,15 @@
     <Content Include="Assets\Icons\StateScheduledLight.svg" />
     <Content Include="Assets\Icons\StateQueuedDark.svg" />
     <Content Include="Assets\Icons\StateQueuedLight.svg" />
+    <Content Include="Assets\Icons\TemporaryFilesLocationDark.svg" />
+    <Content Include="Assets\Icons\TemporaryFilesLocationLight.svg" />
+    <Content Include="Assets\Icons\TranscodingAlgorithmDark.svg" />
+    <Content Include="Assets\Icons\TranscodingAlgorithmLight.svg" />
     <Content Include="Assets\Icons\TrimDark.svg" />
     <Content Include="Assets\Icons\TrimLight.svg" />
     <Content Include="Assets\Icons\Twitch.svg" />
+    <Content Include="Assets\Icons\UseHardwareAccelerationDark.svg" />
+    <Content Include="Assets\Icons\UseHardwareAccelerationLight.svg" />
     <Content Include="Assets\Icons\ViewsDark.svg" />
     <Content Include="Assets\Icons\ViewsLight.svg" />
     <Content Include="Assets\Images\HomeTasksListPlaceholderImage.svg" />
@@ -291,6 +337,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\PlaceholderableStackPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\AppProperties.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -414,6 +464,9 @@
   </ItemGroup>
   <ItemGroup>
     <PRIResource Include="Strings\en-US\DialogResources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VDownload_TemporaryKey.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

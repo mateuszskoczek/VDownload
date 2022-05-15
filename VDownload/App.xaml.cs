@@ -35,14 +35,13 @@ namespace VDownload
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             // Rebuild configuration file
-            //Config.Rebuild();
-            Config.SetDefault();
+            Config.Rebuild();
 
             // Delete temp on start
             if ((bool)Config.GetValue("delete_temp_on_start"))
             {
                 IReadOnlyList<IStorageItem> tempItems;
-                if ((bool)Config.GetValue("custom_temp_location") && StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_temp_location"))
+                if (StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_temp_location"))
                     tempItems = await (await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("custom_temp_location")).GetItemsAsync();
                 else
                     tempItems = await ApplicationData.Current.TemporaryFolder.GetItemsAsync();

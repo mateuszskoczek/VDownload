@@ -8,7 +8,36 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/AppProperties.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Icons.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Images.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
 
-    </Grid>
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="30">
+        <StackPanel Orientation="Vertical">
+            <Image HorizontalAlignment="Center" Source="{StaticResource Logo}" Width="150"/>
+            <TextBlock HorizontalAlignment="Center" FontSize="32" FontWeight="SemiBold" Text="{StaticResource AppName}"/>
+            <TextBlock HorizontalAlignment="Center" FontSize="16" Text="{StaticResource AppVersion}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="5">
+            <TextBlock x:Uid="About_Developer_Header" HorizontalAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
+            <TextBlock HorizontalAlignment="Center" FontSize="12" Text="{StaticResource AppAuthor}"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="5">
+            <TextBlock x:Uid="About_TranslatedBy_Header" HorizontalAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
+            <TextBlock x:Uid="About_TranslatedBy_Content" HorizontalAlignment="Center" FontSize="12"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Spacing="5">
+            <TextBlock x:Uid="About_Links_Header" HorizontalAlignment="Center" FontSize="16" FontWeight="SemiBold"/>
+            <StackPanel Orientation="Horizontal">
+                <HyperlinkButton x:Uid="About_Links_RepositoryButton" NavigateUri="{StaticResource AppRepositoryUrl}"/>
+                <HyperlinkButton x:Uid="About_Links_DonationButton" NavigateUri="{StaticResource AppDonationUrl}"/>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
 </Page>

@@ -113,9 +113,9 @@
                                 <ColumnDefinition Width="5"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <CalendarDatePicker x:Name="FilterMinDateDatePicker" Grid.Column="0" LostFocus="FilterMinAndMaxDateDatePicker_LostFocus"/>
+                            <CalendarDatePicker x:Name="FilterMinDateDatePicker" Grid.Column="0" DateChanged="FilterMinAndMaxDateDatePicker_DateChanged"/>
                             <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="-"/>
-                            <CalendarDatePicker x:Name="FilterMaxDateDatePicker" Grid.Column="2" LostFocus="FilterMinAndMaxDateDatePicker_LostFocus"/>
+                            <CalendarDatePicker x:Name="FilterMaxDateDatePicker" Grid.Column="2" DateChanged="FilterMinAndMaxDateDatePicker_DateChanged"/>
                         </Grid>
                         <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" x:Uid="Home_Adding_Base_SerialVideoAddingControl_Filter_DurationTextBlock" FontWeight="SemiBold"/>
                         <Grid Grid.Row="4" Grid.Column="1" ColumnSpacing="8">

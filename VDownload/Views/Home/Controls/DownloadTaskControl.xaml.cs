@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using VDownload.Core.Enums;
+using VDownload.Core.EventArgs;
 using VDownload.Core.Extensions;
 using VDownload.Core.Services;
 using VDownload.Core.Structs;
@@ -64,7 +65,7 @@ namespace VDownload.Views.Home.Controls
 
             File = DownloadTask.File.GetPath();
 
-            UpdateStatus(this, EventArgs.Empty);
+            UpdateStatus(this, DownloadTask.LastStatusChangedEventArgs);
         }
 
         #endregion
@@ -133,9 +134,9 @@ namespace VDownload.Views.Home.Controls
             await Windows.System.Launcher.LaunchUriAsync(DownloadTask.Video.Url);
         }
 
-        private void UpdateStatus(object sender, EventArgs e)
+        private void UpdateStatus(object sender, DownloadTaskStatusChangedEventArgs e)
         {
-            if (DownloadTask.Status == DownloadTaskStatus.Idle || DownloadTask.Status == DownloadTaskStatus.EndedSuccessfully || DownloadTask.Status == DownloadTaskStatus.EndedUnsuccessfully)
+            if (e.Status == DownloadTaskStatus.Idle || e.Status == DownloadTaskStatus.EndedSuccessfully || e.Status == DownloadTaskStatus.EndedUnsuccessfully)
             {
                 StartStopButton.Icon = new SymbolIcon(Symbol.Download);
             }
@@ -144,46 +145,46 @@ namespace VDownload.Views.Home.Controls
                 StartStopButton.Icon = new SymbolIcon(Symbol.Stop);
             }
 
-            if (DownloadTask.Status == DownloadTaskStatus.Scheduled)
+            if (e.Status == DownloadTaskStatus.Scheduled)
             {
                 StateIcon.Source = (SvgImageSource)IconsRes["StateScheduledIcon"];
-                StateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Scheduled")} ({DownloadTask.ScheduledFor.ToString(CultureInfo.InstalledUICulture.DateTimeFormat.ShortDatePattern)} {DownloadTask.ScheduledFor.ToString(CultureInfo.InstalledUICulture.DateTimeFormat.ShortTimePattern)})";
+                StateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Scheduled")} ({e.ScheduledFor.ToString(CultureInfo.InstalledUICulture.DateTimeFormat.ShortDatePattern)} {e.ScheduledFor.ToString(CultureInfo.InstalledUICulture.DateTimeFormat.ShortTimePattern)})";
                 StateProgressBar.Visibility = Visibility.Collapsed;
             }
-            else if (DownloadTask.Status == DownloadTaskStatus.Queued)
+            else if (e.Status == DownloadTaskStatus.Queued)
             {
                 StateIcon.Source = (SvgImageSource)IconsRes["StateQueuedIcon"];
                 StateText.Text = ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Queued");
                 StateProgressBar.Visibility = Visibility.Visible;
                 StateProgressBar.IsIndeterminate = true;
             }
-            else if (DownloadTask.Status == DownloadTaskStatus.Downloading)
+            else if (e.Status == DownloadTaskStatus.Downloading)
             {
                 StateIcon.Source = (SvgImageSource)IconsRes["StateDownloadingIcon"];
-                StateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Downloading")} ({Math.Round(DownloadTask.DownloadingProgress)}%)";
+                StateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Downloading")} ({Math.Round(e.DownloadingProgress)}%)";
                 StateProgressBar.Visibility = Visibility.Visible;
                 StateProgressBar.IsIndeterminate = false;
-                StateProgressBar.Value = DownloadTask.DownloadingProgress;
+                StateProgressBar.Value = e.DownloadingProgress;
             }
-            else if (DownloadTask.Status == DownloadTaskStatus.Processing)
+            else if (e.Status == DownloadTaskStatus.Processing)
             {
                 StateIcon.Source = (SvgImageSource)IconsRes["StateProcessingIcon"];
-                StateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Processing")} ({Math.Round(DownloadTask.ProcessingProgress)}%)";
+                StateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Processing")} ({Math.Round(e.ProcessingProgress)}%)";
                 StateProgressBar.Visibility = Visibility.Visible;
                 StateProgressBar.IsIndeterminate = false;
-                StateProgressBar.Value = DownloadTask.ProcessingProgress;
+                StateProgressBar.Value = e.ProcessingProgress;
             }
-            else if (DownloadTask.Status == DownloadTaskStatus.Finalizing)
+            else if (e.Status == DownloadTaskStatus.Finalizing)
             {
                 StateIcon.Source = (SvgImageSource)IconsRes["StateFinalizingIcon"];
                 StateText.Text = ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Finalizing");
                 StateProgressBar.Visibility = Visibility.Visible;
                 StateProgressBar.IsIndeterminate = true;
             }
-            else if (DownloadTask.Status == DownloadTaskStatus.EndedSuccessfully)
+            else if (e.Status == DownloadTaskStatus.EndedSuccessfully)
             {
                 StateIcon.Source = (SvgImageSource)IconsRes["StateDoneIcon"];
-                StateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Done")} ({DownloadTask.ElapsedTime.ToStringOptTHBaseMMSS()})";
+                StateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Done")} ({e.ElapsedTime.ToStringOptTHBaseMMSS()})";
                 StateProgressBar.Visibility = Visibility.Collapsed;
 
                 if ((bool)Config.GetValue("show_notification_when_task_ended_successfully"))
@@ -194,9 +195,9 @@ namespace VDownload.Views.Home.Controls
                         .Show();
                 }
             }
-            else if (DownloadTask.Status == DownloadTaskStatus.EndedUnsuccessfully)
+            else if (e.Status == DownloadTaskStatus.EndedUnsuccessfully)
             {
-                if (DownloadTask.Exception is OperationCanceledException)
+                if (e.Exception is OperationCanceledException)
                 {
                     StateIcon.Source = (SvgImageSource)IconsRes["StateCancelledIcon"];
                     StateText.Text = ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Cancelled");
@@ -205,14 +206,14 @@ namespace VDownload.Views.Home.Controls
                 else
                 {
                     string errorInfo;
-                    if (DownloadTask.Exception is WebException)
+                    if (e.Exception is WebException)
                     {
                         if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable) errorInfo = ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_Error_InternetNotAvailable");
-                        else throw DownloadTask.Exception;
+                        else throw e.Exception;
                     }
                     else
                     {
-                        throw DownloadTask.Exception;
+                        throw e.Exception;
                     }
                     StateIcon.Source = (SvgImageSource)IconsRes["StateErrorIcon"];
                     StateText.Text = $"{ResourceLoader.GetForCurrentView().GetString("Home_DownloadTaskControl_State_Error")} ({errorInfo})";

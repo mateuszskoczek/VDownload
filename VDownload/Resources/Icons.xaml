@@ -24,6 +24,25 @@
             <SvgImageSource x:Key="StateScheduledIcon" UriSource="ms-appx:///Assets/Icons/StateScheduledLight.svg"/>
             <SvgImageSource x:Key="ApplyToAllOptionsIcon" UriSource="ms-appx:///Assets/Icons/ApplyToAllOptionsLight.svg"/>
             <SvgImageSource x:Key="FilterIcon" UriSource="ms-appx:///Assets/Icons/FilterLight.svg"/>
+            <SvgImageSource x:Key="TemporaryFilesLocationIcon" UriSource="ms-appx:///Assets/Icons/TemporaryFilesLocationLight.svg"/>
+            <SvgImageSource x:Key="DeleteTemporaryFilesOnStartIcon" UriSource="ms-appx:///Assets/Icons/DeleteTemporaryFilesOnStartLight.svg"/>
+            <SvgImageSource x:Key="DeleteTasksTemporaryFilesIfEndedWithError" UriSource="ms-appx:///Assets/Icons/DeleteTasksTemporaryFilesIfEndedWithErrorLight.svg"/>
+            <SvgImageSource x:Key="EditingAlgorithm" UriSource="ms-appx:///Assets/Icons/EditingAlgorithmLight.svg"/>
+            <SvgImageSource x:Key="TranscodingAlgorithm" UriSource="ms-appx:///Assets/Icons/TranscodingAlgorithmLight.svg"/>
+            <SvgImageSource x:Key="UseHardwareAcceleration" UriSource="ms-appx:///Assets/Icons/UseHardwareAccelerationLight.svg"/>
+            <SvgImageSource x:Key="ShowNotifcationWhenSuccessful" UriSource="ms-appx:///Assets/Icons/ShowNotifcationWhenSuccessfulLight.svg"/>
+            <SvgImageSource x:Key="ShowNotifcationWhenUnsuccessful" UriSource="ms-appx:///Assets/Icons/ShowNotifcationWhenUnsuccessfulLight.svg"/>
+            <SvgImageSource x:Key="CustomMediaLocation" UriSource="ms-appx:///Assets/Icons/CustomMediaLocationLight.svg"/>
+            <SvgImageSource x:Key="LastMediaLocation" UriSource="ms-appx:///Assets/Icons/LastMediaLocationLight.svg"/>
+            <SvgImageSource x:Key="DefaultAudioExtension" UriSource="ms-appx:///Assets/Icons/DefaultAudioExtensionLight.svg"/>
+            <SvgImageSource x:Key="DefaultVideoExtension" UriSource="ms-appx:///Assets/Icons/DefaultVideoExtensionLight.svg"/>
+            <SvgImageSource x:Key="DefaultMediaType" UriSource="ms-appx:///Assets/Icons/DefaultMediaTypeLight.svg"/>
+            <SvgImageSource x:Key="FilenameTemplate" UriSource="ms-appx:///Assets/Icons/FilenameTemplateLight.svg"/>
+            <SvgImageSource x:Key="MeteredConnectionWarning" UriSource="ms-appx:///Assets/Icons/MeteredConnectionWarningLight.svg"/>
+            <SvgImageSource x:Key="MeteredConnectionDelay" UriSource="ms-appx:///Assets/Icons/MeteredConnectionDelayLight.svg"/>
+            <SvgImageSource x:Key="ReplaceFile" UriSource="ms-appx:///Assets/Icons/ReplaceFileLight.svg"/>
+            <SvgImageSource x:Key="RemoveSuccessfullyEndedTask" UriSource="ms-appx:///Assets/Icons/RemoveSuccessfullyEndedTaskLight.svg"/>
+            <SvgImageSource x:Key="ActiveTasksNumber" UriSource="ms-appx:///Assets/Icons/ActiveTasksNumberLight.svg"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SvgImageSource x:Key="AuthorIcon" UriSource="ms-appx:///Assets/Icons/AuthorDark.svg"/>
@@ -47,6 +66,25 @@
             <SvgImageSource x:Key="StateScheduledIcon" UriSource="ms-appx:///Assets/Icons/StateScheduledDark.svg"/>
             <SvgImageSource x:Key="ApplyToAllOptionsIcon" UriSource="ms-appx:///Assets/Icons/ApplyToAllOptionsDark.svg"/>
             <SvgImageSource x:Key="FilterIcon" UriSource="ms-appx:///Assets/Icons/FilterDark.svg"/>
+            <SvgImageSource x:Key="TemporaryFilesLocationIcon" UriSource="ms-appx:///Assets/Icons/TemporaryFilesLocationDark.svg"/>
+            <SvgImageSource x:Key="DeleteTemporaryFilesOnStartIcon" UriSource="ms-appx:///Assets/Icons/DeleteTemporaryFilesOnStartDark.svg"/>
+            <SvgImageSource x:Key="DeleteTasksTemporaryFilesIfEndedWithError" UriSource="ms-appx:///Assets/Icons/DeleteTasksTemporaryFilesIfEndedWithErrorDark.svg"/>
+            <SvgImageSource x:Key="EditingAlgorithm" UriSource="ms-appx:///Assets/Icons/EditingAlgorithmDark.svg"/>
+            <SvgImageSource x:Key="TranscodingAlgorithm" UriSource="ms-appx:///Assets/Icons/TranscodingAlgorithmDark.svg"/>
+            <SvgImageSource x:Key="UseHardwareAcceleration" UriSource="ms-appx:///Assets/Icons/UseHardwareAccelerationDark.svg"/>
+            <SvgImageSource x:Key="ShowNotifcationWhenSuccessful" UriSource="ms-appx:///Assets/Icons/ShowNotifcationWhenSuccessfulDark.svg"/>
+            <SvgImageSource x:Key="ShowNotifcationWhenUnsuccessful" UriSource="ms-appx:///Assets/Icons/ShowNotifcationWhenUnsuccessfulDark.svg"/>
+            <SvgImageSource x:Key="CustomMediaLocation" UriSource="ms-appx:///Assets/Icons/CustomMediaLocationDark.svg"/>
+            <SvgImageSource x:Key="LastMediaLocation" UriSource="ms-appx:///Assets/Icons/LastMediaLocationDark.svg"/>
+            <SvgImageSource x:Key="DefaultAudioExtension" UriSource="ms-appx:///Assets/Icons/DefaultAudioExtensionDark.svg"/>
+            <SvgImageSource x:Key="DefaultVideoExtension" UriSource="ms-appx:///Assets/Icons/DefaultVideoExtensionDark.svg"/>
+            <SvgImageSource x:Key="DefaultMediaType" UriSource="ms-appx:///Assets/Icons/DefaultMediaTypeDark.svg"/>
+            <SvgImageSource x:Key="FilenameTemplate" UriSource="ms-appx:///Assets/Icons/FilenameTemplateDark.svg"/>
+            <SvgImageSource x:Key="MeteredConnectionWarning" UriSource="ms-appx:///Assets/Icons/MeteredConnectionWarningDark.svg"/>
+            <SvgImageSource x:Key="MeteredConnectionDelay" UriSource="ms-appx:///Assets/Icons/MeteredConnectionDelayDark.svg"/>
+            <SvgImageSource x:Key="ReplaceFile" UriSource="ms-appx:///Assets/Icons/ReplaceFileDark.svg"/>
+            <SvgImageSource x:Key="RemoveSuccessfullyEndedTask" UriSource="ms-appx:///Assets/Icons/RemoveSuccessfullyEndedTaskDark.svg"/>
+            <SvgImageSource x:Key="ActiveTasksNumber" UriSource="ms-appx:///Assets/Icons/ActiveTasksNumberDark.svg"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
     <SvgImageSource x:Key="TwitchIcon" UriSource="ms-appx:///Assets/Icons/Twitch.svg"/>

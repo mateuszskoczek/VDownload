@@ -8,8 +8,8 @@
 
   <Identity
     Name="VDownload"
-    Publisher="CN=Mateusz"
-    Version="1.0.0.0" />
+    Publisher="CN=Mateusz Skoczek"
+    Version="0.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="b0f59998-a2e2-4edb-a764-b0cf8c657336" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

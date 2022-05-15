@@ -126,7 +126,7 @@ namespace VDownload.Views.Home.Controls
             }
             else if ((bool)Config.GetValue("custom_media_location") && StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_media_location"))
             {
-                ApplyToAllLocation = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("selected_media_location");
+                ApplyToAllLocation = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("custom_media_location");
                 ApplyToAllLocationSettingControl.Description = ApplyToAllLocation.Path;
             }
             else
@@ -226,7 +226,7 @@ namespace VDownload.Views.Home.Controls
             FilterChanged();
         }
 
-        private void FilterMinAndMaxDateDatePicker_LostFocus(object sender, RoutedEventArgs args)
+        private void FilterMinAndMaxDateDatePicker_DateChanged(CalendarDatePicker sender, CalendarDatePickerDateChangedEventArgs args)
         {
             FilterChanged();
         }
@@ -320,7 +320,10 @@ namespace VDownload.Views.Home.Controls
             catch (ArgumentException) { }
 
             List<SerialVideoAddingVideoControl> allVideos = new List<SerialVideoAddingVideoControl>();
-            allVideos.AddRange((IEnumerable<SerialVideoAddingVideoControl>)(VideosStackPanel.Children.ToList()));
+            foreach (SerialVideoAddingVideoControl video in VideosStackPanel.Children)
+            {
+                allVideos.Add(video);
+            }
             allVideos.AddRange(HiddenVideos);
             VideosStackPanel.Children.Clear();
             HiddenVideos.Clear();
@@ -338,7 +341,7 @@ namespace VDownload.Views.Home.Controls
                 ) HiddenVideos.Add(videoControl);
                 else VideosStackPanel.Children.Add(videoControl);
             }
-            FilterHeaderCountTextBlock.Text = HiddenVideos.Count + DeletedVideos.Count > 0 ? $"{ResourceLoader.GetForCurrentView().GetString("HomePlaylistAddingPanelFilterHeaderCountTextBlockPrefix")}: {HiddenVideos.Count + DeletedVideos.Count}" : string.Empty;
+            FilterHeaderCountTextBlock.Text = HiddenVideos.Count + DeletedVideos.Count > 0 ? $"{ResourceLoader.GetForCurrentView().GetString("Home_Adding_Base_SerialVideoAddingControl_Filter_Header_CountTextBlockPrefix")}: {HiddenVideos.Count + DeletedVideos.Count}" : string.Empty;
         }
 
         #endregion

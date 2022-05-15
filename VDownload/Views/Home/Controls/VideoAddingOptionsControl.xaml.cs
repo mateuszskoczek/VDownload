@@ -142,7 +142,7 @@ namespace VDownload.Views.Home.Controls
             }
             else if ((bool)Config.GetValue("custom_media_location") && StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_media_location"))
             {
-                FileLocation = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("selected_media_location");
+                FileLocation = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("custom_media_location");
                 FileLocationSettingControl.Description = FileLocation.Path;
             }
             else
@@ -271,7 +271,10 @@ namespace VDownload.Views.Home.Controls
 
         private void ScheduleSettingControlNumberBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (((NumberBox)sender).Value == double.NaN) ((NumberBox)sender).Value = 0;
+            if (((NumberBox)sender).Value == double.NaN)
+            {
+                ((NumberBox)sender).Value = 0;
+            } 
             Schedule = ((NumberBox)sender).Value;
         }
 

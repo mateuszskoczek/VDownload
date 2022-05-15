@@ -27,6 +27,7 @@ namespace VDownload.Core.Structs
             Schedule = schedule;
 
             Status = DownloadTaskStatus.Idle;
+            LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status);
             CancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -44,13 +45,8 @@ namespace VDownload.Core.Structs
         public OutputFile File { get; set; }
         public double Schedule { get; set; }
         public DownloadTaskStatus Status { get; private set; }
+        public DownloadTaskStatusChangedEventArgs LastStatusChangedEventArgs { get; private set; }
         public CancellationTokenSource CancellationTokenSource { get; private set; }
-
-        public DateTime ScheduledFor { get; private set; }
-        public double DownloadingProgress { get; private set; }
-        public double ProcessingProgress { get; private set; }
-        public TimeSpan ElapsedTime { get; private set; }
-        public Exception Exception { get; private set; }
 
         #endregion
 
@@ -60,30 +56,35 @@ namespace VDownload.Core.Structs
 
         public async Task Run(bool delayWhenOnMeteredConnection)
         {
-            StatusChanged.Invoke(this, System.EventArgs.Empty);
+            StatusChanged.Invoke(this, new DownloadTaskStatusChangedEventArgs(Status));
 
             CancellationTokenSource = new CancellationTokenSource();
 
             if (Schedule > 0)
             {
-                ScheduledFor = DateTime.Now.AddMinutes(Schedule);
+                DateTime scheduleFor = DateTime.Now.AddMinutes(Schedule);
                 Status = DownloadTaskStatus.Scheduled;
-                StatusChanged.Invoke(this, System.EventArgs.Empty);
-                while (DateTime.Now < ScheduledFor && !CancellationTokenSource.Token.IsCancellationRequested) await Task.Delay(100);
+                LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status, scheduleFor);
+                StatusChanged.Invoke(this, LastStatusChangedEventArgs);
+                while (DateTime.Now < scheduleFor && !CancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    await Task.Delay(100);
+                }
             }
 
             Status = DownloadTaskStatus.Queued;
-            StatusChanged.Invoke(this, System.EventArgs.Empty);
+            LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status);
+            StatusChanged.Invoke(this, LastStatusChangedEventArgs);
             await DownloadTasksCollectionManagement.WaitInQueue(delayWhenOnMeteredConnection, CancellationTokenSource.Token);
 
             if (!CancellationTokenSource.Token.IsCancellationRequested)
             {
-                DownloadingProgress = 0;
                 Status = DownloadTaskStatus.Downloading;
-                StatusChanged.Invoke(this, System.EventArgs.Empty);
+                LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status, 0);
+                StatusChanged.Invoke(this, LastStatusChangedEventArgs);
 
                 StorageFolder tempFolder;
-                if ((bool)Config.GetValue("custom_temp_location") && StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_temp_location"))
+                if (StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_temp_location"))
                 {
                     tempFolder = await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("custom_temp_location");
                 }
@@ -112,7 +113,8 @@ namespace VDownload.Core.Structs
                     session.Dispose();
 
                     Status = DownloadTaskStatus.Finalizing;
-                    StatusChanged.Invoke(this, System.EventArgs.Empty);
+                    LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status);
+                    StatusChanged.Invoke(this, LastStatusChangedEventArgs);
 
                     StorageFile outputFile = await File.Create();
 
@@ -121,16 +123,16 @@ namespace VDownload.Core.Structs
 
                     taskStopwatch.Stop();
 
-                    ElapsedTime = taskStopwatch.Elapsed;
                     Status = DownloadTaskStatus.EndedSuccessfully;
-                    StatusChanged.Invoke(this, System.EventArgs.Empty);
+                    LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status, taskStopwatch.Elapsed);
+                    StatusChanged.Invoke(this, LastStatusChangedEventArgs);
                 }
                 catch (Exception ex)
                 {
                     endedWithError = true;
-                    Exception = ex;
                     Status = DownloadTaskStatus.EndedUnsuccessfully;
-                    StatusChanged.Invoke(this, System.EventArgs.Empty);
+                    LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status, ex);
+                    StatusChanged.Invoke(this, LastStatusChangedEventArgs);
                 }
                 finally
                 {
@@ -143,24 +145,24 @@ namespace VDownload.Core.Structs
             }
             else
             {
-                Exception = new OperationCanceledException(CancellationTokenSource.Token);
                 Status = DownloadTaskStatus.EndedUnsuccessfully;
-                StatusChanged.Invoke(this, System.EventArgs.Empty);
+                LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status, new OperationCanceledException(CancellationTokenSource.Token));
+                StatusChanged.Invoke(this, LastStatusChangedEventArgs);
             }
         }
 
         private void DownloadingProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            DownloadingProgress = e.Progress;
             Status = DownloadTaskStatus.Downloading;
-            StatusChanged.Invoke(this, System.EventArgs.Empty);
+            LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status, e.Progress);
+            StatusChanged.Invoke(this, LastStatusChangedEventArgs);
         }
 
         private void ProcessingProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            ProcessingProgress = e.Progress;
             Status = DownloadTaskStatus.Processing;
-            StatusChanged.Invoke(this, System.EventArgs.Empty);
+            LastStatusChangedEventArgs = new DownloadTaskStatusChangedEventArgs(Status, e.Progress);
+            StatusChanged.Invoke(this, LastStatusChangedEventArgs);
         }
 
         #endregion
@@ -169,7 +171,7 @@ namespace VDownload.Core.Structs
 
         #region EVENT
 
-        public event EventHandler StatusChanged;
+        public event EventHandler<DownloadTaskStatusChangedEventArgs> StatusChanged;
 
         #endregion
     }

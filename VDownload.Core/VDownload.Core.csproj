@@ -128,11 +128,9 @@
     <Compile Include="Enums\VideoFileExtension.cs" />
     <Compile Include="Enums\VideoSource.cs" />
     <Compile Include="Enums\DownloadTaskStatus.cs" />
-    <Compile Include="EventArgs\DownloadTaskEndedUnsuccessfullyEventArgs.cs" />
-    <Compile Include="EventArgs\DownloadTaskEndedSuccessfullyEventArgs.cs" />
-    <Compile Include="EventArgs\DownloadTaskScheduledEventArgs.cs" />
-    <Compile Include="EventArgs\ProgressChangedEventArgs.cs" />
     <Compile Include="EventArgs\DownloadTasksAddingRequestedEventArgs.cs" />
+    <Compile Include="EventArgs\DownloadTaskStatusChangedEventArgs.cs" />
+    <Compile Include="EventArgs\ProgressChangedEventArgs.cs" />
     <Compile Include="EventArgs\PlaylistSearchSuccessedEventArgs.cs" />
     <Compile Include="EventArgs\SubscriptionLoadSuccessedEventArgs.cs" />
     <Compile Include="EventArgs\VideoSearchSuccessedEventArgs.cs" />

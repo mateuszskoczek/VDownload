@@ -76,7 +76,7 @@ namespace VDownload.Views.Home
                 tasksList.Add(new DownloadTask(id, videoControl.Video, videoControl.OptionsControl.MediaType, videoControl.OptionsControl.Stream, trim, file, videoControl.OptionsControl.Schedule));
             }
 
-            TasksAddingRequested?.Invoke(this, new DownloadTasksAddingRequestedEventArgs(tasksList.ToArray(), DownloadTasksAddingRequestSource.Playlist));
+            TasksAddingRequested?.Invoke(this, new DownloadTasksAddingRequestedEventArgs(tasksList.ToArray(), DownloadTasksAddingRequestSource.Subscriptions));
         }
 
         #endregion
