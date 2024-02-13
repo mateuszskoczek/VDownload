@@ -1,0 +1,578 @@
+<Page
+    x:Class="VDownload.GUI.Views.HomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.GUI.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:cc="using:VDownload.GUI.Controls"
+    xmlns:cmn="using:VDownload.Common"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ctuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:ctb="using:CommunityToolkit.WinUI.Behaviors"
+    mc:Ignorable="d"
+    Background="Transparent"
+    x:Name="Root">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{Binding NavigationCommand}"/>
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Grid RowSpacing="10"
+          Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ctuc:SwitchPresenter Grid.Row="0"
+                              Value="{Binding MainContent, Converter={StaticResource EnumToStringConverter}}"
+                              CornerRadius="10">
+            <ctuc:Case Value="Downloads">
+                <ctuc:SwitchPresenter Value="{Binding TaskListIsEmpty, Converter={StaticResource BooleanToStringConverter}}">
+                    <ctuc:Case Value="True">
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <Image Source="{StaticResource ImageDownloadsNoTasks}"
+                                   Width="100"/>
+                            <TextBlock Text="Click Video/Playlist search button to add new tasks" 
+                                       Foreground="{StaticResource GreyText}"/>
+                        </StackPanel>
+                    </ctuc:Case>
+                    <ctuc:Case Value="False">
+                        <ScrollViewer>
+                            <ItemsControl ItemsSource="{Binding Tasks}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Background="{ThemeResource ViewBackgroundColor}"
+                                              CornerRadius="10"
+                                              Height="150">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Image Grid.Column="0" 
+                                                       Source="{Binding Video.ThumbnailUrl}" 
+                                                       VerticalAlignment="Stretch"/>
+                                                <Grid Grid.Column="1"
+                                                      Margin="10"
+                                                      RowSpacing="10">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid Grid.Row="0"
+                                                          ColumnSpacing="10" 
+                                                          HorizontalAlignment="Left">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0" 
+                                                                   FontWeight="SemiBold"
+                                                                   FontSize="18"
+                                                                   Text="{Binding Video.Title}"
+                                                                   TextTrimming="CharacterEllipsis"/>
+                                                        <TextBlock Grid.Column="1" 
+                                                                   VerticalAlignment="Center"
+                                                                   FontWeight="Light"
+                                                                   FontSize="12"
+                                                                   Text="{Binding Video.Author}"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="1" 
+                                                          RowSpacing="10" 
+                                                          ColumnSpacing="10">
+                                                        <Grid.Resources>
+                                                            <x:Double x:Key="TextSize">12</x:Double>
+                                                        </Grid.Resources>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Image Grid.Row="0"
+                                                               Grid.Column="0"
+                                                               Source="{ThemeResource ImageDownloadsQuality}"/>
+                                                        <TextBlock Grid.Row="0"
+                                                                   Grid.Column="1"
+                                                                   FontSize="{StaticResource TextSize}"
+                                                                   VerticalAlignment="Center">
+                                                            <Run Text="{Binding MediaType, Converter={StaticResource EnumToDescriptionConverter}}"/> (<Run Text="{Binding VideoStream.StreamIdentifier}"/>)
+                                                        </TextBlock>
+                                                        <Image Grid.Row="1"
+                                                               Grid.Column="0"
+                                                               Source="{ThemeResource ImageDownloadsTime}"/>
+                                                        <StackPanel Grid.Row="1"
+                                                                    Grid.Column="1"
+                                                                    Orientation="Horizontal"
+                                                                    VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding DurationAfterTrim}"
+                                                                       FontSize="{StaticResource TextSize}"/>
+                                                            <TextBlock Visibility="{Binding IsTrimmed, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                                       FontSize="{StaticResource TextSize}">
+                                                                <Run Text=" "/>(<Run Text="{Binding TrimStart}"/> - <Run Text="{Binding TrimEnd}"/>)
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                        <Image Grid.Row="2"
+                                                               Grid.Column="0"
+                                                               Source="{ThemeResource ImageDownloadsFile}"/>
+                                                        <TextBlock Grid.Row="2"
+                                                                   Grid.Column="1"
+                                                                   FontSize="{StaticResource TextSize}"
+                                                                   VerticalAlignment="Center"
+                                                                   Text="{Binding FilePath}"/>
+                                                        <Image Grid.Row="3"
+                                                               Grid.Column="0">
+                                                            <i:Interaction.Behaviors>
+                                                                <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToStringConverter}}"
+                                                                                        ComparisonCondition="Equal"
+                                                                                        Value="Idle">
+                                                                    <ic:ChangePropertyAction PropertyName="Source"
+                                                                                             Value="{ThemeResource ImageDownloadsIdle}"/>
+                                                                </ic:DataTriggerBehavior>
+                                                                <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToStringConverter}}"
+                                                                                        ComparisonCondition="Equal"
+                                                                                        Value="Queued">
+                                                                    <ic:ChangePropertyAction PropertyName="Source"
+                                                                                             Value="{ThemeResource ImageDownloadsQueued}"/>
+                                                                </ic:DataTriggerBehavior>
+                                                                <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToStringConverter}}"
+                                                                                        ComparisonCondition="Equal"
+                                                                                        Value="Initializing">
+                                                                    <ic:ChangePropertyAction PropertyName="Source"
+                                                                                             Value="{ThemeResource ImageDownloadsInitializing}"/>
+                                                                </ic:DataTriggerBehavior>
+                                                            </i:Interaction.Behaviors>
+                                                        </Image>
+                                                        <TextBlock Grid.Row="3"
+                                                                   Grid.Column="1"
+                                                                   FontSize="{StaticResource TextSize}"
+                                                                   VerticalAlignment="Center">
+                                                            <i:Interaction.Behaviors>
+                                                                <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToStringConverter}}"
+                                                                                        ComparisonCondition="Equal"
+                                                                                        Value="Idle">
+                                                                    <ic:ChangePropertyAction PropertyName="Text"
+                                                                                             Value="Idle"/>
+                                                                </ic:DataTriggerBehavior>
+                                                                <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToStringConverter}}"
+                                                                                        ComparisonCondition="Equal"
+                                                                                        Value="Queued">
+                                                                    <ic:ChangePropertyAction PropertyName="Text"
+                                                                                             Value="Queued"/>
+                                                                </ic:DataTriggerBehavior>
+                                                                <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToStringConverter}}"
+                                                                                        ComparisonCondition="Equal"
+                                                                                        Value="Initializing">
+                                                                    <ic:ChangePropertyAction PropertyName="Text"
+                                                                                             Value="Initializing"/>
+                                                                </ic:DataTriggerBehavior>
+                                                            </i:Interaction.Behaviors>
+                                                        </TextBlock>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid Grid.Column="2"
+                                                      Margin="0,0,5,0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
+                                                    <AppBarButton Grid.Row="0" 
+                                                                  Width="40" 
+                                                                  Height="48">
+                                                        <i:Interaction.Behaviors>
+                                                            <ic:EventTriggerBehavior EventName="Click">
+                                                                <ctb:NavigateToUriAction NavigateUri="{Binding Video.Url}"/>
+                                                            </ic:EventTriggerBehavior>
+                                                            <ic:DataTriggerBehavior Binding="{Binding Video.Source, Converter={StaticResource EnumToStringConverter}}"
+                                                                                    ComparisonCondition="Equal"
+                                                                                    Value="Twitch">
+                                                                <ic:ChangePropertyAction PropertyName="Icon">
+                                                                    <ic:ChangePropertyAction.Value>
+                                                                        <BitmapIcon ShowAsMonochrome="False" 
+                                                                                    UriSource="{StaticResource ImageSourcesTwitch}"/>
+                                                                    </ic:ChangePropertyAction.Value>
+                                                                </ic:ChangePropertyAction>
+                                                            </ic:DataTriggerBehavior>
+                                                        </i:Interaction.Behaviors>
+                                                    </AppBarButton>
+                                                    <AppBarButton Grid.Row="1" 
+                                                                  Width="40" 
+                                                                  Height="48"
+                                                                  Command="{Binding ElementName=Root, Path=DataContext.StartCancelTaskCommand}"
+                                                                  CommandParameter="{Binding}">
+                                                        <i:Interaction.Behaviors>
+                                                            <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToIntConverter}}"
+                                                                                    ComparisonCondition="LessThan"
+                                                                                    Value="4">
+                                                                <ic:ChangePropertyAction PropertyName="Icon">
+                                                                    <ic:ChangePropertyAction.Value>
+                                                                        <SymbolIcon Symbol="Download"/>
+                                                                    </ic:ChangePropertyAction.Value>
+                                                                </ic:ChangePropertyAction>
+                                                            </ic:DataTriggerBehavior>
+                                                            <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToIntConverter}}"
+                                                                                    ComparisonCondition="GreaterThanOrEqual"
+                                                                                    Value="4">
+                                                                <ic:ChangePropertyAction PropertyName="Icon">
+                                                                    <ic:ChangePropertyAction.Value>
+                                                                        <SymbolIcon Symbol="Cancel"/>
+                                                                    </ic:ChangePropertyAction.Value>
+                                                                </ic:ChangePropertyAction>
+                                                            </ic:DataTriggerBehavior>
+                                                        </i:Interaction.Behaviors>
+                                                    </AppBarButton>
+                                                    <AppBarButton Grid.Row="2" 
+                                                                  Icon="Delete" 
+                                                                  Width="40" 
+                                                                  Height="48"/>
+                                                </Grid>
+                                            </Grid>
+                                            <ProgressBar Grid.Row="1"
+                                                         Value="{Binding Progress}">
+                                                <i:Interaction.Behaviors>
+                                                    <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToIntConverter}}"
+                                                                        ComparisonCondition="LessThan"
+                                                                        Value="5">
+                                                        <ic:ChangePropertyAction PropertyName="Visibility" Value="Collapsed"/>
+                                                    </ic:DataTriggerBehavior>
+                                                    <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToIntConverter}}"
+                                                                        ComparisonCondition="GreaterThanOrEqual"
+                                                                        Value="5">
+                                                        <ic:ChangePropertyAction PropertyName="Visibility" Value="Visible"/>
+                                                    </ic:DataTriggerBehavior>
+                                                    <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToIntConverter}}"
+                                                                            ComparisonCondition="LessThan"
+                                                                            Value="7">
+                                                        <ic:ChangePropertyAction PropertyName="IsIndeterminate" Value="True"/>
+                                                    </ic:DataTriggerBehavior>
+                                                    <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource EnumToIntConverter}}"
+                                                                            ComparisonCondition="GreaterThanOrEqual"
+                                                                            Value="7">
+                                                        <ic:ChangePropertyAction PropertyName="IsIndeterminate" Value="False"/>
+                                                    </ic:DataTriggerBehavior>
+                                                </i:Interaction.Behaviors>
+                                            </ProgressBar>
+                                        </Grid>
+                                        
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </ctuc:Case>
+                </ctuc:SwitchPresenter>
+            </ctuc:Case>
+            <ctuc:Case Value="Video">
+                <Grid Padding="15" 
+                      RowSpacing="20"
+                      Background="{ThemeResource ViewBackgroundColor}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0"
+                          ColumnSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0"
+                                CornerRadius="{ThemeResource ControlCornerRadius}">
+                            <Image Source="{Binding Task.Video.ThumbnailUrl}"
+                                   VerticalAlignment="Stretch"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" 
+                                    Spacing="15">
+                            <TextBlock Text="{Binding Task.Video.Title}"
+                                       FontWeight="Bold"
+                                       FontSize="20"
+                                       TextWrapping="WrapWholeWords"/>
+                            <Grid ColumnSpacing="10"
+                                  RowSpacing="10">
+                                <Grid.Resources>
+                                    <x:Double x:Key="IconSize">18</x:Double>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Column="0"
+                                       Grid.Row="0"
+                                       Source="{ThemeResource ImageVideoAuthor}"
+                                       Width="{StaticResource IconSize}"/>
+                                <TextBlock Grid.Column="1"
+                                           Grid.Row="0"
+                                           Text="{Binding Task.Video.Author}"/>
+                                <Image Grid.Column="0"
+                                       Grid.Row="1"
+                                       Source="{ThemeResource ImageVideoDate}"
+                                       Width="{StaticResource IconSize}"/>
+                                <TextBlock Grid.Column="1"
+                                           Grid.Row="1"
+                                           Text="{Binding Task.Video.PublishDate}"/>
+                                <Image Grid.Column="0"
+                                       Grid.Row="2"
+                                       Source="{ThemeResource ImageVideoTime}"
+                                       Width="{StaticResource IconSize}"/>
+                                <TextBlock Grid.Column="1"
+                                           Grid.Row="2"
+                                           Text="{Binding Task.Video.Duration}"/>
+                                <Image Grid.Column="0"
+                                       Grid.Row="3"
+                                       Source="{ThemeResource ImageVideoView}"
+                                       Width="{StaticResource IconSize}"/>
+                                <TextBlock Grid.Column="1"
+                                           Grid.Row="3"
+                                           Text="{Binding Task.Video.ViewCount}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1">
+                        <StackPanel Spacing="20">
+                            <StackPanel Spacing="5">
+                                <TextBlock Text="Media options"
+                                           FontWeight="Bold"
+                                           FontSize="15"/>
+                                <ctc:SettingsCard Header="Quality">
+                                    <ctc:SettingsCard.HeaderIcon>
+                                        <BitmapIcon ShowAsMonochrome="False" 
+                                                    UriSource="{ThemeResource ImageVideoQuality}"/>
+                                    </ctc:SettingsCard.HeaderIcon>
+                                    <ComboBox ItemsSource="{Binding Task.Video.Streams}"
+                                              SelectedItem="{Binding Task.VideoStream, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding StreamIdentifier}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </ctc:SettingsCard>
+                                <ctc:SettingsCard Header="Media type">
+                                    <ctc:SettingsCard.HeaderIcon>
+                                        <BitmapIcon ShowAsMonochrome="False" 
+                                                    UriSource="{ThemeResource ImageVideoMedia}"/>
+                                    </ctc:SettingsCard.HeaderIcon>
+                                    <ComboBox ItemsSource="{ct:EnumValues Type=cmn:MediaType}"
+                                              SelectedItem="{Binding Task.MediaType, Mode=TwoWay}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Converter={StaticResource EnumToDescriptionConverter}}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </ctc:SettingsCard>
+                                <ctc:SettingsExpander Header="Trim">
+                                    <ctc:SettingsExpander.HeaderIcon>
+                                        <BitmapIcon ShowAsMonochrome="False" 
+                                                    UriSource="{ThemeResource ImageVideoTrim}"/>
+                                    </ctc:SettingsExpander.HeaderIcon>
+                                    <ctc:SettingsExpander.Items>
+                                        <ctc:SettingsCard Header="Start at">
+                                            <cc:TimeSpanControl Value="{Binding Task.TrimStart, Mode=TwoWay}" 
+                                                                Maximum="{Binding Task.TrimEnd, Mode=OneWay}"/>
+                                        </ctc:SettingsCard>
+                                        <ctc:SettingsCard Header="End at">
+                                            <cc:TimeSpanControl Minimum="{Binding Task.TrimStart, Mode=OneWay}" 
+                                                                Value="{Binding Task.TrimEnd, Mode=TwoWay}" 
+                                                                Maximum="{Binding Task.Video.Duration, Mode=OneWay}"/>
+                                        </ctc:SettingsCard>
+                                    </ctc:SettingsExpander.Items>
+                                </ctc:SettingsExpander>
+                            </StackPanel>
+                            <StackPanel Spacing="5">
+                                <TextBlock Text="File options"
+                                           FontWeight="Bold"
+                                           FontSize="15"/>
+                                <ctc:SettingsCard Header="Directory"
+                                                  Description="{Binding Task.DirectoryPath}">
+                                    <ctc:SettingsCard.HeaderIcon>
+                                        <BitmapIcon ShowAsMonochrome="False" UriSource="{ThemeResource ImageVideoDirectory}"/>
+                                    </ctc:SettingsCard.HeaderIcon>
+                                    <Button Content="Browse" 
+                                            Command="{Binding BrowseCommand}"/>
+                                </ctc:SettingsCard>
+                                <ctc:SettingsCard Header="Filename">
+                                    <ctc:SettingsCard.HeaderIcon>
+                                        <BitmapIcon ShowAsMonochrome="False" UriSource="{ThemeResource ImageVideoFilename}"/>
+                                    </ctc:SettingsCard.HeaderIcon>
+                                    <TextBox Text="{Binding Task.Filename, Mode=TwoWay}"/>
+                                </ctc:SettingsCard>
+                                <ctc:SettingsCard Header="File type"
+                                                  Description="If original video is not in selected type, it will be converted">
+                                    <ctc:SettingsCard.HeaderIcon>
+                                        <BitmapIcon ShowAsMonochrome="False" UriSource="{ThemeResource ImageVideoExtension}"/>
+                                    </ctc:SettingsCard.HeaderIcon>
+                                    <ComboBox>
+                                        <i:Interaction.Behaviors>
+                                            <ic:DataTriggerBehavior Binding="{Binding Task.MediaType, Converter={StaticResource EnumToStringConverter}}"
+                                                                    ComparisonCondition="Equal"
+                                                                    Value="OnlyAudio">
+                                                <ic:ChangePropertyAction PropertyName="ItemsSource"
+                                                                         Value="{ct:EnumValues Type=cmn:AudioExtension}"/>
+                                                <ic:ChangePropertyAction PropertyName="SelectedItem"
+                                                                         Value="{Binding Task.AudioExtension}"/>
+                                            </ic:DataTriggerBehavior>
+                                            <ic:DataTriggerBehavior Binding="{Binding Task.MediaType, Converter={StaticResource EnumToStringConverter}}"
+                                                                    ComparisonCondition="NotEqual"
+                                                                    Value="OnlyAudio">
+                                                <ic:ChangePropertyAction PropertyName="ItemsSource"
+                                                                         Value="{ct:EnumValues Type=cmn:VideoExtension}"/>
+                                                <ic:ChangePropertyAction PropertyName="SelectedItem"
+                                                                         Value="{Binding Task.VideoExtension}"/>
+                                            </ic:DataTriggerBehavior>
+                                        </i:Interaction.Behaviors>
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </ctc:SettingsCard>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                    <Button Grid.Row="2" 
+                            HorizontalAlignment="Right" 
+                            Style="{StaticResource AccentButtonStyle}"
+                            Content="Create download task"  
+                            Command="{Binding CreateTaskCommand}"/>
+                </Grid>
+            </ctuc:Case>
+        </ctuc:SwitchPresenter>
+        <Grid Grid.Row="1"
+              Background="{ThemeResource OptionBarBackgroundColor}"
+              CornerRadius="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ctuc:UniformGrid Grid.Column="0" 
+                              Rows="1" 
+                              Margin="15,0,0,0">
+                <ctuc:UniformGrid.RowDefinitions>
+                    <RowDefinition/>
+                </ctuc:UniformGrid.RowDefinitions>
+                <ctuc:UniformGrid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </ctuc:UniformGrid.ColumnDefinitions>
+                <ctuc:SwitchPresenter Grid.Row="0" 
+                                      VerticalAlignment="Stretch" 
+                                      Margin="0,0,15,0" 
+                                      Value="{Binding OptionBarContent, Converter={StaticResource EnumToStringConverter}}">
+                    <i:Interaction.Behaviors>
+                        <ic:DataTriggerBehavior Binding="{Binding OptionBarContent, Converter={StaticResource EnumToStringConverter}}"
+                                                ComparisonCondition="Equal"
+                                                Value="None">
+                            <ic:ChangePropertyAction PropertyName="Visibility"
+                                                     Value="Collapsed"/>
+                        </ic:DataTriggerBehavior>
+                        <ic:DataTriggerBehavior Binding="{Binding OptionBarContent, Converter={StaticResource EnumToStringConverter}}"
+                                                ComparisonCondition="NotEqual"
+                                                Value="None">
+                            <ic:ChangePropertyAction PropertyName="Visibility"
+                                                     Value="Visible"/>
+                        </ic:DataTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                    <ctuc:Case Value="VideoSearch">
+                        <Grid ColumnSpacing="10" 
+                              VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" 
+                                     PlaceholderText="Video URL"
+                                     VerticalAlignment="Center"
+                                     Text="{Binding OptionBarVideoSearchTBValue, Mode=TwoWay}"/>
+                            <Button Grid.Column="1" 
+                                    Content="Search"
+                                    IsEnabled="{Binding OptionBarSearchNotPending}"
+                                    Command="{Binding VideoSearchStartCommand}"/>
+                        </Grid>
+                    </ctuc:Case>
+                    <ctuc:Case Value="PlaylistSearch">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" 
+                                     VerticalAlignment="Center"
+                                     PlaceholderText="Playlist URL"
+                                     Text="{Binding OptionBarPlaylistSearchTBValue, Mode=TwoWay}"/>
+                            <NumberBox Grid.Column="1" 
+                                       VerticalAlignment="Center"
+                                       SpinButtonPlacementMode="Compact" 
+                                       SmallChange="1" 
+                                       LargeChange="10" 
+                                       Value="{Binding OptionBarPlaylistSearchNBValue, Mode=TwoWay}"
+                                       Minimum="1"
+                                       ToolTipService.ToolTip="Number of videos to get from playlist"/>
+                            <Button Grid.Column="2" 
+                                    Content="Search"
+                                    IsEnabled="{Binding OptionBarSearchNotPending}"
+                                    Command="{Binding PlaylistSearchStartCommand}"/>
+                        </Grid>
+                    </ctuc:Case>
+                </ctuc:SwitchPresenter>
+                <StackPanel VerticalAlignment="Center" 
+                            Orientation="Horizontal">
+                    <ProgressRing Width="20" 
+                          Height="20" 
+                          Margin="0,0,10,0"
+                          Visibility="{Binding OptionBarLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <TextBlock Text="{Binding OptionBarMessage}"/>
+                </StackPanel>
+            </ctuc:UniformGrid>
+            <StackPanel Grid.Column="2" 
+                        Orientation="Horizontal">
+                <AppBarButton Width="150"
+                              Label="Load from subscriptions"
+                              Icon="Favorite"
+                              IsEnabled="{Binding OptionBarSearchNotPending}"
+                              Command="{Binding LoadFromSubscriptionCommand}"/>
+                <AppBarToggleButton Label="Video search"
+                                    Width="100"
+                                    Icon="Video"
+                                    IsEnabled="{Binding OptionBarSearchNotPending}"
+                                    IsChecked="{Binding OptionBarVideoSearchButtonChecked, Mode=TwoWay}"
+                                    Command="{Binding VideoSearchShowCommand}"/>
+                <AppBarToggleButton Label="Playlist search"
+                                    Width="100"
+                                    Icon="List"
+                                    IsEnabled="{Binding OptionBarSearchNotPending}"
+                                    IsChecked="{Binding OptionBarPlaylistSearchButtonChecked, Mode=TwoWay}"
+                                    Command="{Binding PlaylistSearchShowCommand}"/>
+                <AppBarSeparator/>
+                <AppBarButton Width="100"
+                              Label="Download all"
+                              Icon="Download"
+                              Command="{Binding DownloadCommand}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>

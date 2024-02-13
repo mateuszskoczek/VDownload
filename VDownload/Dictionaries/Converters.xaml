@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:VDownload.GUI.Converters">
+    <c:ViewModelToViewConverter x:Key="ViewModelToViewConverter"/>
+    <c:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter"/>
+    <c:EnumToStringConverter x:Key="EnumToStringConverter"/>
+    <c:EnumToIntConverter x:Key="EnumToIntConverter"/>
+    <c:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
+    <c:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
+    <c:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <c:BooleanToGridLengthConverter x:Key="BooleanToGridLengthConverter"/>
+    <c:BooleanToGridLengthReversedConverter x:Key="BooleanToGridLengthReversedConverter"/>
+    <c:BooleanToGridLengthFillConverter x:Key="BooleanToGridLengthFillConverter"/>
+    <c:BooleanToGridLengthFillReversedConverter x:Key="BooleanToGridLengthFillReversedConverter"/>
+    <c:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+    <c:StringToLowerConverter x:Key="StringToLowerConverter"/>
+    <c:StringToUriConverter x:Key="StringToUriConverter"/>
+</ResourceDictionary>

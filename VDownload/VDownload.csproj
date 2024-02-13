@@ -1,485 +1,288 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{324AB81A-F68D-424D-B90E-5402F5E44240}</ProjectGuid>
-    <OutputType>AppContainerExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>VDownload</RootNamespace>
-    <AssemblyName>VDownload</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.22000.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-    <PackageCertificateThumbprint>19004779324CA6C66C5D4549F0161C153221ABD8</PackageCertificateThumbprint>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
-    <OutputPath>bin\ARM\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
-    <OutputPath>bin\ARM64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <UseRidGraph>true</UseRidGraph>
+	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PlaceholderableStackPanel.xaml.cs">
-      <DependentUpon>PlaceholderableStackPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Converters\StringToVisibilityConverter.cs" />
-    <Compile Include="Converters\TimeSpanToTextBoxMaskConverter.cs" />
-    <Compile Include="Converters\TimeSpanToTextBoxMaskElementsConverter.cs" />
-    <Compile Include="Views\About\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\Controls\SerialVideoAddingControl.xaml.cs">
-      <DependentUpon>SerialVideoAddingControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\Controls\VideoAddingOptionsControl.xaml.cs">
-      <DependentUpon>VideoAddingOptionsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\Controls\SubscriptionsLoadControl.xaml.cs">
-      <DependentUpon>SubscriptionsLoadControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\Controls\PlaylistSearchControl.xaml.cs">
-      <DependentUpon>PlaylistSearchControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\Controls\VideoSearchControl.xaml.cs">
-      <DependentUpon>VideoSearchControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SettingControl.xaml.cs">
-      <DependentUpon>SettingControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\SubscriptionsAddingPanel.xaml.cs">
-      <DependentUpon>SubscriptionsAddingPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\PlaylistAddingPanel.xaml.cs">
-      <DependentUpon>PlaylistAddingPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\Controls\SerialVideoAddingVideoControl.xaml.cs">
-      <DependentUpon>SerialVideoAddingVideoControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\VideoAddingPanel.xaml.cs">
-      <DependentUpon>VideoAddingPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Home\Controls\DownloadTaskControl.xaml.cs">
-      <DependentUpon>DownloadTaskControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Sources\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Settings\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Subscriptions\Controls\SubscriptionPanel.xaml.cs">
-      <DependentUpon>SubscriptionPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Subscriptions\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-24.png" />
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-32.png" />
+    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-48.png" />
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
+    <None Remove="appsettings.json" />
+    <None Remove="Assets\Logo\LargeTile.scale-100.png" />
+    <None Remove="Assets\Logo\LargeTile.scale-125.png" />
+    <None Remove="Assets\Logo\LargeTile.scale-150.png" />
+    <None Remove="Assets\Logo\LargeTile.scale-200.png" />
+    <None Remove="Assets\Logo\LargeTile.scale-400.png" />
+    <None Remove="Assets\Logo\Logo.png" />
+    <None Remove="Assets\Logo\SmallTile.scale-100.png" />
+    <None Remove="Assets\Logo\SmallTile.scale-125.png" />
+    <None Remove="Assets\Logo\SmallTile.scale-150.png" />
+    <None Remove="Assets\Logo\SmallTile.scale-200.png" />
+    <None Remove="Assets\Logo\SmallTile.scale-400.png" />
+    <None Remove="Assets\Logo\SplashScreen.scale-100.png" />
+    <None Remove="Assets\Logo\SplashScreen.scale-125.png" />
+    <None Remove="Assets\Logo\SplashScreen.scale-150.png" />
+    <None Remove="Assets\Logo\SplashScreen.scale-200.png" />
+    <None Remove="Assets\Logo\SplashScreen.scale-400.png" />
+    <None Remove="Assets\Logo\Square150x150Logo.scale-100.png" />
+    <None Remove="Assets\Logo\Square150x150Logo.scale-125.png" />
+    <None Remove="Assets\Logo\Square150x150Logo.scale-150.png" />
+    <None Remove="Assets\Logo\Square150x150Logo.scale-200.png" />
+    <None Remove="Assets\Logo\Square150x150Logo.scale-400.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.scale-100.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.scale-125.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.scale-150.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.scale-200.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.scale-400.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-16.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-16_altform-lightunplated.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-24.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-24_altform-lightunplated.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-256.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-32.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-32_altform-lightunplated.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-48.png" />
+    <None Remove="Assets\Logo\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <None Remove="Assets\Logo\StoreLogo.scale-100.png" />
+    <None Remove="Assets\Logo\StoreLogo.scale-125.png" />
+    <None Remove="Assets\Logo\StoreLogo.scale-150.png" />
+    <None Remove="Assets\Logo\StoreLogo.scale-200.png" />
+    <None Remove="Assets\Logo\StoreLogo.scale-400.png" />
+    <None Remove="Assets\Logo\Wide310x150Logo.scale-100.png" />
+    <None Remove="Assets\Logo\Wide310x150Logo.scale-125.png" />
+    <None Remove="Assets\Logo\Wide310x150Logo.scale-150.png" />
+    <None Remove="Assets\Logo\Wide310x150Logo.scale-200.png" />
+    <None Remove="Assets\Logo\Wide310x150Logo.scale-400.png" />
+    <None Remove="Dictionaries\Colors.xaml" />
+    <None Remove="Dictionaries\Converters.xaml" />
+    <None Remove="Dictionaries\Images.xaml" />
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="Assets\Icons\ActiveTasksNumberDark.svg" />
-    <Content Include="Assets\Icons\ActiveTasksNumberLight.svg" />
-    <Content Include="Assets\Icons\ApplyToAllOptionsDark.svg" />
-    <Content Include="Assets\Icons\ApplyToAllOptionsLight.svg" />
-    <Content Include="Assets\Icons\AuthorDark.svg" />
-    <Content Include="Assets\Icons\AuthorLight.svg" />
-    <Content Include="Assets\Icons\CustomMediaLocationDark.svg" />
-    <Content Include="Assets\Icons\CustomMediaLocationLight.svg" />
-    <Content Include="Assets\Icons\DateDark.svg" />
-    <Content Include="Assets\Icons\DateLight.svg" />
-    <Content Include="Assets\Icons\DefaultAudioExtensionDark.svg" />
-    <Content Include="Assets\Icons\DefaultAudioExtensionLight.svg" />
-    <Content Include="Assets\Icons\DefaultMediaTypeDark.svg" />
-    <Content Include="Assets\Icons\DefaultMediaTypeLight.svg" />
-    <Content Include="Assets\Icons\DefaultVideoExtensionDark.svg" />
-    <Content Include="Assets\Icons\DefaultVideoExtensionLight.svg" />
-    <Content Include="Assets\Icons\DeleteTasksTemporaryFilesIfEndedWithErrorDark.svg" />
-    <Content Include="Assets\Icons\DeleteTasksTemporaryFilesIfEndedWithErrorLight.svg" />
-    <Content Include="Assets\Icons\DeleteTemporaryFilesOnStartDark.svg" />
-    <Content Include="Assets\Icons\DeleteTemporaryFilesOnStartLight.svg" />
-    <Content Include="Assets\Icons\DurationDark.svg" />
-    <Content Include="Assets\Icons\DurationLight.svg" />
-    <Content Include="Assets\Icons\EditingAlgorithmDark.svg" />
-    <Content Include="Assets\Icons\EditingAlgorithmLight.svg" />
-    <Content Include="Assets\Icons\Error.svg" />
-    <Content Include="Assets\Icons\FileDark.svg" />
-    <Content Include="Assets\Icons\FileLight.svg" />
-    <Content Include="Assets\Icons\FilenameTemplateDark.svg" />
-    <Content Include="Assets\Icons\FilenameTemplateLight.svg" />
-    <Content Include="Assets\Icons\FilterDark.svg" />
-    <Content Include="Assets\Icons\FilterLight.svg" />
-    <Content Include="Assets\Icons\LastMediaLocationDark.svg" />
-    <Content Include="Assets\Icons\LastMediaLocationLight.svg" />
-    <Content Include="Assets\Icons\LocationDark.svg" />
-    <Content Include="Assets\Icons\LocationLight.svg" />
-    <Content Include="Assets\Icons\MediaTypeDark.svg" />
-    <Content Include="Assets\Icons\MediaTypeLight.svg" />
-    <Content Include="Assets\Icons\MeteredConnectionDelayDark.svg" />
-    <Content Include="Assets\Icons\MeteredConnectionDelayLight.svg" />
-    <Content Include="Assets\Icons\MeteredConnectionWarningDark.svg" />
-    <Content Include="Assets\Icons\MeteredConnectionWarningLight.svg" />
-    <Content Include="Assets\Icons\QualityDark.svg" />
-    <Content Include="Assets\Icons\QualityLight.svg" />
-    <Content Include="Assets\Icons\RemoveSuccessfullyEndedTaskDark.svg" />
-    <Content Include="Assets\Icons\RemoveSuccessfullyEndedTaskLight.svg" />
-    <Content Include="Assets\Icons\ReplaceFileDark.svg" />
-    <Content Include="Assets\Icons\ReplaceFileLight.svg" />
-    <Content Include="Assets\Icons\ScheduleDark.svg" />
-    <Content Include="Assets\Icons\ScheduleLight.svg" />
-    <Content Include="Assets\Icons\ShowNotifcationWhenSuccessfulDark.svg" />
-    <Content Include="Assets\Icons\ShowNotifcationWhenSuccessfulLight.svg" />
-    <Content Include="Assets\Icons\ShowNotifcationWhenUnsuccessfulDark.svg" />
-    <Content Include="Assets\Icons\ShowNotifcationWhenUnsuccessfulLight.svg" />
-    <Content Include="Assets\Icons\StateCancelledDark.svg" />
-    <Content Include="Assets\Icons\StateCancelledLight.svg" />
-    <Content Include="Assets\Icons\StateDoneDark.svg" />
-    <Content Include="Assets\Icons\StateDoneLight.svg" />
-    <Content Include="Assets\Icons\StateDownloadingDark.svg" />
-    <Content Include="Assets\Icons\StateDownloadingLight.svg" />
-    <Content Include="Assets\Icons\StateErrorDark.svg" />
-    <Content Include="Assets\Icons\StateErrorLight.svg" />
-    <Content Include="Assets\Icons\StateFinalizingDark.svg" />
-    <Content Include="Assets\Icons\StateFinalizingLight.svg" />
-    <Content Include="Assets\Icons\StateIdleDark.svg" />
-    <Content Include="Assets\Icons\StateIdleLight.svg" />
-    <Content Include="Assets\Icons\StateProcessingDark.svg" />
-    <Content Include="Assets\Icons\StateProcessingLight.svg" />
-    <Content Include="Assets\Icons\StateScheduledDark.svg" />
-    <Content Include="Assets\Icons\StateScheduledLight.svg" />
-    <Content Include="Assets\Icons\StateQueuedDark.svg" />
-    <Content Include="Assets\Icons\StateQueuedLight.svg" />
-    <Content Include="Assets\Icons\TemporaryFilesLocationDark.svg" />
-    <Content Include="Assets\Icons\TemporaryFilesLocationLight.svg" />
-    <Content Include="Assets\Icons\TranscodingAlgorithmDark.svg" />
-    <Content Include="Assets\Icons\TranscodingAlgorithmLight.svg" />
-    <Content Include="Assets\Icons\TrimDark.svg" />
-    <Content Include="Assets\Icons\TrimLight.svg" />
-    <Content Include="Assets\Icons\Twitch.svg" />
-    <Content Include="Assets\Icons\UseHardwareAccelerationDark.svg" />
-    <Content Include="Assets\Icons\UseHardwareAccelerationLight.svg" />
-    <Content Include="Assets\Icons\ViewsDark.svg" />
-    <Content Include="Assets\Icons\ViewsLight.svg" />
-    <Content Include="Assets\Images\HomeTasksListPlaceholderImage.svg" />
-    <Content Include="Assets\Images\UnknownThumbnail.png" />
-    <Content Include="Assets\Logo\Logo.png" />
-    <Content Include="Assets\Logo\LargeTile.scale-100.png" />
-    <Content Include="Assets\Logo\LargeTile.scale-125.png" />
-    <Content Include="Assets\Logo\LargeTile.scale-150.png" />
-    <Content Include="Assets\Logo\LargeTile.scale-200.png" />
-    <Content Include="Assets\Logo\LargeTile.scale-400.png" />
-    <Content Include="Assets\Logo\SmallTile.scale-100.png" />
-    <Content Include="Assets\Logo\SmallTile.scale-125.png" />
-    <Content Include="Assets\Logo\SmallTile.scale-150.png" />
-    <Content Include="Assets\Logo\SmallTile.scale-200.png" />
-    <Content Include="Assets\Logo\SmallTile.scale-400.png" />
-    <Content Include="Assets\Logo\SplashScreen.scale-100.png" />
-    <Content Include="Assets\Logo\SplashScreen.scale-125.png" />
-    <Content Include="Assets\Logo\SplashScreen.scale-150.png" />
-    <Content Include="Assets\Logo\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Logo\SplashScreen.scale-400.png" />
-    <Content Include="Assets\Logo\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\Logo\Square150x150Logo.scale-125.png" />
-    <Content Include="Assets\Logo\Square150x150Logo.scale-150.png" />
-    <Content Include="Assets\Logo\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Logo\Square150x150Logo.scale-400.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-16.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-24.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-256.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-32.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-48.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.scale-125.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.scale-150.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.targetsize-16.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.targetsize-24.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.targetsize-256.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.targetsize-32.png" />
-    <Content Include="Assets\Logo\Square44x44Logo.targetsize-48.png" />
-    <Content Include="Assets\Logo\StoreLogo.scale-100.png" />
-    <Content Include="Assets\Logo\StoreLogo.scale-125.png" />
-    <Content Include="Assets\Logo\StoreLogo.scale-150.png" />
-    <Content Include="Assets\Logo\StoreLogo.scale-200.png" />
-    <Content Include="Assets\Logo\StoreLogo.scale-400.png" />
-    <Content Include="Assets\Logo\Wide310x150Logo.scale-100.png" />
-    <Content Include="Assets\Logo\Wide310x150Logo.scale-125.png" />
-    <Content Include="Assets\Logo\Wide310x150Logo.scale-150.png" />
-    <Content Include="Assets\Logo\Wide310x150Logo.scale-200.png" />
-    <Content Include="Assets\Logo\Wide310x150Logo.scale-400.png" />
-    <Content Include="Assets\Sources\Twitch.png" />
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="Controls\PlaceholderableStackPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\AppProperties.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Colors.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Converters.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Icons.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Images.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\About\MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Home\Controls\SerialVideoAddingControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Home\Controls\VideoAddingOptionsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Home\Controls\SubscriptionsLoadControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Home\Controls\PlaylistSearchControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Home\Controls\VideoSearchControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SettingControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Home\MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Home\SubscriptionsAddingPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Home\PlaylistAddingPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Home\Controls\SerialVideoAddingVideoControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Home\VideoAddingPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Home\Controls\DownloadTaskControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Sources\MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Settings\MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Subscriptions\Controls\SubscriptionPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Subscriptions\MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
+    <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.13</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>7.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.8.0-prerelease.220413001</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Include="Strings\en-US\Resources.resw" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VDownload.Core\VDownload.Core.csproj">
-      <Project>{65c44d96-9c6c-47ad-a1f5-86bfaf2b15b8}</Project>
-      <Name>VDownload.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <PRIResource Include="Strings\en-US\DialogResources.resw" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="VDownload_TemporaryKey.pfx" />
-  </ItemGroup>
-  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
-    <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <OutputPath>..\..\..\..\..\bin\Debug\</OutputPath>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
+
+  <!-- 
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
   -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Converters\VDownload.GUI.Converters.csproj" />
+    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Customs\VDownload.GUI.Customs.csproj" />
+    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Services\VDownload.GUI.Services.Dialog\VDownload.GUI.Services.Dialog.csproj" />
+    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Services\VDownload.GUI.Services.ResourceDictionaries\VDownload.GUI.Services.ResourceDictionaries.csproj" />
+    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Services\VDownload.GUI.Services.StoragePicker\VDownload.GUI.Services.StoragePicker.csproj" />
+    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Services\VDownload.GUI.Services.WebView\VDownload.GUI.Services.WebView.csproj" />
+    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.ViewModels\VDownload.GUI.ViewModels.csproj" />
+    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Views\VDownload.GUI.Views.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Authentication\VDownload.Services.Authentication.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Encryption\VDownload.Services.Encryption.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.HttpClient\VDownload.Services.HttpClient.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Search\VDownload.Services.Search.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services\VDownload.Services.csproj" />
+    <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />
+    <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch\VDownload.Sources.Twitch.csproj" />
+    <ProjectReference Include="..\VDownload.Tasks\VDownload.Tasks.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\Downloads\FileDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\FileLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\IdleDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\IdleLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\InitializingDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\InitializingLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\NoTasks.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\QualityDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\QualityLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\QueuedDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\QueuedLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\TimeDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Downloads\TimeLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Logo\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\NavigationView\AuthenticationDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\NavigationView\AuthenticationLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\NavigationView\HomeDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\NavigationView\HomeLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Sources\Twitch.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\AuthorDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\AuthorLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\DateDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\DateLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\DirectoryDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\DirectoryLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\ExtensionDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\ExtensionLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\FilenameDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\FilenameLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\MediaDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\MediaLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\QualityDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\QualityDark.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\QualityLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\QualityLight.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\TimeDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\TimeLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\TrimDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\TrimLeftDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\TrimLeftLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\TrimLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\TrimRightDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\TrimRightLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\ViewDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\Video\ViewLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dictionaries\Images.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dictionaries\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Dictionaries\Colors.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
+  <!-- 
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
+  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+  </PropertyGroup>
 </Project>

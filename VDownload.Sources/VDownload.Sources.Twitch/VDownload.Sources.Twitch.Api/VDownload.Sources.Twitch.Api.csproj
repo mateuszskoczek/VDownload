@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.HttpClient\VDownload.Services.HttpClient.csproj" />
+    <ProjectReference Include="..\VDownload.Sources.Twitch.Configuration\VDownload.Sources.Twitch.Configuration.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="VDownload.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:cb="using:VDownload.GUI.Customs.Behaviors"
+    mc:Ignorable="d">
+    <Window.SystemBackdrop>
+        <MicaBackdrop Kind="Base"/>
+    </Window.SystemBackdrop>
+    <Grid x:Name="RootPanel" Loaded="RootPanel_Loaded">
+        <Border x:Name="AppTitleBar"
+                IsHitTestVisible="True"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                Height="40"
+                Canvas.ZIndex="1" 
+                Margin="55,4,0,0">
+            <StackPanel Orientation="Horizontal">
+                <Image x:Name="TitleBarIcon"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"
+                       Source="{StaticResource ImageLogo}"
+                       Width="16" 
+                       Height="16"/>
+                <TextBlock x:Name="TitleBarTextBlock"
+                           Text="VDownload"
+                           VerticalAlignment="Center"
+                           Margin="12, 0, 0, 0"
+                           Style="{StaticResource CaptionTextBlockStyle}" />
+            </StackPanel>
+        </Border>
+        <NavigationView x:Name="NavigationView"
+                        IsTitleBarAutoPaddingEnabled="True"            
+                        IsBackButtonVisible="Collapsed"
+                        PaneDisplayMode="LeftCompact"
+                        Canvas.ZIndex="0"
+                        Background="Transparent"
+                        MenuItemsSource="{Binding Items}"
+                        FooterMenuItemsSource="{Binding FooterItems}"
+                        SelectedItem="{Binding SelectedItem}">
+            <i:Interaction.Behaviors>
+                <cb:EventToCommandBehavior Command="{Binding NavigateCommand}" 
+                                           Event="ItemInvoked" 
+                                           PassArguments="True"/>
+            </i:Interaction.Behaviors>
+            <NavigationView.Resources>
+                <SolidColorBrush x:Key="NavigationViewContentBackground" 
+                                 Color="Transparent"/>
+            </NavigationView.Resources>
+            <NavigationView.MenuItemTemplate>
+                <DataTemplate>
+                    <NavigationViewItem Content="{Binding Name}" Tag="{Binding}">
+                        <NavigationViewItem.Icon>
+                            <ImageIcon Source="{Binding IconSource}"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </DataTemplate>
+            </NavigationView.MenuItemTemplate>
+            <Frame Margin="0,48,0,0" 
+                   CornerRadius="10" 
+                   Content="{Binding CurrentViewModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ViewModelToViewConverter}}">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <ContentThemeTransition/>
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
+        </NavigationView>
+    </Grid>
+</Window>

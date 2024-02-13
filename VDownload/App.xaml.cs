@@ -1,95 +1,136 @@
-﻿// Internal
-using VDownload.Core.Services;
-
-// System
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Runtime.InteropServices.WindowsRuntime;
+using VDownload.GUI.Services.Dialog;
+using VDownload.GUI.Services.ResourceDictionaries;
+using VDownload.GUI.Services.StoragePicker;
+using VDownload.GUI.Services.WebView;
+using VDownload.GUI.ViewModels;
+using VDownload.GUI.Views;
+using VDownload.Services.Authentication;
+using VDownload.Services.Encryption;
+using VDownload.Services.HttpClient;
+using VDownload.Services.Search;
+using VDownload.Sources.Twitch;
+using VDownload.Sources.Twitch.Api;
+using VDownload.Sources.Twitch.Authentication;
+using VDownload.Sources.Twitch.Configuration;
+using VDownload.Sources.Twitch.Search;
+using VDownload.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using Windows.Storage.AccessCache;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 
 namespace VDownload
 {
-    sealed partial class App : Application
+    public partial class App : Application
     {
+        #region FIELDS
+
+        private MainWindow _window;
+
+        #endregion
+
+
+
         #region CONSTRUCTORS
 
         public App()
         {
-            InitializeComponent();
-            Suspending += OnSuspending;
+            this.InitializeComponent();
+            
+            ServiceCollection services = new ServiceCollection();
+
+            // Configuration
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder
+            {
+                Sources =
+                {
+                    new JsonConfigurationSource
+                    {
+                        Path = "appsettings.json"
+                    }
+                }
+            };
+            IConfiguration config = configBuilder.Build();
+            services.AddSingleton(config);
+
+            // Configurations
+            services.AddSingleton<AuthenticationConfiguration>();
+            services.AddSingleton<TwitchConfiguration>();
+
+            // Http client
+            services.AddSingleton<HttpClient>();
+
+            // Services
+            services.AddSingleton<IHttpClientService, HttpClientService>();
+            services.AddSingleton<IEncryptionService, EncryptionService>();
+            services.AddSingleton<IAuthenticationService, AuthenticationService>();
+            services.AddSingleton<ITwitchApiService, TwitchApiService>();
+            services.AddSingleton<ITwitchAuthenticationService, TwitchAuthenticationService>();
+            services.AddSingleton<ITwitchSearchService, TwitchSearchService>();
+            services.AddSingleton<ISearchService, SearchService>();
+
+            // Tasks manager
+            services.AddSingleton<IDownloadTasksManager, DownloadTasksManager>();
+
+            // Resource dictionaries
+            services.AddSingleton<IImagesResourceDictionary, ImagesResourceDictionary>();
+
+            // GUI Services
+            services.AddSingleton<IStoragePickerService, StoragePickerService>();
+            services.AddSingleton<IDialogService, DialogService>();
+            services.AddSingleton<IWebViewService, WebViewService>();
+            services.AddSingleton<IResourceDictionariesServices, ResourceDictionariesServices>();
+
+            // ViewModels
+            services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<SettingsViewModel>();
+            services.AddSingleton<AuthenticationViewModel>();
+
+            // Views
+            services.AddTransient<HomeView>();
+            services.AddTransient<SettingsView>();
+            services.AddTransient<AuthenticationView>();
+
+            // Window
+            services.AddSingleton<MainWindowViewModel>();
+            services.AddTransient<MainWindow>();
+
+            Services.ServiceProvider.Instance = services.BuildServiceProvider();
         }
 
         #endregion
 
 
 
-        #region EVENT HANDLERS VOIDS
+        #region PRIVATE METHODS
 
-        // ON LAUNCHED
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            // Rebuild configuration file
-            Config.Rebuild();
+            _window = Services.ServiceProvider.Instance.GetService<MainWindow>();
+            _window.Activate();
 
-            // Delete temp on start
-            if ((bool)Config.GetValue("delete_temp_on_start"))
-            {
-                IReadOnlyList<IStorageItem> tempItems;
-                if (StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_temp_location"))
-                    tempItems = await (await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("custom_temp_location")).GetItemsAsync();
-                else
-                    tempItems = await ApplicationData.Current.TemporaryFolder.GetItemsAsync();
+            IDialogService dialogService = Services.ServiceProvider.Instance.GetService<IDialogService>();
+            dialogService.DefaultRoot = _window.Content.XamlRoot;
 
-                List<Task> tasks = new List<Task>();
-                foreach (IStorageItem item in tempItems) tasks.Add(item.DeleteAsync().AsTask());
-                await Task.WhenAll(tasks);
-            }
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (!(Window.Current.Content is Frame rootFrame))
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
-
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(Views.MainPage), e.Arguments);
-                }
-
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
-        }
-
-        // ON NAVIGATION FAILED
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        // ON SUSPENDING
-        private void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
-            deferral.Complete();
+            IStoragePickerService storagePickerService = Services.ServiceProvider.Instance.GetService<IStoragePickerService>();
+            storagePickerService.DefaultRoot = _window;
         }
 
         #endregion

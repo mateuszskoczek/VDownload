@@ -1,9 +1,0 @@
-﻿<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <x:String x:Key="AppName">VDownload</x:String>
-    <x:String x:Key="AppVersion">1.0-prerelease1</x:String>
-    <x:String x:Key="AppAuthor">Mateusz Skoczek</x:String>
-    <x:String x:Key="AppRepositoryUrl">https://github.com/mateuszskoczek/VDownload</x:String>
-    <x:String x:Key="AppDonationUrl">https://paypal.me/mateuszskoczek</x:String>
-</ResourceDictionary>
