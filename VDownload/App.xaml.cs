@@ -2,39 +2,34 @@
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
-using VDownload.GUI.Services.Dialog;
-using VDownload.GUI.Services.ResourceDictionaries;
-using VDownload.GUI.Services.StoragePicker;
-using VDownload.GUI.Services.WebView;
-using VDownload.GUI.ViewModels;
-using VDownload.GUI.Views;
-using VDownload.Services.Authentication;
-using VDownload.Services.Encryption;
-using VDownload.Services.HttpClient;
-using VDownload.Services.Search;
+using VDownload.Core.Tasks;
+using VDownload.Core.ViewModels;
+using VDownload.Core.ViewModels.Authentication;
+using VDownload.Core.ViewModels.Home;
+using VDownload.Core.ViewModels.Settings;
+using VDownload.Core.Views;
+using VDownload.Core.Views.Authentication;
+using VDownload.Core.Views.Home;
+using VDownload.Core.Views.Settings;
+using VDownload.Services.Data.Authentication;
+using VDownload.Services.Data.Configuration;
+using VDownload.Services.Data.Settings;
+using VDownload.Services.UI.Dialogs;
+using VDownload.Services.UI.DictionaryResources;
+using VDownload.Services.UI.Notifications;
+using VDownload.Services.UI.StoragePicker;
+using VDownload.Services.UI.StringResources;
+using VDownload.Services.UI.WebView;
+using VDownload.Services.Utility.Encryption;
+using VDownload.Services.Utility.FFmpeg;
+using VDownload.Services.Utility.HttpClient;
+using VDownload.Sources;
 using VDownload.Sources.Twitch;
 using VDownload.Sources.Twitch.Api;
 using VDownload.Sources.Twitch.Authentication;
-using VDownload.Sources.Twitch.Configuration;
-using VDownload.Sources.Twitch.Search;
-using VDownload.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Graphics.Printing;
 
 namespace VDownload
 {
@@ -42,7 +37,9 @@ namespace VDownload
     {
         #region FIELDS
 
-        private MainWindow _window;
+        protected IServiceProvider _serviceProvider;
+
+        protected BaseWindow _window;
 
         #endregion
 
@@ -53,66 +50,23 @@ namespace VDownload
         public App()
         {
             this.InitializeComponent();
-            
-            ServiceCollection services = new ServiceCollection();
 
-            // Configuration
-            IConfigurationBuilder configBuilder = new ConfigurationBuilder
-            {
-                Sources =
-                {
-                    new JsonConfigurationSource
-                    {
-                        Path = "appsettings.json"
-                    }
-                }
-            };
-            IConfiguration config = configBuilder.Build();
-            services.AddSingleton(config);
 
-            // Configurations
-            services.AddSingleton<AuthenticationConfiguration>();
-            services.AddSingleton<TwitchConfiguration>();
+            IServiceCollection services = new ServiceCollection();
 
-            // Http client
-            services.AddSingleton<HttpClient>();
+            BuildCore(services);
 
-            // Services
-            services.AddSingleton<IHttpClientService, HttpClientService>();
-            services.AddSingleton<IEncryptionService, EncryptionService>();
-            services.AddSingleton<IAuthenticationService, AuthenticationService>();
-            services.AddSingleton<ITwitchApiService, TwitchApiService>();
-            services.AddSingleton<ITwitchAuthenticationService, TwitchAuthenticationService>();
-            services.AddSingleton<ITwitchSearchService, TwitchSearchService>();
-            services.AddSingleton<ISearchService, SearchService>();
+            BuildConfiguration(services);
 
-            // Tasks manager
-            services.AddSingleton<IDownloadTasksManager, DownloadTasksManager>();
+            BuildDataServices(services);
+            BuildUIServices(services);
+            BuildUtilityServices(services);
+            BuildSourcesServices(services);
 
-            // Resource dictionaries
-            services.AddSingleton<IImagesResourceDictionary, ImagesResourceDictionary>();
+            BuildTasksManager(services);
+            BuildPresentation(services);
 
-            // GUI Services
-            services.AddSingleton<IStoragePickerService, StoragePickerService>();
-            services.AddSingleton<IDialogService, DialogService>();
-            services.AddSingleton<IWebViewService, WebViewService>();
-            services.AddSingleton<IResourceDictionariesServices, ResourceDictionariesServices>();
-
-            // ViewModels
-            services.AddSingleton<HomeViewModel>();
-            services.AddSingleton<SettingsViewModel>();
-            services.AddSingleton<AuthenticationViewModel>();
-
-            // Views
-            services.AddTransient<HomeView>();
-            services.AddTransient<SettingsView>();
-            services.AddTransient<AuthenticationView>();
-
-            // Window
-            services.AddSingleton<MainWindowViewModel>();
-            services.AddTransient<MainWindow>();
-
-            Services.ServiceProvider.Instance = services.BuildServiceProvider();
+            _serviceProvider = services.BuildServiceProvider();
         }
 
         #endregion
@@ -121,16 +75,109 @@ namespace VDownload
 
         #region PRIVATE METHODS
 
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected void BuildCore(IServiceCollection services)
         {
-            _window = Services.ServiceProvider.Instance.GetService<MainWindow>();
+            services.AddSingleton<HttpClient>();
+        }
+
+        protected void BuildConfiguration(IServiceCollection services)
+        {
+            IConfigurationBuilder configBuilder = new ConfigurationBuilder
+            {
+                Sources =
+                {
+                    new JsonConfigurationSource
+                    {
+                        Path = "configuration.json"
+                    }
+                }
+            };
+            IConfiguration config = configBuilder.Build();
+            services.AddSingleton(config);
+        }
+
+        protected void BuildDataServices(IServiceCollection services)
+        {
+            services.AddSingleton<IConfigurationService, ConfigurationService>();
+            services.AddSingleton<IAuthenticationDataService, AuthenticationDataService>();
+            services.AddSingleton<ISettingsService, SettingsService>();
+        }
+
+        protected void BuildUIServices(IServiceCollection services)
+        {
+            services.AddSingleton<IWebViewService, WebViewService>();
+            services.AddSingleton<IStoragePickerService, StoragePickerService>();
+            services.AddSingleton<IDialogsService, DialogsService>();
+            services.AddSingleton<INotificationsService, NotificationsService>();
+            services.AddSingleton<IStringResourcesService, StringResourcesService>();
+            services.AddSingleton<IDictionaryResourcesService, DictionaryResourcesService>();
+        }
+
+        protected void BuildUtilityServices(IServiceCollection services)
+        {
+            services.AddSingleton<IEncryptionService, EncryptionService>();
+            services.AddSingleton<IHttpClientService, HttpClientService>();
+            services.AddSingleton<IFFmpegService, FFmpegService>();
+        }
+
+        protected void BuildSourcesServices(IServiceCollection services)
+        {
+            // Twitch
+            services.AddSingleton<ITwitchApiService, TwitchApiService>();
+            services.AddSingleton<ITwitchAuthenticationService, TwitchAuthenticationService>();
+            services.AddSingleton<ITwitchVideoStreamFactoryService, TwitchVideoStreamFactoryService>();
+            services.AddSingleton<ITwitchSearchService, TwitchSearchService>();
+
+            // Base
+            services.AddSingleton<ISearchService, SearchService>();
+        }
+
+        protected void BuildTasksManager(IServiceCollection services)
+        {
+            services.AddSingleton<IDownloadTaskFactoryService, DownloadTaskFactoryService>();
+            services.AddSingleton<IDownloadTaskManager, DownloadTaskManager>();
+        }
+
+        protected void BuildPresentation(IServiceCollection services)
+        {
+            // ViewModels
+            services.AddSingleton<AuthenticationViewModel>();
+            services.AddSingleton<SettingsViewModel>();
+            services.AddSingleton<HomeDownloadsViewModel>();
+            services.AddSingleton<HomeVideoViewModel>();
+            services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<BaseViewModel>();
+
+            // Views
+            services.AddTransient<AuthenticationView>();
+            services.AddTransient<SettingsView>();
+            services.AddTransient<HomeDownloadsView>();
+            services.AddTransient<HomeVideoView>();
+            services.AddTransient<HomeView>();
+            services.AddTransient<BaseWindow>();
+        }
+
+        protected void AssignStaticProperties()
+        {
+            IStoragePickerService storagePickerService = _serviceProvider.GetService<IStoragePickerService>();
+            storagePickerService.DefaultRoot = _window;
+
+            ViewModelToViewConverter.ServiceProvider = _serviceProvider;
+        }
+
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            _window = _serviceProvider.GetService<BaseWindow>();
+            _window.RootLoaded += Window_RootLoaded;
             _window.Activate();
 
-            IDialogService dialogService = Services.ServiceProvider.Instance.GetService<IDialogService>();
-            dialogService.DefaultRoot = _window.Content.XamlRoot;
+            AssignStaticProperties();
+        }
 
-            IStoragePickerService storagePickerService = Services.ServiceProvider.Instance.GetService<IStoragePickerService>();
-            storagePickerService.DefaultRoot = _window;
+        protected void Window_RootLoaded(object sender, EventArgs e)
+        {
+            IDialogsService dialogsService = _serviceProvider.GetService<IDialogsService>();
+            dialogsService.DefaultRoot = _window.XamlRoot;
         }
 
         #endregion

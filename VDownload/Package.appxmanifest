@@ -8,11 +8,11 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="876bd3de-7913-450d-98b1-e7a543ac3fbb"
+    Name="df3e7de0-430a-4a93-a68b-48c2f3ec497a"
     Publisher="CN=mateusz"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="876bd3de-7913-450d-98b1-e7a543ac3fbb" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="df3e7de0-430a-4a93-a68b-48c2f3ec497a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>VDownload</DisplayName>
@@ -25,9 +25,9 @@
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
   </Dependencies>
 
-	<Resources>
-		<Resource Language="en-US"/>
-	</Resources>
+  <Resources>
+    <Resource Language="en-US"/>
+  </Resources>
 
   <Applications>
     <Application Id="App"

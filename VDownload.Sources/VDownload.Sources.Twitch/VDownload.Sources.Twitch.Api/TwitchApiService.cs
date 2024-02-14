@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VDownload.Services.HttpClient;
+﻿using VDownload.Services.Data.Configuration;
+using VDownload.Services.Utility.HttpClient;
 using VDownload.Sources.Twitch.Api.GQL.GetVideoToken.Response;
 using VDownload.Sources.Twitch.Api.Helix.GetVideos.Response;
-using VDownload.Sources.Twitch.Configuration;
 using VDownload.Sources.Twitch.Search.Models.GetVideoToken.Request;
 
 namespace VDownload.Sources.Twitch.Api
@@ -25,12 +20,8 @@ namespace VDownload.Sources.Twitch.Api
     {
         #region SERVICES
 
-        private readonly TwitchApiAuthConfiguration _apiAuthConfiguration;
-        private readonly TwitchApiHelixConfiguration _apiHelixConfiguration;
-        private readonly TwitchApiGQLConfiguration _apiGQLConfiguration;
-        private readonly TwitchApiUsherConfiguration _apiUsherConfiguration;
-
-        private readonly IHttpClientService _httpClientService;
+        protected readonly IConfigurationService _configurationService;
+        protected readonly IHttpClientService _httpClientService;
 
         #endregion
 
@@ -38,13 +29,9 @@ namespace VDownload.Sources.Twitch.Api
 
         #region CONSTRUCTORS
 
-        public TwitchApiService(TwitchConfiguration configuration, IHttpClientService httpClientService)
+        public TwitchApiService(IConfigurationService configurationService, IHttpClientService httpClientService)
         {
-            _apiAuthConfiguration = configuration.Api.Auth;
-            _apiHelixConfiguration = configuration.Api.Helix;
-            _apiGQLConfiguration = configuration.Api.GQL;
-            _apiUsherConfiguration = configuration.Api.Usher;
-
+            _configurationService = configurationService;
             _httpClientService = httpClientService;
         }
 
@@ -56,31 +43,30 @@ namespace VDownload.Sources.Twitch.Api
 
         public async Task<string> AuthValidate(byte[] token)
         {
-            Token tokenData = new Token(_apiAuthConfiguration.TokenSchema, token);
-            HttpRequest request = new HttpRequest(HttpMethodType.GET, _apiAuthConfiguration.Endpoints.Validate);
+            Token tokenData = new Token(_configurationService.Twitch.Api.Auth.TokenSchema, token);
+            HttpRequest request = new HttpRequest(HttpMethodType.GET, _configurationService.Twitch.Api.Auth.Endpoints.Validate);
             request.Headers.Add("Authorization", $"{tokenData}");
             return await _httpClientService.SendRequestAsync(request);
         }
 
         public async Task<GetVideosResponse> HelixGetVideos(string id, byte[] token)
         {
-            Token tokenData = new Token(_apiHelixConfiguration.TokenSchema, token);
+            Token tokenData = new Token(_configurationService.Twitch.Api.Helix.TokenSchema, token);
 
-            HttpRequest request = new HttpRequest(HttpMethodType.GET, _apiHelixConfiguration.Endpoints.GetVideos);
+            HttpRequest request = new HttpRequest(HttpMethodType.GET, _configurationService.Twitch.Api.Helix.Endpoints.GetVideos);
             request.Query.Add("id", id);
             request.Headers.Add("Authorization", tokenData.ToString());
-            request.Headers.Add("Client-Id", _apiHelixConfiguration.ClientId);
+            request.Headers.Add("Client-Id", _configurationService.Twitch.Api.Helix.ClientId);
 
             return await _httpClientService.SendRequestAsync<GetVideosResponse>(request);
         }
 
         public async Task<GetVideoTokenResponse> GQLGetVideoToken(string id)
         {
-            TwitchApiGQLQueriesQueryExtendedConfiguration configuration = _apiGQLConfiguration.Queries.GetVideoToken;
             GetVideoTokenRequest requestBody = new GetVideoTokenRequest
             {
-                OperationName = configuration.OperationName,
-                Query = configuration.Query,
+                OperationName = _configurationService.Twitch.Api.Gql.Queries.GetVideoToken.OperationName,
+                Query = _configurationService.Twitch.Api.Gql.Queries.GetVideoToken.Query,
                 Variables = new GetVideoTokenVariables
                 {
                     IsLive = false,
@@ -91,17 +77,17 @@ namespace VDownload.Sources.Twitch.Api
                 }
             };
 
-            HttpRequest request = new HttpRequest(HttpMethodType.POST, _apiGQLConfiguration.Endpoint)
+            HttpRequest request = new HttpRequest(HttpMethodType.POST, _configurationService.Twitch.Api.Gql.Endpoint)
             {
                 Body = requestBody,
             };
-            request.Headers.Add("Client-Id", _apiGQLConfiguration.ClientId);
+            request.Headers.Add("Client-Id", _configurationService.Twitch.Api.Gql.ClientId);
             return await _httpClientService.SendRequestAsync<GetVideoTokenResponse>(request);
         }
 
         public async Task<string> UsherGetVideoPlaylist(string id, string videoToken, string videoTokenSignature)
         {
-            string url = string.Format(_apiUsherConfiguration.Endpoints.GetVideoPlaylist, id);
+            string url = string.Format(_configurationService.Twitch.Api.Usher.Endpoints.GetVideoPlaylist, id);
             HttpRequest request = new HttpRequest(HttpMethodType.GET, url);
             request.Query.Add("token", videoToken);
             request.Query.Add("sig", videoTokenSignature);

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="VDownload.Core.Views.Home.HomeVideoView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Core.Views.Home"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:m="using:VDownload.Models"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ctuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:c="using:VDownload.Toolkit.UI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ViewBackgroundColor}">
+
+    <Grid Padding="15" 
+          RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0"
+                    CornerRadius="{ThemeResource ControlCornerRadius}">
+                <Image Source="{Binding ThumbnailUrl}"
+                       VerticalAlignment="Stretch"/>
+            </Border>
+            <StackPanel Grid.Column="1" 
+                    Spacing="15">
+                <TextBlock Text="{Binding Title}"
+                       FontWeight="Bold"
+                       FontSize="20"
+                       TextWrapping="WrapWholeWords"/>
+                <Grid ColumnSpacing="10"
+                      RowSpacing="10">
+                    <Grid.Resources>
+                        <x:Double x:Key="IconSize">18</x:Double>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Column="0"
+                           Grid.Row="0"
+                           Source="{ThemeResource ImageHomeVideoViewAuthor}"
+                           Width="{StaticResource IconSize}"/>
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="0"
+                               Text="{Binding Author}"/>
+                    <Image Grid.Column="0"
+                           Grid.Row="1"
+                           Source="{ThemeResource ImageHomeVideoViewDate}"
+                           Width="{StaticResource IconSize}"/>
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="1"
+                               Text="{Binding PublishDate}"/>
+                    <Image Grid.Column="0"
+                           Grid.Row="2"
+                           Source="{ThemeResource ImageHomeVideoViewTime}"
+                           Width="{StaticResource IconSize}"/>
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="2"
+                               Text="{Binding Duration}"/>
+                    <Image Grid.Column="0"
+                           Grid.Row="3"
+                           Source="{ThemeResource ImageHomeVideoViewViews}"
+                           Width="{StaticResource IconSize}"/>
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="3"
+                               Text="{Binding Views}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Spacing="20">
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/MediaOptionsHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/QualitySettingsCard">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageHomeVideoViewQuality}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ComboBox ItemsSource="{Binding Streams}"
+                                  SelectedItem="{Binding SelectedStream, Mode=TwoWay}">
+                            <!-- ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate -->
+                        </ComboBox>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/MediaTypeSettingsCard">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageHomeVideoViewMedia}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ComboBox ItemsSource="{ct:EnumValues Type=m:MediaType}"
+                                  SelectedItem="{Binding MediaType, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
+                                        <ctuc:Case Value="Original">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/MediaTypeOriginal"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="OnlyVideo">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/MediaTypeOnlyVideo"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="OnlyAudio">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/MediaTypeOnlyAudio"/>
+                                        </ctuc:Case>
+                                    </ctuc:SwitchPresenter>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/TrimSettingsGroup">
+                        <ctc:SettingsExpander.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageHomeVideoViewTrim}"/>
+                        </ctc:SettingsExpander.HeaderIcon>
+                        <ctc:SettingsExpander.Items>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/TrimStartSettingsCard">
+                                <c:TimeSpanControl Value="{Binding TrimStart, Mode=TwoWay}" 
+                                                    Maximum="{Binding TrimEnd, Mode=OneWay}"/>
+                            </ctc:SettingsCard>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/TrimEndSettingsCard">
+                                <c:TimeSpanControl Minimum="{Binding TrimStart, Mode=OneWay}" 
+                                                    Value="{Binding TrimEnd, Mode=TwoWay}" 
+                                                    Maximum="{Binding Duration, Mode=OneWay}"/>
+                            </ctc:SettingsCard>
+                        </ctc:SettingsExpander.Items>
+                    </ctc:SettingsExpander>
+                </StackPanel>
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/FileOptionsHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/DirectorySettingsCard"
+                                      Description="{Binding DirectoryPath}">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageHomeVideoViewDirectory}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <Button x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/DirectorySettingsCardButton"
+                                Command="{Binding BrowseCommand}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/FilenameSettingsCard">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageHomeVideoViewFilename}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <TextBox Text="{Binding Filename, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/FileTypeSettingsCard">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageHomeVideoViewExtension}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <i:Interaction.Behaviors>
+                            <ic:DataTriggerBehavior Binding="{Binding MediaType, Converter={StaticResource ObjectToStringConverter}}"
+                                                    ComparisonCondition="Equal"
+                                                    Value="OnlyAudio">
+                                <ic:ChangePropertyAction PropertyName="Content">
+                                    <ic:ChangePropertyAction.Value>
+                                        <ComboBox ItemsSource="{ct:EnumValues Type=m:AudioExtension}"
+                                                  SelectedItem="{Binding AudioExtension, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </ic:ChangePropertyAction.Value>
+                                </ic:ChangePropertyAction>
+                            </ic:DataTriggerBehavior>
+                            <ic:DataTriggerBehavior Binding="{Binding MediaType, Converter={StaticResource ObjectToStringConverter}}"
+                                                    ComparisonCondition="NotEqual"
+                                                    Value="OnlyAudio">
+                                <ic:ChangePropertyAction PropertyName="Content">
+                                    <ic:ChangePropertyAction.Value>
+                                        <ComboBox ItemsSource="{ct:EnumValues Type=m:VideoExtension}"
+                                                  SelectedItem="{Binding VideoExtension, Mode=TwoWay}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </ic:ChangePropertyAction.Value>
+                                </ic:ChangePropertyAction>
+                            </ic:DataTriggerBehavior>
+                        </i:Interaction.Behaviors>
+                    </ctc:SettingsCard>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="10">
+            <Button x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/CreateAndStartButton"
+                    Command="{Binding CreateTaskAndDownloadCommand}"/>
+            <Button x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/CreateButton"
+                    Style="{StaticResource AccentButtonStyle}" 
+                    Command="{Binding CreateTaskCommand}"/>
+        </StackPanel>
+        
+    </Grid>
+</Page>

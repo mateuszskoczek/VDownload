@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.HttpClient\VDownload.Services.HttpClient.csproj" />
-    <ProjectReference Include="..\VDownload.Sources.Twitch.Configuration\VDownload.Sources.Twitch.Configuration.csproj" />
+    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Configuration\VDownload.Services.Data.Configuration.csproj" />
+    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.HttpClient\VDownload.Services.Utility.HttpClient.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
@@ -10,10 +10,60 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
+	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <UseRidGraph>true</UseRidGraph>
-	<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\BaseView\AuthenticationDark.png" />
+    <Content Remove="Assets\BaseView\AuthenticationLight.png" />
+    <Content Remove="Assets\BaseView\HomeDark.png" />
+    <Content Remove="Assets\BaseView\HomeLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\CancelledDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\CancelledLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\DoneDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\DoneLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\DownloadingDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\DownloadingLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\ErrorDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\ErrorLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\FileDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\FileLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\FinalizingDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\FinalizingLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\IdleDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\IdleLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\InitializingDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\InitializingLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\NoTasks.png" />
+    <Content Remove="Assets\HomeDownloadsView\ProcessingDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\ProcessingLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\QualityDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\QualityLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\QueuedDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\QueuedLight.png" />
+    <Content Remove="Assets\HomeDownloadsView\TimeDark.png" />
+    <Content Remove="Assets\HomeDownloadsView\TimeLight.png" />
+    <Content Remove="Assets\HomeVideoView\AuthorDark.png" />
+    <Content Remove="Assets\HomeVideoView\AuthorLight.png" />
+    <Content Remove="Assets\HomeVideoView\DateDark.png" />
+    <Content Remove="Assets\HomeVideoView\DateLight.png" />
+    <Content Remove="Assets\HomeVideoView\DirectoryDark.png" />
+    <Content Remove="Assets\HomeVideoView\DirectoryLight.png" />
+    <Content Remove="Assets\HomeVideoView\ExtensionDark.png" />
+    <Content Remove="Assets\HomeVideoView\ExtensionLight.png" />
+    <Content Remove="Assets\HomeVideoView\FilenameDark.png" />
+    <Content Remove="Assets\HomeVideoView\FilenameLight.png" />
+    <Content Remove="Assets\HomeVideoView\MediaDark.png" />
+    <Content Remove="Assets\HomeVideoView\MediaLight.png" />
+    <Content Remove="Assets\HomeVideoView\QualityDark.png" />
+    <Content Remove="Assets\HomeVideoView\QualityLight.png" />
+    <Content Remove="Assets\HomeVideoView\TimeDark.png" />
+    <Content Remove="Assets\HomeVideoView\TimeLight.png" />
+    <Content Remove="Assets\HomeVideoView\TrimDark.png" />
+    <Content Remove="Assets\HomeVideoView\TrimLight.png" />
+    <Content Remove="Assets\HomeVideoView\ViewDark.png" />
+    <Content Remove="Assets\HomeVideoView\ViewLight.png" />
+    <Content Remove="Assets\Logo\Logo.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
@@ -24,15 +74,14 @@
     <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-256.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-32.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Remove="Assets\Sources\Twitch.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="appsettings.json" />
     <None Remove="Assets\Logo\LargeTile.scale-100.png" />
     <None Remove="Assets\Logo\LargeTile.scale-125.png" />
     <None Remove="Assets\Logo\LargeTile.scale-150.png" />
     <None Remove="Assets\Logo\LargeTile.scale-200.png" />
     <None Remove="Assets\Logo\LargeTile.scale-400.png" />
-    <None Remove="Assets\Logo\Logo.png" />
     <None Remove="Assets\Logo\SmallTile.scale-100.png" />
     <None Remove="Assets\Logo\SmallTile.scale-125.png" />
     <None Remove="Assets\Logo\SmallTile.scale-150.png" />
@@ -54,17 +103,10 @@
     <None Remove="Assets\Logo\Square44x44Logo.scale-200.png" />
     <None Remove="Assets\Logo\Square44x44Logo.scale-400.png" />
     <None Remove="Assets\Logo\Square44x44Logo.targetsize-16.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-16_altform-lightunplated.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-16_altform-unplated.png" />
     <None Remove="Assets\Logo\Square44x44Logo.targetsize-24.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-24_altform-lightunplated.png" />
     <None Remove="Assets\Logo\Square44x44Logo.targetsize-256.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-256_altform-lightunplated.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-256_altform-unplated.png" />
     <None Remove="Assets\Logo\Square44x44Logo.targetsize-32.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-32_altform-lightunplated.png" />
     <None Remove="Assets\Logo\Square44x44Logo.targetsize-48.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-48_altform-unplated.png" />
     <None Remove="Assets\Logo\StoreLogo.scale-100.png" />
     <None Remove="Assets\Logo\StoreLogo.scale-125.png" />
     <None Remove="Assets\Logo\StoreLogo.scale-150.png" />
@@ -77,211 +119,235 @@
     <None Remove="Assets\Logo\Wide310x150Logo.scale-400.png" />
     <None Remove="Dictionaries\Colors.xaml" />
     <None Remove="Dictionaries\Converters.xaml" />
-    <None Remove="Dictionaries\Images.xaml" />
+    <None Remove="Dictionaries\Images\ImagesBaseView.xaml" />
+    <None Remove="Dictionaries\Images\ImagesHomeDownloadsView.xaml" />
+    <None Remove="Dictionaries\Images\ImagesHomeVideoView.xaml" />
+    <None Remove="Dictionaries\Images\ImagesLogo.xaml" />
+    <None Remove="Dictionaries\Images\ImagesSources.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.240109" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231219000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
-  <!-- 
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
-  -->
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Converters\VDownload.GUI.Converters.csproj" />
-    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Customs\VDownload.GUI.Customs.csproj" />
-    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Services\VDownload.GUI.Services.Dialog\VDownload.GUI.Services.Dialog.csproj" />
-    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Services\VDownload.GUI.Services.ResourceDictionaries\VDownload.GUI.Services.ResourceDictionaries.csproj" />
-    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Services\VDownload.GUI.Services.StoragePicker\VDownload.GUI.Services.StoragePicker.csproj" />
-    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Services\VDownload.GUI.Services.WebView\VDownload.GUI.Services.WebView.csproj" />
-    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.ViewModels\VDownload.GUI.ViewModels.csproj" />
-    <ProjectReference Include="..\VDownload.GUI\VDownload.GUI.Views\VDownload.GUI.Views.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Authentication\VDownload.Services.Authentication.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Encryption\VDownload.Services.Encryption.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.HttpClient\VDownload.Services.HttpClient.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Search\VDownload.Services.Search.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services\VDownload.Services.csproj" />
+    <Folder Include="FFmpeg\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VDownload.Core\VDownload.Core.ViewModels\VDownload.Core.ViewModels.csproj" />
+    <ProjectReference Include="..\VDownload.Core\VDownload.Core.Views\VDownload.Core.Views.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Authentication\VDownload.Services.Data.Authentication.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Configuration\VDownload.Services.Data.Configuration.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Settings\VDownload.Services.Data.Settings.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Dialogs\VDownload.Services.UI.Dialogs.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.DictionaryResources\VDownload.Services.UI.DictionaryResources.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Notifications\VDownload.Services.UI.Notifications.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StoragePicker\VDownload.Services.UI.StoragePicker.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StringResources\VDownload.Services.UI.StringResources.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.WebView\VDownload.Services.UI.WebView.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Encryption\VDownload.Services.Utility.Encryption.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.FFmpeg\VDownload.Services.Utility.FFmpeg.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.HttpClient\VDownload.Services.Utility.HttpClient.csproj" />
+    <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Api\VDownload.Sources.Twitch.Api.csproj" />
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch\VDownload.Sources.Twitch.csproj" />
-    <ProjectReference Include="..\VDownload.Tasks\VDownload.Tasks.csproj" />
+    <ProjectReference Include="..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
+    <ProjectReference Include="..\VDownload.Toolkit\VDownload.Toolkit.UI\VDownload.Toolkit.UI.Converters\VDownload.Toolkit.UI.Converters.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Content Update="Assets\Downloads\FileDark.png">
+    <None Update="Assets\BaseView\AuthenticationDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\FileLight.png">
+    </None>
+    <None Update="Assets\BaseView\AuthenticationLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\IdleDark.png">
+    </None>
+    <None Update="Assets\BaseView\HomeDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\IdleLight.png">
+    </None>
+    <None Update="Assets\BaseView\HomeLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\InitializingDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\CancelledDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\InitializingLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\CancelledLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\NoTasks.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\DoneDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\QualityDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\DoneLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\QualityLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\DownloadingDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\QueuedDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\DownloadingLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\QueuedLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\ErrorDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\TimeDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\ErrorLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Downloads\TimeLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\FileDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Logo\Logo.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\FileLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\NavigationView\AuthenticationDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\FinalizingDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\NavigationView\AuthenticationLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\FinalizingLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\NavigationView\HomeDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\IdleDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\NavigationView\HomeLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\IdleLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Sources\Twitch.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\InitializingDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\AuthorDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\InitializingLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\AuthorLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\NoTasks.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\DateDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\ProcessingDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\DateLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\ProcessingLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\DirectoryDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\QualityDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\DirectoryLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\QualityLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\ExtensionDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\QueuedDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\ExtensionLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\QueuedLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\FilenameDark.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\TimeDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\FilenameLight.png">
+    </None>
+    <None Update="Assets\HomeDownloadsView\TimeLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\MediaDark.png">
+    </None>
+    <None Update="Assets\HomeVideoView\AuthorDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\MediaLight.png">
+    </None>
+    <None Update="Assets\HomeVideoView\AuthorLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\QualityDark.png">
+    </None>
+    <None Update="Assets\HomeVideoView\DateDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\QualityDark.svg">
+    </None>
+    <None Update="Assets\HomeVideoView\DateLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\QualityLight.png">
+    </None>
+    <None Update="Assets\HomeVideoView\DirectoryDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\QualityLight.svg">
+    </None>
+    <None Update="Assets\HomeVideoView\DirectoryLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\TimeDark.png">
+    </None>
+    <None Update="Assets\HomeVideoView\ExtensionDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\TimeLight.png">
+    </None>
+    <None Update="Assets\HomeVideoView\ExtensionLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\TrimDark.png">
+    </None>
+    <None Update="Assets\HomeVideoView\FilenameDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\TrimLeftDark.png">
+    </None>
+    <None Update="Assets\HomeVideoView\FilenameLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\TrimLeftLight.png">
+    </None>
+    <None Update="Assets\HomeVideoView\MediaDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\TrimLight.png">
+    </None>
+    <None Update="Assets\HomeVideoView\MediaLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\TrimRightDark.png">
+    </None>
+    <None Update="Assets\HomeVideoView\QualityDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\TrimRightLight.png">
+    </None>
+    <None Update="Assets\HomeVideoView\QualityLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\ViewDark.png">
+    </None>
+    <None Update="Assets\HomeVideoView\TimeDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="Assets\Video\ViewLight.png">
+    </None>
+    <None Update="Assets\HomeVideoView\TimeLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Dictionaries\Images.xaml">
+    </None>
+    <None Update="Assets\HomeVideoView\TrimDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\HomeVideoView\TrimLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\HomeVideoView\ViewDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\HomeVideoView\ViewLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Logo\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Sources\Twitch.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="configuration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Update="Dictionaries\Images\ImagesHomeDownloadsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
+    <Page Update="Dictionaries\Images\ImagesHomeVideoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Dictionaries\Images\ImagesSources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Dictionaries\Images\ImagesBaseView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Dictionaries\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Dictionaries\Assets\AssetsLogo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Dictionaries\Converters.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Dictionaries\Colors.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
+    <None Update="FFmpeg\ffmpeg.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="FFmpeg\ffprobe.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
-  <!-- 
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
-    the Windows App SDK Nuget package has not yet been restored.
-  -->
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>

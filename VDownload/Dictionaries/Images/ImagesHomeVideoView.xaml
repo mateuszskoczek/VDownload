@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <x:String x:Key="ImageHomeVideoViewAuthor">/Assets/HomeVideoView/AuthorLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewDate">/Assets/HomeVideoView/DateLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewTime">/Assets/HomeVideoView/TimeLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewViews">/Assets/HomeVideoView/ViewLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewQuality">/Assets/HomeVideoView/QualityLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewMedia">/Assets/HomeVideoView/MediaLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewTrimLeft">/Assets/HomeVideoView/TrimLeftLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewTrim">/Assets/HomeVideoView/TrimLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewTrimRight">/Assets/HomeVideoView/TrimRightLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewDirectory">/Assets/HomeVideoView/DirectoryLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewFilename">/Assets/HomeVideoView/FilenameLight.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewExtension">/Assets/HomeVideoView/ExtensionLight.png</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <x:String x:Key="ImageHomeVideoViewAuthor">/Assets/HomeVideoView/AuthorDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewDate">/Assets/HomeVideoView/DateDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewTime">/Assets/HomeVideoView/TimeDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewViews">/Assets/HomeVideoView/ViewDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewQuality">/Assets/HomeVideoView/QualityDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewMedia">/Assets/HomeVideoView/MediaDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewTrimLeft">/Assets/HomeVideoView/TrimLeftDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewTrim">/Assets/HomeVideoView/TrimDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewTrimRight">/Assets/HomeVideoView/TrimRightDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewDirectory">/Assets/HomeVideoView/DirectoryDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewFilename">/Assets/HomeVideoView/FilenameDark.png</x:String>
+            <x:String x:Key="ImageHomeVideoViewExtension">/Assets/HomeVideoView/ExtensionDark.png</x:String>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

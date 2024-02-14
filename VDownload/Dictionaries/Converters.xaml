@@ -2,19 +2,14 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="using:VDownload.GUI.Converters">
-    <c:ViewModelToViewConverter x:Key="ViewModelToViewConverter"/>
-    <c:EnumToDescriptionConverter x:Key="EnumToDescriptionConverter"/>
-    <c:EnumToStringConverter x:Key="EnumToStringConverter"/>
-    <c:EnumToIntConverter x:Key="EnumToIntConverter"/>
-    <c:ReverseBooleanConverter x:Key="ReverseBooleanConverter"/>
-    <c:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
-    <c:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    <c:BooleanToGridLengthConverter x:Key="BooleanToGridLengthConverter"/>
-    <c:BooleanToGridLengthReversedConverter x:Key="BooleanToGridLengthReversedConverter"/>
-    <c:BooleanToGridLengthFillConverter x:Key="BooleanToGridLengthFillConverter"/>
-    <c:BooleanToGridLengthFillReversedConverter x:Key="BooleanToGridLengthFillReversedConverter"/>
-    <c:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
-    <c:StringToLowerConverter x:Key="StringToLowerConverter"/>
-    <c:StringToUriConverter x:Key="StringToUriConverter"/>
+    xmlns:v="using:VDownload.Core.Views"
+    xmlns:lt="using:VDownload.Toolkit.UI.Converters"
+    xmlns:ct="using:CommunityToolkit.WinUI.Converters">
+    <v:ViewModelToViewConverter x:Key="ViewModelToViewConverter"/>
+
+    <lt:ObjectToStringConverter x:Key="ObjectToStringConverter"/>
+    <lt:ObjectToIntConverter x:Key="ObjectToIntConverter"/>
+
+    <ct:StringFormatConverter x:Key="StringFormatConverter"/>
+    <ct:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 </ResourceDictionary>

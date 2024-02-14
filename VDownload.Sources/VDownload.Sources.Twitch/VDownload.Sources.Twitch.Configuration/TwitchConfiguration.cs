@@ -3,33 +3,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using VDownload.Sources.Twitch.Configuration.Models;
 
 namespace VDownload.Sources.Twitch.Configuration
 {
     public class TwitchConfiguration
     {
-        #region PROPERTIES
+        [ConfigurationKeyName("api")]
+        public Api Api { get; set; }
 
-        public TwitchApiConfiguration Api { get; protected set; }
-        public TwitchSearchConfiguration Search { get; protected set; }
-        public TwitchAuthenticationConfiguration Authentication { get; protected set; }
+        [ConfigurationKeyName("search")]
+        public Search Search { get; set; }
 
-        #endregion
+        [ConfigurationKeyName("download")]
+        public Download Download { get; set; }
 
-
-
-        #region CONSTRUCTORS
-
-        public TwitchConfiguration(IConfiguration configuration)
-        {
-            IConfigurationSection section = configuration.GetSection("sources").GetSection("twitch");
-            Api = new TwitchApiConfiguration(section.GetSection("api"));
-            Search = new TwitchSearchConfiguration(section.GetSection("search"));
-            Authentication = new TwitchAuthenticationConfiguration(section.GetSection("authentication"));
-        }
-
-        #endregion
+        [ConfigurationKeyName("authentication")]
+        public Authentication Authentication { get; set; }
     }
 }

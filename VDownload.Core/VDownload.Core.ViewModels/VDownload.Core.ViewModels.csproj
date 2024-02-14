@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<RootNamespace>VDownload.Core.ViewModels</RootNamespace>
+		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+		<UseWinUI>true</UseWinUI>
+		<UseRidGraph>true</UseRidGraph>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Settings\VDownload.Services.Data.Settings.csproj" />
+    <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Dialogs\VDownload.Services.UI.Dialogs.csproj" />
+    <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.DictionaryResources\VDownload.Services.UI.DictionaryResources.csproj" />
+    <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StoragePicker\VDownload.Services.UI.StoragePicker.csproj" />
+    <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StringResources\VDownload.Services.UI.StringResources.csproj" />
+    <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.WebView\VDownload.Services.UI.WebView.csproj" />
+    <ProjectReference Include="..\..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />
+    <ProjectReference Include="..\..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
+    <ProjectReference Include="..\..\VDownload.Toolkit\VDownload.Toolkit.UI\VDownload.Toolkit.UI.Models\VDownload.Toolkit.UI.Models.csproj" />
+    <ProjectReference Include="..\VDownload.Core.Tasks\VDownload.Core.Tasks.csproj" />
+  </ItemGroup>
+
+</Project>

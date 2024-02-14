@@ -1,40 +1,18 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using VDownload.Services.Authentication;
-using VDownload.Services.Encryption;
-using VDownload.Services.HttpClient;
+using VDownload.Services.Data.Authentication;
+using VDownload.Services.Data.Configuration;
+using VDownload.Services.Utility.Encryption;
+using VDownload.Sources.Twitch.Api;
 using VDownload.Sources.Twitch.Authentication.Models;
-using VDownload.Sources.Twitch.Configuration;
 
 namespace VDownload.Sources.Twitch.Authentication
 {
     public interface ITwitchAuthenticationService
     {
-        #region PROPERTIES
-
-        string AuthenticationPageUrl { get; }
-        Regex AuthenticationPageRedirectUrlRegex { get; }
-
-
-        #endregion
-
-
-
-        #region METHODS
-
+        Task DeleteToken();
         Task<byte[]?> GetToken();
         Task SetToken(byte[] token);
-        Task DeleteToken();
         Task<TwitchValidationResult> ValidateToken(byte[] token);
-        bool AuthenticationPageClosePredicate(string url);
-
-        #endregion
     }
 
 
@@ -43,21 +21,10 @@ namespace VDownload.Sources.Twitch.Authentication
     {
         #region SERVICES
 
-        private TwitchAuthenticationConfiguration _authenticationConfiguration;
-        private TwitchApiAuthConfiguration _apiAuthConfiguration;
-
-        private IHttpClientService _httpClientService;
-        private IAuthenticationService _authenticationService;
-        private IEncryptionService _encryptionService;
-
-        #endregion
-
-
-
-        #region PROPERTIES
-
-        public string AuthenticationPageUrl { get; private set; }
-        public Regex AuthenticationPageRedirectUrlRegex { get; private set; }
+        protected readonly IConfigurationService _configurationService;
+        protected readonly ITwitchApiService _apiService;
+        protected readonly IAuthenticationDataService _authenticationDataService;
+        protected readonly IEncryptionService _encryptionService;
 
         #endregion
 
@@ -65,17 +32,12 @@ namespace VDownload.Sources.Twitch.Authentication
 
         #region CONSTRUCTORS
 
-        public TwitchAuthenticationService(TwitchConfiguration configuration, IHttpClientService httpClientService, IAuthenticationService authenticationService, IEncryptionService encryptionService) 
+        public TwitchAuthenticationService(IConfigurationService configurationService, ITwitchApiService apiService, IAuthenticationDataService authenticationDataService, IEncryptionService encryptionService)
         {
-            _authenticationConfiguration = configuration.Authentication;
-            _apiAuthConfiguration = configuration.Api.Auth;
-
-            _httpClientService = httpClientService;
-            _authenticationService = authenticationService;
+            _configurationService = configurationService;
+            _apiService = apiService;
+            _authenticationDataService = authenticationDataService;
             _encryptionService = encryptionService;
-
-            AuthenticationPageUrl = string.Format(_authenticationConfiguration.Url, _authenticationConfiguration.ClientId, _authenticationConfiguration.RedirectUrl, _authenticationConfiguration.ResponseType, string.Join(' ', _authenticationConfiguration.Scopes));
-            AuthenticationPageRedirectUrlRegex = _authenticationConfiguration.RedirectUrlRegex;
         }
 
         #endregion
@@ -86,11 +48,11 @@ namespace VDownload.Sources.Twitch.Authentication
 
         public async Task<byte[]?> GetToken()
         {
-            await _authenticationService.Load();
+            await _authenticationDataService.Load();
 
-            byte[]? tokenEncrypted = _authenticationService.AuthenticationData.Twitch.Token;
+            byte[]? tokenEncrypted = _authenticationDataService.Data.Twitch.Token;
 
-            if (tokenEncrypted is not null && tokenEncrypted.Length == 0) 
+            if (tokenEncrypted is not null && tokenEncrypted.Length == 0)
             {
                 tokenEncrypted = null;
             }
@@ -105,30 +67,27 @@ namespace VDownload.Sources.Twitch.Authentication
 
         public async Task SetToken(byte[] token)
         {
-            Task loadTask = _authenticationService.Load();
+            Task loadTask = _authenticationDataService.Load();
 
             byte[] tokenEncrypted = _encryptionService.Encrypt(token);
 
             await loadTask;
 
-            _authenticationService.AuthenticationData.Twitch.Token = tokenEncrypted;
+            _authenticationDataService.Data.Twitch.Token = tokenEncrypted;
 
-            await _authenticationService.Save();
+            await _authenticationDataService.Save();
         }
 
         public async Task DeleteToken()
         {
-            await _authenticationService.Load();
-            _authenticationService.AuthenticationData.Twitch.Token = null;
-            await _authenticationService.Save();
+            await _authenticationDataService.Load();
+            _authenticationDataService.Data.Twitch.Token = null;
+            await _authenticationDataService.Save();
         }
 
         public async Task<TwitchValidationResult> ValidateToken(byte[] token)
         {
-            Token tokenData = new Token(_apiAuthConfiguration.TokenSchema, token);
-            HttpRequest request = new HttpRequest(HttpMethodType.GET, _apiAuthConfiguration.Endpoints.Validate);
-            request.Headers.Add("Authorization", $"{tokenData}");
-            string response = await _httpClientService.SendRequestAsync(request);
+            string response = await _apiService.AuthValidate(token);
 
             try
             {
@@ -136,7 +95,7 @@ namespace VDownload.Sources.Twitch.Authentication
                 return new TwitchValidationResult(success);
             }
             catch (JsonSerializationException)
-            {}
+            { }
 
             try
             {
@@ -144,15 +103,9 @@ namespace VDownload.Sources.Twitch.Authentication
                 return new TwitchValidationResult(fail);
             }
             catch (JsonSerializationException)
-            {}
+            { }
 
             throw new Exception(response);
-        }
-
-        public bool AuthenticationPageClosePredicate(string url)
-        {
-            bool close = url.StartsWith(_authenticationConfiguration.RedirectUrl);
-            return close;
         }
 
         #endregion

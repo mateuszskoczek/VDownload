@@ -7,10 +7,14 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <ResourceDictionary Source="Dictionaries/Colors.xaml"/>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
                 <ResourceDictionary Source="Dictionaries/Converters.xaml"/>
-                <ResourceDictionary Source="Dictionaries/Images.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Colors.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesLogo.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesSources.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesBaseView.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesHomeDownloadsView.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesHomeVideoView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

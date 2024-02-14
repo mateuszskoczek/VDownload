@@ -7,15 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.Authentication\VDownload.Services.Authentication.csproj" />
-    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.Encryption\VDownload.Services.Encryption.csproj" />
-    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.HttpClient\VDownload.Services.HttpClient.csproj" />
-    <ProjectReference Include="..\VDownload.Sources.Twitch.Configuration\VDownload.Sources.Twitch.Configuration.csproj" />
-    <ProjectReference Include="..\VDownload.Sources.Twitch\VDownload.Sources.Twitch.csproj" />
+    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Authentication\VDownload.Services.Data.Authentication.csproj" />
+    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Configuration\VDownload.Services.Data.Configuration.csproj" />
+    <ProjectReference Include="..\..\..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Encryption\VDownload.Services.Utility.Encryption.csproj" />
+    <ProjectReference Include="..\VDownload.Sources.Twitch.Api\VDownload.Sources.Twitch.Api.csproj" />
   </ItemGroup>
 
 </Project>
