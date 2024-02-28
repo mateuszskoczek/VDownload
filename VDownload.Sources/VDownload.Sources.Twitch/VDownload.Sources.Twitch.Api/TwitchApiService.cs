@@ -1,6 +1,7 @@
 ﻿using VDownload.Services.Data.Configuration;
 using VDownload.Services.Utility.HttpClient;
 using VDownload.Sources.Twitch.Api.GQL.GetVideoToken.Response;
+using VDownload.Sources.Twitch.Api.Helix.GetUsers.Response;
 using VDownload.Sources.Twitch.Api.Helix.GetVideos.Response;
 using VDownload.Sources.Twitch.Search.Models.GetVideoToken.Request;
 
@@ -10,7 +11,9 @@ namespace VDownload.Sources.Twitch.Api
     {
         Task<string> AuthValidate(byte[] token);
         Task<GetVideoTokenResponse> GQLGetVideoToken(string id);
-        Task<GetVideosResponse> HelixGetVideos(string id, byte[] token);
+        Task<GetUsersResponse> HelixGetUser(string login, byte[] token);
+        Task<GetVideosResponse> HelixGetVideo(string id, byte[] token);
+        Task<GetVideosResponse> HelixGetUserVideos(string user_id, byte[] token, int count, string? cursor = null);
         Task<string> UsherGetVideoPlaylist(string id, string videoToken, string videoTokenSignature);
     }
 
@@ -49,12 +52,47 @@ namespace VDownload.Sources.Twitch.Api
             return await _httpClientService.SendRequestAsync(request);
         }
 
-        public async Task<GetVideosResponse> HelixGetVideos(string id, byte[] token)
+        public async Task<GetUsersResponse> HelixGetUser(string login, byte[] token)
+        {
+            Token tokenData = new Token(_configurationService.Twitch.Api.Helix.TokenSchema, token);
+
+            HttpRequest request = new HttpRequest(HttpMethodType.GET, _configurationService.Twitch.Api.Helix.Endpoints.GetUsers);
+
+            request.Query.Add("login", login);
+
+            request.Headers.Add("Authorization", $"{tokenData}");
+            request.Headers.Add("Client-Id", _configurationService.Twitch.Api.Helix.ClientId);
+
+            return await _httpClientService.SendRequestAsync<GetUsersResponse>(request);
+        }
+
+        public async Task<GetVideosResponse> HelixGetVideo(string id, byte[] token)
         {
             Token tokenData = new Token(_configurationService.Twitch.Api.Helix.TokenSchema, token);
 
             HttpRequest request = new HttpRequest(HttpMethodType.GET, _configurationService.Twitch.Api.Helix.Endpoints.GetVideos);
+
             request.Query.Add("id", id);
+
+            request.Headers.Add("Authorization", tokenData.ToString());
+            request.Headers.Add("Client-Id", _configurationService.Twitch.Api.Helix.ClientId);
+
+            return await _httpClientService.SendRequestAsync<GetVideosResponse>(request);
+        }
+
+        public async Task<GetVideosResponse> HelixGetUserVideos(string user_id, byte[] token, int count, string? cursor = null)
+        {
+            Token tokenData = new Token(_configurationService.Twitch.Api.Helix.TokenSchema, token);
+
+            HttpRequest request = new HttpRequest(HttpMethodType.GET, _configurationService.Twitch.Api.Helix.Endpoints.GetVideos);
+
+            request.Query.Add("user_id", user_id);
+            request.Query.Add("first", count);
+            if (cursor is not null)
+            {
+                request.Query.Add("after", cursor);
+            }
+
             request.Headers.Add("Authorization", tokenData.ToString());
             request.Headers.Add("Client-Id", _configurationService.Twitch.Api.Helix.ClientId);
 

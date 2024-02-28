@@ -116,7 +116,8 @@
         "token_schema": "Bearer",
         "client_id": "yukkqkwp61wsv3u1pya17crpyaa98y",
         "endpoints": {
-          "get_videos": "https://api.twitch.tv/helix/videos"
+          "get_videos": "https://api.twitch.tv/helix/videos",
+          "get_users": "https://api.twitch.tv/helix/users"
         }
       },
       "gql": {
@@ -148,6 +149,18 @@
           "height": 1080
         },
         "stream_playlist_regex": "#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"\\w+\",NAME=\"(?<id>.+)\",AUTOSELECT=\\w+,DEFAULT=\\w+\\n#EXT-X-STREAM-INF:BANDWIDTH=\\d+,CODECS=\"(?<video_codec>.+),(?<audio_codec>.+)\",RESOLUTION=(?<width>\\d+)x(?<height>\\d+),VIDEO=\".+\"(?:,FRAME-RATE=(?<framerate>\\d+.\\d+))?\n(?<url>.+)"
+      },
+      "clip": {
+        "regexes": [
+          "clip\\/(\\w+-\\w+)",
+          "clips\\.twitch\\.tv\\/(\\w+-\\w+)"
+        ]
+      },
+      "channel": {
+        "regexes": [
+          "twitch\\.tv\\/(\\w+)(?:\\/)?(?:\\/videos)?$"
+        ],
+        "url": "https://www.twitch.tv/{0}"
       }
     },
     "download": {

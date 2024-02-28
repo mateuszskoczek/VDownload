@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:v="using:VDownload.Core.Views"
-    xmlns:lt="using:VDownload.Toolkit.UI.Converters"
+    xmlns:lt="using:SimpleToolkit.UI.WinUI.Converters"
     xmlns:ct="using:CommunityToolkit.WinUI.Converters">
     <v:ViewModelToViewConverter x:Key="ViewModelToViewConverter"/>
 

@@ -86,7 +86,9 @@ namespace VDownload.Services.Utility.HttpClient
 
             HttpResponseMessage response = await _httpClient.SendAsync(httpRequest);
 
-            return await response.Content.ReadAsStringAsync();
+            string responseString = await response.Content.ReadAsStringAsync();
+
+            return responseString;
         }
 
         #endregion

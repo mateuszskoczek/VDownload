@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace VDownload.Models
 {
-    public abstract class Playlist
+    public abstract class Playlist : List<Video>
     {
+        #region PROPERTIES
+
+        public required string Name { get; set; }
+        public required string Description { get; set; }
+        public required Uri Url { get; set; }
+        public Source Source { get; protected set; }
+
+        #endregion
     }
 }

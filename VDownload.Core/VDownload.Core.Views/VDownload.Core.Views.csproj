@@ -7,6 +7,9 @@
     <UseWinUI>true</UseWinUI>
 	  <UseRidGraph>true</UseRidGraph>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Home\HomePlaylistView.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
       <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
@@ -16,11 +19,11 @@
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
       <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
+      <PackageReference Include="SimpleToolkit.UI.WinUI.Behaviors" Version="1.4.0" />
+      <PackageReference Include="SimpleToolkit.UI.WinUI.Controls" Version="1.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\VDownload.Toolkit\VDownload.Toolkit.UI\VDownload.Toolkit.UI.Behaviors\VDownload.Toolkit.UI.Behaviors.csproj" />
-    <ProjectReference Include="..\..\VDownload.Toolkit\VDownload.Toolkit.UI\VDownload.Toolkit.UI.Controls\VDownload.Toolkit.UI.Controls.csproj" />
     <ProjectReference Include="..\VDownload.Core.Strings\VDownload.Core.Strings.csproj" />
     <ProjectReference Include="..\VDownload.Core.ViewModels\VDownload.Core.ViewModels.csproj" />
   </ItemGroup>
@@ -35,6 +38,9 @@
     <None Update="Home\HomeDownloadsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <Page Update="Home\HomePlaylistView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Home\HomeVideoView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>

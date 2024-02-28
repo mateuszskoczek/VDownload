@@ -9,6 +9,7 @@ using VDownload.Services.Data.Configuration;
 using VDownload.Sources.Common;
 using VDownload.Sources.Twitch.Api;
 using VDownload.Sources.Twitch.Api.GQL.GetVideoToken.Response;
+using VDownload.Sources.Twitch.Api.Helix.GetUsers.Response;
 using VDownload.Sources.Twitch.Api.Helix.GetVideos.Response;
 using VDownload.Sources.Twitch.Authentication;
 using VDownload.Sources.Twitch.Configuration.Models;
@@ -71,7 +72,16 @@ namespace VDownload.Sources.Twitch
         async Task<Playlist> ISourceSearchService.SearchPlaylist(string url, int maxVideoCount) => await SearchPlaylist(url, maxVideoCount);
         public async Task<TwitchPlaylist> SearchPlaylist(string url, int maxVideoCount)
         {
-            throw new NotImplementedException();
+            foreach (Regex regex in _configurationService.Twitch.Search.Channel.Regexes.Select(x => new Regex(x)))
+            {
+                Match match = regex.Match(url);
+                if (match.Success)
+                {
+                    string id = match.Groups[1].Value;
+                    return await GetChannel(id, maxVideoCount);
+                }
+            }
+            throw new MediaSearchException("Invalid url");
         }
 
         #endregion
@@ -82,23 +92,68 @@ namespace VDownload.Sources.Twitch
 
         protected async Task<TwitchVod> GetVod(string id)
         {
-            Task<IEnumerable<TwitchVodStream>> streamsTask = GetVodStreams(id);
-
             byte[] token = await GetToken();
-            GetVideosResponse info = await _apiService.HelixGetVideos(id, token);
-            Data vodResponse = info.Data[0];
+
+            GetVideosResponse info = await _apiService.HelixGetVideo(id, token);
+
+            Api.Helix.GetVideos.Response.Data vodResponse = info.Data[0];
+
+            TwitchVod vod = await ParseVod(vodResponse);
+
+            return vod;
+        }
+
+        protected async Task<TwitchChannel> GetChannel(string id, int count)
+        {
+            byte[] token = await GetToken();
+            GetUsersResponse info = await _apiService.HelixGetUser(id, token);
+            Api.Helix.GetUsers.Response.Data userResponse = info.Data[0];
+
+            TwitchChannel channel = new TwitchChannel
+            {
+                Id = userResponse.Id,
+                Name = userResponse.DisplayName,
+                Description = userResponse.Description,
+                Url = new Uri(string.Format(_configurationService.Twitch.Search.Channel.Url, id)),
+            };
+
+            List<Task<TwitchVod>> tasks = new List<Task<TwitchVod>>();
+            string? cursor = null;
+            List<Api.Helix.GetVideos.Response.Data> videosList;
+            int videos = 0;
+            do
+            {
+                videos = count == 0 || count > 100 ? 100 : count;
+                GetVideosResponse videosResponse = await _apiService.HelixGetUserVideos(channel.Id, token, videos, cursor);
+                videosList = videosResponse.Data;
+                count -= videosList.Count;
+                cursor = videosResponse.Pagination.Cursor;
+                tasks.AddRange(videosList.Select(ParseVod));
+            }
+            while (videosList.Count == videos);
+
+            await Task.WhenAll(tasks);
+
+            channel.AddRange(tasks.Select(x => x.Result));
+
+            return channel;
+        }
+
+        public async Task<TwitchVod> ParseVod(Api.Helix.GetVideos.Response.Data data)
+        {
+            Task<IEnumerable<TwitchVodStream>> streamsTask = GetVodStreams(data.Id);
 
             Thumbnail thumbnail = _configurationService.Twitch.Search.Vod.Thumbnail;
             TwitchVod vod = new TwitchVod
             {
-                Title = vodResponse.Title,
-                Description = vodResponse.Description,
-                Author = vodResponse.UserName,
-                PublishDate = vodResponse.PublishedAt,
-                Duration = ParseVodDuration(vodResponse.Duration),
-                Views = vodResponse.ViewCount,
-                ThumbnailUrl = new Uri(vodResponse.ThumbnailUrl.Replace("%{width}", thumbnail.Width.ToString()).Replace("%{height}", thumbnail.Height.ToString())),
-                Url = new Uri(vodResponse.Url),
+                Title = data.Title,
+                Description = data.Description,
+                Author = data.UserName,
+                PublishDate = data.PublishedAt,
+                Duration = ParseVodDuration(data.Duration),
+                Views = data.ViewCount,
+                ThumbnailUrl = new Uri(data.ThumbnailUrl.Replace("%{width}", thumbnail.Width.ToString()).Replace("%{height}", thumbnail.Height.ToString())),
+                Url = new Uri(data.Url),
             };
 
             await streamsTask;

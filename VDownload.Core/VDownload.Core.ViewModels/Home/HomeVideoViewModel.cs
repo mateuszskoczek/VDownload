@@ -87,14 +87,6 @@ namespace VDownload.Core.ViewModels.Home
 
 
 
-        #region EVENTS
-
-        public event EventHandler TaskAdded;
-
-        #endregion
-
-
-
         #region CONSTRUCTORS
 
         public HomeVideoViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService) 
@@ -110,7 +102,7 @@ namespace VDownload.Core.ViewModels.Home
 
         #region PUBLIC METHODS
 
-        public async void LoadVideo(Video video)
+        public async Task LoadVideo(Video video)
         {
             await _settingsService.Load();
 
@@ -125,13 +117,13 @@ namespace VDownload.Core.ViewModels.Home
 
             Streams = [.. video.Streams];
             SelectedStream = Streams[0];
-            MediaType = _settingsService.Data.Common.DefaultTaskSettings.MediaType;
+            MediaType = _settingsService.Data.Common.Tasks.DefaultMediaType;
             TrimStart = TimeSpan.Zero;
             TrimEnd = Duration;
-            DirectoryPath = _settingsService.Data.Common.DefaultTaskSettings.OutputDirectory;
+            DirectoryPath = _settingsService.Data.Common.Tasks.DefaultOutputDirectory;
             Filename = Title.Length > 50 ? Title.Substring(0, 50) : Title;
-            VideoExtension = _settingsService.Data.Common.DefaultTaskSettings.VideoExtension;
-            AudioExtension = _settingsService.Data.Common.DefaultTaskSettings.AudioExtension;
+            VideoExtension = _settingsService.Data.Common.Tasks.DefaultVideoExtension;
+            AudioExtension = _settingsService.Data.Common.Tasks.DefaultAudioExtension;
         }
 
 
@@ -149,14 +141,14 @@ namespace VDownload.Core.ViewModels.Home
         public void CreateTask()
         {
             _tasksManager.AddTask(_video, BuildDownloadOptions());
-            TaskAdded?.Invoke(this, EventArgs.Empty);
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         [RelayCommand]
         public void CreateTaskAndDownload()
         {
             DownloadTask task = _tasksManager.AddTask(_video, BuildDownloadOptions());
-            TaskAdded?.Invoke(this, EventArgs.Empty);
+            CloseRequested?.Invoke(this, EventArgs.Empty);
             task.Enqueue();
         }
 
@@ -179,6 +171,14 @@ namespace VDownload.Core.ViewModels.Home
                 Extension = (this.MediaType == MediaType.OnlyAudio ? this.AudioExtension.ToString() : this.VideoExtension.ToString()).ToLower(),
             };
         }
+
+        #endregion
+
+
+
+        #region EVENTS
+
+        public event EventHandler CloseRequested;
 
         #endregion
     }

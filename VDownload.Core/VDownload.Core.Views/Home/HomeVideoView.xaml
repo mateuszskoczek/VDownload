@@ -12,7 +12,7 @@
     xmlns:ct="using:CommunityToolkit.WinUI"
     xmlns:ctc="using:CommunityToolkit.WinUI.Controls"
     xmlns:ctuc="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:c="using:VDownload.Toolkit.UI.Controls"
+    xmlns:c="using:SimpleToolkit.UI.WinUI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ViewBackgroundColor}">
 

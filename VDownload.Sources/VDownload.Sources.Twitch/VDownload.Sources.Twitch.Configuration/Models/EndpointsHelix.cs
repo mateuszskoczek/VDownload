@@ -6,5 +6,8 @@ namespace VDownload.Sources.Twitch.Configuration.Models
     {
         [ConfigurationKeyName("get_videos")]
         public string GetVideos { get; set; }
+
+        [ConfigurationKeyName("get_users")]
+        public string GetUsers { get; set; }
     }
 }

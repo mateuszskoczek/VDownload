@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Core.Tasks;
 using VDownload.Models;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Settings;
@@ -42,7 +43,10 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly IStringResourcesService _stringResourcesService;
         protected readonly ISearchService _searchService;
 
+        protected readonly IDownloadTaskManager _downloadTaskManager;
+
         protected readonly HomeVideoViewModel _videoViewModel;
+        protected readonly HomePlaylistViewModel _playlistViewModel;
 
         #endregion
 
@@ -52,6 +56,7 @@ namespace VDownload.Core.ViewModels.Home
 
         protected readonly Type _downloadsView = typeof(HomeDownloadsViewModel);
         protected readonly Type _videoView = typeof(HomeVideoViewModel);
+        protected readonly Type _playlistView = typeof(HomePlaylistViewModel);
 
         #endregion
 
@@ -96,15 +101,20 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, HomeVideoViewModel videoViewModel)
+        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomePlaylistViewModel playlistViewModel)
         {
             _configurationService = configurationService;
             _settingsService = settingsService;
             _stringResourcesService = stringResourcesService;
             _searchService = searchService;
 
+            _downloadTaskManager = downloadTaskManager;
+
             _videoViewModel = videoViewModel;
-            _videoViewModel.TaskAdded += VideoViewModel_TaskAdded;
+            _videoViewModel.CloseRequested += BackToDownload_EventHandler;
+
+            _playlistViewModel = playlistViewModel;
+            _playlistViewModel.CloseRequested += BackToDownload_EventHandler;
         }
 
         #endregion
@@ -195,7 +205,7 @@ namespace VDownload.Core.ViewModels.Home
                 return;
             }
 
-            _videoViewModel.LoadVideo(video);
+            await _videoViewModel.LoadVideo(video);
 
             MainContent = _videoView;
 
@@ -224,6 +234,10 @@ namespace VDownload.Core.ViewModels.Home
                 return;
             }
 
+            await _playlistViewModel.LoadPlaylist(playlist);
+
+            MainContent = _playlistView;
+
             OptionBarSearchNotPending = true;
             OptionBarLoading = false;
             OptionBarMessage = null;
@@ -232,7 +246,10 @@ namespace VDownload.Core.ViewModels.Home
         [RelayCommand]
         public void Download()
         {
-
+            foreach (DownloadTask task in _downloadTaskManager.Tasks)
+            {
+                task.Enqueue();
+            }
         }
 
         #endregion
@@ -241,7 +258,7 @@ namespace VDownload.Core.ViewModels.Home
 
         #region PRIVATE METHODS
 
-        private async void VideoViewModel_TaskAdded(object sender, EventArgs e) => await Navigation();
+        private async void BackToDownload_EventHandler(object sender, EventArgs e) => await Navigation();
 
         #endregion
     }

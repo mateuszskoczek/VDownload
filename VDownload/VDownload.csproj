@@ -132,6 +132,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+    <PackageReference Include="SimpleToolkit.UI.WinUI.Converters" Version="1.4.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -160,7 +161,6 @@
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch\VDownload.Sources.Twitch.csproj" />
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
-    <ProjectReference Include="..\VDownload.Toolkit\VDownload.Toolkit.UI\VDownload.Toolkit.UI.Converters\VDownload.Toolkit.UI.Converters.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\BaseView\AuthenticationDark.png">

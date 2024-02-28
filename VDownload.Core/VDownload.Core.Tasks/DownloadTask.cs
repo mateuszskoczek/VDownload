@@ -140,7 +140,7 @@ namespace VDownload.Core.Tasks
 
             await _settingsService.Load();
 
-            string tempDirectory = $"{_settingsService.Data.Common.TempDirectory}\\{_configurationService.Common.Path.Temp.TasksDirectory}\\{_id}";
+            string tempDirectory = $"{_settingsService.Data.Common.Temp.Directory}\\{_configurationService.Common.Path.Temp.TasksDirectory}\\{_id}";
             Directory.CreateDirectory(tempDirectory);
 
             List<string> content = new List<string>()
@@ -211,7 +211,7 @@ namespace VDownload.Core.Tasks
             }
             finally
             {
-                if (Status != DownloadTaskStatus.EndedUnsuccessfully || _settingsService.Data.Common.DeleteTempOnError)
+                if (Status != DownloadTaskStatus.EndedUnsuccessfully || _settingsService.Data.Common.Temp.DeleteOnError)
                 {
                     Directory.Delete(tempDirectory, true);
                 }

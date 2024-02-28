@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
 using System.Net.Http;
+using System.Threading.Tasks;
 using VDownload.Core.Tasks;
 using VDownload.Core.ViewModels;
 using VDownload.Core.ViewModels.Authentication;
@@ -145,6 +146,7 @@ namespace VDownload
             services.AddSingleton<SettingsViewModel>();
             services.AddSingleton<HomeDownloadsViewModel>();
             services.AddSingleton<HomeVideoViewModel>();
+            services.AddSingleton<HomePlaylistViewModel>();
             services.AddSingleton<HomeViewModel>();
             services.AddSingleton<BaseViewModel>();
 
@@ -153,8 +155,27 @@ namespace VDownload
             services.AddTransient<SettingsView>();
             services.AddTransient<HomeDownloadsView>();
             services.AddTransient<HomeVideoView>();
+            services.AddTransient<HomePlaylistView>();
             services.AddTransient<HomeView>();
             services.AddTransient<BaseWindow>();
+        }
+
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            await InitData();
+
+            _window = _serviceProvider.GetService<BaseWindow>();
+            _window.RootLoaded += Window_RootLoaded;
+            _window.Activate();
+
+            AssignStaticProperties();
+        }
+
+        protected async Task InitData()
+        {
+            ISettingsService settingsService = _serviceProvider.GetService<ISettingsService>();
+            IAuthenticationDataService authenticationDataService = _serviceProvider.GetService<IAuthenticationDataService>();
+            await Task.WhenAll(settingsService.Load(), authenticationDataService.Load());
         }
 
         protected void AssignStaticProperties()
@@ -163,15 +184,6 @@ namespace VDownload
             storagePickerService.DefaultRoot = _window;
 
             ViewModelToViewConverter.ServiceProvider = _serviceProvider;
-        }
-
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            _window = _serviceProvider.GetService<BaseWindow>();
-            _window.RootLoaded += Window_RootLoaded;
-            _window.Activate();
-
-            AssignStaticProperties();
         }
 
         protected void Window_RootLoaded(object sender, EventArgs e)

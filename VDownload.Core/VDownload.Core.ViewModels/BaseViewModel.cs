@@ -11,7 +11,7 @@ using VDownload.Core.ViewModels.Home;
 using VDownload.Core.ViewModels.Settings;
 using VDownload.Services.UI.DictionaryResources;
 using VDownload.Services.UI.StringResources;
-using VDownload.Toolkit.UI.Models;
+using SimpleToolkit.UI.Models;
 
 namespace VDownload.Core.ViewModels
 {

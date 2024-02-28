@@ -75,15 +75,15 @@ namespace VDownload.Services.Data.Settings
 
         public async Task Load()
         {
-            Data = null;
-
             if (File.Exists(_filePath))
             {
                 string content = await File.ReadAllTextAsync(_filePath);
                 Data = JsonConvert.DeserializeObject<SettingsData>(content);
             }
-
-            Data ??= new SettingsData();
+            else
+            {
+                Data = new SettingsData();
+            }
         }
 
         public async Task Save()

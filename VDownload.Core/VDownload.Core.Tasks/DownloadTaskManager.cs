@@ -129,13 +129,12 @@ namespace VDownload.Core.Tasks
                 DownloadTaskStatus.Processing,
                 DownloadTaskStatus.Finalizing
             ];
-
             while (true)
             {
                 try
                 {
                     IEnumerable<DownloadTask> pendingTasks = Tasks.Where(x => pendingStatuses.Contains(x.Status));
-                    int freeSlots = _settingsService.Data.Common.MaxNumberOfRunningTasks - pendingTasks.Count();
+                    int freeSlots = _settingsService.Data.Common.Tasks.MaxNumberOfRunningTasks - pendingTasks.Count();
                     if (freeSlots > 0)
                     {
                         IEnumerable<DownloadTask> queuedTasks = Tasks.Where(x => x.Status == DownloadTaskStatus.Queued).OrderBy(x => x.CreateDate).Take(freeSlots);

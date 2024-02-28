@@ -15,17 +15,11 @@ namespace VDownload.Services.Data.Settings
         [JsonProperty("max_number_of_videos_to_get_from_playlist")]
         public int MaxNumberOfVideosToGetFromPlaylist { get; set; } = 0;
 
-        [JsonProperty("max_number_of_running_tasks")]
-        public int MaxNumberOfRunningTasks { get; set; } = 5;
+        [JsonProperty("temp")]
+        public Temp Temp { get; set; } = new Temp();
 
-        [JsonProperty("temp_directory")]
-        public string TempDirectory { get; set; } = $"{Path.GetTempPath()}\\VDownload";
-
-        [JsonProperty("delete_temp_on_error")]
-        public bool DeleteTempOnError { get; set; } = true;
-
-        [JsonProperty("default_task_settings")]
-        public DefaultTaskSettings DefaultTaskSettings { get; set; } = new DefaultTaskSettings();
+        [JsonProperty("tasks")]
+        public Tasks Tasks { get; set; } = new Tasks();
 
         [JsonProperty("notifications")]
         public Notifications Notifications { get; set; } = new Notifications();

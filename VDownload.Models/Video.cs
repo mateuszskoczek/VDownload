@@ -17,9 +17,9 @@ namespace VDownload.Models
         public TimeSpan Duration { get; set; }
         public long Views { get; set; }
         public Uri ThumbnailUrl { get; set; }
-        public ICollection<VideoStream> Streams { get; set; }
         public Uri Url { get; set; }
-        public Source Source { get; set; }
+        public ICollection<VideoStream> Streams { get; private set; }
+        public Source Source { get; protected set; }
 
         #endregion
 

@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VDownload.Models;
 
 namespace VDownload.Sources.Twitch.Models
 {
-    public abstract class TwitchPlaylist : Playlist
+    public class TwitchChannel : TwitchPlaylist
     {
-        #region CONSTRUCTORS
+        #region PROPERTIES
 
-        protected TwitchPlaylist()
-        {
-            Source = Source.Twitch;
-        }
+        public required string Id { get; set; }
 
         #endregion
     }
