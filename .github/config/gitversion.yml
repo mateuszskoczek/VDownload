@@ -1,0 +1,11 @@
+next-version: 2.0
+assembly-versioning-scheme: MajorMinorPatch
+assembly-file-versioning-scheme: MajorMinorPatch
+
+branches:
+  master:
+    regex: ^master$
+    mode: ContinuousDelivery
+    increment: Patch
+    tag: ''
+    is-release-branch: true
