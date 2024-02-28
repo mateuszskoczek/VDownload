@@ -12,6 +12,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
 	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <UseRidGraph>true</UseRidGraph>
+	  <EnableCoreMrtTooling Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">false</EnableCoreMrtTooling>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\BaseView\AuthenticationDark.png" />
