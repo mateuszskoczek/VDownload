@@ -6,6 +6,13 @@
     xmlns:local="using:VDownload.Core.Views.Home"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:m="using:VDownload.Models"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ctuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:c="using:SimpleToolkit.UI.WinUI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ViewBackgroundColor}">
 
@@ -28,21 +35,136 @@
                        FontWeight="Bold"
                        FontSize="20"
                        TextWrapping="WrapWholeWords"/>
-            <AppBarButton Grid.Column="2" 
-                          Margin="-5"
-                          Icon="Filter" 
-                          Width="40" 
-                          Height="48">
-                <AppBarButton.Resources>
-                    <TeachingTip x:Name="FilterWindow">
-                        
+            <AppBarToggleButton x:Name="FilterButton"
+                                Grid.Column="2" 
+                                Margin="-5"
+                                Icon="Filter" 
+                                Width="40" 
+                                Height="48">
+                <AppBarToggleButton.Resources>
+                    <TeachingTip x:Name="FilterWindow"
+                                 x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterWindow"
+                                 Target="{Binding ElementName=FilterButton}"
+                                 IsOpen="{Binding ElementName=FilterButton, Path=IsChecked, Mode=TwoWay}">
+                        <TextBox/>
                     </TeachingTip>
-                </AppBarButton.Resources>
-            </AppBarButton>
+                </AppBarToggleButton.Resources>
+            </AppBarToggleButton>
         </Grid>
-        <ItemsControl Grid.Row="1">
-            
-        </ItemsControl>
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Videos}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Expander HorizontalAlignment="Stretch"
+                                  Margin="0,0,0,10"
+                                  CornerRadius="10"
+                                  HorizontalContentAlignment="Left">
+                            <Expander.Header>
+                                <Grid Padding="-16,0,-16,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0"
+                                           Source="{Binding ThumbnailUrl}"
+                                           Height="100"/>
+                                    <Grid Grid.Column="1"
+                                          Margin="10"
+                                          RowSpacing="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0"
+                                                   FontSize="16"
+                                                   Text="{Binding Title}"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                        <Grid Grid.Row="1"
+                                              RowSpacing="10"
+                                              ColumnSpacing="10">
+                                            <Grid.Resources>
+                                                <x:Double x:Key="IconSize">17</x:Double>
+                                                <x:Double x:Key="FontSize">13</x:Double>
+                                            </Grid.Resources>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Column="0"
+                                                   Grid.Row="0"
+                                                   VerticalAlignment="Center"
+                                                   Source="{ThemeResource ImageHomePlaylistViewAuthor}"
+                                                   Width="{StaticResource IconSize}"/>
+                                            <TextBlock Grid.Column="1"
+                                                       Grid.Row="0"
+                                                       FontSize="{StaticResource FontSize}"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Author}"/>
+                                            <Image Grid.Column="0"
+                                                   Grid.Row="1"
+                                                   VerticalAlignment="Center"
+                                                   Source="{ThemeResource ImageHomePlaylistViewDate}"
+                                                   Width="{StaticResource IconSize}"/>
+                                            <TextBlock Grid.Column="1"
+                                                       Grid.Row="1"
+                                                       FontSize="{StaticResource FontSize}"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding PublishDate}"/>
+                                            <Image Grid.Column="2"
+                                                   Grid.Row="0"
+                                                   VerticalAlignment="Center"
+                                                   Source="{ThemeResource ImageHomePlaylistViewTime}"
+                                                   Width="{StaticResource IconSize}"/>
+                                            <TextBlock Grid.Column="3"
+                                                       Grid.Row="0"
+                                                       FontSize="{StaticResource FontSize}"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Duration}"/>
+                                            <Image Grid.Column="2"
+                                                   Grid.Row="1"
+                                                   VerticalAlignment="Center"
+                                                   Source="{ThemeResource ImageHomePlaylistViewViews}"
+                                                   Width="{StaticResource IconSize}"/>
+                                            <TextBlock Grid.Column="3"
+                                                       Grid.Row="1"
+                                                       FontSize="{StaticResource FontSize}"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Views}"/>
+                                        </Grid>
+                                    </Grid>
+                                    <AppBarButton Grid.Column="2" 
+                                                  Width="40" 
+                                                  Height="48"
+                                                  Icon="Delete"
+                                                  VerticalAlignment="Center"/>
+                                </Grid>
+                            </Expander.Header>
+                            <Expander.Content>
+                                <StackPanel Spacing="20">
+                                    <StackPanel Spacing="5">
+                                        <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaOptionsHeader"
+                                                   FontWeight="Bold"
+                                                   FontSize="15"/>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/QualitySettingsCard">
+                                            <ComboBox ItemsSource="{Binding Streams}"
+                                                      SelectedItem="{Binding SelectedStream, Mode=TwoWay}"/>
+                                        </ctc:SettingsCard>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander.Content>
+                        </Expander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
         <StackPanel Grid.Row="2"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Dictionaries.Images">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <x:String x:Key="ImageHomePlaylistViewAuthor">/Assets/HomePlaylistView/AuthorLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewDate">/Assets/HomePlaylistView/DateLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewTime">/Assets/HomePlaylistView/TimeLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewViews">/Assets/HomePlaylistView/ViewLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewQuality">/Assets/HomePlaylistView/QualityLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewMedia">/Assets/HomePlaylistView/MediaLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewTrimLeft">/Assets/HomePlaylistView/TrimLeftLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewTrim">/Assets/HomePlaylistView/TrimLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewTrimRight">/Assets/HomePlaylistView/TrimRightLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewDirectory">/Assets/HomePlaylistView/DirectoryLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewFilename">/Assets/HomePlaylistView/FilenameLight.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewExtension">/Assets/HomePlaylistView/ExtensionLight.png</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <x:String x:Key="ImageHomePlaylistViewAuthor">/Assets/HomePlaylistView/AuthorDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewDate">/Assets/HomePlaylistView/DateDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewTime">/Assets/HomePlaylistView/TimeDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewViews">/Assets/HomePlaylistView/ViewDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewQuality">/Assets/HomePlaylistView/QualityDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewMedia">/Assets/HomePlaylistView/MediaDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewTrimLeft">/Assets/HomePlaylistView/TrimLeftDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewTrim">/Assets/HomePlaylistView/TrimDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewTrimRight">/Assets/HomePlaylistView/TrimRightDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewDirectory">/Assets/HomePlaylistView/DirectoryDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewFilename">/Assets/HomePlaylistView/FilenameDark.png</x:String>
+            <x:String x:Key="ImageHomePlaylistViewExtension">/Assets/HomePlaylistView/ExtensionDark.png</x:String>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

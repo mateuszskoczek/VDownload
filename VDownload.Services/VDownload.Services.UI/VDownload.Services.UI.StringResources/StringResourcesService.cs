@@ -8,6 +8,7 @@ namespace VDownload.Services.UI.StringResources
         StringResources BaseViewResources { get; }
         StringResources HomeViewResources { get; }
         StringResources HomeVideoViewResources { get; }
+        StringResources HomePlaylistViewResources { get; }
         StringResources HomeDownloadsViewResources { get; }
         StringResources AuthenticationViewResources { get; }
         StringResources NotificationsResources { get; }
@@ -30,6 +31,7 @@ namespace VDownload.Services.UI.StringResources
         public StringResources BaseViewResources { get; protected set; }
         public StringResources HomeViewResources { get; protected set; }
         public StringResources HomeVideoViewResources { get; protected set; }
+        public StringResources HomePlaylistViewResources { get; protected set; }
         public StringResources HomeDownloadsViewResources { get; protected set; }
         public StringResources AuthenticationViewResources { get; protected set; }
         public StringResources NotificationsResources { get; protected set; }
@@ -47,6 +49,7 @@ namespace VDownload.Services.UI.StringResources
             BaseViewResources = BuildResource("BaseViewResources");
             HomeViewResources = BuildResource("HomeViewResources");
             HomeVideoViewResources = BuildResource("HomeVideoViewResources");
+            HomePlaylistViewResources = BuildResource("HomePlaylistViewResources");
             HomeDownloadsViewResources = BuildResource("HomeDownloadsViewResources");
             AuthenticationViewResources = BuildResource("AuthenticationViewResources");
             NotificationsResources = BuildResource("NotificationsResources");
