@@ -58,7 +58,7 @@
                         <Expander HorizontalAlignment="Stretch"
                                   Margin="0,0,0,10"
                                   CornerRadius="10"
-                                  HorizontalContentAlignment="Left">
+                                  HorizontalContentAlignment="Stretch">
                             <Expander.Header>
                                 <Grid Padding="-16,0,-16,0">
                                     <Grid.ColumnDefinitions>
@@ -154,8 +154,114 @@
                                                    FontWeight="Bold"
                                                    FontSize="15"/>
                                         <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/QualitySettingsCard">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False"
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewMedia}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
                                             <ComboBox ItemsSource="{Binding Streams}"
                                                       SelectedItem="{Binding SelectedStream, Mode=TwoWay}"/>
+                                        </ctc:SettingsCard>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeSettingsCard">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewMedia}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
+                                            <ComboBox ItemsSource="{ct:EnumValues Type=m:MediaType}"
+                                                      SelectedItem="{Binding MediaType, Mode=TwoWay}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
+                                                            <ctuc:Case Value="Original">
+                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeOriginal"/>
+                                                            </ctuc:Case>
+                                                            <ctuc:Case Value="OnlyVideo">
+                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeOnlyVideo"/>
+                                                            </ctuc:Case>
+                                                            <ctuc:Case Value="OnlyAudio">
+                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeOnlyAudio"/>
+                                                            </ctuc:Case>
+                                                        </ctuc:SwitchPresenter>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </ctc:SettingsCard>
+                                        <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/TrimSettingsGroup">
+                                            <ctc:SettingsExpander.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewTrim}"/>
+                                            </ctc:SettingsExpander.HeaderIcon>
+                                            <ctc:SettingsExpander.Items>
+                                                <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/TrimStartSettingsCard">
+                                                    <c:TimeSpanControl Value="{Binding TrimStart, Mode=TwoWay}" 
+                                                                       Maximum="{Binding TrimEnd, Mode=OneWay}"/>
+                                                </ctc:SettingsCard>
+                                                <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/TrimEndSettingsCard">
+                                                    <c:TimeSpanControl Minimum="{Binding TrimStart, Mode=OneWay}" 
+                                                                       Value="{Binding TrimEnd, Mode=TwoWay}" 
+                                                                       Maximum="{Binding Duration, Mode=OneWay}"/>
+                                                </ctc:SettingsCard>
+                                            </ctc:SettingsExpander.Items>
+                                        </ctc:SettingsExpander>
+                                    </StackPanel>
+                                    <StackPanel Spacing="5">
+                                        <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FileOptionsHeader"
+                                                   FontWeight="Bold"
+                                                   FontSize="15"/>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/DirectorySettingsCard"
+                                                          Description="{Binding DirectoryPath}">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewDirectory}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
+                                            <Button x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/DirectorySettingsCardButton"
+                                                    Command="{Binding BrowseCommand}"/>
+                                        </ctc:SettingsCard>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilenameSettingsCard">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewFilename}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
+                                            <TextBox Text="{Binding Filename, Mode=TwoWay}"/>
+                                        </ctc:SettingsCard>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FileTypeSettingsCard">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewExtension}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
+                                            <i:Interaction.Behaviors>
+                                                <ic:DataTriggerBehavior Binding="{Binding MediaType, Converter={StaticResource ObjectToStringConverter}}"
+                                                                        ComparisonCondition="Equal"
+                                                                        Value="OnlyAudio">
+                                                    <ic:ChangePropertyAction PropertyName="Content">
+                                                        <ic:ChangePropertyAction.Value>
+                                                            <ComboBox ItemsSource="{ct:EnumValues Type=m:AudioExtension}"
+                                                                      SelectedItem="{Binding AudioExtension, Mode=TwoWay}">
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding}"/>
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+                                                        </ic:ChangePropertyAction.Value>
+                                                    </ic:ChangePropertyAction>
+                                                </ic:DataTriggerBehavior>
+                                                <ic:DataTriggerBehavior Binding="{Binding MediaType, Converter={StaticResource ObjectToStringConverter}}"
+                                                                        ComparisonCondition="NotEqual"
+                                                                        Value="OnlyAudio">
+                                                    <ic:ChangePropertyAction PropertyName="Content">
+                                                        <ic:ChangePropertyAction.Value>
+                                                            <ComboBox ItemsSource="{ct:EnumValues Type=m:VideoExtension}"
+                                                                      SelectedItem="{Binding VideoExtension, Mode=TwoWay}">
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding}"/>
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+                                                        </ic:ChangePropertyAction.Value>
+                                                    </ic:ChangePropertyAction>
+                                                </ic:DataTriggerBehavior>
+                                            </i:Interaction.Behaviors>
                                         </ctc:SettingsCard>
                                     </StackPanel>
                                 </StackPanel>
