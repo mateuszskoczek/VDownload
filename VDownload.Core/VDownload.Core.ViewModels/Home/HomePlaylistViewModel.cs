@@ -14,6 +14,7 @@ using VDownload.Models;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.StoragePicker;
 using VDownload.Sources.Twitch.Configuration.Models;
+using SimpleToolkit.MVVM;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -34,7 +35,7 @@ namespace VDownload.Core.ViewModels.Home
 
         protected Playlist _playlist;
 
-        protected Dictionary<VideoViewModel, bool> _allVideos;
+        protected List<VideoViewModel> _removedVideos;
 
         #endregion
 
@@ -46,10 +47,16 @@ namespace VDownload.Core.ViewModels.Home
         protected string _name;
 
         [ObservableProperty]
-        protected ObservableCollection<VideoViewModel> _videos;
+        protected ObservableDictionary<VideoViewModel, bool> _videos;
 
         [ObservableProperty]
         protected int _removedCount;
+
+        [ObservableProperty]
+        protected int _hiddenCount;
+
+        [ObservableProperty]
+        protected bool _isSomethingHidden;
 
         #endregion
 
@@ -63,8 +70,9 @@ namespace VDownload.Core.ViewModels.Home
             _settingsService = settingsService;
             _storagePickerService = storagePickerService;
 
-            _allVideos = new Dictionary<VideoViewModel, bool>();
-            _videos = new ObservableCollection<VideoViewModel>();
+            _removedVideos = new List<VideoViewModel>();
+
+            _videos = new ObservableDictionary<VideoViewModel, bool>();
         }
 
         #endregion
@@ -77,15 +85,15 @@ namespace VDownload.Core.ViewModels.Home
         {
             _playlist = playlist;
 
-            _allVideos.Clear();
-            foreach (Video video in playlist)
-            {
-                _allVideos.Add(new VideoViewModel(video, _settingsService, _storagePickerService), false);
-            }
+            _removedVideos.Clear();
 
             Name = _playlist.Name;
-            Videos = new ObservableCollection<VideoViewModel>(_allVideos.Keys);
-            RemovedCount = 0;
+            Videos.Clear();
+            foreach (Video video in playlist)
+            {
+                Videos.Add(new VideoViewModel(video, _settingsService, _storagePickerService), true);
+            }
+            UpdateCounters();
         }
 
         #endregion
@@ -100,7 +108,7 @@ namespace VDownload.Core.ViewModels.Home
             string? newDirectory = await _storagePickerService.OpenDirectory();
             if (newDirectory is not null)
             {
-                foreach (VideoViewModel video in _allVideos.Keys)
+                foreach (VideoViewModel video in Videos.Keys)
                 {
                     video.DirectoryPath = newDirectory;
                 }
@@ -110,22 +118,23 @@ namespace VDownload.Core.ViewModels.Home
         [RelayCommand]
         public void RemoveVideo(VideoViewModel video)
         {
-            _allVideos[video] = true;
+            Videos[video] = false;
 
-            Videos.Remove(video);
+            _removedVideos.Add(video);
 
-            RemovedCount = _allVideos.Where(x => x.Value).Count();
+            UpdateCounters();
         }
 
         [RelayCommand]
         public void RestoreRemovedVideos()
         {
-            foreach(VideoViewModel video in _allVideos.Where(x => x.Value == true).Select(x => x.Key))
+            foreach(VideoViewModel video in _removedVideos)
             {
-                _allVideos[video] = false;
-                Videos.Add(video);
+                Videos[video] = true;
             }
-            RemovedCount = _allVideos.Where(x => x.Value).Count();
+            _removedVideos.Clear();
+
+            UpdateCounters();
         }
 
         [RelayCommand]
@@ -142,7 +151,7 @@ namespace VDownload.Core.ViewModels.Home
 
         protected void CreateTasks(bool download)
         {
-            foreach (VideoViewModel video in Videos)
+            foreach (VideoViewModel video in Videos.Keys)
             {
                 DownloadTask task = _tasksManager.AddTask(video.Video, video.BuildDownloadOptions());
                 if (download)
@@ -151,6 +160,13 @@ namespace VDownload.Core.ViewModels.Home
                 }
             }
             CloseRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected void UpdateCounters()
+        {
+            RemovedCount = _removedVideos.Count;
+            HiddenCount = Videos.Values.Where(x => !x).Count();
+            IsSomethingHidden = HiddenCount > 0;
         }
 
         #endregion

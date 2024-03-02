@@ -37,7 +37,12 @@
                        TextWrapping="WrapWholeWords"/>
             <StackPanel Grid.Column="1"
                         Orientation="Horizontal" 
-                        Margin="-5">
+                        Margin="-5"
+                        Spacing="10">
+                <TextBlock VerticalAlignment="Center"
+                           Visibility="{Binding IsSomethingHidden, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Run x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/HiddenTextBlock"/><Run Text="{Binding HiddenCount}"/>
+                </TextBlock>
                 <AppBarToggleButton x:Name="FilterButton"
                                     Icon="Filter" 
                                     Width="40" 
@@ -165,7 +170,8 @@
                         <Expander HorizontalAlignment="Stretch"
                                   Margin="0,0,0,10"
                                   CornerRadius="10"
-                                  HorizontalContentAlignment="Stretch">
+                                  HorizontalContentAlignment="Stretch"
+                                  Visibility="{Binding Value, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Expander.Header>
                                 <Grid Padding="-16,0,-16,0">
                                     <Grid.ColumnDefinitions>
@@ -174,7 +180,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0"
-                                           Source="{Binding ThumbnailUrl, TargetNullValue={StaticResource ImageOtherThumbnail}}"
+                                           Source="{Binding Key.ThumbnailUrl, TargetNullValue={StaticResource ImageOtherThumbnail}}"
                                            Height="100"/>
                                     <Grid Grid.Column="1"
                                           Margin="10"
@@ -185,7 +191,7 @@
                                         </Grid.RowDefinitions>
                                         <TextBlock Grid.Row="0"
                                                    FontSize="16"
-                                                   Text="{Binding Title}"
+                                                   Text="{Binding Key.Title}"
                                                    FontWeight="SemiBold"
                                                    TextTrimming="CharacterEllipsis"/>
                                         <Grid Grid.Row="1"
@@ -214,7 +220,7 @@
                                                        Grid.Row="0"
                                                        FontSize="{StaticResource FontSize}"
                                                        VerticalAlignment="Center"
-                                                       Text="{Binding Author}"/>
+                                                       Text="{Binding Key.Author}"/>
                                             <Image Grid.Column="0"
                                                    Grid.Row="1"
                                                    VerticalAlignment="Center"
@@ -224,7 +230,7 @@
                                                        Grid.Row="1"
                                                        FontSize="{StaticResource FontSize}"
                                                        VerticalAlignment="Center"
-                                                       Text="{Binding PublishDate}"/>
+                                                       Text="{Binding Key.PublishDate}"/>
                                             <Image Grid.Column="2"
                                                    Grid.Row="0"
                                                    VerticalAlignment="Center"
@@ -234,7 +240,7 @@
                                                        Grid.Row="0"
                                                        FontSize="{StaticResource FontSize}"
                                                        VerticalAlignment="Center"
-                                                       Text="{Binding Duration}"/>
+                                                       Text="{Binding Key.Duration}"/>
                                             <Image Grid.Column="2"
                                                    Grid.Row="1"
                                                    VerticalAlignment="Center"
@@ -244,7 +250,7 @@
                                                        Grid.Row="1"
                                                        FontSize="{StaticResource FontSize}"
                                                        VerticalAlignment="Center"
-                                                       Text="{Binding Views}"/>
+                                                       Text="{Binding Key.Views}"/>
                                         </Grid>
                                     </Grid>
                                     <AppBarButton Grid.Column="2" 
@@ -253,7 +259,7 @@
                                                   Icon="Delete"
                                                   VerticalAlignment="Center"
                                                   Command="{Binding ElementName=Root, Path=DataContext.RemoveVideoCommand}"
-                                                  CommandParameter="{Binding}"/>
+                                                  CommandParameter="{Binding Key}"/>
                                 </Grid>
                             </Expander.Header>
                             <Expander.Content>
@@ -267,8 +273,8 @@
                                                 <BitmapIcon ShowAsMonochrome="False"
                                                             UriSource="{ThemeResource ImageHomePlaylistViewMedia}"/>
                                             </ctc:SettingsCard.HeaderIcon>
-                                            <ComboBox ItemsSource="{Binding Streams}"
-                                                      SelectedItem="{Binding SelectedStream, Mode=TwoWay}"/>
+                                            <ComboBox ItemsSource="{Binding Key.Streams}"
+                                                      SelectedItem="{Binding Key.SelectedStream, Mode=TwoWay}"/>
                                         </ctc:SettingsCard>
                                         <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeSettingsCard">
                                             <ctc:SettingsCard.HeaderIcon>
@@ -276,7 +282,7 @@
                                                             UriSource="{ThemeResource ImageHomePlaylistViewMedia}"/>
                                             </ctc:SettingsCard.HeaderIcon>
                                             <ComboBox ItemsSource="{ct:EnumValues Type=m:MediaType}"
-                                                      SelectedItem="{Binding MediaType, Mode=TwoWay}">
+                                                      SelectedItem="{Binding Key.MediaType, Mode=TwoWay}">
                                                 <ComboBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
@@ -301,13 +307,13 @@
                                             </ctc:SettingsExpander.HeaderIcon>
                                             <ctc:SettingsExpander.Items>
                                                 <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/TrimStartSettingsCard">
-                                                    <c:TimeSpanControl Value="{Binding TrimStart, Mode=TwoWay}" 
-                                                                       Maximum="{Binding TrimEnd, Mode=OneWay}"/>
+                                                    <c:TimeSpanControl Value="{Binding Key.TrimStart, Mode=TwoWay}" 
+                                                                       Maximum="{Binding Key.TrimEnd, Mode=OneWay}"/>
                                                 </ctc:SettingsCard>
                                                 <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/TrimEndSettingsCard">
-                                                    <c:TimeSpanControl Minimum="{Binding TrimStart, Mode=OneWay}" 
-                                                                       Value="{Binding TrimEnd, Mode=TwoWay}" 
-                                                                       Maximum="{Binding Duration, Mode=OneWay}"/>
+                                                    <c:TimeSpanControl Minimum="{Binding Key.TrimStart, Mode=OneWay}" 
+                                                                       Value="{Binding Key.TrimEnd, Mode=TwoWay}" 
+                                                                       Maximum="{Binding Key.Duration, Mode=OneWay}"/>
                                                 </ctc:SettingsCard>
                                             </ctc:SettingsExpander.Items>
                                         </ctc:SettingsExpander>
@@ -317,20 +323,20 @@
                                                    FontWeight="Bold"
                                                    FontSize="15"/>
                                         <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/DirectorySettingsCard"
-                                                          Description="{Binding DirectoryPath}">
+                                                          Description="{Binding Key.DirectoryPath}">
                                             <ctc:SettingsCard.HeaderIcon>
                                                 <BitmapIcon ShowAsMonochrome="False" 
                                                             UriSource="{ThemeResource ImageHomePlaylistViewDirectory}"/>
                                             </ctc:SettingsCard.HeaderIcon>
                                             <Button x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/DirectorySettingsCardButton"
-                                                    Command="{Binding BrowseCommand}"/>
+                                                    Command="{Binding Key.BrowseCommand}"/>
                                         </ctc:SettingsCard>
                                         <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilenameSettingsCard">
                                             <ctc:SettingsCard.HeaderIcon>
                                                 <BitmapIcon ShowAsMonochrome="False" 
                                                             UriSource="{ThemeResource ImageHomePlaylistViewFilename}"/>
                                             </ctc:SettingsCard.HeaderIcon>
-                                            <TextBox Text="{Binding Filename, Mode=TwoWay}"/>
+                                            <TextBox Text="{Binding Key.Filename, Mode=TwoWay}"/>
                                         </ctc:SettingsCard>
                                         <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FileTypeSettingsCard">
                                             <ctc:SettingsCard.HeaderIcon>
@@ -338,13 +344,13 @@
                                                             UriSource="{ThemeResource ImageHomePlaylistViewExtension}"/>
                                             </ctc:SettingsCard.HeaderIcon>
                                             <i:Interaction.Behaviors>
-                                                <ic:DataTriggerBehavior Binding="{Binding MediaType, Converter={StaticResource ObjectToStringConverter}}"
+                                                <ic:DataTriggerBehavior Binding="{Binding Key.MediaType, Converter={StaticResource ObjectToStringConverter}}"
                                                                         ComparisonCondition="Equal"
                                                                         Value="OnlyAudio">
                                                     <ic:ChangePropertyAction PropertyName="Content">
                                                         <ic:ChangePropertyAction.Value>
                                                             <ComboBox ItemsSource="{ct:EnumValues Type=m:AudioExtension}"
-                                                                      SelectedItem="{Binding AudioExtension, Mode=TwoWay}">
+                                                                      SelectedItem="{Binding Key.AudioExtension, Mode=TwoWay}">
                                                                 <ComboBox.ItemTemplate>
                                                                     <DataTemplate>
                                                                         <TextBlock Text="{Binding}"/>
@@ -354,13 +360,13 @@
                                                         </ic:ChangePropertyAction.Value>
                                                     </ic:ChangePropertyAction>
                                                 </ic:DataTriggerBehavior>
-                                                <ic:DataTriggerBehavior Binding="{Binding MediaType, Converter={StaticResource ObjectToStringConverter}}"
+                                                <ic:DataTriggerBehavior Binding="{Binding Key.MediaType, Converter={StaticResource ObjectToStringConverter}}"
                                                                         ComparisonCondition="NotEqual"
                                                                         Value="OnlyAudio">
                                                     <ic:ChangePropertyAction PropertyName="Content">
                                                         <ic:ChangePropertyAction.Value>
                                                             <ComboBox ItemsSource="{ct:EnumValues Type=m:VideoExtension}"
-                                                                      SelectedItem="{Binding VideoExtension, Mode=TwoWay}">
+                                                                      SelectedItem="{Binding Key.VideoExtension, Mode=TwoWay}">
                                                                 <ComboBox.ItemTemplate>
                                                                     <DataTemplate>
                                                                         <TextBlock Text="{Binding}"/>
