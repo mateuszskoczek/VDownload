@@ -31,7 +31,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0"
                     CornerRadius="{ThemeResource ControlCornerRadius}">
-                <Image Source="{Binding ThumbnailUrl}"
+                <Image Source="{Binding ThumbnailUrl, TargetNullValue={StaticResource ImageOtherThumbnail}}"
                        VerticalAlignment="Stretch"/>
             </Border>
             <StackPanel Grid.Column="1" 
@@ -98,13 +98,7 @@
                                         UriSource="{ThemeResource ImageHomeVideoViewQuality}"/>
                         </ctc:SettingsCard.HeaderIcon>
                         <ComboBox ItemsSource="{Binding Streams}"
-                                  SelectedItem="{Binding SelectedStream, Mode=TwoWay}">
-                            <!-- ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate -->
-                        </ComboBox>
+                                  SelectedItem="{Binding SelectedStream, Mode=TwoWay}"/>
                     </ctc:SettingsCard>
                     <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoViewResources/MediaTypeSettingsCard">
                         <ctc:SettingsCard.HeaderIcon>

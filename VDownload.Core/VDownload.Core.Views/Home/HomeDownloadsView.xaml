@@ -46,7 +46,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" 
-                                           Source="{Binding Video.ThumbnailUrl}" 
+                                           Source="{Binding Video.ThumbnailUrl, TargetNullValue={StaticResource ImageOtherThumbnail}}" 
                                            VerticalAlignment="Stretch"/>
                                     <Grid Grid.Column="1"
                                           Margin="10"
@@ -327,10 +327,10 @@
                                             </i:Interaction.Behaviors>
                                         </AppBarButton>
                                         <AppBarButton Grid.Row="1" 
-                                                  Width="40" 
-                                                  Height="48"
-                                                  Command="{Binding ElementName=Root, Path=DataContext.StartCancelTaskCommand}"
-                                                  CommandParameter="{Binding}">
+                                                      Width="40" 
+                                                      Height="48"
+                                                      Command="{Binding ElementName=Root, Path=DataContext.StartCancelTaskCommand}"
+                                                      CommandParameter="{Binding}">
                                             <i:Interaction.Behaviors>
                                                 <ic:DataTriggerBehavior Binding="{Binding Status, Converter={StaticResource ObjectToIntConverter}}"
                                                                     ComparisonCondition="LessThan"

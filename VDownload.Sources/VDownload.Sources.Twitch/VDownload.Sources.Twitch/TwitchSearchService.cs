@@ -19,8 +19,8 @@ namespace VDownload.Sources.Twitch
 {
     public interface ITwitchSearchService : ISourceSearchService
     {
-        Task<TwitchPlaylist> SearchPlaylist(string url, int maxVideoCount);
-        Task<TwitchVideo> SearchVideo(string url);
+        new Task<TwitchPlaylist> SearchPlaylist(string url, int maxVideoCount);
+        new Task<TwitchVideo> SearchVideo(string url);
     }
 
 
@@ -120,17 +120,17 @@ namespace VDownload.Sources.Twitch
             List<Task<TwitchVod>> tasks = new List<Task<TwitchVod>>();
             string? cursor = null;
             List<Api.Helix.GetVideos.Response.Data> videosList;
+            count = count == 0 ? int.MaxValue : count;
             int videos = 0;
             do
             {
-                videos = count == 0 || count > 100 ? 100 : count;
+                videos = count > 100 ? 100 : count;
                 GetVideosResponse videosResponse = await _apiService.HelixGetUserVideos(channel.Id, token, videos, cursor);
                 videosList = videosResponse.Data;
-                count -= videosList.Count;
                 cursor = videosResponse.Pagination.Cursor;
                 tasks.AddRange(videosList.Select(ParseVod));
             }
-            while (videosList.Count == videos);
+            while (tasks.Count < count && videosList.Count == videos);
 
             await Task.WhenAll(tasks);
 
@@ -143,7 +143,13 @@ namespace VDownload.Sources.Twitch
         {
             Task<IEnumerable<TwitchVodStream>> streamsTask = GetVodStreams(data.Id);
 
-            Thumbnail thumbnail = _configurationService.Twitch.Search.Vod.Thumbnail;
+            Thumbnail thumbnailConfig = _configurationService.Twitch.Search.Vod.Thumbnail;
+            Regex liveThumbnailRegex = new Regex(_configurationService.Twitch.Search.Vod.LiveThumbnailUrlRegex);
+            Uri? thumbnail = null;
+            if (!liveThumbnailRegex.IsMatch(data.ThumbnailUrl))
+            {
+                thumbnail = new Uri(data.ThumbnailUrl.Replace("%{width}", thumbnailConfig.Width.ToString()).Replace("%{height}", thumbnailConfig.Height.ToString()));
+            }
             TwitchVod vod = new TwitchVod
             {
                 Title = data.Title,
@@ -152,7 +158,7 @@ namespace VDownload.Sources.Twitch
                 PublishDate = data.PublishedAt,
                 Duration = ParseVodDuration(data.Duration),
                 Views = data.ViewCount,
-                ThumbnailUrl = new Uri(data.ThumbnailUrl.Replace("%{width}", thumbnail.Width.ToString()).Replace("%{height}", thumbnail.Height.ToString())),
+                ThumbnailUrl = thumbnail,
                 Url = new Uri(data.Url),
             };
 

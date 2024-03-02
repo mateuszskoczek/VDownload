@@ -7,7 +7,7 @@ namespace VDownload.Sources.Twitch.Configuration.Models{
         public List<string> GeneralRegexes { get; } = new List<string>();
 
         [ConfigurationKeyName("vod")]
-        public Vod Vod { get; set; }
+        public SearchVod Vod { get; set; }
 
         [ConfigurationKeyName("clip")]
         public Clip Clip { get; set; }

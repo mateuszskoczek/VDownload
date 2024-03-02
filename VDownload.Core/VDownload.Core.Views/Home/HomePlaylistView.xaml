@@ -6,8 +6,16 @@
     xmlns:local="using:VDownload.Core.Views.Home"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:m="using:VDownload.Models"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:ctc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ctuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:c="using:SimpleToolkit.UI.WinUI.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ViewBackgroundColor}">
+    Background="{ThemeResource ViewBackgroundColor}"
+    x:Name="Root">
 
     <Grid Padding="15"
           RowSpacing="20">
@@ -20,7 +28,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0"
                        VerticalAlignment="Center"
@@ -28,25 +35,390 @@
                        FontWeight="Bold"
                        FontSize="20"
                        TextWrapping="WrapWholeWords"/>
-            <AppBarButton Grid.Column="2" 
-                          Margin="-5"
-                          Icon="Filter" 
-                          Width="40" 
-                          Height="48">
-                <AppBarButton.Resources>
-                    <TeachingTip x:Name="FilterWindow">
-                        
-                    </TeachingTip>
-                </AppBarButton.Resources>
-            </AppBarButton>
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal" 
+                        Margin="-5"
+                        Spacing="10">
+                <TextBlock VerticalAlignment="Center"
+                           Visibility="{Binding IsSomethingHidden, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Run x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/HiddenTextBlock"/><Run Text="{Binding HiddenCount}"/>
+                </TextBlock>
+                <AppBarToggleButton x:Name="FilterButton"
+                                    Icon="Filter" 
+                                    Width="40" 
+                                    Height="48">
+                    <AppBarToggleButton.Resources>
+                        <TeachingTip x:Name="FilterWindow"
+                                     x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterWindow"
+                                     Target="{Binding ElementName=FilterButton}"
+                                     PreferredPlacement="BottomLeft"
+                                     IsOpen="{Binding ElementName=FilterButton, Path=IsChecked, Mode=TwoWay}">
+                            <Grid VerticalAlignment="Top"
+                                  Margin="0,10,0,0"
+                                  ColumnSpacing="10"
+                                  RowSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterTitleTextBlock"
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <TextBox x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterTitleTextBox"
+                                         Grid.Row="0"
+                                         Grid.Column="1"
+                                         Text="{Binding TitleFilter, Mode=TwoWay}"/>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterAuthorTextBlock"
+                                           Grid.Row="1"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <TextBox x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterAuthorTextBox"
+                                         Grid.Row="1"
+                                         Grid.Column="1"
+                                         Text="{Binding AuthorFilter, Mode=TwoWay}"/>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterViewsTextBlock"
+                                           Grid.Row="2"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <Grid Grid.Row="2"
+                                      Grid.Column="1"
+                                      ColumnSpacing="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <NumberBox Grid.Column="0" 
+                                               SpinButtonPlacementMode="Compact"
+                                               Minimum="{Binding MinViews}"
+                                               Value="{Binding MinViewsFilter, Mode=TwoWay}"
+                                               Maximum="{Binding MaxViewsFilter}"
+                                               SmallChange="1" 
+                                               LargeChange="10"/>
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="-"/>
+                                    <NumberBox Grid.Column="2" 
+                                               SpinButtonPlacementMode="Compact"
+                                               Minimum="{Binding MinViewsFilter}"
+                                               Value="{Binding MaxViewsFilter, Mode=TwoWay}"
+                                               Maximum="{Binding MaxViews}"
+                                               SmallChange="1" 
+                                               LargeChange="10"/>
+                                </Grid>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterDateTextBlock"
+                                           Grid.Row="3"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <Grid Grid.Row="3"
+                                      Grid.Column="1"
+                                      ColumnSpacing="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <CalendarDatePicker Grid.Column="0"
+                                                        MinDate="{Binding MinDate}"
+                                                        Date="{Binding MinDateFilter, Mode=TwoWay}"
+                                                        MaxDate="{Binding MaxDateFilter}"/>
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="-"/>
+                                    <CalendarDatePicker Grid.Column="2"
+                                                        MinDate="{Binding MinDateFilter}"
+                                                        Date="{Binding MaxDateFilter, Mode=TwoWay}"
+                                                        MaxDate="{Binding MaxDate}"/>
+                                </Grid>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterDurationTextBlock"
+                                           Grid.Row="4"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <Grid Grid.Row="4"
+                                      Grid.Column="1"
+                                      RowSpacing="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <c:TimeSpanControl Grid.Row="0"
+                                                       Minimum="{Binding MinDuration}"
+                                                       Value="{Binding MinDurationFilter, Mode=TwoWay}"
+                                                       Maximum="{Binding MaxDurationFilter}"/>
+                                    <c:TimeSpanControl Grid.Row="1"
+                                                       Minimum="{Binding MinDurationFilter}"
+                                                       Value="{Binding MaxDurationFilter, Mode=TwoWay}"
+                                                       Maximum="{Binding MaxDuration}"/>
+                                </Grid>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterRemovedTextBlock"
+                                           Grid.Row="5"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <Grid Grid.Row="5"
+                                      Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding RemovedCount}"/>
+                                    <Button x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterRemovedButton"
+                                            Grid.Column="1"
+                                            Command="{Binding RestoreRemovedVideosCommand}"/>
+                                </Grid>
+                            </Grid>
+                        </TeachingTip>
+                    </AppBarToggleButton.Resources>
+                </AppBarToggleButton>
+                <AppBarButton x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/ApplyDirectoryButton"
+                              Icon="Folder"
+                              Width="40"
+                              Height="48"
+                              Command="{Binding SelectDirectoryCommand}"/>
+            </StackPanel>
         </Grid>
-        <ItemsControl Grid.Row="1">
-            
-        </ItemsControl>
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Videos}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Expander HorizontalAlignment="Stretch"
+                                  Margin="0,0,0,10"
+                                  CornerRadius="10"
+                                  HorizontalContentAlignment="Stretch"
+                                  Visibility="{Binding Value, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Expander.Header>
+                                <Grid Padding="-16,0,-16,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0"
+                                           Source="{Binding Key.ThumbnailUrl, TargetNullValue={StaticResource ImageOtherThumbnail}}"
+                                           Height="100"/>
+                                    <Grid Grid.Column="1"
+                                          Margin="10"
+                                          RowSpacing="10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0"
+                                                   FontSize="16"
+                                                   Text="{Binding Key.Title}"
+                                                   FontWeight="SemiBold"
+                                                   TextTrimming="CharacterEllipsis"/>
+                                        <Grid Grid.Row="1"
+                                              RowSpacing="10"
+                                              ColumnSpacing="10">
+                                            <Grid.Resources>
+                                                <x:Double x:Key="IconSize">17</x:Double>
+                                                <x:Double x:Key="FontSize">13</x:Double>
+                                            </Grid.Resources>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Column="0"
+                                                   Grid.Row="0"
+                                                   VerticalAlignment="Center"
+                                                   Source="{ThemeResource ImageHomePlaylistViewAuthor}"
+                                                   Width="{StaticResource IconSize}"/>
+                                            <TextBlock Grid.Column="1"
+                                                       Grid.Row="0"
+                                                       FontSize="{StaticResource FontSize}"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Key.Author}"/>
+                                            <Image Grid.Column="0"
+                                                   Grid.Row="1"
+                                                   VerticalAlignment="Center"
+                                                   Source="{ThemeResource ImageHomePlaylistViewDate}"
+                                                   Width="{StaticResource IconSize}"/>
+                                            <TextBlock Grid.Column="1"
+                                                       Grid.Row="1"
+                                                       FontSize="{StaticResource FontSize}"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Key.PublishDate}"/>
+                                            <Image Grid.Column="2"
+                                                   Grid.Row="0"
+                                                   VerticalAlignment="Center"
+                                                   Source="{ThemeResource ImageHomePlaylistViewTime}"
+                                                   Width="{StaticResource IconSize}"/>
+                                            <TextBlock Grid.Column="3"
+                                                       Grid.Row="0"
+                                                       FontSize="{StaticResource FontSize}"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Key.Duration}"/>
+                                            <Image Grid.Column="2"
+                                                   Grid.Row="1"
+                                                   VerticalAlignment="Center"
+                                                   Source="{ThemeResource ImageHomePlaylistViewViews}"
+                                                   Width="{StaticResource IconSize}"/>
+                                            <TextBlock Grid.Column="3"
+                                                       Grid.Row="1"
+                                                       FontSize="{StaticResource FontSize}"
+                                                       VerticalAlignment="Center"
+                                                       Text="{Binding Key.Views}"/>
+                                        </Grid>
+                                    </Grid>
+                                    <AppBarButton Grid.Column="2" 
+                                                  Width="40" 
+                                                  Height="48"
+                                                  Icon="Delete"
+                                                  VerticalAlignment="Center"
+                                                  Command="{Binding ElementName=Root, Path=DataContext.RemoveVideoCommand}"
+                                                  CommandParameter="{Binding Key}"/>
+                                </Grid>
+                            </Expander.Header>
+                            <Expander.Content>
+                                <StackPanel Spacing="20">
+                                    <StackPanel Spacing="5">
+                                        <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaOptionsHeader"
+                                                   FontWeight="Bold"
+                                                   FontSize="15"/>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/QualitySettingsCard">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False"
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewMedia}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
+                                            <ComboBox ItemsSource="{Binding Key.Streams}"
+                                                      SelectedItem="{Binding Key.SelectedStream, Mode=TwoWay}"/>
+                                        </ctc:SettingsCard>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeSettingsCard">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewMedia}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
+                                            <ComboBox ItemsSource="{ct:EnumValues Type=m:MediaType}"
+                                                      SelectedItem="{Binding Key.MediaType, Mode=TwoWay}">
+                                                <ComboBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
+                                                            <ctuc:Case Value="Original">
+                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeOriginal"/>
+                                                            </ctuc:Case>
+                                                            <ctuc:Case Value="OnlyVideo">
+                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeOnlyVideo"/>
+                                                            </ctuc:Case>
+                                                            <ctuc:Case Value="OnlyAudio">
+                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeOnlyAudio"/>
+                                                            </ctuc:Case>
+                                                        </ctuc:SwitchPresenter>
+                                                    </DataTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </ctc:SettingsCard>
+                                        <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/TrimSettingsGroup">
+                                            <ctc:SettingsExpander.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewTrim}"/>
+                                            </ctc:SettingsExpander.HeaderIcon>
+                                            <ctc:SettingsExpander.Items>
+                                                <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/TrimStartSettingsCard">
+                                                    <c:TimeSpanControl Value="{Binding Key.TrimStart, Mode=TwoWay}" 
+                                                                       Maximum="{Binding Key.TrimEnd, Mode=OneWay}"/>
+                                                </ctc:SettingsCard>
+                                                <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/TrimEndSettingsCard">
+                                                    <c:TimeSpanControl Minimum="{Binding Key.TrimStart, Mode=OneWay}" 
+                                                                       Value="{Binding Key.TrimEnd, Mode=TwoWay}" 
+                                                                       Maximum="{Binding Key.Duration, Mode=OneWay}"/>
+                                                </ctc:SettingsCard>
+                                            </ctc:SettingsExpander.Items>
+                                        </ctc:SettingsExpander>
+                                    </StackPanel>
+                                    <StackPanel Spacing="5">
+                                        <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FileOptionsHeader"
+                                                   FontWeight="Bold"
+                                                   FontSize="15"/>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/DirectorySettingsCard"
+                                                          Description="{Binding Key.DirectoryPath}">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewDirectory}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
+                                            <Button x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/DirectorySettingsCardButton"
+                                                    Command="{Binding Key.BrowseCommand}"/>
+                                        </ctc:SettingsCard>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilenameSettingsCard">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewFilename}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
+                                            <TextBox Text="{Binding Key.Filename, Mode=TwoWay}"/>
+                                        </ctc:SettingsCard>
+                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FileTypeSettingsCard">
+                                            <ctc:SettingsCard.HeaderIcon>
+                                                <BitmapIcon ShowAsMonochrome="False" 
+                                                            UriSource="{ThemeResource ImageHomePlaylistViewExtension}"/>
+                                            </ctc:SettingsCard.HeaderIcon>
+                                            <i:Interaction.Behaviors>
+                                                <ic:DataTriggerBehavior Binding="{Binding Key.MediaType, Converter={StaticResource ObjectToStringConverter}}"
+                                                                        ComparisonCondition="Equal"
+                                                                        Value="OnlyAudio">
+                                                    <ic:ChangePropertyAction PropertyName="Content">
+                                                        <ic:ChangePropertyAction.Value>
+                                                            <ComboBox ItemsSource="{ct:EnumValues Type=m:AudioExtension}"
+                                                                      SelectedItem="{Binding Key.AudioExtension, Mode=TwoWay}">
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding}"/>
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+                                                        </ic:ChangePropertyAction.Value>
+                                                    </ic:ChangePropertyAction>
+                                                </ic:DataTriggerBehavior>
+                                                <ic:DataTriggerBehavior Binding="{Binding Key.MediaType, Converter={StaticResource ObjectToStringConverter}}"
+                                                                        ComparisonCondition="NotEqual"
+                                                                        Value="OnlyAudio">
+                                                    <ic:ChangePropertyAction PropertyName="Content">
+                                                        <ic:ChangePropertyAction.Value>
+                                                            <ComboBox ItemsSource="{ct:EnumValues Type=m:VideoExtension}"
+                                                                      SelectedItem="{Binding Key.VideoExtension, Mode=TwoWay}">
+                                                                <ComboBox.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <TextBlock Text="{Binding}"/>
+                                                                    </DataTemplate>
+                                                                </ComboBox.ItemTemplate>
+                                                            </ComboBox>
+                                                        </ic:ChangePropertyAction.Value>
+                                                    </ic:ChangePropertyAction>
+                                                </ic:DataTriggerBehavior>
+                                            </i:Interaction.Behaviors>
+                                        </ctc:SettingsCard>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Expander.Content>
+                        </Expander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
         <StackPanel Grid.Row="2"
                     HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-            
+                    Orientation="Horizontal"
+                    Spacing="10">
+            <Button x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/CreateAndStartButton"
+                    Command="{Binding CreateTasksAndDownloadCommand}"/>
+            <Button x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/CreateButton"
+                    Style="{StaticResource AccentButtonStyle}" 
+                    Command="{Binding CreateTasksCommand}"/>
         </StackPanel>
     </Grid>
 </Page>

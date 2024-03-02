@@ -234,7 +234,7 @@ namespace VDownload.Core.ViewModels.Home
                 return;
             }
 
-            await _playlistViewModel.LoadPlaylist(playlist);
+            _playlistViewModel.LoadPlaylist(playlist);
 
             MainContent = _playlistView;
 
