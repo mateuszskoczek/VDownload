@@ -81,6 +81,91 @@ namespace VDownload.Core.ViewModels.Home
         }
         protected string _authorFilter;
 
+        public long MinViewsFilter
+        {
+            get => _minViewsFilter;
+            set
+            {
+                SetProperty(ref _minViewsFilter, value, nameof(MinViewsFilter));
+                UpdateFilter();
+            }
+        }
+        protected long _minViewsFilter;
+
+        public long MaxViewsFilter
+        {
+            get => _maxViewsFilter;
+            set
+            {
+                SetProperty(ref _maxViewsFilter, value, nameof(MaxViewsFilter));
+                UpdateFilter();
+            }
+        }
+        protected long _maxViewsFilter;
+
+        [ObservableProperty]
+        protected long _minViews;
+
+        [ObservableProperty]
+        protected long _maxViews;
+
+        public DateTimeOffset MinDateFilter
+        {
+            get => _minDateFilter;
+            set
+            {
+                SetProperty(ref _minDateFilter, value, nameof(MinDateFilter));
+                UpdateFilter();
+            }
+        }
+        protected DateTimeOffset _minDateFilter;
+
+        public DateTimeOffset MaxDateFilter
+        {
+            get => _maxDateFilter;
+            set
+            {
+                SetProperty(ref _maxDateFilter, value, nameof(MaxDateFilter));
+                UpdateFilter();
+            }
+        }
+        protected DateTimeOffset _maxDateFilter;
+
+        [ObservableProperty]
+        protected DateTimeOffset _minDate;
+
+        [ObservableProperty]
+        protected DateTimeOffset _maxDate;
+
+
+        public TimeSpan MinDurationFilter
+        {
+            get => _minDurationFilter;
+            set
+            {
+                SetProperty(ref _minDurationFilter, value, nameof(MinDurationFilter));
+                UpdateFilter();
+            }
+        }
+        protected TimeSpan _minDurationFilter;
+
+        public TimeSpan MaxDurationFilter
+        {
+            get => _maxDurationFilter;
+            set
+            {
+                SetProperty(ref _maxDurationFilter, value, nameof(MaxDurationFilter));
+                UpdateFilter();
+            }
+        }
+        protected TimeSpan _maxDurationFilter;
+
+        [ObservableProperty]
+        protected TimeSpan _minDuration;
+
+        [ObservableProperty]
+        protected TimeSpan _maxDuration;
+
         #endregion
 
 
@@ -107,11 +192,31 @@ namespace VDownload.Core.ViewModels.Home
         public void LoadPlaylist(Playlist playlist)
         {
             _playlist = playlist;
+            ParallelQuery<Video> playlistQuery = playlist.AsParallel();
 
             _removedVideos.Clear();
 
             _titleFilter = string.Empty;
             _authorFilter = string.Empty;
+
+            IEnumerable<long> views = playlistQuery.Select(x => x.Views);
+            MinViews = views.Min();
+            MaxViews = views.Max();
+            _minViewsFilter = MinViews;
+            _maxViewsFilter = MaxViews;
+
+            IEnumerable<DateTimeOffset> date = playlist.Select(x => new DateTimeOffset(x.PublishDate));
+            MinDate = date.Min();
+            MaxDate = date.Max();
+            _minDateFilter = MinDate;
+            _maxDateFilter = MaxDate;
+
+            IEnumerable<TimeSpan> duration = playlistQuery.Select(x => x.Duration);
+            MinDuration = duration.Min();
+            MaxDuration = duration.Max();
+            _minDurationFilter = MinDuration;
+            _maxDurationFilter = MaxDuration;
+
             Name = _playlist.Name;
             Videos.Clear();
             foreach (Video video in playlist)
@@ -176,7 +281,11 @@ namespace VDownload.Core.ViewModels.Home
 
         protected void CreateTasks(bool download)
         {
-            foreach (VideoViewModel video in Videos.Keys)
+            IEnumerable<VideoViewModel> videos = Videos.Cast<ObservableKeyValuePair<VideoViewModel, bool>>()
+                                                       .Where(x => x.Value)
+                                                       .Select(x => x.Key);
+
+            foreach (VideoViewModel video in videos)
             {
                 DownloadTask task = _tasksManager.AddTask(video.Video, video.BuildDownloadOptions());
                 if (download)
@@ -194,25 +303,28 @@ namespace VDownload.Core.ViewModels.Home
 
             foreach (ObservableKeyValuePair<VideoViewModel, bool> item in Videos)
             {
-                if (!titleRegex.IsMatch(item.Key.Title))
-                {
-                    item.Value = false;
-                    continue;
-                }
-
-                if (!authorRegex.IsMatch(item.Key.Author))
-                {
-                    item.Value = false;
-                    continue;
-                }
-
-                if (_removedVideos.Contains(item.Key))
-                {
-                    item.Value = false;
-                    continue;
-                }
-
-                item.Value = true;
+                VideoViewModel video = item.Key;
+                bool hide = 
+                (
+                    _removedVideos.Contains(video)
+                    ||
+                    !titleRegex.IsMatch(video.Title)
+                    ||
+                    !authorRegex.IsMatch(video.Author)
+                    ||
+                    MinViewsFilter > video.Views
+                    ||
+                    MaxViewsFilter < video.Views
+                    ||
+                    MinDateFilter.Date > video.PublishDate.Date
+                    ||
+                    MaxDateFilter.Date < video.PublishDate.Date
+                    ||
+                    MinDurationFilter > video.Duration
+                    ||
+                    MaxDurationFilter < video.Duration
+                );
+                item.Value = !hide;
             }
 
             RemovedCount = _removedVideos.Count;

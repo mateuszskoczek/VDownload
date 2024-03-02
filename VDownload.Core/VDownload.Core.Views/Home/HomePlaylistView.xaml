@@ -98,12 +98,22 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <NumberBox Grid.Column="0" 
-                                               SpinButtonPlacementMode="Compact"/>
+                                               SpinButtonPlacementMode="Compact"
+                                               Minimum="{Binding MinViews}"
+                                               Value="{Binding MinViewsFilter, Mode=TwoWay}"
+                                               Maximum="{Binding MaxViewsFilter}"
+                                               SmallChange="1" 
+                                               LargeChange="10"/>
                                     <TextBlock Grid.Column="1"
                                                VerticalAlignment="Center"
                                                Text="-"/>
                                     <NumberBox Grid.Column="2" 
-                                               SpinButtonPlacementMode="Compact"/>
+                                               SpinButtonPlacementMode="Compact"
+                                               Minimum="{Binding MinViewsFilter}"
+                                               Value="{Binding MaxViewsFilter, Mode=TwoWay}"
+                                               Maximum="{Binding MaxViews}"
+                                               SmallChange="1" 
+                                               LargeChange="10"/>
                                 </Grid>
                                 <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterDateTextBlock"
                                            Grid.Row="3"
@@ -117,11 +127,17 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <CalendarDatePicker Grid.Column="0"/>
+                                    <CalendarDatePicker Grid.Column="0"
+                                                        MinDate="{Binding MinDate}"
+                                                        Date="{Binding MinDateFilter, Mode=TwoWay}"
+                                                        MaxDate="{Binding MaxDateFilter}"/>
                                     <TextBlock Grid.Column="1"
                                                VerticalAlignment="Center"
                                                Text="-"/>
-                                    <CalendarDatePicker Grid.Column="2"/>
+                                    <CalendarDatePicker Grid.Column="2"
+                                                        MinDate="{Binding MinDateFilter}"
+                                                        Date="{Binding MaxDateFilter, Mode=TwoWay}"
+                                                        MaxDate="{Binding MaxDate}"/>
                                 </Grid>
                                 <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterDurationTextBlock"
                                            Grid.Row="4"
@@ -134,8 +150,14 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <c:TimeSpanControl Grid.Row="0"/>
-                                    <c:TimeSpanControl Grid.Row="1"/>
+                                    <c:TimeSpanControl Grid.Row="0"
+                                                       Minimum="{Binding MinDuration}"
+                                                       Value="{Binding MinDurationFilter, Mode=TwoWay}"
+                                                       Maximum="{Binding MaxDurationFilter}"/>
+                                    <c:TimeSpanControl Grid.Row="1"
+                                                       Minimum="{Binding MinDurationFilter}"
+                                                       Value="{Binding MaxDurationFilter, Mode=TwoWay}"
+                                                       Maximum="{Binding MaxDuration}"/>
                                 </Grid>
                                 <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterRemovedTextBlock"
                                            Grid.Row="5"
