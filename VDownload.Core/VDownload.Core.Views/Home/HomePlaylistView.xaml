@@ -75,14 +75,16 @@
                                            VerticalAlignment="Center"/>
                                 <TextBox x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterTitleTextBox"
                                          Grid.Row="0"
-                                         Grid.Column="1"/>
+                                         Grid.Column="1"
+                                         Text="{Binding TitleFilter, Mode=TwoWay}"/>
                                 <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterAuthorTextBlock"
                                            Grid.Row="1"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"/>
                                 <TextBox x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterAuthorTextBox"
                                          Grid.Row="1"
-                                         Grid.Column="1"/>
+                                         Grid.Column="1"
+                                         Text="{Binding AuthorFilter, Mode=TwoWay}"/>
                                 <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterViewsTextBlock"
                                            Grid.Row="2"
                                            Grid.Column="0"

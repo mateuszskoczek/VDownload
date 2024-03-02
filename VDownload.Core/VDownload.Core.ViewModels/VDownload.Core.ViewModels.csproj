@@ -13,8 +13,8 @@
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-		<PackageReference Include="SimpleToolkit.MVVM" Version="1.7.1" />
-		<PackageReference Include="SimpleToolkit.UI.Models" Version="1.7.1" />
+		<PackageReference Include="SimpleToolkit.MVVM" Version="1.7.2" />
+		<PackageReference Include="SimpleToolkit.UI.Models" Version="1.7.2" />
 	</ItemGroup>
 
   <ItemGroup>

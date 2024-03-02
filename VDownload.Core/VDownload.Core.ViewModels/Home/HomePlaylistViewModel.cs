@@ -15,6 +15,7 @@ using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.StoragePicker;
 using VDownload.Sources.Twitch.Configuration.Models;
 using SimpleToolkit.MVVM;
+using System.Text.RegularExpressions;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -58,6 +59,28 @@ namespace VDownload.Core.ViewModels.Home
         [ObservableProperty]
         protected bool _isSomethingHidden;
 
+        public string TitleFilter
+        {
+            get => _titleFilter;
+            set
+            {
+                SetProperty(ref _titleFilter, value, nameof(TitleFilter));
+                UpdateFilter();
+            }
+        }
+        protected string _titleFilter;
+
+        public string AuthorFilter
+        {
+            get => _authorFilter;
+            set
+            {
+                SetProperty(ref _authorFilter, value, nameof(AuthorFilter));
+                UpdateFilter();
+            }
+        }
+        protected string _authorFilter;
+
         #endregion
 
 
@@ -87,13 +110,15 @@ namespace VDownload.Core.ViewModels.Home
 
             _removedVideos.Clear();
 
+            _titleFilter = string.Empty;
+            _authorFilter = string.Empty;
             Name = _playlist.Name;
             Videos.Clear();
             foreach (Video video in playlist)
             {
                 Videos.Add(new VideoViewModel(video, _settingsService, _storagePickerService), true);
             }
-            UpdateCounters();
+            UpdateFilter();
         }
 
         #endregion
@@ -122,7 +147,7 @@ namespace VDownload.Core.ViewModels.Home
 
             _removedVideos.Add(video);
 
-            UpdateCounters();
+            UpdateFilter();
         }
 
         [RelayCommand]
@@ -134,7 +159,7 @@ namespace VDownload.Core.ViewModels.Home
             }
             _removedVideos.Clear();
 
-            UpdateCounters();
+            UpdateFilter();
         }
 
         [RelayCommand]
@@ -162,8 +187,34 @@ namespace VDownload.Core.ViewModels.Home
             CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        protected void UpdateCounters()
+        protected void UpdateFilter()
         {
+            Regex titleRegex = new Regex(TitleFilter);
+            Regex authorRegex = new Regex(AuthorFilter);
+
+            foreach (ObservableKeyValuePair<VideoViewModel, bool> item in Videos)
+            {
+                if (!titleRegex.IsMatch(item.Key.Title))
+                {
+                    item.Value = false;
+                    continue;
+                }
+
+                if (!authorRegex.IsMatch(item.Key.Author))
+                {
+                    item.Value = false;
+                    continue;
+                }
+
+                if (_removedVideos.Contains(item.Key))
+                {
+                    item.Value = false;
+                    continue;
+                }
+
+                item.Value = true;
+            }
+
             RemovedCount = _removedVideos.Count;
             HiddenCount = Videos.Values.Where(x => !x).Count();
             IsSomethingHidden = HiddenCount > 0;
