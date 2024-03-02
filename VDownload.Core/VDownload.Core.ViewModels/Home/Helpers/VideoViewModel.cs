@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,6 +72,8 @@ namespace VDownload.Core.ViewModels.Home.Helpers
         [ObservableProperty]
         protected AudioExtension _audioExtension;
 
+        public Video Video { get; protected set; }
+
         #endregion
 
 
@@ -81,6 +84,8 @@ namespace VDownload.Core.ViewModels.Home.Helpers
         {
             _settingsService = settingsService;
             _storagePickerService = storagePickerService;
+
+            Video = video;
 
             ThumbnailUrl = video.ThumbnailUrl;
             Title = video.Title;
@@ -98,6 +103,26 @@ namespace VDownload.Core.ViewModels.Home.Helpers
             Filename = Title.Length > 50 ? Title.Substring(0, 50) : Title;
             VideoExtension = _settingsService.Data.Common.Tasks.DefaultVideoExtension;
             AudioExtension = _settingsService.Data.Common.Tasks.DefaultAudioExtension;
+        }
+
+        #endregion
+
+
+
+        #region PUBLIC METHODS
+
+        public VideoDownloadOptions BuildDownloadOptions()
+        {
+            return new VideoDownloadOptions(Duration)
+            {
+                MediaType = this.MediaType,
+                SelectedStream = this.SelectedStream,
+                TrimStart = this.TrimStart,
+                TrimEnd = this.TrimEnd,
+                Directory = this.DirectoryPath,
+                Filename = string.Join("_", this.Filename.Split(Path.GetInvalidFileNameChars())),
+                Extension = (this.MediaType == MediaType.OnlyAudio ? this.AudioExtension.ToString() : this.VideoExtension.ToString()).ToLower(),
+            };
         }
 
         #endregion

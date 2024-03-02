@@ -16,7 +16,7 @@ namespace VDownload.Models
         public DateTime PublishDate { get; set; }
         public TimeSpan Duration { get; set; }
         public long Views { get; set; }
-        public Uri ThumbnailUrl { get; set; }
+        public Uri? ThumbnailUrl { get; set; }
         public Uri Url { get; set; }
         public ICollection<VideoStream> Streams { get; private set; }
         public Source Source { get; protected set; }

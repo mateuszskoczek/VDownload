@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplyDirectoryButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Selected directory will be applied to all videos in playlist</value>
+  </data>
+  <data name="CreateAndStartButton.Content" xml:space="preserve">
+    <value>Create download tasks and start</value>
+  </data>
+  <data name="CreateButton.Content" xml:space="preserve">
+    <value>Create download tasks</value>
+  </data>
   <data name="DirectorySettingsCard.Header" xml:space="preserve">
     <value>Directory</value>
   </data>
@@ -134,6 +143,33 @@
   </data>
   <data name="FileTypeSettingsCard.Header" xml:space="preserve">
     <value>File type</value>
+  </data>
+  <data name="FilterAuthorTextBlock.Text" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="FilterAuthorTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter regular expression</value>
+  </data>
+  <data name="FilterDateTextBlock.Text" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="FilterDurationTextBlock.Text" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="FilterRemovedButton.Content" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="FilterRemovedTextBlock.Text" xml:space="preserve">
+    <value>Removed</value>
+  </data>
+  <data name="FilterTitleTextBlock.Text" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="FilterTitleTextBox.PlaceholderText" xml:space="preserve">
+    <value>Enter regular expression</value>
+  </data>
+  <data name="FilterViewsTextBlock.Text" xml:space="preserve">
+    <value>Views</value>
   </data>
   <data name="FilterWindow.Title" xml:space="preserve">
     <value>Filter</value>

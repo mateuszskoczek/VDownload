@@ -148,6 +148,7 @@
           "width": 1920,
           "height": 1080
         },
+        "live_thumbnail_url_regex": "https:\\/\\/vod-secure\\.twitch\\.tv\\/_404\\/404_processing_%{width}x%{height}\\.png",
         "stream_playlist_regex": "#EXT-X-MEDIA:TYPE=VIDEO,GROUP-ID=\"\\w+\",NAME=\"(?<id>.+)\",AUTOSELECT=\\w+,DEFAULT=\\w+\\n#EXT-X-STREAM-INF:BANDWIDTH=\\d+,CODECS=\"(?<video_codec>.+),(?<audio_codec>.+)\",RESOLUTION=(?<width>\\d+)x(?<height>\\d+),VIDEO=\".+\"(?:,FRAME-RATE=(?<framerate>\\d+.\\d+))?\n(?<url>.+)"
       },
       "clip": {

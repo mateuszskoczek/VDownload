@@ -145,6 +145,7 @@
     <None Remove="Dictionaries\Images\ImagesHomePlaylistView.xaml" />
     <None Remove="Dictionaries\Images\ImagesHomeVideoView.xaml" />
     <None Remove="Dictionaries\Images\ImagesLogo.xaml" />
+    <None Remove="Dictionaries\Images\ImagesOther.xaml" />
     <None Remove="Dictionaries\Images\ImagesSources.xaml" />
   </ItemGroup>
 
@@ -152,9 +153,9 @@
     <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.240109" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
-    <PackageReference Include="SimpleToolkit.UI.WinUI.Converters" Version="1.4.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+    <PackageReference Include="SimpleToolkit.UI.WinUI.Converters" Version="1.6.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -183,6 +184,11 @@
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch\VDownload.Sources.Twitch.csproj" />
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Assets\Other\Thumbnail.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Update="Assets\BaseView\AuthenticationDark.png">
@@ -401,6 +407,9 @@
     <None Update="configuration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Dictionaries\Images\ImagesOther.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Dictionaries\Images\ImagesHomePlaylistView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

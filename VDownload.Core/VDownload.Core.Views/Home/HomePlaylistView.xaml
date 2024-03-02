@@ -14,7 +14,8 @@
     xmlns:ctuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:c="using:SimpleToolkit.UI.WinUI.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ViewBackgroundColor}">
+    Background="{ThemeResource ViewBackgroundColor}"
+    x:Name="Root">
 
     <Grid Padding="15"
           RowSpacing="20">
@@ -27,7 +28,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0"
                        VerticalAlignment="Center"
@@ -35,21 +35,128 @@
                        FontWeight="Bold"
                        FontSize="20"
                        TextWrapping="WrapWholeWords"/>
-            <AppBarToggleButton x:Name="FilterButton"
-                                Grid.Column="2" 
-                                Margin="-5"
-                                Icon="Filter" 
-                                Width="40" 
-                                Height="48">
-                <AppBarToggleButton.Resources>
-                    <TeachingTip x:Name="FilterWindow"
-                                 x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterWindow"
-                                 Target="{Binding ElementName=FilterButton}"
-                                 IsOpen="{Binding ElementName=FilterButton, Path=IsChecked, Mode=TwoWay}">
-                        <TextBox/>
-                    </TeachingTip>
-                </AppBarToggleButton.Resources>
-            </AppBarToggleButton>
+            <StackPanel Grid.Column="1"
+                        Orientation="Horizontal" 
+                        Margin="-5">
+                <AppBarToggleButton x:Name="FilterButton"
+                                    Icon="Filter" 
+                                    Width="40" 
+                                    Height="48">
+                    <AppBarToggleButton.Resources>
+                        <TeachingTip x:Name="FilterWindow"
+                                     x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterWindow"
+                                     Target="{Binding ElementName=FilterButton}"
+                                     PreferredPlacement="BottomLeft"
+                                     IsOpen="{Binding ElementName=FilterButton, Path=IsChecked, Mode=TwoWay}">
+                            <Grid VerticalAlignment="Top"
+                                  Margin="0,10,0,0"
+                                  ColumnSpacing="10"
+                                  RowSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterTitleTextBlock"
+                                           Grid.Row="0"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <TextBox x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterTitleTextBox"
+                                         Grid.Row="0"
+                                         Grid.Column="1"/>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterAuthorTextBlock"
+                                           Grid.Row="1"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <TextBox x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterAuthorTextBox"
+                                         Grid.Row="1"
+                                         Grid.Column="1"/>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterViewsTextBlock"
+                                           Grid.Row="2"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <Grid Grid.Row="2"
+                                      Grid.Column="1"
+                                      ColumnSpacing="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <NumberBox Grid.Column="0" 
+                                               SpinButtonPlacementMode="Compact"/>
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="-"/>
+                                    <NumberBox Grid.Column="2" 
+                                               SpinButtonPlacementMode="Compact"/>
+                                </Grid>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterDateTextBlock"
+                                           Grid.Row="3"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <Grid Grid.Row="3"
+                                      Grid.Column="1"
+                                      ColumnSpacing="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <CalendarDatePicker Grid.Column="0"/>
+                                    <TextBlock Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               Text="-"/>
+                                    <CalendarDatePicker Grid.Column="2"/>
+                                </Grid>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterDurationTextBlock"
+                                           Grid.Row="4"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <Grid Grid.Row="4"
+                                      Grid.Column="1"
+                                      RowSpacing="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <c:TimeSpanControl Grid.Row="0"/>
+                                    <c:TimeSpanControl Grid.Row="1"/>
+                                </Grid>
+                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterRemovedTextBlock"
+                                           Grid.Row="5"
+                                           Grid.Column="0"
+                                           VerticalAlignment="Center"/>
+                                <Grid Grid.Row="5"
+                                      Grid.Column="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                               VerticalAlignment="Center"
+                                               Text="{Binding RemovedCount}"/>
+                                    <Button x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/FilterRemovedButton"
+                                            Grid.Column="1"
+                                            Command="{Binding RestoreRemovedVideosCommand}"/>
+                                </Grid>
+                            </Grid>
+                        </TeachingTip>
+                    </AppBarToggleButton.Resources>
+                </AppBarToggleButton>
+                <AppBarButton x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/ApplyDirectoryButton"
+                              Icon="Folder"
+                              Width="40"
+                              Height="48"
+                              Command="{Binding SelectDirectoryCommand}"/>
+            </StackPanel>
         </Grid>
         <ScrollViewer Grid.Row="1">
             <ItemsControl ItemsSource="{Binding Videos}">
@@ -67,7 +174,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0"
-                                           Source="{Binding ThumbnailUrl}"
+                                           Source="{Binding ThumbnailUrl, TargetNullValue={StaticResource ImageOtherThumbnail}}"
                                            Height="100"/>
                                     <Grid Grid.Column="1"
                                           Margin="10"
@@ -144,7 +251,9 @@
                                                   Width="40" 
                                                   Height="48"
                                                   Icon="Delete"
-                                                  VerticalAlignment="Center"/>
+                                                  VerticalAlignment="Center"
+                                                  Command="{Binding ElementName=Root, Path=DataContext.RemoveVideoCommand}"
+                                                  CommandParameter="{Binding}"/>
                                 </Grid>
                             </Expander.Header>
                             <Expander.Content>
@@ -273,8 +382,13 @@
         </ScrollViewer>
         <StackPanel Grid.Row="2"
                     HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-            
+                    Orientation="Horizontal"
+                    Spacing="10">
+            <Button x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/CreateAndStartButton"
+                    Command="{Binding CreateTasksAndDownloadCommand}"/>
+            <Button x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/CreateButton"
+                    Style="{StaticResource AccentButtonStyle}" 
+                    Command="{Binding CreateTasksCommand}"/>
         </StackPanel>
     </Grid>
 </Page>

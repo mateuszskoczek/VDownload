@@ -46,7 +46,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" 
-                                           Source="{Binding Video.ThumbnailUrl}" 
+                                           Source="{Binding Video.ThumbnailUrl, TargetNullValue={StaticResource ImageOtherThumbnail}}" 
                                            VerticalAlignment="Stretch"/>
                                     <Grid Grid.Column="1"
                                           Margin="10"

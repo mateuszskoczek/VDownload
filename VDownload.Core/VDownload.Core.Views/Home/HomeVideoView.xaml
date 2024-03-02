@@ -31,7 +31,7 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0"
                     CornerRadius="{ThemeResource ControlCornerRadius}">
-                <Image Source="{Binding ThumbnailUrl}"
+                <Image Source="{Binding ThumbnailUrl, TargetNullValue={StaticResource ImageOtherThumbnail}}"
                        VerticalAlignment="Stretch"/>
             </Border>
             <StackPanel Grid.Column="1" 
