@@ -11,6 +11,7 @@ using VDownload.Core.Tasks;
 using VDownload.Models;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.StoragePicker;
+using VDownload.Services.Utility.Filename;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -22,6 +23,7 @@ namespace VDownload.Core.ViewModels.Home
 
         protected readonly ISettingsService _settingsService;
         protected readonly IStoragePickerService _storagePickerService;
+        protected readonly IFilenameService _filenameService;
 
         #endregion
 
@@ -89,11 +91,12 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeVideoViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService) 
+        public HomeVideoViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService) 
         {
             _tasksManager = tasksManager;
             _settingsService = settingsService;
             _storagePickerService = storagePickerService;
+            _filenameService = filenameService;
         }
 
         #endregion
@@ -121,7 +124,7 @@ namespace VDownload.Core.ViewModels.Home
             TrimStart = TimeSpan.Zero;
             TrimEnd = Duration;
             DirectoryPath = _settingsService.Data.Common.Tasks.DefaultOutputDirectory;
-            Filename = Title.Length > 50 ? Title.Substring(0, 50) : Title;
+            Filename = _filenameService.CreateFilename(_settingsService.Data.Common.Tasks.FilenameTemplate, video);
             VideoExtension = _settingsService.Data.Common.Tasks.DefaultVideoExtension;
             AudioExtension = _settingsService.Data.Common.Tasks.DefaultAudioExtension;
         }
@@ -167,7 +170,7 @@ namespace VDownload.Core.ViewModels.Home
                 TrimStart = this.TrimStart,
                 TrimEnd = this.TrimEnd,
                 Directory = this.DirectoryPath,
-                Filename = string.Join("_", this.Filename.Split(Path.GetInvalidFileNameChars())),
+                Filename = _filenameService.SanitizeFilename(this.Filename),
                 Extension = (this.MediaType == MediaType.OnlyAudio ? this.AudioExtension.ToString() : this.VideoExtension.ToString()).ToLower(),
             };
         }

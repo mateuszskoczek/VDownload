@@ -16,6 +16,7 @@ using VDownload.Services.UI.StoragePicker;
 using VDownload.Sources.Twitch.Configuration.Models;
 using SimpleToolkit.MVVM;
 using System.Text.RegularExpressions;
+using VDownload.Services.Utility.Filename;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -27,6 +28,7 @@ namespace VDownload.Core.ViewModels.Home
 
         protected readonly ISettingsService _settingsService;
         protected readonly IStoragePickerService _storagePickerService;
+        protected readonly IFilenameService _filenameService;
 
         #endregion
 
@@ -172,11 +174,12 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomePlaylistViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService)
+        public HomePlaylistViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService)
         {
             _tasksManager = tasksManager;
             _settingsService = settingsService;
             _storagePickerService = storagePickerService;
+            _filenameService = filenameService;
 
             _removedVideos = new List<VideoViewModel>();
 
@@ -221,7 +224,7 @@ namespace VDownload.Core.ViewModels.Home
             Videos.Clear();
             foreach (Video video in playlist)
             {
-                Videos.Add(new VideoViewModel(video, _settingsService, _storagePickerService), true);
+                Videos.Add(new VideoViewModel(video, _settingsService, _storagePickerService, _filenameService), true);
             }
             UpdateFilter();
         }

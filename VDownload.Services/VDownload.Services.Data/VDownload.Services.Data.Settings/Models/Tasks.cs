@@ -19,6 +19,9 @@ namespace VDownload.Services.Data.Settings.Models
         [JsonProperty("default_audio_extension")]
         public AudioExtension DefaultAudioExtension { get; set; } = AudioExtension.MP3;
 
+        [JsonProperty("filename_template")]
+        public string FilenameTemplate { get; set; } = "{title}";
+
         [JsonProperty("default_output_directory")]
         public string DefaultOutputDirectory { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 

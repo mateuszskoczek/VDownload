@@ -16,6 +16,7 @@ using VDownload.Core.Views.Home;
 using VDownload.Core.Views.Settings;
 using VDownload.Services.Data.Authentication;
 using VDownload.Services.Data.Configuration;
+using VDownload.Services.Data.Configuration.Models;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.DictionaryResources;
@@ -25,6 +26,7 @@ using VDownload.Services.UI.StringResources;
 using VDownload.Services.UI.WebView;
 using VDownload.Services.Utility.Encryption;
 using VDownload.Services.Utility.FFmpeg;
+using VDownload.Services.Utility.Filename;
 using VDownload.Services.Utility.HttpClient;
 using VDownload.Sources;
 using VDownload.Sources.Twitch;
@@ -119,6 +121,7 @@ namespace VDownload
             services.AddSingleton<IEncryptionService, EncryptionService>();
             services.AddSingleton<IHttpClientService, HttpClientService>();
             services.AddSingleton<IFFmpegService, FFmpegService>();
+            services.AddSingleton<IFilenameService, FilenameService>();
         }
 
         protected void BuildSourcesServices(IServiceCollection services)

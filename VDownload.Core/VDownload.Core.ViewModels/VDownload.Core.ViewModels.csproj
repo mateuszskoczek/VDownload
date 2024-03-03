@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StoragePicker\VDownload.Services.UI.StoragePicker.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StringResources\VDownload.Services.UI.StringResources.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.WebView\VDownload.Services.UI.WebView.csproj" />
+    <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Filename\VDownload.Services.Utility.Filename.csproj" />
     <ProjectReference Include="..\..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />
     <ProjectReference Include="..\..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
     <ProjectReference Include="..\VDownload.Core.Tasks\VDownload.Core.Tasks.csproj" />
