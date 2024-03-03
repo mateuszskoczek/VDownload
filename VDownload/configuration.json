@@ -1,5 +1,35 @@
 {
   "common": {
+    "filename_templates": [
+      {
+        "name": "id",
+        "wildcard": "{id}"
+      },
+      {
+        "name": "title",
+        "wildcard": "{title}"
+      },
+      {
+        "name": "author",
+        "wildcard": "{author}"
+      },
+      {
+        "name": "views",
+        "wildcard": "{views}"
+      },
+      {
+        "name": "source",
+        "wildcard": "{source}"
+      },
+      {
+        "name": "date",
+        "wildcard": "{date:(.+)}"
+      },
+      {
+        "name": "duration",
+        "wildcard": "{duration:(.+)}"
+      }
+    ],
     "processing": {
       "muxers": [
         {

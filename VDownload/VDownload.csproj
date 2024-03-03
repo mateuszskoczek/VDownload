@@ -181,6 +181,7 @@
     <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.WebView\VDownload.Services.UI.WebView.csproj" />
     <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Encryption\VDownload.Services.Utility.Encryption.csproj" />
     <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.FFmpeg\VDownload.Services.Utility.FFmpeg.csproj" />
+    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Filename\VDownload.Services.Utility.Filename.csproj" />
     <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.HttpClient\VDownload.Services.Utility.HttpClient.csproj" />
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Api\VDownload.Sources.Twitch.Api.csproj" />
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />

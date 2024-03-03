@@ -176,6 +176,7 @@ namespace VDownload.Sources.Twitch
             }
             TwitchVod vod = new TwitchVod
             {
+                Id = data.Id,
                 Title = data.Title,
                 Description = data.Description,
                 Author = data.UserName,
@@ -201,6 +202,7 @@ namespace VDownload.Sources.Twitch
 
             TwitchClip clip = new TwitchClip
             {
+                Id = data.Id,
                 Title = data.Title,
                 Author = data.BroadcasterName,
                 Creator = data.CreatorName,
