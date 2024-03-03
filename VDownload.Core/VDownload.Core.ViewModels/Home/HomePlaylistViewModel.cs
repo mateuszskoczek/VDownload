@@ -17,6 +17,9 @@ using VDownload.Sources.Twitch.Configuration.Models;
 using SimpleToolkit.MVVM;
 using System.Text.RegularExpressions;
 using VDownload.Services.Utility.Filename;
+using VDownload.Services.UI.Dialogs;
+using VDownload.Services.UI.StringResources;
+using CommunityToolkit.WinUI.Helpers;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -29,6 +32,8 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly ISettingsService _settingsService;
         protected readonly IStoragePickerService _storagePickerService;
         protected readonly IFilenameService _filenameService;
+        protected readonly IDialogsService _dialogsService;
+        protected readonly IStringResourcesService _stringResourcesService;
 
         #endregion
 
@@ -174,12 +179,14 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomePlaylistViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService)
+        public HomePlaylistViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService)
         {
             _tasksManager = tasksManager;
             _settingsService = settingsService;
             _storagePickerService = storagePickerService;
             _filenameService = filenameService;
+            _dialogsService = dialogsService;
+            _stringResourcesService = stringResourcesService;
 
             _removedVideos = new List<VideoViewModel>();
 
@@ -271,10 +278,10 @@ namespace VDownload.Core.ViewModels.Home
         }
 
         [RelayCommand]
-        public void CreateTasksAndDownload() => CreateTasks(true);
+        public async Task CreateTasksAndDownload() => await CreateTasks(true);
 
         [RelayCommand]
-        public void CreateTasks() => CreateTasks(false);
+        public async Task CreateTasks() => await CreateTasks(false);
 
         #endregion
 
@@ -282,8 +289,16 @@ namespace VDownload.Core.ViewModels.Home
 
         #region PRIVATE METHODS
 
-        protected void CreateTasks(bool download)
+        protected async Task CreateTasks(bool download)
         {
+            if (download && NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
+            {
+                string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
+                string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
+                DialogResultYesNo result = await _dialogsService.ShowYesNo(title, message);
+                download = result == DialogResultYesNo.Yes;
+            }
+
             IEnumerable<VideoViewModel> videos = Videos.Cast<ObservableKeyValuePair<VideoViewModel, bool>>()
                                                        .Where(x => x.Value)
                                                        .Select(x => x.Key);

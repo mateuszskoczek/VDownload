@@ -69,7 +69,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDownload.Core.Tasks", "VDo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDownload.Services.Utility.FFmpeg", "VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.FFmpeg\VDownload.Services.Utility.FFmpeg.csproj", "{A3166F8A-ECAD-4D4B-9BE3-96FEC799B27B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDownload.Services.Utility.Filename", "VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Filename\VDownload.Services.Utility.Filename.csproj", "{4647EFB5-A206-4F47-976D-BAED11B52579}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDownload.Services.Utility.Filename", "VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Filename\VDownload.Services.Utility.Filename.csproj", "{4647EFB5-A206-4F47-976D-BAED11B52579}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

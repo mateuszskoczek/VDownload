@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +11,9 @@ using System.Threading.Tasks;
 using VDownload.Core.Tasks;
 using VDownload.Models;
 using VDownload.Services.Data.Settings;
+using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.StoragePicker;
+using VDownload.Services.UI.StringResources;
 using VDownload.Services.Utility.Filename;
 
 namespace VDownload.Core.ViewModels.Home
@@ -24,6 +27,8 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly ISettingsService _settingsService;
         protected readonly IStoragePickerService _storagePickerService;
         protected readonly IFilenameService _filenameService;
+        protected readonly IDialogsService _dialogsService;
+        protected readonly IStringResourcesService _stringResourcesService;
 
         #endregion
 
@@ -91,12 +96,14 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeVideoViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService) 
+        public HomeVideoViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService) 
         {
             _tasksManager = tasksManager;
             _settingsService = settingsService;
             _storagePickerService = storagePickerService;
             _filenameService = filenameService;
+            _dialogsService = dialogsService;
+            _stringResourcesService = stringResourcesService;
         }
 
         #endregion
@@ -141,25 +148,34 @@ namespace VDownload.Core.ViewModels.Home
         }
 
         [RelayCommand]
-        public void CreateTask()
-        {
-            _tasksManager.AddTask(_video, BuildDownloadOptions());
-            CloseRequested?.Invoke(this, EventArgs.Empty);
-        }
+        public async Task CreateTask() => await CreateTask(false);
 
         [RelayCommand]
-        public void CreateTaskAndDownload()
-        {
-            DownloadTask task = _tasksManager.AddTask(_video, BuildDownloadOptions());
-            CloseRequested?.Invoke(this, EventArgs.Empty);
-            task.Enqueue();
-        }
+        public async Task CreateTaskAndDownload() => await CreateTask(true);
 
         #endregion
 
 
 
         #region PRIVATE METHODS
+
+        protected async Task CreateTask(bool download)
+        {
+            if (download && NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
+            {
+                string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
+                string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
+                DialogResultYesNo result = await _dialogsService.ShowYesNo(title, message);
+                download = result == DialogResultYesNo.Yes;
+            }
+
+            DownloadTask task = _tasksManager.AddTask(_video, BuildDownloadOptions());
+            CloseRequested?.Invoke(this, EventArgs.Empty);
+            if (download)
+            {
+                task.Enqueue();
+            }
+        }
 
         protected VideoDownloadOptions BuildDownloadOptions()
         {

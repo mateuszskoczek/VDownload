@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VDownload.Core.Tasks;
+using VDownload.Services.UI.Dialogs;
+using VDownload.Services.UI.StringResources;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -15,6 +18,9 @@ namespace VDownload.Core.ViewModels.Home
         #region SERVICES
 
         protected readonly IDownloadTaskManager _tasksManager;
+
+        protected readonly IDialogsService _dialogsService;
+        protected readonly IStringResourcesService _stringResourcesService;
 
         #endregion
 
@@ -33,10 +39,13 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeDownloadsViewModel(IDownloadTaskManager tasksManager)
+        public HomeDownloadsViewModel(IDownloadTaskManager tasksManager, IDialogsService dialogsService, IStringResourcesService stringResourcesService)
         {
             _tasksManager = tasksManager;
             _tasksManager.TaskCollectionChanged += Tasks_CollectionChanged;
+
+            _dialogsService = dialogsService;
+            _stringResourcesService = stringResourcesService;
 
             _taskListIsEmpty = _tasksManager.Tasks.Count == 0;
         }
@@ -59,7 +68,19 @@ namespace VDownload.Core.ViewModels.Home
             ];
             if (idleStatuses.Contains(task.Status))
             {
-                task.Enqueue();
+                bool continueEnqueue = true;
+                if (NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
+                {
+                    string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
+                    string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
+                    DialogResultYesNo result = await _dialogsService.ShowYesNo(title, message);
+                    continueEnqueue = result == DialogResultYesNo.Yes;
+                }
+
+                if (continueEnqueue)
+                {
+                    task.Enqueue();
+                }
             }
             else
             {
