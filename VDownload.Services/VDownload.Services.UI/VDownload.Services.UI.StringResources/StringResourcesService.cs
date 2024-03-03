@@ -12,6 +12,7 @@ namespace VDownload.Services.UI.StringResources
         StringResources HomeDownloadsViewResources { get; }
         StringResources AuthenticationViewResources { get; }
         StringResources NotificationsResources { get; }
+        StringResources SearchResources { get; }
     }
 
 
@@ -35,6 +36,7 @@ namespace VDownload.Services.UI.StringResources
         public StringResources HomeDownloadsViewResources { get; protected set; }
         public StringResources AuthenticationViewResources { get; protected set; }
         public StringResources NotificationsResources { get; protected set; }
+        public StringResources SearchResources { get; protected set; }
 
         #endregion
 
@@ -53,6 +55,7 @@ namespace VDownload.Services.UI.StringResources
             HomeDownloadsViewResources = BuildResource("HomeDownloadsViewResources");
             AuthenticationViewResources = BuildResource("AuthenticationViewResources");
             NotificationsResources = BuildResource("NotificationsResources");
+            SearchResources = BuildResource("SearchResources");
         }
 
         #endregion

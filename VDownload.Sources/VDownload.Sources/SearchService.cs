@@ -37,7 +37,7 @@ namespace VDownload.Sources
         {
             _urlMappings =
             [
-                .. configurationService.Twitch.Search.GeneralRegexes.Select(x => (new Regex(x), (ISourceSearchService)twitchSearchService)),
+                .. configurationService.Twitch.Search.GeneralRegexes.Select(x => (new Regex(x), twitchSearchService)),
             ];
         }
 
@@ -58,7 +58,8 @@ namespace VDownload.Sources
                     return await mapping.Service.SearchVideo(url);
                 }
             }
-            throw new MediaSearchException("Source is not supported"); // TODO : Change to string resource
+
+            throw CreateExceptionSourceNotSupported();
         }
 
         public async Task<Playlist> SearchPlaylist(string url, int maxVideoCount)
@@ -72,7 +73,8 @@ namespace VDownload.Sources
                     return await mapping.Service.SearchPlaylist(url, maxVideoCount);
                 }
             }
-            throw new MediaSearchException("Source is not supported"); // TODO : Change to string resource
+
+            throw CreateExceptionSourceNotSupported();
         }
 
         #endregion
@@ -81,13 +83,16 @@ namespace VDownload.Sources
 
         #region PRIVATE METHODS
 
-        private void BaseUrlCheck(string url)
+        protected void BaseUrlCheck(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
             {
-                throw new MediaSearchException("Url cannot be empty"); // TODO : Change to string resource
+                throw CreateExceptionEmptyUrl();
             }
         }
+
+        protected MediaSearchException CreateExceptionSourceNotSupported() => new MediaSearchException("SourceNotSupported");
+        protected MediaSearchException CreateExceptionEmptyUrl() => new MediaSearchException("EmptyUrl");
 
         #endregion 
     }

@@ -106,10 +106,24 @@
                 </ctuc:SwitchPresenter>
                 <StackPanel VerticalAlignment="Center" 
                             Orientation="Horizontal">
-                    <ProgressRing Width="20" 
-                                  Height="20" 
-                                  Margin="0,0,10,0"
-                                  Visibility="{Binding OptionBarLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <StackPanel.Resources>
+                        <x:Double x:Key="IconSize">20</x:Double>
+                        <Thickness x:Key="IconMargin">0,0,10,0</Thickness>
+                    </StackPanel.Resources>
+                    <ctuc:SwitchPresenter Value="{Binding OptionBarMessageIcon, Converter={StaticResource ObjectToStringConverter}}">
+                        <ctuc:Case Value="None"/>
+                        <ctuc:Case Value="ProgressRing">
+                            <ProgressRing Width="{StaticResource IconSize}" 
+                                          Height="{StaticResource IconSize}" 
+                                          Margin="{StaticResource IconMargin}"/>
+                        </ctuc:Case>
+                        <ctuc:Case Value="Error">
+                            <Image Width="{StaticResource IconSize}"
+                                   Height="{StaticResource IconSize}"
+                                   Margin="{StaticResource IconMargin}"
+                                   Source="{StaticResource ImageHomeViewError}"/>
+                        </ctuc:Case>
+                    </ctuc:SwitchPresenter>
                     <TextBlock Text="{Binding OptionBarMessage}"/>
                 </StackPanel>
             </ctuc:UniformGrid>

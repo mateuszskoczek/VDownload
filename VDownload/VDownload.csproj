@@ -84,6 +84,7 @@
     <Content Remove="Assets\HomeVideoView\TrimLight.png" />
     <Content Remove="Assets\HomeVideoView\ViewDark.png" />
     <Content Remove="Assets\HomeVideoView\ViewLight.png" />
+    <Content Remove="Assets\HomeView\Error.png" />
     <Content Remove="Assets\Logo\Logo.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
@@ -144,6 +145,7 @@
     <None Remove="Dictionaries\Images\ImagesHomeDownloadsView.xaml" />
     <None Remove="Dictionaries\Images\ImagesHomePlaylistView.xaml" />
     <None Remove="Dictionaries\Images\ImagesHomeVideoView.xaml" />
+    <None Remove="Dictionaries\Images\ImagesHomeView.xaml" />
     <None Remove="Dictionaries\Images\ImagesLogo.xaml" />
     <None Remove="Dictionaries\Images\ImagesOther.xaml" />
     <None Remove="Dictionaries\Images\ImagesSources.xaml" />
@@ -398,6 +400,9 @@
     <None Update="Assets\HomeVideoView\ViewLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\HomeView\Error.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Logo\Logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -407,6 +412,9 @@
     <None Update="configuration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Dictionaries\Images\ImagesHomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Dictionaries\Images\ImagesOther.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

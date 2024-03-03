@@ -19,6 +19,13 @@ namespace VDownload.Core.ViewModels.Home
     {
         #region ENUMS
 
+        public enum OptionBarMessageIconType
+        {
+            None,
+            ProgressRing,
+            Error
+        }
+
         public enum OptionBarContentType
         {
             None,
@@ -75,7 +82,7 @@ namespace VDownload.Core.ViewModels.Home
         private string _optionBarMessage;
 
         [ObservableProperty]
-        private bool _optionBarLoading;
+        private OptionBarMessageIconType _optionBarMessageIcon;
 
         [ObservableProperty]
         private bool _optionBarVideoSearchButtonChecked;
@@ -131,6 +138,7 @@ namespace VDownload.Core.ViewModels.Home
             MainContent = _downloadsView;
 
             OptionBarContent = OptionBarContentType.None;
+            OptionBarMessageIcon = OptionBarMessageIconType.None;
             OptionBarMessage = null;
             OptionBarVideoSearchButtonChecked = false;
             OptionBarPlaylistSearchButtonChecked = false;
@@ -156,6 +164,9 @@ namespace VDownload.Core.ViewModels.Home
         [RelayCommand]
         public void VideoSearchShow()
         {
+            OptionBarSearchNotPending = true;
+            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarMessage = null;
             MainContent = _downloadsView;
 
             if (OptionBarContent != OptionBarContentType.VideoSearch)
@@ -172,6 +183,9 @@ namespace VDownload.Core.ViewModels.Home
         [RelayCommand]
         public void PlaylistSearchShow()
         {
+            OptionBarSearchNotPending = true;
+            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarMessage = null;
             MainContent = _downloadsView;
 
             if (OptionBarContent != OptionBarContentType.PlaylistSearch)
@@ -189,7 +203,7 @@ namespace VDownload.Core.ViewModels.Home
         public async Task VideoSearchStart()
         {
             OptionBarSearchNotPending = false;
-            OptionBarLoading = true;
+            OptionBarMessageIcon = OptionBarMessageIconType.ProgressRing;
             OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
 
             Video video;
@@ -199,8 +213,8 @@ namespace VDownload.Core.ViewModels.Home
             }
             catch (MediaSearchException ex)
             {
-                OptionBarLoading = false;
-                OptionBarMessage = ex.Message;
+                OptionBarMessageIcon = OptionBarMessageIconType.Error;
+                OptionBarMessage = _stringResourcesService.SearchResources.Get(ex.StringCode);
                 OptionBarSearchNotPending = true;
                 return;
             }
@@ -210,7 +224,7 @@ namespace VDownload.Core.ViewModels.Home
             MainContent = _videoView;
 
             OptionBarSearchNotPending = true;
-            OptionBarLoading = false;
+            OptionBarMessageIcon = OptionBarMessageIconType.None;
             OptionBarMessage = null;
         }
 
@@ -218,7 +232,7 @@ namespace VDownload.Core.ViewModels.Home
         public async Task PlaylistSearchStart()
         {
             OptionBarSearchNotPending = false;
-            OptionBarLoading = true;
+            OptionBarMessageIcon = OptionBarMessageIconType.ProgressRing;
             OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
 
             Playlist playlist;
@@ -228,8 +242,8 @@ namespace VDownload.Core.ViewModels.Home
             }
             catch (MediaSearchException ex)
             {
-                OptionBarLoading = false;
-                OptionBarMessage = ex.Message;
+                OptionBarMessageIcon = OptionBarMessageIconType.Error;
+                OptionBarMessage = _stringResourcesService.SearchResources.Get(ex.StringCode);
                 OptionBarSearchNotPending = true;
                 return;
             }
@@ -239,7 +253,7 @@ namespace VDownload.Core.ViewModels.Home
             MainContent = _playlistView;
 
             OptionBarSearchNotPending = true;
-            OptionBarLoading = false;
+            OptionBarMessageIcon = OptionBarMessageIconType.None;
             OptionBarMessage = null;
         }
 
