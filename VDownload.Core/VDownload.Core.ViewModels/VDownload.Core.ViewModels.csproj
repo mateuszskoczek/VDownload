@@ -10,6 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.0.240109" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
@@ -18,7 +19,6 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\VDownload.Services.Utility.Network\VDownload.Services.Utility.Network.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Settings\VDownload.Services.Data.Settings.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Dialogs\VDownload.Services.UI.Dialogs.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.DictionaryResources\VDownload.Services.UI.DictionaryResources.csproj" />

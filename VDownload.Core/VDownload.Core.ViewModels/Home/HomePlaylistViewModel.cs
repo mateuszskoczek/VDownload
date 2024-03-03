@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 using VDownload.Services.Utility.Filename;
 using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.StringResources;
-using VDownload.Services.Utility.Network;
+using CommunityToolkit.WinUI.Helpers;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -32,7 +32,6 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly ISettingsService _settingsService;
         protected readonly IStoragePickerService _storagePickerService;
         protected readonly IFilenameService _filenameService;
-        protected readonly INetworkService _networkService;
         protected readonly IDialogsService _dialogsService;
         protected readonly IStringResourcesService _stringResourcesService;
 
@@ -180,13 +179,12 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomePlaylistViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, INetworkService networkService, IDialogsService dialogsService, IStringResourcesService stringResourcesService)
+        public HomePlaylistViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService)
         {
             _tasksManager = tasksManager;
             _settingsService = settingsService;
             _storagePickerService = storagePickerService;
             _filenameService = filenameService;
-            _networkService = networkService;
             _dialogsService = dialogsService;
             _stringResourcesService = stringResourcesService;
 
@@ -293,7 +291,7 @@ namespace VDownload.Core.ViewModels.Home
 
         protected async Task CreateTasks(bool download)
         {
-            if (download && _networkService.IsMetered)
+            if (download && NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
             {
                 string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
                 string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");

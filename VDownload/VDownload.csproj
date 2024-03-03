@@ -170,7 +170,6 @@
   <ItemGroup>
     <ProjectReference Include="..\VDownload.Core\VDownload.Core.ViewModels\VDownload.Core.ViewModels.csproj" />
     <ProjectReference Include="..\VDownload.Core\VDownload.Core.Views\VDownload.Core.Views.csproj" />
-    <ProjectReference Include="..\VDownload.Services.Utility.Network\VDownload.Services.Utility.Network.csproj" />
     <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Authentication\VDownload.Services.Data.Authentication.csproj" />
     <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Configuration\VDownload.Services.Data.Configuration.csproj" />
     <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Settings\VDownload.Services.Data.Settings.csproj" />

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +10,6 @@ using System.Threading.Tasks;
 using VDownload.Core.Tasks;
 using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.StringResources;
-using VDownload.Services.Utility.Network;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -19,7 +19,6 @@ namespace VDownload.Core.ViewModels.Home
 
         protected readonly IDownloadTaskManager _tasksManager;
 
-        protected readonly INetworkService _networkService;
         protected readonly IDialogsService _dialogsService;
         protected readonly IStringResourcesService _stringResourcesService;
 
@@ -40,12 +39,11 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeDownloadsViewModel(IDownloadTaskManager tasksManager, INetworkService networkService, IDialogsService dialogsService, IStringResourcesService stringResourcesService)
+        public HomeDownloadsViewModel(IDownloadTaskManager tasksManager, IDialogsService dialogsService, IStringResourcesService stringResourcesService)
         {
             _tasksManager = tasksManager;
             _tasksManager.TaskCollectionChanged += Tasks_CollectionChanged;
 
-            _networkService = networkService;
             _dialogsService = dialogsService;
             _stringResourcesService = stringResourcesService;
 
@@ -71,7 +69,7 @@ namespace VDownload.Core.ViewModels.Home
             if (idleStatuses.Contains(task.Status))
             {
                 bool continueEnqueue = true;
-                if (_networkService.IsMetered)
+                if (NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
                 {
                     string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
                     string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
