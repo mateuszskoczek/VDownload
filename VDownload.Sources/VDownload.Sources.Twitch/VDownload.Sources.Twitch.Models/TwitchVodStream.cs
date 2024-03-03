@@ -54,7 +54,7 @@ namespace VDownload.Sources.Twitch.Models
 
         #region PUBLIC METHODS
 
-        public async override Task<VideoStreamDownloadResult> Download(string taskTemporaryDirectory, IProgress<double> onProgress, CancellationToken token, TimeSpan trimStart, TimeSpan trimEnd)
+        public async override Task<VideoStreamDownloadResult> Download(string taskTemporaryDirectory, IProgress<double> onProgress, CancellationToken token, TimeSpan duration, TimeSpan trimStart, TimeSpan trimEnd)
         {
             token.ThrowIfCancellationRequested();
 
@@ -91,8 +91,6 @@ namespace VDownload.Sources.Twitch.Models
             }
 
             token.ThrowIfCancellationRequested();
-
-            TimeSpan duration = TimeSpan.FromTicks(chunks.Sum(x => x.Duration.Ticks));
 
             if (_settingsService.Data.Twitch.Vod.PassiveTrimming)
             {

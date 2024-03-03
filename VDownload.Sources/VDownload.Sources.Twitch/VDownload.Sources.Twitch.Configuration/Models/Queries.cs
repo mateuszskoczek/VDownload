@@ -5,6 +5,9 @@ namespace VDownload.Sources.Twitch.Configuration.Models{
     {
         [ConfigurationKeyName("get_video_token")]
         public GetVideoToken GetVideoToken { get; set; }
+
+        [ConfigurationKeyName("get_clip_token")]
+        public GetClipToken GetClipToken { get; set; }
     }
 
 }

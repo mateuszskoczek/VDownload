@@ -5,6 +5,9 @@ namespace VDownload.Sources.Twitch.Configuration.Models{
     {
         [ConfigurationKeyName("vod")]
         public DownloadVod Vod { get; set; }
+
+        [ConfigurationKeyName("clip")]
+        public DownloadClip Clip { get; set; }
     }
 
 }

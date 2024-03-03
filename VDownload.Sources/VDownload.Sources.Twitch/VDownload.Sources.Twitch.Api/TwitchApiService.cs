@@ -1,8 +1,13 @@
-﻿using VDownload.Services.Data.Configuration;
+﻿using System.Diagnostics;
+using VDownload.Services.Data.Configuration;
 using VDownload.Services.Utility.HttpClient;
+using VDownload.Sources.Twitch.Api.GQL.GetClipToken.Request;
+using VDownload.Sources.Twitch.Api.GQL.GetClipToken.Response;
 using VDownload.Sources.Twitch.Api.GQL.GetVideoToken.Response;
+using VDownload.Sources.Twitch.Api.Helix.GetClips.Response;
 using VDownload.Sources.Twitch.Api.Helix.GetUsers.Response;
 using VDownload.Sources.Twitch.Api.Helix.GetVideos.Response;
+using VDownload.Sources.Twitch.Configuration.Models;
 using VDownload.Sources.Twitch.Search.Models.GetVideoToken.Request;
 
 namespace VDownload.Sources.Twitch.Api
@@ -11,9 +16,11 @@ namespace VDownload.Sources.Twitch.Api
     {
         Task<string> AuthValidate(byte[] token);
         Task<GetVideoTokenResponse> GQLGetVideoToken(string id);
+        Task<GetClipTokenResponse> GQLGetClipToken(string id);
         Task<GetUsersResponse> HelixGetUser(string login, byte[] token);
         Task<GetVideosResponse> HelixGetVideo(string id, byte[] token);
         Task<GetVideosResponse> HelixGetUserVideos(string user_id, byte[] token, int count, string? cursor = null);
+        Task<GetClipsResponse> HelixGetClip(string id, byte[] token);
         Task<string> UsherGetVideoPlaylist(string id, string videoToken, string videoTokenSignature);
     }
 
@@ -99,6 +106,20 @@ namespace VDownload.Sources.Twitch.Api
             return await _httpClientService.SendRequestAsync<GetVideosResponse>(request);
         }
 
+        public async Task<GetClipsResponse> HelixGetClip(string id, byte[] token)
+        {
+            Token tokenData = new Token(_configurationService.Twitch.Api.Helix.TokenSchema, token);
+
+            HttpRequest request = new HttpRequest(HttpMethodType.GET, _configurationService.Twitch.Api.Helix.Endpoints.GetClips);
+
+            request.Query.Add("id", id);
+
+            request.Headers.Add("Authorization", tokenData.ToString());
+            request.Headers.Add("Client-Id", _configurationService.Twitch.Api.Helix.ClientId);
+
+            return await _httpClientService.SendRequestAsync<GetClipsResponse>(request);
+        }
+
         public async Task<GetVideoTokenResponse> GQLGetVideoToken(string id)
         {
             GetVideoTokenRequest requestBody = new GetVideoTokenRequest
@@ -121,6 +142,36 @@ namespace VDownload.Sources.Twitch.Api
             };
             request.Headers.Add("Client-Id", _configurationService.Twitch.Api.Gql.ClientId);
             return await _httpClientService.SendRequestAsync<GetVideoTokenResponse>(request);
+        }
+
+        public async Task<GetClipTokenResponse> GQLGetClipToken(string id)
+        {
+            Gql config = _configurationService.Twitch.Api.Gql;
+
+            GetClipTokenRequest requestBody = new GetClipTokenRequest
+            { 
+                OperationName = config.Queries.GetClipToken.OperationName,
+                Variables = new GetClipTokenVariables
+                {
+                    Slug = id
+                },
+                Extensions = new GQL.GetClipToken.Request.GetClipTokenExtensions
+                {
+                    PersistedQuery = new GetClipTokenPersistedQuery
+                    {
+                        Version = config.Queries.GetClipToken.PersistedQueryVersion,
+                        Sha256Hash = config.Queries.GetClipToken.PersistedQueryHash,
+                    }
+                }
+            };
+
+            HttpRequest request = new HttpRequest(HttpMethodType.POST, config.Endpoint)
+            {
+                Body = requestBody,
+            };
+            request.Headers.Add("Client-Id", config.ClientId);
+
+            return await _httpClientService.SendRequestAsync<GetClipTokenResponse>(request);
         }
 
         public async Task<string> UsherGetVideoPlaylist(string id, string videoToken, string videoTokenSignature)

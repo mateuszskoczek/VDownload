@@ -136,7 +136,6 @@ namespace VDownload.Services.Utility.FFmpeg
         private async Task BuildInputArgumentOptions(FFMpegArgumentOptions options)
         {
             options.UsingMultithreading(_settingsService.Data.Common.Processing.UseMultithreading);
-            options.WithSpeedPreset((Speed)_settingsService.Data.Common.Processing.Speed);
             if (_settingsService.Data.Common.Processing.UseHardwareAcceleration)
             {
                 options.WithHardwareAcceleration(HardwareAccelerationDevice.Auto);
@@ -183,6 +182,8 @@ namespace VDownload.Services.Utility.FFmpeg
             {
                 options.WithCustomArgument("-an");
             }
+
+            options.WithSpeedPreset((Speed)_settingsService.Data.Common.Processing.Speed);
         }
 
         #endregion

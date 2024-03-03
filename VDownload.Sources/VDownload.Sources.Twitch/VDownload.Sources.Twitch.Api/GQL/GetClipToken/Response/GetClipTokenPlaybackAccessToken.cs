@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VDownload.Sources.Twitch.Api.GQL.GetVideoToken.Request
+namespace VDownload.Sources.Twitch.Api.GQL.GetClipToken.Response
 {
-    public class GetVideoTokenVideoPlaybackAccessToken
+    public class GetClipTokenPlaybackAccessToken
     {
-        [JsonProperty("value")]
-        public string Value { get; set; }
-
         [JsonProperty("signature")]
         public string Signature { get; set; }
+
+        [JsonProperty("value")]
+        public string Value { get; set; }
 
         [JsonProperty("__typename")]
         public string Typename { get; set; }
