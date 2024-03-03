@@ -8,13 +8,21 @@ namespace VDownload.Sources.Common
 {
     public class MediaSearchException : Exception
     {
+        #region PROPERTIES
+
+        public string StringCode { get; protected set; }
+
+        #endregion
+
+
+
         #region CONSTRUCTORS
 
-        public MediaSearchException() : base() { }
-
-        public MediaSearchException(string message) : base(message) { }
-
-        public MediaSearchException(string message, Exception inner) : base(message, inner) { }
+        public MediaSearchException(string stringCode) : this(stringCode, stringCode) { }
+        public MediaSearchException(string stringCode, string message) : base(message)
+        {
+            StringCode = stringCode;
+        }
 
         #endregion
     }

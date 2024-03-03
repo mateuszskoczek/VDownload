@@ -32,7 +32,7 @@ namespace VDownload.Sources.Common
                     return video;
                 }
             }
-            throw new MediaSearchException("Invalid url"); // TODO : Change to string resource
+            throw CreateExceptionUnknownMediaType();
         }
 
         public async Task<Playlist> SearchPlaylist(string url, int maxVideoCount)
@@ -47,7 +47,7 @@ namespace VDownload.Sources.Common
                     return video;
                 }
             }
-            throw new MediaSearchException("Invalid url"); // TODO : Change to string resource
+            throw CreateExceptionUnknownMediaType();
         }
 
         #endregion
@@ -59,6 +59,9 @@ namespace VDownload.Sources.Common
         protected abstract IEnumerable<SearchRegexVideo> GetVideoRegexes();
 
         protected abstract IEnumerable<SearchRegexPlaylist> GetPlaylistRegexes();
+
+        protected MediaSearchException CreateExceptionUnknownMediaType() => new MediaSearchException("UnknownMediaType");
+        protected MediaSearchException CreateExceptionEmptyPlaylist() => new MediaSearchException("EmptyPlaylist");
 
         #endregion
     }

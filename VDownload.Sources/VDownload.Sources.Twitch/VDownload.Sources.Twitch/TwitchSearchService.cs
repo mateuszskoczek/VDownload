@@ -110,8 +110,22 @@ namespace VDownload.Sources.Twitch
         protected async Task<TwitchChannel> GetChannel(string id, int count)
         {
             byte[] token = await GetToken();
-            GetUsersResponse info = await _apiService.HelixGetUser(id, token);
-            Api.Helix.GetUsers.Response.Data userResponse = info.Data[0];
+
+            Api.Helix.GetUsers.Response.Data userResponse;
+            try
+            {
+                GetUsersResponse info = await _apiService.HelixGetUser(id, token);
+                if (info.Data.Count <= 0)
+                {
+                    throw CreateExceptionChannelNotFound();
+                }
+                userResponse = info.Data[0];
+            }
+            catch (InvalidOperationException ex)
+            {
+                // TODO: Add logging
+                throw;
+            }
 
             TwitchChannel channel = new TwitchChannel
             {
@@ -130,6 +144,12 @@ namespace VDownload.Sources.Twitch
             {
                 videos = count > 100 ? 100 : count;
                 GetVideosResponse videosResponse = await _apiService.HelixGetUserVideos(channel.Id, token, videos, cursor);
+
+                if (!tasks.Any() && !videosResponse.Data.Any())
+                {
+                    throw CreateExceptionEmptyPlaylist();
+                }
+
                 videosList = videosResponse.Data;
                 cursor = videosResponse.Pagination.Cursor;
                 tasks.AddRange(videosList.Select(ParseVod));
@@ -271,18 +291,19 @@ namespace VDownload.Sources.Twitch
 
         protected async Task<byte[]> GetToken()
         {
-            byte[]? token = await _twitchAuthenticationService.GetToken();
-            if (token is null)
-            {
-                throw new MediaSearchException("Not authenticated to Twitch"); // TODO : Change to string resource
-            }
+            byte[]? token = await _twitchAuthenticationService.GetToken() ?? throw CreateExceptionNotAuthenticated();
+
             TwitchValidationResult validation = await _twitchAuthenticationService.ValidateToken(token);
             if (!validation.Success)
             {
-                throw new MediaSearchException("Twitch authentication error"); // TODO : Change to string resource
+                throw CreateExceptionTokenValidationUnsuccessful();
             }
             return token;
         }
+
+        protected MediaSearchException CreateExceptionNotAuthenticated() => new MediaSearchException("TwitchNotAuthenticated");
+        protected MediaSearchException CreateExceptionTokenValidationUnsuccessful() => new MediaSearchException("TwitchTokenValidationUnsuccessful");
+        protected MediaSearchException CreateExceptionChannelNotFound() => new MediaSearchException("TwitchChannelNotFound");
 
         #endregion
     }

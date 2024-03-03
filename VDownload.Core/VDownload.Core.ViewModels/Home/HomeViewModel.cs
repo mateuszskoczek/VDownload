@@ -200,7 +200,7 @@ namespace VDownload.Core.ViewModels.Home
             catch (MediaSearchException ex)
             {
                 OptionBarLoading = false;
-                OptionBarMessage = ex.Message;
+                OptionBarMessage = _stringResourcesService.SearchResources.Get(ex.StringCode);
                 OptionBarSearchNotPending = true;
                 return;
             }
@@ -229,7 +229,7 @@ namespace VDownload.Core.ViewModels.Home
             catch (MediaSearchException ex)
             {
                 OptionBarLoading = false;
-                OptionBarMessage = ex.Message;
+                OptionBarMessage = _stringResourcesService.SearchResources.Get(ex.StringCode);
                 OptionBarSearchNotPending = true;
                 return;
             }
