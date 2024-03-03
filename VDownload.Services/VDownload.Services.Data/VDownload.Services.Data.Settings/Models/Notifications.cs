@@ -10,9 +10,9 @@ namespace VDownload.Services.Data.Settings.Models
     public class Notifications
     {
         [JsonProperty("on_successful")]
-        public bool OnSuccessful { get; set; } = true;
+        public bool OnSuccessful { get; set; } = false;
 
         [JsonProperty("on_unsuccessful")]
-        public bool OnUnsuccessful { get; set; } = true;
+        public bool OnUnsuccessful { get; set; } = false;
     }
 }

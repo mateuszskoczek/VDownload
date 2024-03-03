@@ -11,7 +11,6 @@ namespace VDownload.Models
         #region PROPERTIES
 
         public string Title { get; set; }
-        public string Description { get; set; }
         public string Author { get; set; }
         public DateTime PublishDate { get; set; }
         public TimeSpan Duration { get; set; }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace VDownload.Sources.Twitch.Models
 {
-    public class TwitchVod : TwitchVideo
+    public class TwitchClip : TwitchVideo
     {
         #region PROPERTIES
 
-        public string Description { get; set; }
+        public string Creator { get; set; }
 
         #endregion
     }

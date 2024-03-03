@@ -157,7 +157,7 @@ namespace VDownload.Core.Tasks
                     UpdateProgressWithDispatcher(value);
                 });
 
-                VideoStreamDownloadResult downloadResult = await DownloadOptions.SelectedStream.Download(tempDirectory, onProgressDownloading, token, DownloadOptions.TrimStart, DownloadOptions.TrimEnd);
+                VideoStreamDownloadResult downloadResult = await DownloadOptions.SelectedStream.Download(tempDirectory, onProgressDownloading, token, Video.Duration, DownloadOptions.TrimStart, DownloadOptions.TrimEnd);
 
                 Action<double> onProgressProcessing = (value) =>
                 {

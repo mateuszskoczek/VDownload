@@ -20,7 +20,7 @@ namespace VDownload.Models
 
         public override string ToString() => Name;
 
-        public abstract Task<VideoStreamDownloadResult> Download(string taskTemporaryDirectory, IProgress<double> onProgress, CancellationToken token, TimeSpan trimStart, TimeSpan trimEnd);
+        public abstract Task<VideoStreamDownloadResult> Download(string taskTemporaryDirectory, IProgress<double> onProgress, CancellationToken token, TimeSpan duration, TimeSpan trimStart, TimeSpan trimEnd);
 
         #endregion
     }

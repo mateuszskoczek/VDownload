@@ -6,7 +6,8 @@ namespace VDownload.Sources.Twitch
 {
     public interface ITwitchVideoStreamFactoryService
     {
-        TwitchVodStream CreateVodStream();
+        TwitchVodStream CreateVodStream(); 
+        TwitchClipStream CreateClipStream();
     }
 
 
@@ -40,6 +41,8 @@ namespace VDownload.Sources.Twitch
         #region PUBLIC METHODS
 
         public TwitchVodStream CreateVodStream() => new TwitchVodStream(_httpClient, _configurationService, _settingsService);
+
+        public TwitchClipStream CreateClipStream() => new TwitchClipStream(_httpClient, _configurationService, _settingsService);
 
         #endregion
     }
