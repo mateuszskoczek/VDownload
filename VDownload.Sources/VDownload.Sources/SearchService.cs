@@ -37,7 +37,7 @@ namespace VDownload.Sources
         {
             _urlMappings =
             [
-                .. configurationService.Twitch.Search.GeneralRegexes.Select(x => (new Regex(x), (ISourceSearchService)twitchSearchService)),
+                .. configurationService.Twitch.Search.GeneralRegexes.Select(x => (new Regex(x), twitchSearchService)),
             ];
         }
 

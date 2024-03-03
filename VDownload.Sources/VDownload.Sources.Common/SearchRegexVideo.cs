@@ -4,17 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using VDownload.Models;
 
 namespace VDownload.Sources.Common
 {
-    public class SearchRegex<TFunc> where TFunc : Delegate
+    public class SearchRegexVideo : SearchRegex<Func<string, Task<Video>>>
     {
-        #region PROPERTIES
-
-        public required Regex Regex { get; init; }
-
-        public TFunc SearchFunction { get; set; }
-
-        #endregion
     }
 }

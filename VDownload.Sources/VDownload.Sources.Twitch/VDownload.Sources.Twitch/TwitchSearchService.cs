@@ -21,13 +21,11 @@ namespace VDownload.Sources.Twitch
 {
     public interface ITwitchSearchService : ISourceSearchService
     {
-        new Task<TwitchPlaylist> SearchPlaylist(string url, int maxVideoCount);
-        new Task<TwitchVideo> SearchVideo(string url);
     }
 
 
 
-    public class TwitchSearchService : ITwitchSearchService
+    public class TwitchSearchService : SourceSearchService, ITwitchSearchService
     {
         #region SERVICES
 
@@ -35,8 +33,6 @@ namespace VDownload.Sources.Twitch
         protected readonly ITwitchApiService _apiService;
         protected readonly ITwitchAuthenticationService _twitchAuthenticationService;
         protected readonly ITwitchVideoStreamFactoryService _videoStreamFactoryService;
-
-        protected readonly Configuration.Models.Search _searchConfiguration;
 
         #endregion
 
@@ -50,53 +46,6 @@ namespace VDownload.Sources.Twitch
             _apiService = apiService;
             _twitchAuthenticationService = authenticationService;
             _videoStreamFactoryService = videoStreamFactoryService;
-
-            _searchConfiguration = _configurationService.Twitch.Search;
-        }
-
-        #endregion
-
-
-
-        #region PUBLIC METHODS
-
-        async Task<Video> ISourceSearchService.SearchVideo(string url) => await SearchVideo(url);
-        public async Task<TwitchVideo> SearchVideo(string url)
-        {
-            List<SearchRegex> regexes =
-            [
-                .. _searchConfiguration.Vod.Regexes.Select(x => new SearchRegex { Regex = new Regex(x), SearchFunction = async (id) => await GetVod(id) }),
-                .. _searchConfiguration.Clip.Regexes.Select(x => new SearchRegex { Regex = new Regex(x), SearchFunction = async (id) => await GetClip(id) }),
-            ];
-            foreach (SearchRegex regex in regexes)
-            {
-                Match match = regex.Regex.Match(url);
-                if (match.Success)
-                {
-                    string id = match.Groups[1].Value;
-                    return (TwitchVideo)await regex.SearchFunction.Invoke(id);
-                }
-            }
-            throw new MediaSearchException("Invalid url"); // TODO : Change to string resource
-        }
-
-        async Task<Playlist> ISourceSearchService.SearchPlaylist(string url, int maxVideoCount) => await SearchPlaylist(url, maxVideoCount);
-        public async Task<TwitchPlaylist> SearchPlaylist(string url, int maxVideoCount)
-        {
-            List<SearchRegex> regexes =
-            [
-                .. _searchConfiguration.Channel.Regexes.Select(x => new SearchRegex { Regex = new Regex(x), SearchFunction = async (id) => await GetChannel(id, maxVideoCount) }),
-            ];
-            foreach (SearchRegex regex in regexes)
-            {
-                Match match = regex.Regex.Match(url);
-                if (match.Success)
-                {
-                    string id = match.Groups[1].Value;
-                    return (TwitchPlaylist)await regex.SearchFunction.Invoke(id);
-                }
-            }
-            throw new MediaSearchException("Invalid url"); // TODO : Change to string resource
         }
 
         #endregion
@@ -104,6 +53,33 @@ namespace VDownload.Sources.Twitch
 
 
         #region PRIVATE METHODS
+
+        protected override IEnumerable<SearchRegexVideo> GetVideoRegexes()
+        {
+            return [
+                .._configurationService.Twitch.Search.Vod.Regexes.Select(x => new SearchRegexVideo
+                {
+                    Regex = new Regex(x),
+                    SearchFunction = async (id) => await GetVod(id)
+                }),
+                .._configurationService.Twitch.Search.Clip.Regexes.Select(x => new SearchRegexVideo
+                {
+                    Regex = new Regex(x),
+                    SearchFunction = async (id) => await GetClip(id)
+                }),
+            ];
+        }
+
+        protected override IEnumerable<SearchRegexPlaylist> GetPlaylistRegexes()
+        {
+            return [
+                .. _configurationService.Twitch.Search.Channel.Regexes.Select(x => new SearchRegexPlaylist
+                {
+                    Regex = new Regex(x),
+                    SearchFunction = async (id, maxVideoCount) => await GetChannel(id, maxVideoCount)
+                }),
+            ];
+        }
 
         protected async Task<TwitchVod> GetVod(string id)
         {
@@ -167,7 +143,7 @@ namespace VDownload.Sources.Twitch
             return channel;
         }
 
-        public async Task<TwitchVod> ParseVod(Api.Helix.GetVideos.Response.Data data)
+        protected async Task<TwitchVod> ParseVod(Api.Helix.GetVideos.Response.Data data)
         {
             Task<IEnumerable<TwitchVodStream>> streamsTask = GetVodStreams(data.Id);
 
