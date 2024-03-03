@@ -69,7 +69,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDownload.Core.Tasks", "VDo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDownload.Services.Utility.FFmpeg", "VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.FFmpeg\VDownload.Services.Utility.FFmpeg.csproj", "{A3166F8A-ECAD-4D4B-9BE3-96FEC799B27B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDownload.Services.Utility.Filename", "VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Filename\VDownload.Services.Utility.Filename.csproj", "{4647EFB5-A206-4F47-976D-BAED11B52579}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDownload.Services.Utility.Filename", "VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Filename\VDownload.Services.Utility.Filename.csproj", "{4647EFB5-A206-4F47-976D-BAED11B52579}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDownload.Services.Utility.Network", "VDownload.Services.Utility.Network\VDownload.Services.Utility.Network.csproj", "{08AEC43D-34C3-4B19-A577-B69FF755BD7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -521,6 +523,22 @@ Global
 		{4647EFB5-A206-4F47-976D-BAED11B52579}.Release|x64.Build.0 = Release|Any CPU
 		{4647EFB5-A206-4F47-976D-BAED11B52579}.Release|x86.ActiveCfg = Release|Any CPU
 		{4647EFB5-A206-4F47-976D-BAED11B52579}.Release|x86.Build.0 = Release|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Debug|x64.Build.0 = Debug|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Debug|x86.Build.0 = Debug|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Release|ARM64.Build.0 = Release|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Release|x64.ActiveCfg = Release|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Release|x64.Build.0 = Release|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Release|x86.ActiveCfg = Release|Any CPU
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -555,6 +573,7 @@ Global
 		{3BE998A3-1126-4496-BF60-80D0CEA4D24F} = {8539067C-9968-4AEB-928C-FEDC43989A79}
 		{A3166F8A-ECAD-4D4B-9BE3-96FEC799B27B} = {1020167A-4101-496E-82CF-41B65769DD28}
 		{4647EFB5-A206-4F47-976D-BAED11B52579} = {1020167A-4101-496E-82CF-41B65769DD28}
+		{08AEC43D-34C3-4B19-A577-B69FF755BD7F} = {1020167A-4101-496E-82CF-41B65769DD28}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9FD7B842-C3E2-4FD0-AD8A-C8E619280AB7}

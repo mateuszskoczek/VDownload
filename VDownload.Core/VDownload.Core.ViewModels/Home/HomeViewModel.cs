@@ -9,9 +9,12 @@ using VDownload.Core.Tasks;
 using VDownload.Models;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Settings;
+using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.StringResources;
+using VDownload.Services.Utility.Network;
 using VDownload.Sources;
 using VDownload.Sources.Common;
+using VDownload.Sources.Twitch.Configuration.Models;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -49,6 +52,8 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly ISettingsService _settingsService;
         protected readonly IStringResourcesService _stringResourcesService;
         protected readonly ISearchService _searchService;
+        protected readonly INetworkService _networkService;
+        protected readonly IDialogsService _dialogsService;
 
         protected readonly IDownloadTaskManager _downloadTaskManager;
 
@@ -108,12 +113,14 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomePlaylistViewModel playlistViewModel)
+        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, INetworkService networkService, IDialogsService dialogsService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomePlaylistViewModel playlistViewModel)
         {
             _configurationService = configurationService;
             _settingsService = settingsService;
             _stringResourcesService = stringResourcesService;
             _searchService = searchService;
+            _networkService = networkService;
+            _dialogsService = dialogsService;
 
             _downloadTaskManager = downloadTaskManager;
 
@@ -258,8 +265,19 @@ namespace VDownload.Core.ViewModels.Home
         }
 
         [RelayCommand]
-        public void Download()
+        public async Task Download()
         {
+            if (_downloadTaskManager.Tasks.Count > 0 && _networkService.IsMetered)
+            {
+                string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
+                string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
+                DialogResultYesNo result = await _dialogsService.ShowYesNo(title, message);
+                if (result == DialogResultYesNo.No)
+                {
+                    return;
+                }
+            }
+
             foreach (DownloadTask task in _downloadTaskManager.Tasks)
             {
                 task.Enqueue();

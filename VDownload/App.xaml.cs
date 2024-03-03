@@ -28,6 +28,7 @@ using VDownload.Services.Utility.Encryption;
 using VDownload.Services.Utility.FFmpeg;
 using VDownload.Services.Utility.Filename;
 using VDownload.Services.Utility.HttpClient;
+using VDownload.Services.Utility.Network;
 using VDownload.Sources;
 using VDownload.Sources.Twitch;
 using VDownload.Sources.Twitch.Api;
@@ -122,6 +123,7 @@ namespace VDownload
             services.AddSingleton<IHttpClientService, HttpClientService>();
             services.AddSingleton<IFFmpegService, FFmpegService>();
             services.AddSingleton<IFilenameService, FilenameService>();
+            services.AddSingleton<INetworkService, NetworkService>();
         }
 
         protected void BuildSourcesServices(IServiceCollection services)

@@ -18,6 +18,7 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\VDownload.Services.Utility.Network\VDownload.Services.Utility.Network.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Settings\VDownload.Services.Data.Settings.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Dialogs\VDownload.Services.UI.Dialogs.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.DictionaryResources\VDownload.Services.UI.DictionaryResources.csproj" />
