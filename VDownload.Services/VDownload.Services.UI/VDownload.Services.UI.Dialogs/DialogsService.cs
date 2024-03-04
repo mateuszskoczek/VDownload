@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Services.UI.StringResources;
 
 namespace VDownload.Services.UI.Dialogs
 {
@@ -37,6 +38,26 @@ namespace VDownload.Services.UI.Dialogs
 
     public class DialogsService : IDialogsService
     {
+        #region SERVICES
+
+        protected readonly IStringResourcesService _stringResourcesService;
+
+        #endregion
+
+
+
+        #region FIELDS
+
+        protected string _okString;
+        protected string _closeString;
+        protected string _cancelString;
+        protected string _yesString;
+        protected string _noString;
+
+        #endregion
+
+
+
         #region PROPERTIES
 
         public XamlRoot DefaultRoot { get; set; }
@@ -45,10 +66,26 @@ namespace VDownload.Services.UI.Dialogs
 
 
 
+        #region CONSTRUCTORS
+
+        public DialogsService(IStringResourcesService stringResourcesService) 
+        { 
+            _stringResourcesService = stringResourcesService;
+            _okString = _stringResourcesService.DialogButtonsResources.Get("OK");
+            _closeString = _stringResourcesService.DialogButtonsResources.Get("Close");
+            _cancelString = _stringResourcesService.DialogButtonsResources.Get("Cancel");
+            _yesString = _stringResourcesService.DialogButtonsResources.Get("Yes");
+            _noString = _stringResourcesService.DialogButtonsResources.Get("No");
+        }
+
+        #endregion
+
+
+
         #region PUBLIC METHODS
 
-        public async Task ShowOk(string title, string message) => await ShowSingle(title, message, "OK");
-        public async Task ShowClose(string title, string message) => await ShowSingle(title, message, "Close");
+        public async Task ShowOk(string title, string message) => await ShowSingle(title, message, _okString);
+        public async Task ShowClose(string title, string message) => await ShowSingle(title, message, _closeString);
         public async Task ShowSingle(string title, string message, string buttonText)
         {
             ContentDialog contentDialog = BuildDialog(title, message);
@@ -56,12 +93,12 @@ namespace VDownload.Services.UI.Dialogs
             await ShowDialog(contentDialog);
         }
 
-        public async Task<DialogResultOkCancel> ShowOkCancel(string title, string message) => await ShowDouble(title, message, "OK", "Cancel") switch
+        public async Task<DialogResultOkCancel> ShowOkCancel(string title, string message) => await ShowDouble(title, message, _okString, _cancelString) switch
         {
             DialogResult.Primary => DialogResultOkCancel.Ok,
             _ => DialogResultOkCancel.Cancel
         };
-        public async Task<DialogResultYesNo> ShowYesNo(string title, string message) => await ShowDouble(title, message, "Yes", "No") switch
+        public async Task<DialogResultYesNo> ShowYesNo(string title, string message) => await ShowDouble(title, message, _yesString, _noString) switch
         {
             DialogResult.Primary => DialogResultYesNo.Yes,
             _ => DialogResultYesNo.No
@@ -74,7 +111,7 @@ namespace VDownload.Services.UI.Dialogs
             return await ShowDialog(contentDialog);
         }
 
-        public async Task<DialogResultYesNoCancel> ShowYesNoCancel(string title, string message) => await ShowTriple(title, message, "Yes", "No", "Cancel") switch
+        public async Task<DialogResultYesNoCancel> ShowYesNoCancel(string title, string message) => await ShowTriple(title, message, _yesString, _noString, _cancelString) switch
         {
             DialogResult.Primary => DialogResultYesNoCancel.Yes,
             DialogResult.Secondary => DialogResultYesNoCancel.Yes,
