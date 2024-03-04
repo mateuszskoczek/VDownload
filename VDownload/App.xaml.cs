@@ -108,12 +108,12 @@ namespace VDownload
 
         protected void BuildUIServices(IServiceCollection services)
         {
-            services.AddSingleton<IWebViewService, WebViewService>();
-            services.AddSingleton<IStoragePickerService, StoragePickerService>();
-            services.AddSingleton<IDialogsService, DialogsService>();
-            services.AddSingleton<INotificationsService, NotificationsService>();
             services.AddSingleton<IStringResourcesService, StringResourcesService>();
             services.AddSingleton<IDictionaryResourcesService, DictionaryResourcesService>();
+            services.AddSingleton<IWebViewService, WebViewService>();
+            services.AddSingleton<IStoragePickerService, StoragePickerService>();
+            services.AddSingleton<INotificationsService, NotificationsService>();
+            services.AddSingleton<IDialogsService, DialogsService>();
         }
 
         protected void BuildUtilityServices(IServiceCollection services)
