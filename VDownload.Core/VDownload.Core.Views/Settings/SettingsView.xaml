@@ -6,6 +6,11 @@
     xmlns:local="using:VDownload.Core.Views.Settings"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ctuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:ctc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     Background="{ThemeResource ViewBackgroundColor}">
 
@@ -19,5 +24,73 @@
                    Grid.Row="0"
                    FontSize="28"
                    FontWeight="SemiBold"/>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Spacing="20">
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/SearchingHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/SearchingPlaylistCount">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewSearchingPlaylistCount}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <NumberBox Value="{Binding SearchingPlaylistCount, Mode=TwoWay}"
+                                   Minimum="0"
+                                   SmallChange="1"
+                                   LargeChange="10"
+                                   SpinButtonPlacementMode="Compact"/>
+                    </ctc:SettingsCard>
+                </StackPanel>
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodPassiveTrimming">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{StaticResource ImageSourcesTwitch}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TwitchVodPassiveTrimming, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodParallelDownloads">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{StaticResource ImageSourcesTwitch}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <NumberBox Value="{Binding TwitchVodParallelDownloads, Mode=TwoWay}"
+                                   Minimum="1"
+                                   SmallChange="1"
+                                   LargeChange="10"
+                                   SpinButtonPlacementMode="Compact"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodChunkDownloadingErrorRetry">
+                        <ctc:SettingsExpander.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{StaticResource ImageSourcesTwitch}"/>
+                        </ctc:SettingsExpander.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TwitchVodChunkDownloadingErrorRetry, Mode=TwoWay}"/>
+                        <ctc:SettingsExpander.Items>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodChunkDownloadingErrorRetryCount"
+                                              IsEnabled="{Binding TwitchVodChunkDownloadingErrorRetry}">
+                                <NumberBox Value="{Binding TwitchVodChunkDownloadingErrorRetryCount, Mode=TwoWay}"
+                                           Minimum="1"
+                                           SmallChange="1"
+                                           LargeChange="10"
+                                           SpinButtonPlacementMode="Compact"/>
+                            </ctc:SettingsCard>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodChunkDownloadingErrorRetryDelay"
+                                              IsEnabled="{Binding TwitchVodChunkDownloadingErrorRetry}">
+                                <NumberBox Value="{Binding TwitchVodChunkDownloadingErrorRetryDelay, Mode=TwoWay}"
+                                           Minimum="0"
+                                           SmallChange="1"
+                                           LargeChange="10"
+                                           SpinButtonPlacementMode="Compact"/>
+                            </ctc:SettingsCard>
+                        </ctc:SettingsExpander.Items>
+                    </ctc:SettingsExpander>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

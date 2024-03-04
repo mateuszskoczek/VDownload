@@ -148,6 +148,7 @@
     <None Remove="Dictionaries\Images\ImagesHomeView.xaml" />
     <None Remove="Dictionaries\Images\ImagesLogo.xaml" />
     <None Remove="Dictionaries\Images\ImagesOther.xaml" />
+    <None Remove="Dictionaries\Images\ImagesSettingsView.xaml" />
     <None Remove="Dictionaries\Images\ImagesSources.xaml" />
   </ItemGroup>
 
@@ -190,6 +191,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="Assets\Other\Thumbnail.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\SearchingPlaylistCountDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\SearchingPlaylistCountLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -413,6 +420,9 @@
     <None Update="configuration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Dictionaries\Images\ImagesSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Dictionaries\Images\ImagesHomeView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

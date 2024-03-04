@@ -149,7 +149,7 @@ namespace VDownload.Core.ViewModels.Home
             OptionBarPlaylistSearchButtonChecked = false;
             OptionBarSearchNotPending = true;
             OptionBarVideoSearchTBValue = string.Empty;
-            OptionBarPlaylistSearchNBValue = _settingsService.Data.Common.MaxNumberOfVideosToGetFromPlaylist;
+            OptionBarPlaylistSearchNBValue = _settingsService.Data.Common.Searching.MaxNumberOfVideosToGetFromPlaylist;
             OptionBarPlaylistSearchTBValue = string.Empty;
         }
 

@@ -120,4 +120,37 @@
   <data name="Header.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="SearchingHeader.Text" xml:space="preserve">
+    <value>Searching</value>
+  </data>
+  <data name="SearchingPlaylistCount.Description" xml:space="preserve">
+    <value>0 = Get all</value>
+  </data>
+  <data name="SearchingPlaylistCount.Header" xml:space="preserve">
+    <value>Default number of videos fetched from playlist</value>
+  </data>
+  <data name="TwitchHeader.Text" xml:space="preserve">
+    <value>Twitch</value>
+  </data>
+  <data name="TwitchVodChunkDownloadingErrorRetry.Header" xml:space="preserve">
+    <value>Retry when downloading single VOD chunk fails</value>
+  </data>
+  <data name="TwitchVodChunkDownloadingErrorRetryCount.Header" xml:space="preserve">
+    <value>Number of retries</value>
+  </data>
+  <data name="TwitchVodChunkDownloadingErrorRetryDelay.Header" xml:space="preserve">
+    <value>Time between fail and retry (in miliseconds)</value>
+  </data>
+  <data name="TwitchVodParallelDownloads.Description" xml:space="preserve">
+    <value>WARNING: Too many chunks downloaded at once may cause performance problems</value>
+  </data>
+  <data name="TwitchVodParallelDownloads.Header" xml:space="preserve">
+    <value>Maximum number of VOD chunks downloaded in parallel</value>
+  </data>
+  <data name="TwitchVodPassiveTrimming.Description" xml:space="preserve">
+    <value>Only chunks from trim start to trim end range will be downloaded</value>
+  </data>
+  <data name="TwitchVodPassiveTrimming.Header" xml:space="preserve">
+    <value>VOD passive trimming</value>
+  </data>
 </root>

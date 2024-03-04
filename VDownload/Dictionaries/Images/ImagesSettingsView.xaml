@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <x:String x:Key="ImageSettingsViewSearchingPlaylistCount">/Assets/SettingsView/SearchingPlaylistCountLight.png</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <x:String x:Key="ImageSettingsViewSearchingPlaylistCount">/Assets/SettingsView/SearchingPlaylistCountDark.png</x:String>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
