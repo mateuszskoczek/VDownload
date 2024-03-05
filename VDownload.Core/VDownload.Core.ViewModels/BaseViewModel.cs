@@ -12,6 +12,7 @@ using VDownload.Core.ViewModels.Settings;
 using VDownload.Services.UI.DictionaryResources;
 using VDownload.Services.UI.StringResources;
 using SimpleToolkit.UI.Models;
+using VDownload.Core.ViewModels.About;
 
 namespace VDownload.Core.ViewModels
 {
@@ -72,6 +73,12 @@ namespace VDownload.Core.ViewModels
             (
                 new ObservableCollection<NavigationViewItem>
                 {
+                    new NavigationViewItem()
+                    {
+                        Name = _stringResourcesService.BaseViewResources.Get("AboutNavigationViewItem"),
+                        IconSource = _dictionaryResourcesService.Get<string>("ImageBaseViewAbout"),
+                        ViewModel = typeof(AboutViewModel),
+                    },
                     new NavigationViewItem()
                     {
                         Name = _stringResourcesService.BaseViewResources.Get("AuthenticationNavigationViewItem"),

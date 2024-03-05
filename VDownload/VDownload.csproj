@@ -197,6 +197,12 @@
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Assets\BaseView\AboutDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\BaseView\AboutLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\HomeVideoView\QualityDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

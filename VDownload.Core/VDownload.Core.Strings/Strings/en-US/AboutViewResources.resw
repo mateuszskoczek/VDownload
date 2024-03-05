@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutNavigationViewItem" xml:space="preserve">
-    <value>About</value>
-  </data>
-  <data name="AuthenticationNavigationViewItem" xml:space="preserve">
-    <value>Authentication</value>
-  </data>
-  <data name="HomeNavigationViewItem" xml:space="preserve">
-    <value>Home</value>
+  <data name="String1" xml:space="preserve">
+    <value>ss</value>
   </data>
 </root>
