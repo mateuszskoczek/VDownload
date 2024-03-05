@@ -12,8 +12,8 @@ namespace VDownload.Services.Data.Settings
 {
     public class CommonSettings
     {
-        [JsonProperty("max_number_of_videos_to_get_from_playlist")]
-        public int MaxNumberOfVideosToGetFromPlaylist { get; set; } = 0;
+        [JsonProperty("searching")]
+        public Searching Searching { get; set; } = new Searching();
 
         [JsonProperty("temp")]
         public Temp Temp { get; set; } = new Temp();

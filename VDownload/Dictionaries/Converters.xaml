@@ -12,4 +12,5 @@
 
     <ct:StringFormatConverter x:Key="StringFormatConverter"/>
     <ct:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <ct:BoolNegationConverter x:Key="BoolNegationConverter"/>
 </ResourceDictionary>

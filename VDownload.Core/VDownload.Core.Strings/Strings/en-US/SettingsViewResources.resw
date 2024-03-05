@@ -117,82 +117,115 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ApplyDirectoryButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Selected directory will be applied to all videos in playlist</value>
+  <data name="Header.Text" xml:space="preserve">
+    <value>Settings</value>
   </data>
-  <data name="CreateAndStartButton.Content" xml:space="preserve">
-    <value>Create download tasks and start</value>
+  <data name="NotificationsHeader.Text" xml:space="preserve">
+    <value>Notifications</value>
   </data>
-  <data name="CreateButton.Content" xml:space="preserve">
-    <value>Create download tasks</value>
+  <data name="NotificationsOnSuccessful.Header" xml:space="preserve">
+    <value>Show notifications when task ended successfully</value>
   </data>
-  <data name="DirectorySettingsCard.Header" xml:space="preserve">
-    <value>Directory</value>
+  <data name="NotificationsOnUnsuccessful.Header" xml:space="preserve">
+    <value>Show notifications when task ended unsuccessfully</value>
   </data>
-  <data name="DirectorySettingsCardButton.Content" xml:space="preserve">
+  <data name="ProcessingFFmpegLocation.Header" xml:space="preserve">
+    <value>FFmpeg location</value>
+  </data>
+  <data name="ProcessingFFmpegLocationButton.Content" xml:space="preserve">
     <value>Browse</value>
   </data>
-  <data name="FilenameSettingsCard.Header" xml:space="preserve">
-    <value>Filename</value>
+  <data name="ProcessingHeader.Text" xml:space="preserve">
+    <value>Processing</value>
   </data>
-  <data name="FileOptionsHeader.Text" xml:space="preserve">
-    <value>File options</value>
+  <data name="ProcessingSpeed.Header" xml:space="preserve">
+    <value>Speed</value>
   </data>
-  <data name="FileTypeSettingsCard.Description" xml:space="preserve">
-    <value>If original video is not in selected type, it will be converted</value>
+  <data name="ProcessingUseHardwareAcceleration.Header" xml:space="preserve">
+    <value>Use hardware acceleration</value>
   </data>
-  <data name="FileTypeSettingsCard.Header" xml:space="preserve">
-    <value>File type</value>
+  <data name="ProcessingUseMultithreading.Header" xml:space="preserve">
+    <value>Use multithreading</value>
   </data>
-  <data name="FilterAuthorTextBlock.Text" xml:space="preserve">
-    <value>Author</value>
+  <data name="RestoreToDefaultButton.Content" xml:space="preserve">
+    <value>Restore settings to default</value>
   </data>
-  <data name="FilterAuthorTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter regular expression</value>
+  <data name="SearchingHeader.Text" xml:space="preserve">
+    <value>Searching</value>
   </data>
-  <data name="FilterDateTextBlock.Text" xml:space="preserve">
-    <value>Date</value>
+  <data name="SearchingPlaylistCount.Description" xml:space="preserve">
+    <value>0 = Get all</value>
   </data>
-  <data name="FilterDurationTextBlock.Text" xml:space="preserve">
-    <value>Duration</value>
+  <data name="SearchingPlaylistCount.Header" xml:space="preserve">
+    <value>Default number of videos fetched from playlist</value>
   </data>
-  <data name="FilterRemovedButton.Content" xml:space="preserve">
-    <value>Restore</value>
+  <data name="TasksAudioExtension.Header" xml:space="preserve">
+    <value>Audio extension</value>
   </data>
-  <data name="FilterRemovedTextBlock.Text" xml:space="preserve">
-    <value>Removed</value>
+  <data name="TasksDefaultMediaOptions.Header" xml:space="preserve">
+    <value>Default media options</value>
   </data>
-  <data name="FilterTitleTextBlock.Text" xml:space="preserve">
-    <value>Title</value>
+  <data name="TasksDefaultOutputDirectory.Header" xml:space="preserve">
+    <value>Default output directory</value>
   </data>
-  <data name="FilterTitleTextBox.PlaceholderText" xml:space="preserve">
-    <value>Enter regular expression</value>
+  <data name="TasksDefaultOutputDirectoryButton.Content" xml:space="preserve">
+    <value>Browse</value>
   </data>
-  <data name="FilterViewsTextBlock.Text" xml:space="preserve">
-    <value>Views</value>
+  <data name="TasksFilenameTemplate.Header" xml:space="preserve">
+    <value>Filename template</value>
   </data>
-  <data name="FilterWindow.Title" xml:space="preserve">
-    <value>Filter</value>
+  <data name="TasksHeader.Text" xml:space="preserve">
+    <value>Tasks</value>
   </data>
-  <data name="HiddenTextBlock.Text" xml:space="preserve">
-    <value>Hidden: </value>
-  </data>
-  <data name="MediaOptionsHeader.Text" xml:space="preserve">
-    <value>Media options</value>
-  </data>
-  <data name="MediaTypeSettingsCard.Header" xml:space="preserve">
+  <data name="TasksMediaType.Header" xml:space="preserve">
     <value>Media type</value>
   </data>
-  <data name="QualitySettingsCard.Header" xml:space="preserve">
-    <value>Quality</value>
+  <data name="TasksRunningTasks.Header" xml:space="preserve">
+    <value>Maximum number of tasks running in parallel</value>
   </data>
-  <data name="TrimEndSettingsCard.Header" xml:space="preserve">
-    <value>End at</value>
+  <data name="TasksSaveLastOutputDirectory.Description" xml:space="preserve">
+    <value>Otherwise, default directory defined below (after expanding) will be used</value>
   </data>
-  <data name="TrimSettingsGroup.Header" xml:space="preserve">
-    <value>Trim</value>
+  <data name="TasksSaveLastOutputDirectory.Header" xml:space="preserve">
+    <value>Save last output directory</value>
   </data>
-  <data name="TrimStartSettingsCard.Header" xml:space="preserve">
-    <value>Start at</value>
+  <data name="TasksVideoExtension.Header" xml:space="preserve">
+    <value>Video extension</value>
+  </data>
+  <data name="TempDeleteOnFail.Header" xml:space="preserve">
+    <value>Delete task's temporary files when an error occurs</value>
+  </data>
+  <data name="TempDirectory.Header" xml:space="preserve">
+    <value>Temporary files location</value>
+  </data>
+  <data name="TempDirectoryButton.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="TempHeader.Text" xml:space="preserve">
+    <value>Temporary files</value>
+  </data>
+  <data name="TwitchHeader.Text" xml:space="preserve">
+    <value>Twitch</value>
+  </data>
+  <data name="TwitchVodChunkDownloadingErrorRetry.Header" xml:space="preserve">
+    <value>Retry when downloading single VOD chunk fails</value>
+  </data>
+  <data name="TwitchVodChunkDownloadingErrorRetryCount.Header" xml:space="preserve">
+    <value>Number of retries</value>
+  </data>
+  <data name="TwitchVodChunkDownloadingErrorRetryDelay.Header" xml:space="preserve">
+    <value>Time between fail and retry (in miliseconds)</value>
+  </data>
+  <data name="TwitchVodParallelDownloads.Description" xml:space="preserve">
+    <value>WARNING: Too many chunks downloaded at once may cause performance problems</value>
+  </data>
+  <data name="TwitchVodParallelDownloads.Header" xml:space="preserve">
+    <value>Maximum number of VOD chunks downloaded in parallel</value>
+  </data>
+  <data name="TwitchVodPassiveTrimming.Description" xml:space="preserve">
+    <value>Only chunks from trim start to trim end range will be downloaded</value>
+  </data>
+  <data name="TwitchVodPassiveTrimming.Header" xml:space="preserve">
+    <value>VOD passive trimming</value>
   </data>
 </root>

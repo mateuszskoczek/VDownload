@@ -18,6 +18,7 @@
                 <ResourceDictionary Source="Dictionaries/Images/ImagesHomeDownloadsView.xaml"/>
                 <ResourceDictionary Source="Dictionaries/Images/ImagesHomePlaylistView.xaml"/>
                 <ResourceDictionary Source="Dictionaries/Images/ImagesHomeVideoView.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesSettingsView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

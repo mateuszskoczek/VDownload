@@ -311,13 +311,13 @@
                                                     <DataTemplate>
                                                         <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
                                                             <ctuc:Case Value="Original">
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeOriginal"/>
+                                                                <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOriginal"/>
                                                             </ctuc:Case>
                                                             <ctuc:Case Value="OnlyVideo">
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeOnlyVideo"/>
+                                                                <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyVideo"/>
                                                             </ctuc:Case>
                                                             <ctuc:Case Value="OnlyAudio">
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomePlaylistViewResources/MediaTypeOnlyAudio"/>
+                                                                <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyAudio"/>
                                                             </ctuc:Case>
                                                         </ctuc:SwitchPresenter>
                                                     </DataTemplate>

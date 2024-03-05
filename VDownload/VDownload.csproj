@@ -13,6 +13,7 @@
 	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <UseRidGraph>true</UseRidGraph>
 	  <EnableCoreMrtTooling Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">false</EnableCoreMrtTooling>
+	  <ApplicationIcon>Assets\Logo\Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\BaseView\AuthenticationDark.png" />
@@ -76,8 +77,6 @@
     <Content Remove="Assets\HomeVideoView\FilenameLight.png" />
     <Content Remove="Assets\HomeVideoView\MediaDark.png" />
     <Content Remove="Assets\HomeVideoView\MediaLight.png" />
-    <Content Remove="Assets\HomeVideoView\QualityDark.png" />
-    <Content Remove="Assets\HomeVideoView\QualityLight.png" />
     <Content Remove="Assets\HomeVideoView\TimeDark.png" />
     <Content Remove="Assets\HomeVideoView\TimeLight.png" />
     <Content Remove="Assets\HomeVideoView\TrimDark.png" />
@@ -96,6 +95,12 @@
     <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-256.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-32.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Remove="Assets\SettingsView\ProcessingFFmpegLocationDark.png" />
+    <Content Remove="Assets\SettingsView\ProcessingFFmpegLocationLight.png" />
+    <Content Remove="Assets\SettingsView\TasksFilenameTemplateDark.png" />
+    <Content Remove="Assets\SettingsView\TasksFilenameTemplateLight.png" />
+    <Content Remove="Assets\SettingsView\TasksOutputDirectoryDark.png" />
+    <Content Remove="Assets\SettingsView\TasksOutputDirectoryLight.png" />
     <Content Remove="Assets\Sources\Twitch.png" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +144,8 @@
     <None Remove="Assets\Logo\Wide310x150Logo.scale-150.png" />
     <None Remove="Assets\Logo\Wide310x150Logo.scale-200.png" />
     <None Remove="Assets\Logo\Wide310x150Logo.scale-400.png" />
+    <None Remove="Assets\SettingsView\TasksDefaultMediaOptionsDark.png" />
+    <None Remove="Assets\SettingsView\TasksDefaultMediaOptionsLight.png" />
     <None Remove="Dictionaries\Colors.xaml" />
     <None Remove="Dictionaries\Converters.xaml" />
     <None Remove="Dictionaries\Images\ImagesBaseView.xaml" />
@@ -148,6 +155,7 @@
     <None Remove="Dictionaries\Images\ImagesHomeView.xaml" />
     <None Remove="Dictionaries\Images\ImagesLogo.xaml" />
     <None Remove="Dictionaries\Images\ImagesOther.xaml" />
+    <None Remove="Dictionaries\Images\ImagesSettingsView.xaml" />
     <None Remove="Dictionaries\Images\ImagesSources.xaml" />
   </ItemGroup>
 
@@ -189,7 +197,73 @@
     <ProjectReference Include="..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Assets\HomeVideoView\QualityDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\HomeVideoView\QualityLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\Other\Thumbnail.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\NotificationOnSuccessfulDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\NotificationOnSuccessfulLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\NotificationOnUnsuccessfulDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\NotificationOnUnsuccessfulLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingSpeedDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingSpeedLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingUseHardwareAccelerationDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingUseHardwareAccelerationLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingUseMultithreadingLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingUseMultithreadingDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TasksDefaultMediaOptionsDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TasksDefaultMediaOptionsLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TasksRunningTasksDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TasksRunningTasksLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\SearchingPlaylistCountDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\SearchingPlaylistCountLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TempDeleteOnFailDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TempDeleteOnFailLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TempDirectoryDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TempDirectoryLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -404,7 +478,28 @@
     <None Update="Assets\HomeView\Error.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\Logo\Logo.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\Logo\Logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\SettingsView\ProcessingFFmpegLocationDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\SettingsView\TasksOutputDirectoryDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\SettingsView\ProcessingFFmpegLocationLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\SettingsView\TasksOutputDirectoryLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\SettingsView\TasksFilenameTemplateDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\SettingsView\TasksFilenameTemplateLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Sources\Twitch.png">
@@ -413,6 +508,9 @@
     <None Update="configuration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Dictionaries\Images\ImagesSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Dictionaries\Images\ImagesHomeView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

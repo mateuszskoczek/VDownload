@@ -6,10 +6,293 @@
     xmlns:local="using:VDownload.Core.Views.Settings"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ctuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:ctc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:m="using:VDownload.Models"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ViewBackgroundColor}">
 
-    <Grid>
+    <Grid Padding="20"
+          RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/Header"
+                   Grid.Row="0"
+                   FontSize="28"
+                   FontWeight="SemiBold"/>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Spacing="20">
+                <!-- Searching -->
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/SearchingHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/SearchingPlaylistCount">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewSearchingPlaylistCount}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <NumberBox Value="{Binding SearchingPlaylistCount, Mode=TwoWay}"
+                                   Minimum="0"
+                                   SmallChange="1"
+                                   LargeChange="10"
+                                   SpinButtonPlacementMode="Compact"/>
+                    </ctc:SettingsCard>
+                </StackPanel>
 
+                <!-- Tasks -->
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksRunningTasks">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksRunningTasks}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <NumberBox Value="{Binding TasksRunningTasks, Mode=TwoWay}"
+                                   Minimum="1"
+                                   SmallChange="1"
+                                   LargeChange="10"
+                                   SpinButtonPlacementMode="Compact"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksDefaultMediaOptions">
+                        <ctc:SettingsExpander.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksDefaultMediaOptions}"/>
+                        </ctc:SettingsExpander.HeaderIcon>
+                        <ctc:SettingsExpander.Items>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksMediaType">
+                                <ComboBox ItemsSource="{ct:EnumValues Type=m:MediaType}"
+                                          SelectedItem="{Binding TasksMediaType, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
+                                                <ctuc:Case Value="Original">
+                                                    <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOriginal"/>
+                                                </ctuc:Case>
+                                                <ctuc:Case Value="OnlyVideo">
+                                                    <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyVideo"/>
+                                                </ctuc:Case>
+                                                <ctuc:Case Value="OnlyAudio">
+                                                    <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyAudio"/>
+                                                </ctuc:Case>
+                                            </ctuc:SwitchPresenter>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </ctc:SettingsCard>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksVideoExtension">
+                                <ComboBox ItemsSource="{ct:EnumValues Type=m:VideoExtension}"
+                                          SelectedItem="{Binding TasksVideoExtension, Mode=TwoWay}"/>
+                            </ctc:SettingsCard>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksAudioExtension">
+                                <ComboBox ItemsSource="{ct:EnumValues Type=m:AudioExtension}"
+                                          SelectedItem="{Binding TasksAudioExtension, Mode=TwoWay}"/>
+                            </ctc:SettingsCard>
+                        </ctc:SettingsExpander.Items>
+                    </ctc:SettingsExpander>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksFilenameTemplate">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksFilenameTemplate}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <TextBox Text="{Binding TasksFilenameTemplate, Mode=TwoWay}"
+                                 ToolTipService.ToolTip="{Binding TasksFilenameTemplateTooltip}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksSaveLastOutputDirectory">
+                        <ctc:SettingsExpander.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksOutputDirectory}"/>
+                        </ctc:SettingsExpander.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TasksSaveLastOutputDirectory, Mode=TwoWay}"/>
+                        <ctc:SettingsExpander.Items>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksDefaultOutputDirectory"
+                                              IsEnabled="{Binding TasksSaveLastOutputDirectory, Converter={StaticResource BoolNegationConverter}}"
+                                              Description="{Binding TasksDefaultOutputDirectory}">
+                                <Button x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksDefaultOutputDirectoryButton"
+                                        Command="{Binding BrowseTasksDefaultOutputDirectoryCommand}"/>
+                            </ctc:SettingsCard>
+                        </ctc:SettingsExpander.Items>
+                    </ctc:SettingsExpander>
+                </StackPanel>
+                
+                <!-- Processing -->
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingFFmpegLocation"
+                                      Description="{Binding ProcessingFFmpegLocation}">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewProcessingFFmpegLocation}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <Button x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingFFmpegLocationButton"
+                                Command="{Binding BrowseProcessingFFmpegLocationCommand}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingUseMultithreading">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewProcessingUseMultithreading}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding ProcessingUseMultithreading, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingUseHardwareAcceleration">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewProcessingUseHardwareAcceleration}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding ProcessingUseHardwareAcceleration, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingSpeed">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewProcessingSpeed}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ComboBox ItemsSource="{ct:EnumValues Type=m:ProcessingSpeed}"
+                                  SelectedItem="{Binding ProcessingSpeed, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
+                                        <ctuc:Case Value="VerySlow">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedVerySlow"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Slower">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedSlower"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Slow">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedSlow"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Medium">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedMedium"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Fast">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedFast"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Faster">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedFaster"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="VeryFast">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedVeryFast"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="SuperFast">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedSuperFast"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="UltraFast">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedUltraFast"/>
+                                        </ctuc:Case>
+                                    </ctuc:SwitchPresenter>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </ctc:SettingsCard>
+                </StackPanel>                
+                
+                <!-- Notifications -->
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/NotificationsHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/NotificationsOnSuccessful">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewNotificationOnSuccessful}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding NotificationsOnSuccessful, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/NotificationsOnUnsuccessful">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewNotificationOnUnsuccessful}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding NotificationsOnUnsuccessful, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                </StackPanel>
+                
+                <!-- Temporary files -->
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TempHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TempDirectory"
+                                      Description="{Binding TempDirectory}">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTempDirectory}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <Button x:Uid="/VDownload.Core.Strings/SettingsViewResources/TempDirectoryButton"
+                                Command="{Binding BrowseTempDirectoryCommand}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TempDeleteOnFail">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTempDeleteOnFail}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TempDeleteOnFail, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                </StackPanel>
+                
+                <!-- Twitch -->
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodPassiveTrimming">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{StaticResource ImageSourcesTwitch}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TwitchVodPassiveTrimming, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodParallelDownloads">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{StaticResource ImageSourcesTwitch}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <NumberBox Value="{Binding TwitchVodParallelDownloads, Mode=TwoWay}"
+                                   Minimum="1"
+                                   SmallChange="1"
+                                   LargeChange="10"
+                                   SpinButtonPlacementMode="Compact"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodChunkDownloadingErrorRetry">
+                        <ctc:SettingsExpander.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{StaticResource ImageSourcesTwitch}"/>
+                        </ctc:SettingsExpander.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TwitchVodChunkDownloadingErrorRetry, Mode=TwoWay}"/>
+                        <ctc:SettingsExpander.Items>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodChunkDownloadingErrorRetryCount"
+                                              IsEnabled="{Binding TwitchVodChunkDownloadingErrorRetry}">
+                                <NumberBox Value="{Binding TwitchVodChunkDownloadingErrorRetryCount, Mode=TwoWay}"
+                                           Minimum="1"
+                                           SmallChange="1"
+                                           LargeChange="10"
+                                           SpinButtonPlacementMode="Compact"/>
+                            </ctc:SettingsCard>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchVodChunkDownloadingErrorRetryDelay"
+                                              IsEnabled="{Binding TwitchVodChunkDownloadingErrorRetry}">
+                                <NumberBox Value="{Binding TwitchVodChunkDownloadingErrorRetryDelay, Mode=TwoWay}"
+                                           Minimum="0"
+                                           SmallChange="1"
+                                           LargeChange="10"
+                                           SpinButtonPlacementMode="Compact"/>
+                            </ctc:SettingsCard>
+                        </ctc:SettingsExpander.Items>
+                    </ctc:SettingsExpander>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Uid="/VDownload.Core.Strings/SettingsViewResources/RestoreToDefaultButton"
+                            Command="{Binding RestoreToDefaultCommand}"/>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

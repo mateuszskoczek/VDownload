@@ -117,6 +117,42 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MediaTypeOnlyAudio.Text" xml:space="preserve">
+    <value>Only audio</value>
+  </data>
+  <data name="MediaTypeOnlyVideo.Text" xml:space="preserve">
+    <value>Only video</value>
+  </data>
+  <data name="MediaTypeOriginal.Text" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="ProcessingSpeedFast.Text" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+  <data name="ProcessingSpeedFaster.Text" xml:space="preserve">
+    <value>Faster</value>
+  </data>
+  <data name="ProcessingSpeedMedium.Text" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="ProcessingSpeedSlow.Text" xml:space="preserve">
+    <value>Slow</value>
+  </data>
+  <data name="ProcessingSpeedSlower.Text" xml:space="preserve">
+    <value>Slower</value>
+  </data>
+  <data name="ProcessingSpeedSuperFast.Text" xml:space="preserve">
+    <value>Super fast</value>
+  </data>
+  <data name="ProcessingSpeedUltraFast.Text" xml:space="preserve">
+    <value>Ultra fast</value>
+  </data>
+  <data name="ProcessingSpeedVeryFast.Text" xml:space="preserve">
+    <value>Very fast</value>
+  </data>
+  <data name="ProcessingSpeedVerySlow.Text" xml:space="preserve">
+    <value>Very slow</value>
+  </data>
   <data name="StartAtMeteredConnectionDialogMessage" xml:space="preserve">
     <value>You are trying to download a video using a metered connection. Do you want to continue?</value>
   </data>

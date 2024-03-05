@@ -144,15 +144,6 @@
   <data name="MediaOptionsHeader.Text" xml:space="preserve">
     <value>Media options</value>
   </data>
-  <data name="MediaTypeOnlyAudio.Text" xml:space="preserve">
-    <value>Only audio</value>
-  </data>
-  <data name="MediaTypeOnlyVideo.Text" xml:space="preserve">
-    <value>Only video</value>
-  </data>
-  <data name="MediaTypeOriginal.Text" xml:space="preserve">
-    <value>Original</value>
-  </data>
   <data name="MediaTypeSettingsCard.Header" xml:space="preserve">
     <value>Media type</value>
   </data>

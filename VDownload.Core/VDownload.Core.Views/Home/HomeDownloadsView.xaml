@@ -98,15 +98,15 @@
                                                         Orientation="Horizontal">
                                                 <ctuc:SwitchPresenter Value="{Binding DownloadOptions.MediaType, Converter={StaticResource ObjectToStringConverter}}">
                                                     <ctuc:Case Value="Original">
-                                                        <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/MediaTypeOriginal"
+                                                        <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOriginal"
                                                                    FontSize="{StaticResource TextSize}"/>
                                                     </ctuc:Case>
                                                     <ctuc:Case Value="OnlyVideo">
-                                                        <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/MediaTypeOnlyVideo"
+                                                        <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyVideo"
                                                                    FontSize="{StaticResource TextSize}"/>
                                                     </ctuc:Case>
                                                     <ctuc:Case Value="OnlyAudio">
-                                                        <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/MediaTypeOnlyAudio"
+                                                        <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyAudio"
                                                                    FontSize="{StaticResource TextSize}"/>
                                                     </ctuc:Case>
                                                 </ctuc:SwitchPresenter>
