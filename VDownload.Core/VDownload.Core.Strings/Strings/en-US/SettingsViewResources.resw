@@ -162,6 +162,18 @@
   <data name="TasksVideoExtension.Header" xml:space="preserve">
     <value>Video extension</value>
   </data>
+  <data name="TempDeleteOnFail.Header" xml:space="preserve">
+    <value>Delete task's temporary files when an error occurs</value>
+  </data>
+  <data name="TempDirectory.Header" xml:space="preserve">
+    <value>Temporary files location</value>
+  </data>
+  <data name="TempDirectoryButton.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="TempHeader.Text" xml:space="preserve">
+    <value>Temporary files</value>
+  </data>
   <data name="TwitchHeader.Text" xml:space="preserve">
     <value>Twitch</value>
   </data>

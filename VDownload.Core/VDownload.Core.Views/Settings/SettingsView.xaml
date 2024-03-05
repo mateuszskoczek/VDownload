@@ -27,6 +27,7 @@
                    FontWeight="SemiBold"/>
         <ScrollViewer Grid.Row="1">
             <StackPanel Spacing="20">
+                <!-- Searching -->
                 <StackPanel Spacing="5">
                     <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/SearchingHeader"
                                FontWeight="Bold"
@@ -43,6 +44,8 @@
                                    SpinButtonPlacementMode="Compact"/>
                     </ctc:SettingsCard>
                 </StackPanel>
+
+                <!-- Tasks -->
                 <StackPanel Spacing="5">
                     <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksHeader"
                                FontWeight="Bold"
@@ -118,6 +121,31 @@
                         </ctc:SettingsExpander.Items>
                     </ctc:SettingsExpander>
                 </StackPanel>
+                
+                <!-- Temporary files -->
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TempHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TempDirectory"
+                                      Description="{Binding TempDirectory}">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTempDirectory}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <Button x:Uid="/VDownload.Core.Strings/SettingsViewResources/TempDirectoryButton"
+                                Command="{Binding BrowseTempDirectoryCommand}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TempDeleteOnFail">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTempDeleteOnFail}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TempDeleteOnFail, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                </StackPanel>
+                
+                <!-- Twitch -->
                 <StackPanel Spacing="5">
                     <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchHeader"
                                FontWeight="Bold"

@@ -76,6 +76,18 @@ namespace VDownload.Core.ViewModels.Settings
             set => SetProperty(_settingsService.Data.Common.Tasks.DefaultOutputDirectory, value, _settingsService.Data.Common.Tasks, (u, n) => u.DefaultOutputDirectory = n);
         }
 
+        public string TempDirectory
+        {
+            get => _settingsService.Data.Common.Temp.Directory;
+            set => SetProperty(_settingsService.Data.Common.Temp.Directory, value, _settingsService.Data.Common.Temp, (u, n) => u.Directory = n);
+        }
+
+        public bool TempDeleteOnFail
+        {
+            get => _settingsService.Data.Common.Temp.DeleteOnError;
+            set => SetProperty(_settingsService.Data.Common.Temp.DeleteOnError, value, _settingsService.Data.Common.Temp, (u, n) => u.DeleteOnError = n);
+        }
+
         public bool TwitchVodPassiveTrimming
         {
             get => _settingsService.Data.Twitch.Vod.PassiveTrimming;
@@ -140,6 +152,16 @@ namespace VDownload.Core.ViewModels.Settings
             if (newDirectory is not null)
             {
                 this.TasksDefaultOutputDirectory = newDirectory;
+            }
+        }
+
+        [RelayCommand]
+        public async Task BrowseTempDirectory()
+        {
+            string? newDirectory = await _storagePickerService.OpenDirectory();
+            if (newDirectory is not null)
+            {
+                this.TempDirectory = newDirectory;
             }
         }
 
