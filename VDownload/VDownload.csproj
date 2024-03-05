@@ -204,6 +204,18 @@
     <Content Update="Assets\Other\Thumbnail.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\SettingsView\NotificationOnSuccessfulDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\NotificationOnSuccessfulLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\NotificationOnUnsuccessfulDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\NotificationOnUnsuccessfulLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\SettingsView\TasksDefaultMediaOptionsDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

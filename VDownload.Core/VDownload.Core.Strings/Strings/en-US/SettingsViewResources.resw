@@ -120,6 +120,15 @@
   <data name="Header.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="NotificationsHeader.Text" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="NotificationsOnSuccessful.Header" xml:space="preserve">
+    <value>Show notifications when task ended successfully</value>
+  </data>
+  <data name="NotificationsOnUnsuccessful.Header" xml:space="preserve">
+    <value>Show notifications when task ended unsuccessfully</value>
+  </data>
   <data name="SearchingHeader.Text" xml:space="preserve">
     <value>Searching</value>
   </data>

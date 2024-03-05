@@ -122,6 +122,27 @@
                     </ctc:SettingsExpander>
                 </StackPanel>
                 
+                <!-- Notifications -->
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/NotificationsHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/NotificationsOnSuccessful">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewNotificationOnSuccessful}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding NotificationOnSuccessful, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/NotificationsOnUnsuccessful">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewNotificationOnUnsuccessful}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding NotificationOnUnsuccessful, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                </StackPanel>
+                
                 <!-- Temporary files -->
                 <StackPanel Spacing="5">
                     <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TempHeader"

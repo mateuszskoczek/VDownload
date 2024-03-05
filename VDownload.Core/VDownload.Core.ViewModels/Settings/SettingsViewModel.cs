@@ -76,6 +76,18 @@ namespace VDownload.Core.ViewModels.Settings
             set => SetProperty(_settingsService.Data.Common.Tasks.DefaultOutputDirectory, value, _settingsService.Data.Common.Tasks, (u, n) => u.DefaultOutputDirectory = n);
         }
 
+        public bool NotificationsOnSuccessful
+        {
+            get => _settingsService.Data.Common.Notifications.OnSuccessful;
+            set => SetProperty(_settingsService.Data.Common.Notifications.OnSuccessful, value, _settingsService.Data.Common.Notifications, (u, n) => u.OnSuccessful = n);
+        }
+
+        public bool NotificationsOnUnsuccessful
+        {
+            get => _settingsService.Data.Common.Notifications.OnUnsuccessful;
+            set => SetProperty(_settingsService.Data.Common.Notifications.OnUnsuccessful, value, _settingsService.Data.Common.Notifications, (u, n) => u.OnUnsuccessful = n);
+        }
+
         public string TempDirectory
         {
             get => _settingsService.Data.Common.Temp.Directory;
