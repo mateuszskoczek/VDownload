@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VDownload.Models;
@@ -74,6 +75,30 @@ namespace VDownload.Core.ViewModels.Settings
         {
             get => _settingsService.Data.Common.Tasks.DefaultOutputDirectory;
             set => SetProperty(_settingsService.Data.Common.Tasks.DefaultOutputDirectory, value, _settingsService.Data.Common.Tasks, (u, n) => u.DefaultOutputDirectory = n);
+        }
+
+        public string ProcessingFFmpegLocation
+        {
+            get => _settingsService.Data.Common.Processing.FFmpegLocation;
+            set => SetProperty(_settingsService.Data.Common.Processing.FFmpegLocation, value, _settingsService.Data.Common.Processing, (u, n) => u.FFmpegLocation = n);
+        }
+
+        public bool ProcessingUseHardwareAcceleration
+        {
+            get => _settingsService.Data.Common.Processing.UseHardwareAcceleration;
+            set => SetProperty(_settingsService.Data.Common.Processing.UseHardwareAcceleration, value, _settingsService.Data.Common.Processing, (u, n) => u.UseHardwareAcceleration = n);
+        }
+
+        public bool ProcessingUseMultithreading
+        {
+            get => _settingsService.Data.Common.Processing.UseMultithreading;
+            set => SetProperty(_settingsService.Data.Common.Processing.UseMultithreading, value, _settingsService.Data.Common.Processing, (u, n) => u.UseMultithreading = n);
+        }
+
+        public ProcessingSpeed ProcessingSpeed
+        {
+            get => _settingsService.Data.Common.Processing.Speed;
+            set => SetProperty(_settingsService.Data.Common.Processing.Speed, value, _settingsService.Data.Common.Processing, (u, n) => u.Speed = n);
         }
 
         public bool NotificationsOnSuccessful
@@ -174,6 +199,26 @@ namespace VDownload.Core.ViewModels.Settings
             if (newDirectory is not null)
             {
                 this.TempDirectory = newDirectory;
+            }
+        }
+
+        [RelayCommand]
+        public async Task BrowseProcessingFFmpegLocation()
+        {
+            string? newDirectory = await _storagePickerService.OpenDirectory();
+            if (newDirectory is not null)
+            {
+                this.ProcessingFFmpegLocation = newDirectory;
+            }
+        }
+
+        [RelayCommand]
+        public async Task RestoreToDefault()
+        {
+            await _settingsService.Restore();
+            foreach (PropertyInfo property in this.GetType().GetProperties()) 
+            {
+                base.OnPropertyChanged(property.Name);
             }
         }
 

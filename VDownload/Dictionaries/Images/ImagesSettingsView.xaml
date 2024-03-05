@@ -13,6 +13,10 @@
             <x:String x:Key="ImageSettingsViewTempDeleteOnFail">/Assets/SettingsView/TempDeleteOnFailLight.png</x:String>
             <x:String x:Key="ImageSettingsViewNotificationOnSuccessful">/Assets/SettingsView/NotificationOnSuccessfulLight.png</x:String>
             <x:String x:Key="ImageSettingsViewNotificationOnUnsuccessful">/Assets/SettingsView/NotificationOnUnsuccessfulLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingFFmpegLocation">/Assets/SettingsView/ProcessingFFmpegLocationLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingUseHardwareAcceleration">/Assets/SettingsView/ProcessingUseHardwareAccelerationLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingUseMultithreading">/Assets/SettingsView/ProcessingUseMultithreadingLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingSpeed">/Assets/SettingsView/ProcessingSpeedLight.png</x:String>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <x:String x:Key="ImageSettingsViewSearchingPlaylistCount">/Assets/SettingsView/SearchingPlaylistCountDark.png</x:String>
@@ -24,6 +28,10 @@
             <x:String x:Key="ImageSettingsViewTempDeleteOnFail">/Assets/SettingsView/TempDeleteOnFailDark.png</x:String>
             <x:String x:Key="ImageSettingsViewNotificationOnSuccessful">/Assets/SettingsView/NotificationOnSuccessfulDark.png</x:String>
             <x:String x:Key="ImageSettingsViewNotificationOnUnsuccessful">/Assets/SettingsView/NotificationOnUnsuccessfulDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingFFmpegLocation">/Assets/SettingsView/ProcessingFFmpegLocationDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingUseHardwareAcceleration">/Assets/SettingsView/ProcessingUseHardwareAccelerationDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingUseMultithreading">/Assets/SettingsView/ProcessingUseMultithreadingDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingSpeed">/Assets/SettingsView/ProcessingSpeedDark.png</x:String>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

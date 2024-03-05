@@ -95,6 +95,8 @@
     <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-256.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-32.png" />
     <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Remove="Assets\SettingsView\ProcessingFFmpegLocationDark.png" />
+    <Content Remove="Assets\SettingsView\ProcessingFFmpegLocationLight.png" />
     <Content Remove="Assets\SettingsView\TasksFilenameTemplateDark.png" />
     <Content Remove="Assets\SettingsView\TasksFilenameTemplateLight.png" />
     <Content Remove="Assets\SettingsView\TasksOutputDirectoryDark.png" />
@@ -214,6 +216,24 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\SettingsView\NotificationOnUnsuccessfulLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingSpeedDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingSpeedLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingUseHardwareAccelerationDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingUseHardwareAccelerationLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingUseMultithreadingLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\ProcessingUseMultithreadingDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Assets\SettingsView\TasksDefaultMediaOptionsDark.png">
@@ -464,7 +484,13 @@
     <None Update="Assets\Logo\Logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Assets\SettingsView\ProcessingFFmpegLocationDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Assets\SettingsView\TasksOutputDirectoryDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\SettingsView\ProcessingFFmpegLocationLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\SettingsView\TasksOutputDirectoryLight.png">

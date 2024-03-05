@@ -122,6 +122,78 @@
                     </ctc:SettingsExpander>
                 </StackPanel>
                 
+                <!-- Processing -->
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingFFmpegLocation"
+                                      Description="{Binding ProcessingFFmpegLocation}">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewProcessingFFmpegLocation}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <Button x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingFFmpegLocationButton"
+                                Command="{Binding BrowseProcessingFFmpegLocationCommand}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingUseMultithreading">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewProcessingUseMultithreading}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding ProcessingUseMultithreading, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingUseHardwareAcceleration">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewProcessingUseHardwareAcceleration}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding ProcessingUseHardwareAcceleration, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/ProcessingSpeed">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewProcessingSpeed}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ComboBox ItemsSource="{ct:EnumValues Type=m:ProcessingSpeed}"
+                                  SelectedItem="{Binding ProcessingSpeed, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
+                                        <ctuc:Case Value="VerySlow">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedVerySlow"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Slower">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedSlower"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Slow">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedSlow"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Medium">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedMedium"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Fast">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedFast"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="Faster">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedFaster"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="VeryFast">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedVeryFast"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="SuperFast">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedSuperFast"/>
+                                        </ctuc:Case>
+                                        <ctuc:Case Value="UltraFast">
+                                            <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/ProcessingSpeedUltraFast"/>
+                                        </ctuc:Case>
+                                    </ctuc:SwitchPresenter>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </ctc:SettingsCard>
+                </StackPanel>                
+                
                 <!-- Notifications -->
                 <StackPanel Spacing="5">
                     <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/NotificationsHeader"
@@ -132,14 +204,14 @@
                             <BitmapIcon ShowAsMonochrome="False" 
                                         UriSource="{ThemeResource ImageSettingsViewNotificationOnSuccessful}"/>
                         </ctc:SettingsCard.HeaderIcon>
-                        <ToggleSwitch IsOn="{Binding NotificationOnSuccessful, Mode=TwoWay}"/>
+                        <ToggleSwitch IsOn="{Binding NotificationsOnSuccessful, Mode=TwoWay}"/>
                     </ctc:SettingsCard>
                     <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/NotificationsOnUnsuccessful">
                         <ctc:SettingsCard.HeaderIcon>
                             <BitmapIcon ShowAsMonochrome="False" 
                                         UriSource="{ThemeResource ImageSettingsViewNotificationOnUnsuccessful}"/>
                         </ctc:SettingsCard.HeaderIcon>
-                        <ToggleSwitch IsOn="{Binding NotificationOnUnsuccessful, Mode=TwoWay}"/>
+                        <ToggleSwitch IsOn="{Binding NotificationsOnUnsuccessful, Mode=TwoWay}"/>
                     </ctc:SettingsCard>
                 </StackPanel>
                 
@@ -214,6 +286,11 @@
                             </ctc:SettingsCard>
                         </ctc:SettingsExpander.Items>
                     </ctc:SettingsExpander>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Uid="/VDownload.Core.Strings/SettingsViewResources/RestoreToDefaultButton"
+                            Command="{Binding RestoreToDefaultCommand}"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

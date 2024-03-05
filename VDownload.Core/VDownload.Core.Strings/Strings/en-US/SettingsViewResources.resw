@@ -129,6 +129,27 @@
   <data name="NotificationsOnUnsuccessful.Header" xml:space="preserve">
     <value>Show notifications when task ended unsuccessfully</value>
   </data>
+  <data name="ProcessingFFmpegLocation.Header" xml:space="preserve">
+    <value>FFmpeg location</value>
+  </data>
+  <data name="ProcessingFFmpegLocationButton.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="ProcessingHeader.Text" xml:space="preserve">
+    <value>Processing</value>
+  </data>
+  <data name="ProcessingSpeed.Header" xml:space="preserve">
+    <value>Speed</value>
+  </data>
+  <data name="ProcessingUseHardwareAcceleration.Header" xml:space="preserve">
+    <value>Use hardware acceleration</value>
+  </data>
+  <data name="ProcessingUseMultithreading.Header" xml:space="preserve">
+    <value>Use multithreading</value>
+  </data>
+  <data name="RestoreToDefaultButton.Content" xml:space="preserve">
+    <value>Restore settings to default</value>
+  </data>
   <data name="SearchingHeader.Text" xml:space="preserve">
     <value>Searching</value>
   </data>
@@ -163,7 +184,7 @@
     <value>Maximum number of tasks running in parallel</value>
   </data>
   <data name="TasksSaveLastOutputDirectory.Description" xml:space="preserve">
-    <value>Otherwise, default directory defined below will be used</value>
+    <value>Otherwise, default directory defined below (after expanding) will be used</value>
   </data>
   <data name="TasksSaveLastOutputDirectory.Header" xml:space="preserve">
     <value>Save last output directory</value>
