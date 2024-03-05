@@ -1,18 +1,26 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Models;
+using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Settings;
+using VDownload.Services.UI.StoragePicker;
+using VDownload.Services.UI.StringResources;
 
 namespace VDownload.Core.ViewModels.Settings
 {
-    public class SettingsViewModel : ObservableObject
+    public partial class SettingsViewModel : ObservableObject
     {
         #region SERVICES
 
         protected readonly ISettingsService _settingsService;
+        protected readonly IConfigurationService _configurationService;
+        protected readonly IStringResourcesService _stringResourcesService;
+        protected readonly IStoragePickerService _storagePickerService;
 
         #endregion
 
@@ -24,6 +32,48 @@ namespace VDownload.Core.ViewModels.Settings
         {
             get => _settingsService.Data.Common.Searching.MaxNumberOfVideosToGetFromPlaylist;
             set => SetProperty(_settingsService.Data.Common.Searching.MaxNumberOfVideosToGetFromPlaylist, value, _settingsService.Data.Common.Searching, (u, n) => u.MaxNumberOfVideosToGetFromPlaylist = n);
+        }
+
+        public int TasksRunningTasks
+        {
+            get => _settingsService.Data.Common.Tasks.MaxNumberOfRunningTasks;
+            set => SetProperty(_settingsService.Data.Common.Tasks.MaxNumberOfRunningTasks, value, _settingsService.Data.Common.Tasks, (u, n) => u.MaxNumberOfRunningTasks = n);
+        }
+
+        public MediaType TasksMediaType
+        {
+            get => _settingsService.Data.Common.Tasks.DefaultMediaType;
+            set => SetProperty(_settingsService.Data.Common.Tasks.DefaultMediaType, value, _settingsService.Data.Common.Tasks, (u, n) => u.DefaultMediaType = n);
+        }
+
+        public VideoExtension TasksVideoExtension
+        {
+            get => _settingsService.Data.Common.Tasks.DefaultVideoExtension;
+            set => SetProperty(_settingsService.Data.Common.Tasks.DefaultVideoExtension, value, _settingsService.Data.Common.Tasks, (u, n) => u.DefaultVideoExtension = n);
+        }
+
+        public AudioExtension TasksAudioExtension
+        {
+            get => _settingsService.Data.Common.Tasks.DefaultAudioExtension;
+            set => SetProperty(_settingsService.Data.Common.Tasks.DefaultAudioExtension, value, _settingsService.Data.Common.Tasks, (u, n) => u.DefaultAudioExtension = n);
+        }
+
+        public string TasksFilenameTemplate
+        {
+            get => _settingsService.Data.Common.Tasks.FilenameTemplate;
+            set => SetProperty(_settingsService.Data.Common.Tasks.FilenameTemplate, value, _settingsService.Data.Common.Tasks, (u, n) => u.FilenameTemplate = n);
+        }
+
+        public bool TasksSaveLastOutputDirectory
+        {
+            get => _settingsService.Data.Common.Tasks.SaveLastOutputDirectory;
+            set => SetProperty(_settingsService.Data.Common.Tasks.SaveLastOutputDirectory, value, _settingsService.Data.Common.Tasks, (u, n) => u.SaveLastOutputDirectory = n);
+        }
+
+        public string TasksDefaultOutputDirectory
+        {
+            get => _settingsService.Data.Common.Tasks.DefaultOutputDirectory;
+            set => SetProperty(_settingsService.Data.Common.Tasks.DefaultOutputDirectory, value, _settingsService.Data.Common.Tasks, (u, n) => u.DefaultOutputDirectory = n);
         }
 
         public bool TwitchVodPassiveTrimming
@@ -56,17 +106,41 @@ namespace VDownload.Core.ViewModels.Settings
             set => SetProperty(_settingsService.Data.Twitch.Vod.ChunkDownloadingError.RetryDelay, value, _settingsService.Data.Twitch.Vod.ChunkDownloadingError, (u, n) => u.RetryDelay = n);
         }
 
+        [ObservableProperty]
+        protected string _tasksFilenameTemplateTooltip;
+
         #endregion
 
 
 
         #region CONSTRUCTORS
 
-        public SettingsViewModel(ISettingsService settingsService)
+        public SettingsViewModel(ISettingsService settingsService, IConfigurationService configurationService, IStringResourcesService stringResourcesService, IStoragePickerService storagePickerService)
         {
             _settingsService = settingsService;
+            _configurationService = configurationService;
+            _stringResourcesService = stringResourcesService;
+            _storagePickerService = storagePickerService;
 
             base.PropertyChanged += PropertyChangedEventHandler;
+
+            _tasksFilenameTemplateTooltip = string.Join('\n', _configurationService.Common.FilenameTemplates.Select(x => _stringResourcesService.FilenameTemplateResources.Get(x.Name)));
+        }
+
+        #endregion
+
+
+
+        #region COMMANDS
+
+        [RelayCommand]
+        public async Task BrowseTasksDefaultOutputDirectory()
+        {
+            string? newDirectory = await _storagePickerService.OpenDirectory();
+            if (newDirectory is not null)
+            {
+                this.TasksDefaultOutputDirectory = newDirectory;
+            }
         }
 
         #endregion

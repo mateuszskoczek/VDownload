@@ -5,9 +5,17 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <x:String x:Key="ImageSettingsViewSearchingPlaylistCount">/Assets/SettingsView/SearchingPlaylistCountLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksDefaultMediaOptions">/Assets/SettingsView/TasksDefaultMediaOptionsLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksRunningTasks">/Assets/SettingsView/TasksRunningTasksLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksFilenameTemplate">/Assets/SettingsView/TasksFilenameTemplateLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksOutputDirectory">/Assets/SettingsView/TasksOutputDirectoryLight.png</x:String>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <x:String x:Key="ImageSettingsViewSearchingPlaylistCount">/Assets/SettingsView/SearchingPlaylistCountDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksDefaultMediaOptions">/Assets/SettingsView/TasksDefaultMediaOptionsDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksRunningTasks">/Assets/SettingsView/TasksRunningTasksDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksFilenameTemplate">/Assets/SettingsView/TasksFilenameTemplateDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksOutputDirectory">/Assets/SettingsView/TasksOutputDirectoryDark.png</x:String>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

@@ -1,3 +1,5 @@
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -39,6 +41,7 @@ namespace VDownload.Core.Views
         public BaseWindow(BaseViewModel viewModel)
         {
             this.InitializeComponent();
+            this.Activated += BaseWindow_Activated;
 
             this.ExtendsContentIntoTitleBar = true;
             this.SetTitleBar(this.AppTitleBar);
@@ -53,6 +56,14 @@ namespace VDownload.Core.Views
         #region PRIVATE METHODS
 
         private void Root_Loaded(object sender, RoutedEventArgs e) => RootLoaded?.Invoke(this, EventArgs.Empty);
+
+        private void BaseWindow_Activated(object sender, WindowActivatedEventArgs args)
+        {
+            IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            WindowId windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
+            AppWindow appWindow = AppWindow.GetFromWindowId(windowId);
+            appWindow.SetIcon(@"Assets\Logo\Logo.ico");
+        }
 
         #endregion
     }

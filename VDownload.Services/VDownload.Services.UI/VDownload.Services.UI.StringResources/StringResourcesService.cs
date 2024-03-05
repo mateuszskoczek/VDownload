@@ -16,6 +16,7 @@ namespace VDownload.Services.UI.StringResources
         StringResources CommonResources { get; }
         StringResources DialogButtonsResources { get; }
         StringResources SettingsViewResources { get; }
+        StringResources FilenameTemplateResources { get; }
     }
 
 
@@ -43,6 +44,7 @@ namespace VDownload.Services.UI.StringResources
         public StringResources CommonResources { get; protected set; }
         public StringResources DialogButtonsResources { get; protected set; }
         public StringResources SettingsViewResources { get; protected set; }
+        public StringResources FilenameTemplateResources { get; protected set; }
 
         #endregion
 
@@ -65,6 +67,7 @@ namespace VDownload.Services.UI.StringResources
             CommonResources = BuildResource("CommonResources");
             DialogButtonsResources = BuildResource("DialogButtonsResources");
             SettingsViewResources = BuildResource("SettingsViewResources");
+            FilenameTemplateResources = BuildResource("FilenameTemplateResources");
         }
 
         #endregion

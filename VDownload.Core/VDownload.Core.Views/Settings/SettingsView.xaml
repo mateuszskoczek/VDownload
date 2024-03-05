@@ -11,6 +11,7 @@
     xmlns:ct="using:CommunityToolkit.WinUI"
     xmlns:i="using:Microsoft.Xaml.Interactivity" 
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:m="using:VDownload.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ViewBackgroundColor}">
 
@@ -41,6 +42,81 @@
                                    LargeChange="10"
                                    SpinButtonPlacementMode="Compact"/>
                     </ctc:SettingsCard>
+                </StackPanel>
+                <StackPanel Spacing="5">
+                    <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksHeader"
+                               FontWeight="Bold"
+                               FontSize="15"/>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksRunningTasks">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksRunningTasks}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <NumberBox Value="{Binding TasksRunningTasks, Mode=TwoWay}"
+                                   Minimum="1"
+                                   SmallChange="1"
+                                   LargeChange="10"
+                                   SpinButtonPlacementMode="Compact"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksDefaultMediaOptions">
+                        <ctc:SettingsExpander.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksDefaultMediaOptions}"/>
+                        </ctc:SettingsExpander.HeaderIcon>
+                        <ctc:SettingsExpander.Items>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksMediaType">
+                                <ComboBox ItemsSource="{ct:EnumValues Type=m:MediaType}"
+                                          SelectedItem="{Binding TasksMediaType, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
+                                                <ctuc:Case Value="Original">
+                                                    <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOriginal"/>
+                                                </ctuc:Case>
+                                                <ctuc:Case Value="OnlyVideo">
+                                                    <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyVideo"/>
+                                                </ctuc:Case>
+                                                <ctuc:Case Value="OnlyAudio">
+                                                    <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyAudio"/>
+                                                </ctuc:Case>
+                                            </ctuc:SwitchPresenter>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </ctc:SettingsCard>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksVideoExtension">
+                                <ComboBox ItemsSource="{ct:EnumValues Type=m:VideoExtension}"
+                                          SelectedItem="{Binding TasksVideoExtension, Mode=TwoWay}"/>
+                            </ctc:SettingsCard>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksAudioExtension">
+                                <ComboBox ItemsSource="{ct:EnumValues Type=m:AudioExtension}"
+                                          SelectedItem="{Binding TasksAudioExtension, Mode=TwoWay}"/>
+                            </ctc:SettingsCard>
+                        </ctc:SettingsExpander.Items>
+                    </ctc:SettingsExpander>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksFilenameTemplate">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksFilenameTemplate}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <TextBox Text="{Binding TasksFilenameTemplate, Mode=TwoWay}"
+                                 ToolTipService.ToolTip="{Binding TasksFilenameTemplateTooltip}"/>
+                    </ctc:SettingsCard>
+                    <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksSaveLastOutputDirectory">
+                        <ctc:SettingsExpander.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksOutputDirectory}"/>
+                        </ctc:SettingsExpander.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TasksSaveLastOutputDirectory, Mode=TwoWay}"/>
+                        <ctc:SettingsExpander.Items>
+                            <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksDefaultOutputDirectory"
+                                              IsEnabled="{Binding TasksSaveLastOutputDirectory, Converter={StaticResource BoolNegationConverter}}"
+                                              Description="{Binding TasksDefaultOutputDirectory}">
+                                <Button x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksDefaultOutputDirectoryButton"
+                                        Command="{Binding BrowseTasksDefaultOutputDirectoryCommand}"/>
+                            </ctc:SettingsCard>
+                        </ctc:SettingsExpander.Items>
+                    </ctc:SettingsExpander>
                 </StackPanel>
                 <StackPanel Spacing="5">
                     <TextBlock x:Uid="/VDownload.Core.Strings/SettingsViewResources/TwitchHeader"

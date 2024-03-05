@@ -129,6 +129,39 @@
   <data name="SearchingPlaylistCount.Header" xml:space="preserve">
     <value>Default number of videos fetched from playlist</value>
   </data>
+  <data name="TasksAudioExtension.Header" xml:space="preserve">
+    <value>Audio extension</value>
+  </data>
+  <data name="TasksDefaultMediaOptions.Header" xml:space="preserve">
+    <value>Default media options</value>
+  </data>
+  <data name="TasksDefaultOutputDirectory.Header" xml:space="preserve">
+    <value>Default output directory</value>
+  </data>
+  <data name="TasksDefaultOutputDirectoryButton.Content" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="TasksFilenameTemplate.Header" xml:space="preserve">
+    <value>Filename template</value>
+  </data>
+  <data name="TasksHeader.Text" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="TasksMediaType.Header" xml:space="preserve">
+    <value>Media type</value>
+  </data>
+  <data name="TasksRunningTasks.Header" xml:space="preserve">
+    <value>Maximum number of tasks running in parallel</value>
+  </data>
+  <data name="TasksSaveLastOutputDirectory.Description" xml:space="preserve">
+    <value>Otherwise, default directory defined below will be used</value>
+  </data>
+  <data name="TasksSaveLastOutputDirectory.Header" xml:space="preserve">
+    <value>Save last output directory</value>
+  </data>
+  <data name="TasksVideoExtension.Header" xml:space="preserve">
+    <value>Video extension</value>
+  </data>
   <data name="TwitchHeader.Text" xml:space="preserve">
     <value>Twitch</value>
   </data>
