@@ -9,6 +9,7 @@
 	  <EnableCoreMrtTooling Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">false</EnableCoreMrtTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="About\AboutView.xaml" />
     <None Remove="Home\HomePlaylistView.xaml" />
   </ItemGroup>
 
@@ -31,6 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="About\AboutView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="Authentication\AuthenticationView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>

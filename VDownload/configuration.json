@@ -1,5 +1,26 @@
 {
   "common": {
+    "about": {
+      "repository_url": "https://github.com/mateuszskoczek/VDownload",
+      "donation_url": "https://paypal.me/mateuszskoczek",
+      "developers": [
+        {
+          "name": "Mateusz Skoczek",
+          "url": "https://github.com/mateuszskoczek"
+        }
+      ],
+      "translation": [
+        {
+          "code": "en-US",
+          "translators": [
+            {
+              "name": "Mateusz Skoczek",
+              "url": "https://github.com/mateuszskoczek"
+            }
+          ]
+        }
+      ]
+    },
     "filename_templates": [
       {
         "name": "id",

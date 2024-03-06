@@ -6,6 +6,9 @@ namespace VDownload.Services.Data.Configuration
 {
     public class CommonConfiguration
     {
+        [ConfigurationKeyName("about")]
+        public About About { get; set; }
+
         [ConfigurationKeyName("filename_templates")]
         public IEnumerable<FilenameTemplate> FilenameTemplates { get; set; }
 

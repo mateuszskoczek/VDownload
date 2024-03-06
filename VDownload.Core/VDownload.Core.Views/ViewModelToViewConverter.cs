@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using VDownload.Core.ViewModels.About;
 using VDownload.Core.ViewModels.Authentication;
 using VDownload.Core.ViewModels.Home;
 using VDownload.Core.ViewModels.Settings;
+using VDownload.Core.Views.About;
 using VDownload.Core.Views.Authentication;
 using VDownload.Core.Views.Home;
 using VDownload.Core.Views.Settings;
@@ -22,6 +24,7 @@ namespace VDownload.Core.Views
             { typeof(HomeVideoViewModel), typeof(HomeVideoView) },
             { typeof(HomePlaylistViewModel), typeof(HomePlaylistView) },
             { typeof(SettingsViewModel), typeof(SettingsView) },
+            { typeof(AboutViewModel), typeof(AboutView) },
             { typeof(AuthenticationViewModel), typeof(AuthenticationView) }
         };
 
