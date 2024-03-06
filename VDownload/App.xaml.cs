@@ -7,10 +7,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using VDownload.Core.Tasks;
 using VDownload.Core.ViewModels;
+using VDownload.Core.ViewModels.About;
 using VDownload.Core.ViewModels.Authentication;
 using VDownload.Core.ViewModels.Home;
 using VDownload.Core.ViewModels.Settings;
 using VDownload.Core.Views;
+using VDownload.Core.Views.About;
 using VDownload.Core.Views.Authentication;
 using VDownload.Core.Views.Home;
 using VDownload.Core.Views.Settings;
@@ -145,6 +147,7 @@ namespace VDownload
         protected void BuildPresentation(IServiceCollection services)
         {
             // ViewModels
+            services.AddSingleton<AboutViewModel>();
             services.AddSingleton<AuthenticationViewModel>();
             services.AddSingleton<SettingsViewModel>();
             services.AddSingleton<HomeDownloadsViewModel>();
@@ -154,6 +157,7 @@ namespace VDownload
             services.AddSingleton<BaseViewModel>();
 
             // Views
+            services.AddTransient<AboutView>();
             services.AddTransient<AuthenticationView>();
             services.AddTransient<SettingsView>();
             services.AddTransient<HomeDownloadsView>();

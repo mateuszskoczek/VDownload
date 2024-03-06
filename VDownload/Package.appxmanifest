@@ -8,15 +8,15 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="df3e7de0-430a-4a93-a68b-48c2f3ec497a"
+    Name="VDownload"
     Publisher="CN=mateusz"
-    Version="1.0.0.0" />
+    Version="0.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="df3e7de0-430a-4a93-a68b-48c2f3ec497a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>VDownload</DisplayName>
-    <PublisherDisplayName>mateusz</PublisherDisplayName>
+    <PublisherDisplayName>Mateusz Skoczek</PublisherDisplayName>
     <Logo>Assets\Logo\StoreLogo.png</Logo>
   </Properties>
 

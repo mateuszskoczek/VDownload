@@ -117,7 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="String1" xml:space="preserve">
-    <value>ss</value>
+  <data name="Developers.Text" xml:space="preserve">
+    <value>Developers</value>
+  </data>
+  <data name="Donation.Text" xml:space="preserve">
+    <value>Donation</value>
+  </data>
+  <data name="More.Text" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="Repository.Text" xml:space="preserve">
+    <value>Repository</value>
+  </data>
+  <data name="SelfbuiltVersion" xml:space="preserve">
+    <value>Self-built version</value>
+  </data>
+  <data name="Translation.Text" xml:space="preserve">
+    <value>Translation (English (US))</value>
   </data>
 </root>

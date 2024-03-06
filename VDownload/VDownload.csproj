@@ -1,202 +1,212 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <RootNamespace>VDownload</RootNamespace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x86;x64;ARM64</Platforms>
-    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
-    <UseWinUI>true</UseWinUI>
-    <EnableMsixTooling>true</EnableMsixTooling>
-	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-    <UseRidGraph>true</UseRidGraph>
-	  <EnableCoreMrtTooling Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">false</EnableCoreMrtTooling>
-	  <ApplicationIcon>Assets\Logo\Logo.ico</ApplicationIcon>
-  </PropertyGroup>
-  <ItemGroup>
-    <Content Remove="Assets\BaseView\AuthenticationDark.png" />
-    <Content Remove="Assets\BaseView\AuthenticationLight.png" />
-    <Content Remove="Assets\BaseView\HomeDark.png" />
-    <Content Remove="Assets\BaseView\HomeLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\CancelledDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\CancelledLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\DoneDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\DoneLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\DownloadingDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\DownloadingLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\ErrorDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\ErrorLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\FileDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\FileLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\FinalizingDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\FinalizingLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\IdleDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\IdleLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\InitializingDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\InitializingLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\NoTasks.png" />
-    <Content Remove="Assets\HomeDownloadsView\ProcessingDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\ProcessingLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\QualityDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\QualityLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\QueuedDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\QueuedLight.png" />
-    <Content Remove="Assets\HomeDownloadsView\TimeDark.png" />
-    <Content Remove="Assets\HomeDownloadsView\TimeLight.png" />
-    <Content Remove="Assets\HomePlaylistView\AuthorDark.png" />
-    <Content Remove="Assets\HomePlaylistView\AuthorLight.png" />
-    <Content Remove="Assets\HomePlaylistView\DateDark.png" />
-    <Content Remove="Assets\HomePlaylistView\DateLight.png" />
-    <Content Remove="Assets\HomePlaylistView\DirectoryDark.png" />
-    <Content Remove="Assets\HomePlaylistView\DirectoryLight.png" />
-    <Content Remove="Assets\HomePlaylistView\ExtensionDark.png" />
-    <Content Remove="Assets\HomePlaylistView\ExtensionLight.png" />
-    <Content Remove="Assets\HomePlaylistView\FilenameDark.png" />
-    <Content Remove="Assets\HomePlaylistView\FilenameLight.png" />
-    <Content Remove="Assets\HomePlaylistView\MediaDark.png" />
-    <Content Remove="Assets\HomePlaylistView\MediaLight.png" />
-    <Content Remove="Assets\HomePlaylistView\QualityDark.png" />
-    <Content Remove="Assets\HomePlaylistView\QualityLight.png" />
-    <Content Remove="Assets\HomePlaylistView\TimeDark.png" />
-    <Content Remove="Assets\HomePlaylistView\TimeLight.png" />
-    <Content Remove="Assets\HomePlaylistView\TrimDark.png" />
-    <Content Remove="Assets\HomePlaylistView\TrimLight.png" />
-    <Content Remove="Assets\HomePlaylistView\ViewDark.png" />
-    <Content Remove="Assets\HomePlaylistView\ViewLight.png" />
-    <Content Remove="Assets\HomeVideoView\AuthorDark.png" />
-    <Content Remove="Assets\HomeVideoView\AuthorLight.png" />
-    <Content Remove="Assets\HomeVideoView\DateDark.png" />
-    <Content Remove="Assets\HomeVideoView\DateLight.png" />
-    <Content Remove="Assets\HomeVideoView\DirectoryDark.png" />
-    <Content Remove="Assets\HomeVideoView\DirectoryLight.png" />
-    <Content Remove="Assets\HomeVideoView\ExtensionDark.png" />
-    <Content Remove="Assets\HomeVideoView\ExtensionLight.png" />
-    <Content Remove="Assets\HomeVideoView\FilenameDark.png" />
-    <Content Remove="Assets\HomeVideoView\FilenameLight.png" />
-    <Content Remove="Assets\HomeVideoView\MediaDark.png" />
-    <Content Remove="Assets\HomeVideoView\MediaLight.png" />
-    <Content Remove="Assets\HomeVideoView\TimeDark.png" />
-    <Content Remove="Assets\HomeVideoView\TimeLight.png" />
-    <Content Remove="Assets\HomeVideoView\TrimDark.png" />
-    <Content Remove="Assets\HomeVideoView\TrimLight.png" />
-    <Content Remove="Assets\HomeVideoView\ViewDark.png" />
-    <Content Remove="Assets\HomeVideoView\ViewLight.png" />
-    <Content Remove="Assets\HomeView\Error.png" />
-    <Content Remove="Assets\Logo\Logo.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-16.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-24.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-256.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-32.png" />
-    <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-48.png" />
-    <Content Remove="Assets\SettingsView\ProcessingFFmpegLocationDark.png" />
-    <Content Remove="Assets\SettingsView\ProcessingFFmpegLocationLight.png" />
-    <Content Remove="Assets\SettingsView\TasksFilenameTemplateDark.png" />
-    <Content Remove="Assets\SettingsView\TasksFilenameTemplateLight.png" />
-    <Content Remove="Assets\SettingsView\TasksOutputDirectoryDark.png" />
-    <Content Remove="Assets\SettingsView\TasksOutputDirectoryLight.png" />
-    <Content Remove="Assets\Sources\Twitch.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Assets\Logo\LargeTile.scale-100.png" />
-    <None Remove="Assets\Logo\LargeTile.scale-125.png" />
-    <None Remove="Assets\Logo\LargeTile.scale-150.png" />
-    <None Remove="Assets\Logo\LargeTile.scale-200.png" />
-    <None Remove="Assets\Logo\LargeTile.scale-400.png" />
-    <None Remove="Assets\Logo\SmallTile.scale-100.png" />
-    <None Remove="Assets\Logo\SmallTile.scale-125.png" />
-    <None Remove="Assets\Logo\SmallTile.scale-150.png" />
-    <None Remove="Assets\Logo\SmallTile.scale-200.png" />
-    <None Remove="Assets\Logo\SmallTile.scale-400.png" />
-    <None Remove="Assets\Logo\SplashScreen.scale-100.png" />
-    <None Remove="Assets\Logo\SplashScreen.scale-125.png" />
-    <None Remove="Assets\Logo\SplashScreen.scale-150.png" />
-    <None Remove="Assets\Logo\SplashScreen.scale-200.png" />
-    <None Remove="Assets\Logo\SplashScreen.scale-400.png" />
-    <None Remove="Assets\Logo\Square150x150Logo.scale-100.png" />
-    <None Remove="Assets\Logo\Square150x150Logo.scale-125.png" />
-    <None Remove="Assets\Logo\Square150x150Logo.scale-150.png" />
-    <None Remove="Assets\Logo\Square150x150Logo.scale-200.png" />
-    <None Remove="Assets\Logo\Square150x150Logo.scale-400.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.scale-100.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.scale-125.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.scale-150.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.scale-200.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.scale-400.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-16.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-24.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-256.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-32.png" />
-    <None Remove="Assets\Logo\Square44x44Logo.targetsize-48.png" />
-    <None Remove="Assets\Logo\StoreLogo.scale-100.png" />
-    <None Remove="Assets\Logo\StoreLogo.scale-125.png" />
-    <None Remove="Assets\Logo\StoreLogo.scale-150.png" />
-    <None Remove="Assets\Logo\StoreLogo.scale-200.png" />
-    <None Remove="Assets\Logo\StoreLogo.scale-400.png" />
-    <None Remove="Assets\Logo\Wide310x150Logo.scale-100.png" />
-    <None Remove="Assets\Logo\Wide310x150Logo.scale-125.png" />
-    <None Remove="Assets\Logo\Wide310x150Logo.scale-150.png" />
-    <None Remove="Assets\Logo\Wide310x150Logo.scale-200.png" />
-    <None Remove="Assets\Logo\Wide310x150Logo.scale-400.png" />
-    <None Remove="Assets\SettingsView\TasksDefaultMediaOptionsDark.png" />
-    <None Remove="Assets\SettingsView\TasksDefaultMediaOptionsLight.png" />
-    <None Remove="Dictionaries\Colors.xaml" />
-    <None Remove="Dictionaries\Converters.xaml" />
-    <None Remove="Dictionaries\Images\ImagesBaseView.xaml" />
-    <None Remove="Dictionaries\Images\ImagesHomeDownloadsView.xaml" />
-    <None Remove="Dictionaries\Images\ImagesHomePlaylistView.xaml" />
-    <None Remove="Dictionaries\Images\ImagesHomeVideoView.xaml" />
-    <None Remove="Dictionaries\Images\ImagesHomeView.xaml" />
-    <None Remove="Dictionaries\Images\ImagesLogo.xaml" />
-    <None Remove="Dictionaries\Images\ImagesOther.xaml" />
-    <None Remove="Dictionaries\Images\ImagesSettingsView.xaml" />
-    <None Remove="Dictionaries\Images\ImagesSources.xaml" />
-  </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+        <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+        <RootNamespace>VDownload</RootNamespace>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <Platforms>x86;x64;ARM64</Platforms>
+        <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+        <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+        <UseWinUI>true</UseWinUI>
+        <EnableMsixTooling>true</EnableMsixTooling>
+	    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+        <UseRidGraph>true</UseRidGraph>
+	    <EnableCoreMrtTooling Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">false</EnableCoreMrtTooling>
+	    <ApplicationIcon>Assets\Logo\Logo.ico</ApplicationIcon>
+	    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+	    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<Version>0.0.0</Version>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Remove="Assets\BaseView\AuthenticationDark.png" />
+        <Content Remove="Assets\BaseView\AuthenticationLight.png" />
+        <Content Remove="Assets\BaseView\HomeDark.png" />
+        <Content Remove="Assets\BaseView\HomeLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\CancelledDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\CancelledLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\DoneDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\DoneLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\DownloadingDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\DownloadingLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\ErrorDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\ErrorLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\FileDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\FileLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\FinalizingDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\FinalizingLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\IdleDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\IdleLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\InitializingDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\InitializingLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\NoTasks.png" />
+        <Content Remove="Assets\HomeDownloadsView\ProcessingDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\ProcessingLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\QualityDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\QualityLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\QueuedDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\QueuedLight.png" />
+        <Content Remove="Assets\HomeDownloadsView\TimeDark.png" />
+        <Content Remove="Assets\HomeDownloadsView\TimeLight.png" />
+        <Content Remove="Assets\HomePlaylistView\AuthorDark.png" />
+        <Content Remove="Assets\HomePlaylistView\AuthorLight.png" />
+        <Content Remove="Assets\HomePlaylistView\DateDark.png" />
+        <Content Remove="Assets\HomePlaylistView\DateLight.png" />
+        <Content Remove="Assets\HomePlaylistView\DirectoryDark.png" />
+        <Content Remove="Assets\HomePlaylistView\DirectoryLight.png" />
+        <Content Remove="Assets\HomePlaylistView\ExtensionDark.png" />
+        <Content Remove="Assets\HomePlaylistView\ExtensionLight.png" />
+        <Content Remove="Assets\HomePlaylistView\FilenameDark.png" />
+        <Content Remove="Assets\HomePlaylistView\FilenameLight.png" />
+        <Content Remove="Assets\HomePlaylistView\MediaDark.png" />
+        <Content Remove="Assets\HomePlaylistView\MediaLight.png" />
+        <Content Remove="Assets\HomePlaylistView\QualityDark.png" />
+        <Content Remove="Assets\HomePlaylistView\QualityLight.png" />
+        <Content Remove="Assets\HomePlaylistView\TimeDark.png" />
+        <Content Remove="Assets\HomePlaylistView\TimeLight.png" />
+        <Content Remove="Assets\HomePlaylistView\TrimDark.png" />
+        <Content Remove="Assets\HomePlaylistView\TrimLight.png" />
+        <Content Remove="Assets\HomePlaylistView\ViewDark.png" />
+        <Content Remove="Assets\HomePlaylistView\ViewLight.png" />
+        <Content Remove="Assets\HomeVideoView\AuthorDark.png" />
+        <Content Remove="Assets\HomeVideoView\AuthorLight.png" />
+        <Content Remove="Assets\HomeVideoView\DateDark.png" />
+        <Content Remove="Assets\HomeVideoView\DateLight.png" />
+        <Content Remove="Assets\HomeVideoView\DirectoryDark.png" />
+        <Content Remove="Assets\HomeVideoView\DirectoryLight.png" />
+        <Content Remove="Assets\HomeVideoView\ExtensionDark.png" />
+        <Content Remove="Assets\HomeVideoView\ExtensionLight.png" />
+        <Content Remove="Assets\HomeVideoView\FilenameDark.png" />
+        <Content Remove="Assets\HomeVideoView\FilenameLight.png" />
+        <Content Remove="Assets\HomeVideoView\MediaDark.png" />
+        <Content Remove="Assets\HomeVideoView\MediaLight.png" />
+        <Content Remove="Assets\HomeVideoView\TimeDark.png" />
+        <Content Remove="Assets\HomeVideoView\TimeLight.png" />
+        <Content Remove="Assets\HomeVideoView\TrimDark.png" />
+        <Content Remove="Assets\HomeVideoView\TrimLight.png" />
+        <Content Remove="Assets\HomeVideoView\ViewDark.png" />
+        <Content Remove="Assets\HomeVideoView\ViewLight.png" />
+        <Content Remove="Assets\HomeView\Error.png" />
+        <Content Remove="Assets\Logo\Logo.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-32.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-16.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-24.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-256.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-32.png" />
+        <Content Remove="Assets\Logo\Square44x44Logo.altform-unplated_targetsize-48.png" />
+        <Content Remove="Assets\SettingsView\ProcessingFFmpegLocationDark.png" />
+        <Content Remove="Assets\SettingsView\ProcessingFFmpegLocationLight.png" />
+        <Content Remove="Assets\SettingsView\TasksFilenameTemplateDark.png" />
+        <Content Remove="Assets\SettingsView\TasksFilenameTemplateLight.png" />
+        <Content Remove="Assets\SettingsView\TasksOutputDirectoryDark.png" />
+        <Content Remove="Assets\SettingsView\TasksOutputDirectoryLight.png" />
+        <Content Remove="Assets\Sources\Twitch.png" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Assets\Logo\LargeTile.scale-100.png" />
+        <None Remove="Assets\Logo\LargeTile.scale-125.png" />
+        <None Remove="Assets\Logo\LargeTile.scale-150.png" />
+        <None Remove="Assets\Logo\LargeTile.scale-200.png" />
+        <None Remove="Assets\Logo\LargeTile.scale-400.png" />
+        <None Remove="Assets\Logo\SmallTile.scale-100.png" />
+        <None Remove="Assets\Logo\SmallTile.scale-125.png" />
+        <None Remove="Assets\Logo\SmallTile.scale-150.png" />
+        <None Remove="Assets\Logo\SmallTile.scale-200.png" />
+        <None Remove="Assets\Logo\SmallTile.scale-400.png" />
+        <None Remove="Assets\Logo\SplashScreen.scale-100.png" />
+        <None Remove="Assets\Logo\SplashScreen.scale-125.png" />
+        <None Remove="Assets\Logo\SplashScreen.scale-150.png" />
+        <None Remove="Assets\Logo\SplashScreen.scale-200.png" />
+        <None Remove="Assets\Logo\SplashScreen.scale-400.png" />
+        <None Remove="Assets\Logo\Square150x150Logo.scale-100.png" />
+        <None Remove="Assets\Logo\Square150x150Logo.scale-125.png" />
+        <None Remove="Assets\Logo\Square150x150Logo.scale-150.png" />
+        <None Remove="Assets\Logo\Square150x150Logo.scale-200.png" />
+        <None Remove="Assets\Logo\Square150x150Logo.scale-400.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.scale-100.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.scale-125.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.scale-150.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.scale-200.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.scale-400.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.targetsize-16.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.targetsize-24.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.targetsize-256.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.targetsize-32.png" />
+        <None Remove="Assets\Logo\Square44x44Logo.targetsize-48.png" />
+        <None Remove="Assets\Logo\StoreLogo.scale-100.png" />
+        <None Remove="Assets\Logo\StoreLogo.scale-125.png" />
+        <None Remove="Assets\Logo\StoreLogo.scale-150.png" />
+        <None Remove="Assets\Logo\StoreLogo.scale-200.png" />
+        <None Remove="Assets\Logo\StoreLogo.scale-400.png" />
+        <None Remove="Assets\Logo\Wide310x150Logo.scale-100.png" />
+        <None Remove="Assets\Logo\Wide310x150Logo.scale-125.png" />
+        <None Remove="Assets\Logo\Wide310x150Logo.scale-150.png" />
+        <None Remove="Assets\Logo\Wide310x150Logo.scale-200.png" />
+        <None Remove="Assets\Logo\Wide310x150Logo.scale-400.png" />
+        <None Remove="Assets\SettingsView\TasksDefaultMediaOptionsDark.png" />
+        <None Remove="Assets\SettingsView\TasksDefaultMediaOptionsLight.png" />
+        <None Remove="Dictionaries\Colors.xaml" />
+        <None Remove="Dictionaries\Converters.xaml" />
+        <None Remove="Dictionaries\Images\ImagesBaseView.xaml" />
+        <None Remove="Dictionaries\Images\ImagesHomeDownloadsView.xaml" />
+        <None Remove="Dictionaries\Images\ImagesHomePlaylistView.xaml" />
+        <None Remove="Dictionaries\Images\ImagesHomeVideoView.xaml" />
+        <None Remove="Dictionaries\Images\ImagesHomeView.xaml" />
+        <None Remove="Dictionaries\Images\ImagesLogo.xaml" />
+        <None Remove="Dictionaries\Images\ImagesOther.xaml" />
+        <None Remove="Dictionaries\Images\ImagesSettingsView.xaml" />
+        <None Remove="Dictionaries\Images\ImagesSources.xaml" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.240109" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
-    <PackageReference Include="SimpleToolkit.UI.WinUI.Converters" Version="1.7.4" />
-    <Manifest Include="$(ApplicationManifest)" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.0.240109" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
+        <PackageReference Include="SimpleToolkit.UI.WinUI.Converters" Version="1.7.4" />
+        <Manifest Include="$(ApplicationManifest)" />
+    </ItemGroup>
 
-  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-    <ProjectCapability Include="Msix" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FFmpeg\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VDownload.Core\VDownload.Core.ViewModels\VDownload.Core.ViewModels.csproj" />
-    <ProjectReference Include="..\VDownload.Core\VDownload.Core.Views\VDownload.Core.Views.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Authentication\VDownload.Services.Data.Authentication.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Configuration\VDownload.Services.Data.Configuration.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Settings\VDownload.Services.Data.Settings.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Dialogs\VDownload.Services.UI.Dialogs.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.DictionaryResources\VDownload.Services.UI.DictionaryResources.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Notifications\VDownload.Services.UI.Notifications.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StoragePicker\VDownload.Services.UI.StoragePicker.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StringResources\VDownload.Services.UI.StringResources.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.WebView\VDownload.Services.UI.WebView.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Encryption\VDownload.Services.Utility.Encryption.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.FFmpeg\VDownload.Services.Utility.FFmpeg.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Filename\VDownload.Services.Utility.Filename.csproj" />
-    <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.HttpClient\VDownload.Services.Utility.HttpClient.csproj" />
-    <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Api\VDownload.Sources.Twitch.Api.csproj" />
-    <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />
-    <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch\VDownload.Sources.Twitch.csproj" />
-    <ProjectReference Include="..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
-  </ItemGroup>
-  <ItemGroup>
+    <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+        <ProjectCapability Include="Msix" />
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="FFmpeg\" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\LICENSE">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\VDownload.Core\VDownload.Core.ViewModels\VDownload.Core.ViewModels.csproj" />
+        <ProjectReference Include="..\VDownload.Core\VDownload.Core.Views\VDownload.Core.Views.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Authentication\VDownload.Services.Data.Authentication.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Configuration\VDownload.Services.Data.Configuration.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Settings\VDownload.Services.Data.Settings.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Dialogs\VDownload.Services.UI.Dialogs.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.DictionaryResources\VDownload.Services.UI.DictionaryResources.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Notifications\VDownload.Services.UI.Notifications.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StoragePicker\VDownload.Services.UI.StoragePicker.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StringResources\VDownload.Services.UI.StringResources.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.WebView\VDownload.Services.UI.WebView.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Encryption\VDownload.Services.Utility.Encryption.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.FFmpeg\VDownload.Services.Utility.FFmpeg.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Filename\VDownload.Services.Utility.Filename.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.HttpClient\VDownload.Services.Utility.HttpClient.csproj" />
+        <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Api\VDownload.Sources.Twitch.Api.csproj" />
+        <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />
+        <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch\VDownload.Sources.Twitch.csproj" />
+        <ProjectReference Include="..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
+    </ItemGroup>
+    <ItemGroup>
     <Content Update="Assets\BaseView\AboutDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
