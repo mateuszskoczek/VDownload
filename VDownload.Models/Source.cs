@@ -8,6 +8,7 @@ namespace VDownload.Models
 {
     public enum Source
     {
-        Twitch
+        Twitch,
+        Subscriptions
     }
 }

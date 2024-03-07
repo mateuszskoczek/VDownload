@@ -154,7 +154,7 @@ namespace VDownload
             services.AddSingleton<SettingsViewModel>();
             services.AddSingleton<HomeDownloadsViewModel>();
             services.AddSingleton<HomeVideoViewModel>();
-            services.AddSingleton<HomePlaylistViewModel>();
+            services.AddSingleton<HomeVideoCollectionViewModel>();
             services.AddSingleton<HomeViewModel>();
             services.AddSingleton<BaseViewModel>();
 
@@ -164,7 +164,7 @@ namespace VDownload
             services.AddTransient<SettingsView>();
             services.AddTransient<HomeDownloadsView>();
             services.AddTransient<HomeVideoView>();
-            services.AddTransient<HomePlaylistView>();
+            services.AddTransient<HomeVideoCollectionView>();
             services.AddTransient<HomeView>();
             services.AddTransient<BaseWindow>();
         }

@@ -57,7 +57,7 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly IDownloadTaskManager _downloadTaskManager;
 
         protected readonly HomeVideoViewModel _videoViewModel;
-        protected readonly HomePlaylistViewModel _playlistViewModel;
+        protected readonly HomeVideoCollectionViewModel _playlistViewModel;
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace VDownload.Core.ViewModels.Home
 
         protected readonly Type _downloadsView = typeof(HomeDownloadsViewModel);
         protected readonly Type _videoView = typeof(HomeVideoViewModel);
-        protected readonly Type _playlistView = typeof(HomePlaylistViewModel);
+        protected readonly Type _playlistView = typeof(HomeVideoCollectionViewModel);
 
         #endregion
 
@@ -112,7 +112,7 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, IDialogsService dialogsService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomePlaylistViewModel playlistViewModel)
+        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, IDialogsService dialogsService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomeVideoCollectionViewModel playlistViewModel)
         {
             _configurationService = configurationService;
             _settingsService = settingsService;

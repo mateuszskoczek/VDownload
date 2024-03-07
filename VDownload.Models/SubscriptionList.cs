@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace VDownload.Models
 {
-    public abstract class Playlist : VideoCollection
+    public class SubscriptionList : VideoCollection
     {
-        #region PROPERTIES
+        #region CONSTRUCTORS
 
-        public required string Description { get; set; }
-        public required Uri Url { get; set; }
+        public SubscriptionList()
+        {
+            Source = Source.Subscriptions;
+        }
 
         #endregion
     }

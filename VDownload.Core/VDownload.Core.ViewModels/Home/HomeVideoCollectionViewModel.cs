@@ -24,7 +24,7 @@ using VDownload.Services.Data.Application;
 
 namespace VDownload.Core.ViewModels.Home
 {
-    public partial class HomePlaylistViewModel : ObservableObject
+    public partial class HomeVideoCollectionViewModel : ObservableObject
     {
         #region SERVICES
 
@@ -43,7 +43,7 @@ namespace VDownload.Core.ViewModels.Home
 
         #region FIELDS
 
-        protected Playlist _playlist;
+        protected VideoCollection _collection;
 
         protected List<VideoViewModel> _removedVideos;
 
@@ -181,7 +181,7 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomePlaylistViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService, IApplicationDataService applicationDataService)
+        public HomeVideoCollectionViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService, IApplicationDataService applicationDataService)
         {
             _tasksManager = tasksManager;
             _settingsService = settingsService;
@@ -202,10 +202,10 @@ namespace VDownload.Core.ViewModels.Home
 
         #region PUBLIC METHODS
 
-        public void LoadPlaylist(Playlist playlist)
+        public void LoadPlaylist(VideoCollection collection)
         {
-            _playlist = playlist;
-            ParallelQuery<Video> playlistQuery = playlist.AsParallel();
+            _collection = collection;
+            ParallelQuery<Video> playlistQuery = _collection.AsParallel();
 
             _removedVideos.Clear();
 
@@ -218,7 +218,7 @@ namespace VDownload.Core.ViewModels.Home
             _minViewsFilter = MinViews;
             _maxViewsFilter = MaxViews;
 
-            IEnumerable<DateTimeOffset> date = playlist.Select(x => new DateTimeOffset(x.PublishDate));
+            IEnumerable<DateTimeOffset> date = _collection.Select(x => new DateTimeOffset(x.PublishDate));
             MinDate = date.Min();
             MaxDate = date.Max();
             _minDateFilter = MinDate;
@@ -230,9 +230,9 @@ namespace VDownload.Core.ViewModels.Home
             _minDurationFilter = MinDuration;
             _maxDurationFilter = MaxDuration;
 
-            Name = _playlist.Name;
+            Name = _collection.Name;
             Videos.Clear();
-            foreach (Video video in playlist)
+            foreach (Video video in _collection)
             {
                 Videos.Add(new VideoViewModel(video, _settingsService, _storagePickerService, _filenameService, _applicationDataService), true);
             }

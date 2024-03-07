@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="About\AboutView.xaml" />
-    <None Remove="Home\HomePlaylistView.xaml" />
+    <None Remove="Home\HomeVideoCollectionView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,7 +44,7 @@
     <None Update="Home\HomeDownloadsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
-    <Page Update="Home\HomePlaylistView.xaml">
+    <Page Update="Home\HomeVideoCollectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <None Update="Home\HomeVideoView.xaml">

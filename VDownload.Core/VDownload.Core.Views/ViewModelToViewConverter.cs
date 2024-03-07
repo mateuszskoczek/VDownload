@@ -22,7 +22,7 @@ namespace VDownload.Core.Views
             { typeof(HomeViewModel), typeof(HomeView) },
             { typeof(HomeDownloadsViewModel), typeof(HomeDownloadsView) },
             { typeof(HomeVideoViewModel), typeof(HomeVideoView) },
-            { typeof(HomePlaylistViewModel), typeof(HomePlaylistView) },
+            { typeof(HomeVideoCollectionViewModel), typeof(HomeVideoCollectionView) },
             { typeof(SettingsViewModel), typeof(SettingsView) },
             { typeof(AboutViewModel), typeof(AboutView) },
             { typeof(AuthenticationViewModel), typeof(AuthenticationView) }
