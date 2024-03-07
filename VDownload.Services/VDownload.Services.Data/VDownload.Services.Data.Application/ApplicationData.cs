@@ -10,6 +10,6 @@ namespace VDownload.Services.Data.Application
     public class ApplicationData
     {
         [JsonProperty("common")]
-        public CommonApplicationData Common { get; set; }
+        public CommonApplicationData Common { get; set; } = new CommonApplicationData();
     }
 }

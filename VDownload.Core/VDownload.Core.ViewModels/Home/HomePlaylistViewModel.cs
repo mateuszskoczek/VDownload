@@ -20,6 +20,7 @@ using VDownload.Services.Utility.Filename;
 using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.StringResources;
 using CommunityToolkit.WinUI.Helpers;
+using VDownload.Services.Data.Application;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -34,6 +35,7 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly IFilenameService _filenameService;
         protected readonly IDialogsService _dialogsService;
         protected readonly IStringResourcesService _stringResourcesService;
+        protected readonly IApplicationDataService _applicationDataService;
 
         #endregion
 
@@ -179,7 +181,7 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomePlaylistViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService)
+        public HomePlaylistViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService, IApplicationDataService applicationDataService)
         {
             _tasksManager = tasksManager;
             _settingsService = settingsService;
@@ -187,6 +189,7 @@ namespace VDownload.Core.ViewModels.Home
             _filenameService = filenameService;
             _dialogsService = dialogsService;
             _stringResourcesService = stringResourcesService;
+            _applicationDataService = applicationDataService;
 
             _removedVideos = new List<VideoViewModel>();
 
@@ -231,7 +234,7 @@ namespace VDownload.Core.ViewModels.Home
             Videos.Clear();
             foreach (Video video in playlist)
             {
-                Videos.Add(new VideoViewModel(video, _settingsService, _storagePickerService, _filenameService), true);
+                Videos.Add(new VideoViewModel(video, _settingsService, _storagePickerService, _filenameService, _applicationDataService), true);
             }
             UpdateFilter();
         }
@@ -252,6 +255,9 @@ namespace VDownload.Core.ViewModels.Home
                 {
                     video.DirectoryPath = newDirectory;
                 }
+
+                _applicationDataService.Data.Common.LastOutputDirectory = newDirectory;
+                await _applicationDataService.Save();
             }
         }
 
