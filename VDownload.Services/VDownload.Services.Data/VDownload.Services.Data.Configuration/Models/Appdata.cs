@@ -18,5 +18,8 @@ namespace VDownload.Services.Data.Configuration.Models
 
         [ConfigurationKeyName("settings_file")]
         public string SettingsFile { get; set; }
+
+        [ConfigurationKeyName("data_file")]
+        public string DataFile { get; set; }
     }
 }

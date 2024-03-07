@@ -146,7 +146,8 @@
       "appdata": {
         "directory_name": "VDownload",
         "authentication_file": "authentication.json",
-        "settings_file": "settings.json"
+        "settings_file": "settings.json",
+        "data_file": "data.json"
       },
       "temp": {
         "tasks_directory": "tasks"

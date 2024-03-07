@@ -16,6 +16,7 @@ using VDownload.Core.Views.About;
 using VDownload.Core.Views.Authentication;
 using VDownload.Core.Views.Home;
 using VDownload.Core.Views.Settings;
+using VDownload.Services.Data.Application;
 using VDownload.Services.Data.Authentication;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Configuration.Models;
@@ -106,6 +107,7 @@ namespace VDownload
             services.AddSingleton<IConfigurationService, ConfigurationService>();
             services.AddSingleton<IAuthenticationDataService, AuthenticationDataService>();
             services.AddSingleton<ISettingsService, SettingsService>();
+            services.AddSingleton<IApplicationDataService, ApplicationDataService>();
         }
 
         protected void BuildUIServices(IServiceCollection services)
@@ -180,9 +182,10 @@ namespace VDownload
 
         protected async Task InitData()
         {
+            IApplicationDataService applicationDataService = _serviceProvider.GetService<IApplicationDataService>();
             ISettingsService settingsService = _serviceProvider.GetService<ISettingsService>();
             IAuthenticationDataService authenticationDataService = _serviceProvider.GetService<IAuthenticationDataService>();
-            await Task.WhenAll(settingsService.Load(), authenticationDataService.Load());
+            await Task.WhenAll(applicationDataService.Load(), settingsService.Load(), authenticationDataService.Load());
         }
 
         protected void AssignStaticProperties()
