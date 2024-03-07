@@ -202,7 +202,7 @@ namespace VDownload.Core.ViewModels.Home
 
         #region PUBLIC METHODS
 
-        public void LoadPlaylist(VideoCollection collection)
+        public void LoadCollection(VideoCollection collection)
         {
             _collection = collection;
             ParallelQuery<Video> playlistQuery = _collection.AsParallel();

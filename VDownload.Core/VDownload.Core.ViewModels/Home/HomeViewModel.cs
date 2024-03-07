@@ -57,7 +57,7 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly IDownloadTaskManager _downloadTaskManager;
 
         protected readonly HomeVideoViewModel _videoViewModel;
-        protected readonly HomeVideoCollectionViewModel _playlistViewModel;
+        protected readonly HomeVideoCollectionViewModel _videoCollectionViewModel;
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace VDownload.Core.ViewModels.Home
 
         protected readonly Type _downloadsView = typeof(HomeDownloadsViewModel);
         protected readonly Type _videoView = typeof(HomeVideoViewModel);
-        protected readonly Type _playlistView = typeof(HomeVideoCollectionViewModel);
+        protected readonly Type _videoCollectionView = typeof(HomeVideoCollectionViewModel);
 
         #endregion
 
@@ -112,7 +112,7 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, IDialogsService dialogsService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomeVideoCollectionViewModel playlistViewModel)
+        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, IDialogsService dialogsService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomeVideoCollectionViewModel videoCollectionViewModel)
         {
             _configurationService = configurationService;
             _settingsService = settingsService;
@@ -125,8 +125,8 @@ namespace VDownload.Core.ViewModels.Home
             _videoViewModel = videoViewModel;
             _videoViewModel.CloseRequested += BackToDownload_EventHandler;
 
-            _playlistViewModel = playlistViewModel;
-            _playlistViewModel.CloseRequested += BackToDownload_EventHandler;
+            _videoCollectionViewModel = videoCollectionViewModel;
+            _videoCollectionViewModel.CloseRequested += BackToDownload_EventHandler;
         }
 
         #endregion
@@ -253,9 +253,9 @@ namespace VDownload.Core.ViewModels.Home
                 return;
             }
 
-            _playlistViewModel.LoadPlaylist(playlist);
+            _videoCollectionViewModel.LoadCollection(playlist);
 
-            MainContent = _playlistView;
+            MainContent = _videoCollectionView;
 
             OptionBarSearchNotPending = true;
             OptionBarMessageIcon = OptionBarMessageIconType.None;

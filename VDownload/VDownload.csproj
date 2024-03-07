@@ -49,26 +49,26 @@
         <Content Remove="Assets\HomeDownloadsView\QueuedLight.png" />
         <Content Remove="Assets\HomeDownloadsView\TimeDark.png" />
         <Content Remove="Assets\HomeDownloadsView\TimeLight.png" />
-        <Content Remove="Assets\HomePlaylistView\AuthorDark.png" />
-        <Content Remove="Assets\HomePlaylistView\AuthorLight.png" />
-        <Content Remove="Assets\HomePlaylistView\DateDark.png" />
-        <Content Remove="Assets\HomePlaylistView\DateLight.png" />
-        <Content Remove="Assets\HomePlaylistView\DirectoryDark.png" />
-        <Content Remove="Assets\HomePlaylistView\DirectoryLight.png" />
-        <Content Remove="Assets\HomePlaylistView\ExtensionDark.png" />
-        <Content Remove="Assets\HomePlaylistView\ExtensionLight.png" />
-        <Content Remove="Assets\HomePlaylistView\FilenameDark.png" />
-        <Content Remove="Assets\HomePlaylistView\FilenameLight.png" />
-        <Content Remove="Assets\HomePlaylistView\MediaDark.png" />
-        <Content Remove="Assets\HomePlaylistView\MediaLight.png" />
-        <Content Remove="Assets\HomePlaylistView\QualityDark.png" />
-        <Content Remove="Assets\HomePlaylistView\QualityLight.png" />
-        <Content Remove="Assets\HomePlaylistView\TimeDark.png" />
-        <Content Remove="Assets\HomePlaylistView\TimeLight.png" />
-        <Content Remove="Assets\HomePlaylistView\TrimDark.png" />
-        <Content Remove="Assets\HomePlaylistView\TrimLight.png" />
-        <Content Remove="Assets\HomePlaylistView\ViewDark.png" />
-        <Content Remove="Assets\HomePlaylistView\ViewLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\AuthorDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\AuthorLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\DateDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\DateLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\DirectoryDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\DirectoryLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\ExtensionDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\ExtensionLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\FilenameDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\FilenameLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\MediaDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\MediaLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\QualityDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\QualityLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\TimeDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\TimeLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\TrimDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\TrimLight.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\ViewDark.png" />
+        <Content Remove="Assets\HomeVideoCollectionView\ViewLight.png" />
         <Content Remove="Assets\HomeVideoView\AuthorDark.png" />
         <Content Remove="Assets\HomeVideoView\AuthorLight.png" />
         <Content Remove="Assets\HomeVideoView\DateDark.png" />
@@ -154,7 +154,7 @@
         <None Remove="Dictionaries\Converters.xaml" />
         <None Remove="Dictionaries\Images\ImagesBaseView.xaml" />
         <None Remove="Dictionaries\Images\ImagesHomeDownloadsView.xaml" />
-        <None Remove="Dictionaries\Images\ImagesHomePlaylistView.xaml" />
+        <None Remove="Dictionaries\Images\ImagesHomeVideoCollectionView.xaml" />
         <None Remove="Dictionaries\Images\ImagesHomeVideoView.xaml" />
         <None Remove="Dictionaries\Images\ImagesHomeView.xaml" />
         <None Remove="Dictionaries\Images\ImagesLogo.xaml" />
@@ -372,64 +372,64 @@
     <None Update="Assets\HomeDownloadsView\TimeLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\AuthorDark.png">
+    <None Update="Assets\HomeVideoCollectionView\AuthorDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\AuthorLight.png">
+    <None Update="Assets\HomeVideoCollectionView\AuthorLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\DateDark.png">
+    <None Update="Assets\HomeVideoCollectionView\DateDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\DateLight.png">
+    <None Update="Assets\HomeVideoCollectionView\DateLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\DirectoryDark.png">
+    <None Update="Assets\HomeVideoCollectionView\DirectoryDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\DirectoryLight.png">
+    <None Update="Assets\HomeVideoCollectionView\DirectoryLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\ExtensionDark.png">
+    <None Update="Assets\HomeVideoCollectionView\ExtensionDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\ExtensionLight.png">
+    <None Update="Assets\HomeVideoCollectionView\ExtensionLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\FilenameDark.png">
+    <None Update="Assets\HomeVideoCollectionView\FilenameDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\FilenameLight.png">
+    <None Update="Assets\HomeVideoCollectionView\FilenameLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\MediaDark.png">
+    <None Update="Assets\HomeVideoCollectionView\MediaDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\MediaLight.png">
+    <None Update="Assets\HomeVideoCollectionView\MediaLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\QualityDark.png">
+    <None Update="Assets\HomeVideoCollectionView\QualityDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\QualityLight.png">
+    <None Update="Assets\HomeVideoCollectionView\QualityLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\TimeDark.png">
+    <None Update="Assets\HomeVideoCollectionView\TimeDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\TimeLight.png">
+    <None Update="Assets\HomeVideoCollectionView\TimeLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\TrimDark.png">
+    <None Update="Assets\HomeVideoCollectionView\TrimDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\TrimLight.png">
+    <None Update="Assets\HomeVideoCollectionView\TrimLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\ViewDark.png">
+    <None Update="Assets\HomeVideoCollectionView\ViewDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Assets\HomePlaylistView\ViewLight.png">
+    <None Update="Assets\HomeVideoCollectionView\ViewLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Assets\HomeVideoView\AuthorDark.png">
@@ -534,7 +534,7 @@
     <Page Update="Dictionaries\Images\ImagesOther.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Dictionaries\Images\ImagesHomePlaylistView.xaml">
+    <Page Update="Dictionaries\Images\ImagesHomeVideoCollectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Dictionaries\Images\ImagesHomeDownloadsView.xaml">
