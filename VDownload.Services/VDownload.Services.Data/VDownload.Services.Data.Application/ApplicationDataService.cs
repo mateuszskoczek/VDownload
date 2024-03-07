@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using VDownload.Services.Data.Configuration;
 
-namespace VDownload.Services.Data.Settings
+namespace VDownload.Services.Data.Application
 {
-    public interface ISettingsService
+    public interface IApplicationDataService
     {
         #region PROPERTIES
 
-        SettingsData Data { get; }
+        ApplicationData Data { get; }
 
         #endregion
 
@@ -21,15 +21,15 @@ namespace VDownload.Services.Data.Settings
         #region METHODS
 
         Task Load();
-        Task Save();
         Task Restore();
+        Task Save();
 
         #endregion
     }
 
 
 
-    public class SettingsService : ISettingsService
+    public class ApplicationDataService : IApplicationDataService
     {
         #region SERVICES
 
@@ -49,7 +49,7 @@ namespace VDownload.Services.Data.Settings
 
         #region PROPERTIES
 
-        public SettingsData Data { get; private set; }
+        public ApplicationData Data { get; private set; }
 
         #endregion
 
@@ -57,13 +57,13 @@ namespace VDownload.Services.Data.Settings
 
         #region CONSTRUCTORS
 
-        public SettingsService(IConfigurationService configurationService)
+        public ApplicationDataService(IConfigurationService configurationService)
         {
             _configurationService = configurationService;
 
             string appdataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             string appdataDirectoryName = _configurationService.Common.Path.Appdata.DirectoryName;
-            string appdataAuthenticationFilename = _configurationService.Common.Path.Appdata.DataFile;
+            string appdataAuthenticationFilename = _configurationService.Common.Path.Appdata.SettingsFile;
             _filePath = Path.Combine(appdataPath, appdataDirectoryName, appdataAuthenticationFilename);
         }
 
@@ -78,11 +78,11 @@ namespace VDownload.Services.Data.Settings
             if (File.Exists(_filePath))
             {
                 string content = await File.ReadAllTextAsync(_filePath);
-                Data = JsonConvert.DeserializeObject<SettingsData>(content);
+                Data = JsonConvert.DeserializeObject<ApplicationData>(content);
             }
             else
             {
-                Data = new SettingsData();
+                Data = new ApplicationData();
             }
         }
 
@@ -95,7 +95,7 @@ namespace VDownload.Services.Data.Settings
 
         public async Task Restore()
         {
-            Data = new SettingsData();
+            Data = new ApplicationData();
             await Save();
         }
 
