@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VDownload.Core.Tasks;
 using VDownload.Models;
+using VDownload.Services.Data.Application;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.StoragePicker;
@@ -29,6 +30,7 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly IFilenameService _filenameService;
         protected readonly IDialogsService _dialogsService;
         protected readonly IStringResourcesService _stringResourcesService;
+        protected readonly IApplicationDataService _applicationDataService;
 
         #endregion
 
@@ -96,7 +98,7 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeVideoViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService) 
+        public HomeVideoViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService, IApplicationDataService applicationDataService) 
         {
             _tasksManager = tasksManager;
             _settingsService = settingsService;
@@ -104,6 +106,7 @@ namespace VDownload.Core.ViewModels.Home
             _filenameService = filenameService;
             _dialogsService = dialogsService;
             _stringResourcesService = stringResourcesService;
+            _applicationDataService = applicationDataService;
         }
 
         #endregion
@@ -130,10 +133,18 @@ namespace VDownload.Core.ViewModels.Home
             MediaType = _settingsService.Data.Common.Tasks.DefaultMediaType;
             TrimStart = TimeSpan.Zero;
             TrimEnd = Duration;
-            DirectoryPath = _settingsService.Data.Common.Tasks.DefaultOutputDirectory;
             Filename = _filenameService.CreateFilename(_settingsService.Data.Common.Tasks.FilenameTemplate, video);
             VideoExtension = _settingsService.Data.Common.Tasks.DefaultVideoExtension;
             AudioExtension = _settingsService.Data.Common.Tasks.DefaultAudioExtension;
+
+            if (_settingsService.Data.Common.Tasks.SaveLastOutputDirectory && !string.IsNullOrWhiteSpace(_applicationDataService.Data.Common.LastOutputDirectory))
+            {
+                DirectoryPath = _applicationDataService.Data.Common.LastOutputDirectory;
+            }
+            else
+            {
+                DirectoryPath = _settingsService.Data.Common.Tasks.DefaultOutputDirectory;
+            }
         }
 
 
@@ -144,6 +155,9 @@ namespace VDownload.Core.ViewModels.Home
             if (newDirectory is not null)
             {
                 this.DirectoryPath = newDirectory;
+
+                _applicationDataService.Data.Common.LastOutputDirectory = newDirectory;
+                await _applicationDataService.Save();
             }
         }
 

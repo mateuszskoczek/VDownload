@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VDownload.Models;
+using VDownload.Services.Data.Application;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.StoragePicker;
 using VDownload.Services.Utility.Filename;
@@ -21,6 +22,7 @@ namespace VDownload.Core.ViewModels.Home.Helpers
         protected readonly ISettingsService _settingsService;
         protected readonly IStoragePickerService _storagePickerService;
         protected readonly IFilenameService _filenameService;
+        protected readonly IApplicationDataService _applicationDataService;
 
         #endregion
 
@@ -82,11 +84,12 @@ namespace VDownload.Core.ViewModels.Home.Helpers
 
         #region CONSTRUCTORS
 
-        public VideoViewModel(Video video, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService)
+        public VideoViewModel(Video video, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IApplicationDataService applicationDataService)
         {
             _settingsService = settingsService;
             _storagePickerService = storagePickerService;
             _filenameService = filenameService;
+            _applicationDataService = applicationDataService;
 
             Video = video;
 
@@ -102,10 +105,18 @@ namespace VDownload.Core.ViewModels.Home.Helpers
             MediaType = _settingsService.Data.Common.Tasks.DefaultMediaType;
             TrimStart = TimeSpan.Zero;
             TrimEnd = Duration;
-            DirectoryPath = _settingsService.Data.Common.Tasks.DefaultOutputDirectory;
             Filename = _filenameService.CreateFilename(_settingsService.Data.Common.Tasks.FilenameTemplate, video);
             VideoExtension = _settingsService.Data.Common.Tasks.DefaultVideoExtension;
             AudioExtension = _settingsService.Data.Common.Tasks.DefaultAudioExtension;
+
+            if (_settingsService.Data.Common.Tasks.SaveLastOutputDirectory && !string.IsNullOrWhiteSpace(_applicationDataService.Data.Common.LastOutputDirectory))
+            {
+                DirectoryPath = _applicationDataService.Data.Common.LastOutputDirectory;
+            }
+            else
+            {
+                DirectoryPath = _settingsService.Data.Common.Tasks.DefaultOutputDirectory;
+            }
         }
 
         #endregion
@@ -141,6 +152,9 @@ namespace VDownload.Core.ViewModels.Home.Helpers
             if (newDirectory is not null)
             {
                 this.DirectoryPath = newDirectory;
+
+                _applicationDataService.Data.Common.LastOutputDirectory = newDirectory;
+                await _applicationDataService.Save();
             }
         }
 
