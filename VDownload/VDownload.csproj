@@ -214,6 +214,12 @@
     <Content Update="Assets\BaseView\AboutLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\BaseView\SubscriptionsDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\BaseView\SubscriptionsLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\HomeVideoView\QualityDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

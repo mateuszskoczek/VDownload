@@ -18,6 +18,7 @@ namespace VDownload.Services.UI.StringResources
         StringResources SettingsViewResources { get; }
         StringResources FilenameTemplateResources { get; }
         StringResources AboutViewResources { get; }
+        StringResources SubscriptionsViewResources { get; }
     }
 
 
@@ -47,6 +48,7 @@ namespace VDownload.Services.UI.StringResources
         public StringResources SettingsViewResources { get; protected set; }
         public StringResources FilenameTemplateResources { get; protected set; }
         public StringResources AboutViewResources { get; protected set; }
+        public StringResources SubscriptionsViewResources { get; protected set; }
 
         #endregion
 
@@ -71,6 +73,7 @@ namespace VDownload.Services.UI.StringResources
             SettingsViewResources = BuildResource("SettingsViewResources");
             FilenameTemplateResources = BuildResource("FilenameTemplateResources");
             AboutViewResources = BuildResource("AboutViewResources");
+            SubscriptionsViewResources = BuildResource("SubscriptionsViewResources");
         }
 
         #endregion

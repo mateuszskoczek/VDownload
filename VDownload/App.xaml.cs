@@ -11,11 +11,13 @@ using VDownload.Core.ViewModels.About;
 using VDownload.Core.ViewModels.Authentication;
 using VDownload.Core.ViewModels.Home;
 using VDownload.Core.ViewModels.Settings;
+using VDownload.Core.ViewModels.Subscriptions;
 using VDownload.Core.Views;
 using VDownload.Core.Views.About;
 using VDownload.Core.Views.Authentication;
 using VDownload.Core.Views.Home;
 using VDownload.Core.Views.Settings;
+using VDownload.Core.Views.Subscriptions;
 using VDownload.Services.Data.Application;
 using VDownload.Services.Data.Authentication;
 using VDownload.Services.Data.Configuration;
@@ -156,6 +158,7 @@ namespace VDownload
             services.AddSingleton<HomeVideoViewModel>();
             services.AddSingleton<HomeVideoCollectionViewModel>();
             services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<SubscriptionsViewModel>();
             services.AddSingleton<BaseViewModel>();
 
             // Views
@@ -166,6 +169,7 @@ namespace VDownload
             services.AddTransient<HomeVideoView>();
             services.AddTransient<HomeVideoCollectionView>();
             services.AddTransient<HomeView>();
+            services.AddTransient<SubscriptionsView>();
             services.AddTransient<BaseWindow>();
         }
 

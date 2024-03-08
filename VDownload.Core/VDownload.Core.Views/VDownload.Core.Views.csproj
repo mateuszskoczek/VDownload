@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="About\AboutView.xaml" />
     <None Remove="Home\HomeVideoCollectionView.xaml" />
+    <None Remove="Subscriptions\SubscriptionsView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +45,9 @@
     <None Update="Home\HomeDownloadsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <Page Update="Subscriptions\SubscriptionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Home\HomeVideoCollectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
