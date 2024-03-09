@@ -1,10 +1,12 @@
-﻿using ABI.System;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using VDownload.Core.ViewModels.Subscriptions.Helpers;
@@ -92,6 +94,12 @@ namespace VDownload.Core.ViewModels.Subscriptions
         [RelayCommand]
         public async Task Add()
         {
+            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            {
+                ShowError(_stringResourcesService.SubscriptionsViewResources.Get("NoInternetConnectionError"));
+                return;
+            }
+
             Loading = true;
 
             Playlist playlist;
@@ -101,16 +109,18 @@ namespace VDownload.Core.ViewModels.Subscriptions
             }
             catch (MediaSearchException ex)
             {
-                Error = _stringResourcesService.SearchResources.Get(ex.StringCode);
-                Loading = false;
+                ShowError(_stringResourcesService.SearchResources.Get(ex.StringCode));
+                return;
+            }
+            catch (Exception ex) when (ex is TaskCanceledException || ex is HttpRequestException)
+            {
+                ShowError(_stringResourcesService.SearchResources.Get("SearchTimeout"));
                 return;
             }
 
-
             if (_subscriptionsDataService.Data.Any(x => x.Source == playlist.Source && x.Name == playlist.Name))
             {
-                Error = _stringResourcesService.SubscriptionsViewResources.Get("DuplicateError");
-                Loading = false;
+                ShowError(_stringResourcesService.SubscriptionsViewResources.Get("DuplicateError"));
                 return;
             }
 
@@ -136,6 +146,18 @@ namespace VDownload.Core.ViewModels.Subscriptions
             IsErrorOpened = true;
         }
 
-        #endregion 
+        #endregion
+
+
+
+        #region PRIVATE METHODS
+
+        protected void ShowError(string message)
+        {
+            Error = message;
+            Loading = false;
+        }
+
+        #endregion
     }
 }

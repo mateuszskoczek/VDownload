@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AuthenticationButtonSignIn.Value" xml:space="preserve">
+  <data name="AuthenticationButtonSignIn.Text" xml:space="preserve">
     <value>Sign in</value>
   </data>
-  <data name="AuthenticationButtonSignOut.Value" xml:space="preserve">
+  <data name="AuthenticationButtonSignOut.Text" xml:space="preserve">
     <value>Sign out</value>
   </data>
   <data name="AuthenticationDescriptionLoading.Value" xml:space="preserve">
@@ -135,8 +135,17 @@
   <data name="TwitchAuthenticationDescriptionAuthenticationInvalid" xml:space="preserve">
     <value>Token expired or is invalid. Please log in again</value>
   </data>
+  <data name="TwitchAuthenticationDescriptionCannotValidate" xml:space="preserve">
+    <value>Cannot validate token. Check your internet connection and try again later.</value>
+  </data>
   <data name="TwitchAuthenticationDescriptionNotAuthenticated" xml:space="preserve">
     <value>You are not authenticated. Please sign in</value>
+  </data>
+  <data name="TwitchAuthenticationDescriptionNotAuthenticatedNoInternetConnection" xml:space="preserve">
+    <value>You are not authenticated and there is no internet connection. Check your internet connection and try again later.</value>
+  </data>
+  <data name="TwitchAuthenticationDialogMessage" xml:space="preserve">
+    <value>An unknown error occured during Twitch login</value>
   </data>
   <data name="TwitchAuthenticationDialogTitle" xml:space="preserve">
     <value>Twitch authentication error</value>

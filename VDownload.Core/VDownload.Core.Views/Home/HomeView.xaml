@@ -134,6 +134,9 @@
                                             IsChecked="{Binding OptionBarPlaylistSearchButtonChecked, Mode=TwoWay}"
                                             Command="{Binding PlaylistSearchShowCommand}"/>
                         <AppBarSeparator/>
+                        <AppBarButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarCancelAll"
+                                      Icon="Cancel"
+                                      Command="{Binding CancelCommand}"/>
                         <AppBarButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarDownloadAll"
                                       Icon="Download"
                                       Command="{Binding DownloadCommand}"/>

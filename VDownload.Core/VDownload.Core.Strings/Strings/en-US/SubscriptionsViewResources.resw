@@ -126,6 +126,9 @@
   <data name="Header.Text" xml:space="preserve">
     <value>Subscriptions</value>
   </data>
+  <data name="NoInternetConnectionError" xml:space="preserve">
+    <value>No internet connection</value>
+  </data>
   <data name="PlaylistSearchButton.Content" xml:space="preserve">
     <value>Add</value>
   </data>

@@ -1,3 +1,5 @@
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -82,6 +84,14 @@ namespace VDownload.Services.UI.WebView
         private void Window_Closed(object sender, WindowEventArgs args)
         {
             _isOpened = false;
+        }
+
+        private void Window_Activated(object sender, WindowActivatedEventArgs args)
+        {
+            IntPtr windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            WindowId windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
+            AppWindow appWindow = AppWindow.GetFromWindowId(windowId);
+            appWindow.SetIcon(@"Assets\Logo\Logo.ico");
         }
 
         #endregion
