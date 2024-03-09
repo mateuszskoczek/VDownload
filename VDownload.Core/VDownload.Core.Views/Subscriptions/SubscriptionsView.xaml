@@ -107,7 +107,7 @@
             <ctuc:Case Value="True">
                 <InfoBar x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/ErrorInfoBar"
                          Severity="Error"
-                         IsOpen="{Binding IsErrorOpened, Mode=TwoWay}"
+                         IsOpen="{Binding OptionBarIsErrorOpened, Mode=TwoWay}"
                          Message="{Binding Error}"
                          CloseButtonCommand="{Binding CloseErrorCommand}"/>
             </ctuc:Case>

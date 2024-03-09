@@ -23,13 +23,6 @@ namespace VDownload.Core.ViewModels.Home
     {
         #region ENUMS
 
-        public enum OptionBarMessageIconType
-        {
-            None,
-            ProgressRing,
-            Error
-        }
-
         public enum OptionBarContentType
         {
             None,
@@ -80,6 +73,11 @@ namespace VDownload.Core.ViewModels.Home
         [ObservableProperty]
         private Type _mainContent;
 
+        [ObservableProperty]
+        private string _optionBarError;
+
+        [ObservableProperty]
+        private bool _optionBarIsErrorOpened;
 
         [ObservableProperty]
         private OptionBarContentType _optionBarContent;
@@ -88,7 +86,7 @@ namespace VDownload.Core.ViewModels.Home
         private string _optionBarMessage;
 
         [ObservableProperty]
-        private OptionBarMessageIconType _optionBarMessageIcon;
+        private bool _optionBarLoading;
 
         [ObservableProperty]
         private bool _optionBarLoadSubscriptionButtonChecked;
@@ -149,8 +147,10 @@ namespace VDownload.Core.ViewModels.Home
             MainContent = _downloadsView;
 
             OptionBarContent = OptionBarContentType.None;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarLoading = false;
             OptionBarMessage = null;
+            OptionBarError = null;
+            OptionBarIsErrorOpened = true;
             OptionBarLoadSubscriptionButtonChecked = false;
             OptionBarVideoSearchButtonChecked = false;
             OptionBarPlaylistSearchButtonChecked = false;
@@ -164,7 +164,7 @@ namespace VDownload.Core.ViewModels.Home
         public async Task LoadFromSubscription()
         {
             MainContent = _downloadsView;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarLoading = false;
             OptionBarMessage = null;
 
             if (OptionBarLoadSubscriptionButtonChecked)
@@ -174,7 +174,7 @@ namespace VDownload.Core.ViewModels.Home
                 OptionBarPlaylistSearchButtonChecked = false;
 
                 OptionBarSearchNotPending = false;
-                OptionBarMessageIcon = OptionBarMessageIconType.ProgressRing;
+                OptionBarLoading = true;
                 OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
 
                 SubscriptionsVideoList subList = new SubscriptionsVideoList { Name = _stringResourcesService.CommonResources.Get("SubscriptionVideoListName") };
@@ -217,7 +217,7 @@ namespace VDownload.Core.ViewModels.Home
                 }
 
                 OptionBarSearchNotPending = true;
-                OptionBarMessageIcon = OptionBarMessageIconType.None;
+                OptionBarLoading = false;
             }
         }
 
@@ -225,7 +225,7 @@ namespace VDownload.Core.ViewModels.Home
         public void VideoSearchShow()
         {
             OptionBarSearchNotPending = true;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarLoading = false;
             OptionBarMessage = null;
             MainContent = _downloadsView;
 
@@ -245,7 +245,7 @@ namespace VDownload.Core.ViewModels.Home
         public void PlaylistSearchShow()
         {
             OptionBarSearchNotPending = true;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarLoading = false;
             OptionBarMessage = null;
             MainContent = _downloadsView;
 
@@ -265,7 +265,7 @@ namespace VDownload.Core.ViewModels.Home
         public async Task VideoSearchStart()
         {
             OptionBarSearchNotPending = false;
-            OptionBarMessageIcon = OptionBarMessageIconType.ProgressRing;
+            OptionBarLoading = true;
             OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
 
             Video video;
@@ -275,9 +275,10 @@ namespace VDownload.Core.ViewModels.Home
             }
             catch (MediaSearchException ex)
             {
-                OptionBarMessageIcon = OptionBarMessageIconType.Error;
-                OptionBarMessage = _stringResourcesService.SearchResources.Get(ex.StringCode);
+                OptionBarError = _stringResourcesService.SearchResources.Get(ex.StringCode);
                 OptionBarSearchNotPending = true;
+                OptionBarLoading = false;
+                OptionBarMessage = null;
                 return;
             }
 
@@ -286,7 +287,7 @@ namespace VDownload.Core.ViewModels.Home
             MainContent = _videoView;
 
             OptionBarSearchNotPending = true;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarLoading = false;
             OptionBarMessage = null;
         }
 
@@ -294,7 +295,7 @@ namespace VDownload.Core.ViewModels.Home
         public async Task PlaylistSearchStart()
         {
             OptionBarSearchNotPending = false;
-            OptionBarMessageIcon = OptionBarMessageIconType.ProgressRing;
+            OptionBarLoading = true;
             OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
 
             Playlist playlist;
@@ -304,9 +305,10 @@ namespace VDownload.Core.ViewModels.Home
             }
             catch (MediaSearchException ex)
             {
-                OptionBarMessageIcon = OptionBarMessageIconType.Error;
-                OptionBarMessage = _stringResourcesService.SearchResources.Get(ex.StringCode);
+                OptionBarError = _stringResourcesService.SearchResources.Get(ex.StringCode);
                 OptionBarSearchNotPending = true;
+                OptionBarLoading = false;
+                OptionBarMessage = null;
                 return;
             }
 
@@ -315,7 +317,7 @@ namespace VDownload.Core.ViewModels.Home
             MainContent = _videoCollectionView;
 
             OptionBarSearchNotPending = true;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarLoading = false;
             OptionBarMessage = null;
         }
 
@@ -337,6 +339,13 @@ namespace VDownload.Core.ViewModels.Home
             {
                 task.Enqueue();
             }
+        }
+
+        [RelayCommand]
+        public void CloseError()
+        {
+            OptionBarError = null;
+            OptionBarIsErrorOpened = true;
         }
 
         #endregion
