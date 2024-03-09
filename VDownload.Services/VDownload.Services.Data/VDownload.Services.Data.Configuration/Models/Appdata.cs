@@ -21,5 +21,8 @@ namespace VDownload.Services.Data.Configuration.Models
 
         [ConfigurationKeyName("data_file")]
         public string DataFile { get; set; }
+
+        [ConfigurationKeyName("subscriptions_file")]
+        public string SubscriptionsFile { get; set; }
     }
 }

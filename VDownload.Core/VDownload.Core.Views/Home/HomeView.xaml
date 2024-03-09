@@ -129,10 +129,11 @@
             </ctuc:UniformGrid>
             <StackPanel Grid.Column="2" 
                         Orientation="Horizontal">
-                <AppBarButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarLoadSubscription"
-                              Icon="Favorite"
-                              IsEnabled="{Binding OptionBarSearchNotPending}"
-                              Command="{Binding LoadFromSubscriptionCommand}"/>
+                <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarLoadSubscription"
+                                    Icon="Favorite"
+                                    IsEnabled="{Binding OptionBarSearchNotPending}"
+                                    IsChecked="{Binding OptionBarLoadSubscriptionButtonChecked, Mode=TwoWay}"
+                                    Command="{Binding LoadFromSubscriptionCommand}"/>
                 <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarVideoSearch"
                                     Icon="Video"
                                     IsEnabled="{Binding OptionBarSearchNotPending}"

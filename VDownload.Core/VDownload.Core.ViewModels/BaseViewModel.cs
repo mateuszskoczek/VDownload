@@ -13,6 +13,7 @@ using VDownload.Services.UI.DictionaryResources;
 using VDownload.Services.UI.StringResources;
 using SimpleToolkit.UI.Models;
 using VDownload.Core.ViewModels.About;
+using VDownload.Core.ViewModels.Subscriptions;
 
 namespace VDownload.Core.ViewModels
 {
@@ -66,7 +67,13 @@ namespace VDownload.Core.ViewModels
                         Name = _stringResourcesService.BaseViewResources.Get("HomeNavigationViewItem"),
                         IconSource = _dictionaryResourcesService.Get<string>("ImageBaseViewHome"),
                         ViewModel = typeof(HomeViewModel),
-                    }
+                    },
+                    new NavigationViewItem()
+                    {
+                        Name = _stringResourcesService.BaseViewResources.Get("SubscriptionsNavigationViewItem"),
+                        IconSource = _dictionaryResourcesService.Get<string>("ImageBaseViewSubscriptions"),
+                        ViewModel = typeof(SubscriptionsViewModel),
+                    },
                 }
             );
             FooterItems = new ReadOnlyObservableCollection<NavigationViewItem>

@@ -126,4 +126,7 @@
   <data name="HomeNavigationViewItem" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="SubscriptionsNavigationViewItem" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
 </root>

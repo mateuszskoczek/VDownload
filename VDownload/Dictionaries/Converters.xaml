@@ -13,4 +13,7 @@
     <ct:StringFormatConverter x:Key="StringFormatConverter"/>
     <ct:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <ct:BoolNegationConverter x:Key="BoolNegationConverter"/>
+    <ct:EmptyObjectToObjectConverter x:Key="IsNotNullConverter"
+                                     EmptyValue="False"
+                                     NotEmptyValue="True"/>
 </ResourceDictionary>

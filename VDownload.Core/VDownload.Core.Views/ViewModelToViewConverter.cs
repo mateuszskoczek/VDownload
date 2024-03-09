@@ -6,10 +6,12 @@ using VDownload.Core.ViewModels.About;
 using VDownload.Core.ViewModels.Authentication;
 using VDownload.Core.ViewModels.Home;
 using VDownload.Core.ViewModels.Settings;
+using VDownload.Core.ViewModels.Subscriptions;
 using VDownload.Core.Views.About;
 using VDownload.Core.Views.Authentication;
 using VDownload.Core.Views.Home;
 using VDownload.Core.Views.Settings;
+using VDownload.Core.Views.Subscriptions;
 
 namespace VDownload.Core.Views
 {
@@ -22,7 +24,8 @@ namespace VDownload.Core.Views
             { typeof(HomeViewModel), typeof(HomeView) },
             { typeof(HomeDownloadsViewModel), typeof(HomeDownloadsView) },
             { typeof(HomeVideoViewModel), typeof(HomeVideoView) },
-            { typeof(HomePlaylistViewModel), typeof(HomePlaylistView) },
+            { typeof(HomeVideoCollectionViewModel), typeof(HomeVideoCollectionView) },
+            { typeof(SubscriptionsViewModel), typeof(SubscriptionsView) },
             { typeof(SettingsViewModel), typeof(SettingsView) },
             { typeof(AboutViewModel), typeof(AboutView) },
             { typeof(AuthenticationViewModel), typeof(AuthenticationView) }

@@ -11,16 +11,19 @@ using VDownload.Core.ViewModels.About;
 using VDownload.Core.ViewModels.Authentication;
 using VDownload.Core.ViewModels.Home;
 using VDownload.Core.ViewModels.Settings;
+using VDownload.Core.ViewModels.Subscriptions;
 using VDownload.Core.Views;
 using VDownload.Core.Views.About;
 using VDownload.Core.Views.Authentication;
 using VDownload.Core.Views.Home;
 using VDownload.Core.Views.Settings;
+using VDownload.Core.Views.Subscriptions;
 using VDownload.Services.Data.Application;
 using VDownload.Services.Data.Authentication;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Configuration.Models;
 using VDownload.Services.Data.Settings;
+using VDownload.Services.Data.Subscriptions;
 using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.DictionaryResources;
 using VDownload.Services.UI.Notifications;
@@ -108,6 +111,7 @@ namespace VDownload
             services.AddSingleton<IAuthenticationDataService, AuthenticationDataService>();
             services.AddSingleton<ISettingsService, SettingsService>();
             services.AddSingleton<IApplicationDataService, ApplicationDataService>();
+            services.AddSingleton<ISubscriptionsDataService, SubscriptionsDataService>();
         }
 
         protected void BuildUIServices(IServiceCollection services)
@@ -154,8 +158,9 @@ namespace VDownload
             services.AddSingleton<SettingsViewModel>();
             services.AddSingleton<HomeDownloadsViewModel>();
             services.AddSingleton<HomeVideoViewModel>();
-            services.AddSingleton<HomePlaylistViewModel>();
+            services.AddSingleton<HomeVideoCollectionViewModel>();
             services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<SubscriptionsViewModel>();
             services.AddSingleton<BaseViewModel>();
 
             // Views
@@ -164,8 +169,9 @@ namespace VDownload
             services.AddTransient<SettingsView>();
             services.AddTransient<HomeDownloadsView>();
             services.AddTransient<HomeVideoView>();
-            services.AddTransient<HomePlaylistView>();
+            services.AddTransient<HomeVideoCollectionView>();
             services.AddTransient<HomeView>();
+            services.AddTransient<SubscriptionsView>();
             services.AddTransient<BaseWindow>();
         }
 
@@ -185,7 +191,8 @@ namespace VDownload
             IApplicationDataService applicationDataService = _serviceProvider.GetService<IApplicationDataService>();
             ISettingsService settingsService = _serviceProvider.GetService<ISettingsService>();
             IAuthenticationDataService authenticationDataService = _serviceProvider.GetService<IAuthenticationDataService>();
-            await Task.WhenAll(applicationDataService.Load(), settingsService.Load(), authenticationDataService.Load());
+            ISubscriptionsDataService subscriptionsDataService = _serviceProvider.GetService<ISubscriptionsDataService>();
+            await Task.WhenAll(applicationDataService.Load(), settingsService.Load(), authenticationDataService.Load(), subscriptionsDataService.Load());
         }
 
         protected void AssignStaticProperties()

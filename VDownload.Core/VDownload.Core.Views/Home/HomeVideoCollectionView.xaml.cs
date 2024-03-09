@@ -16,11 +16,11 @@ using Windows.Foundation.Collections;
 
 namespace VDownload.Core.Views.Home
 {
-    public sealed partial class HomePlaylistView : Page
+    public sealed partial class HomeVideoCollectionView : Page
     {
         #region CONSTRUCTORS
 
-        public HomePlaylistView(HomePlaylistViewModel viewModel)
+        public HomeVideoCollectionView(HomeVideoCollectionViewModel viewModel)
         {
             this.InitializeComponent();
             this.DataContext = viewModel;
