@@ -192,6 +192,7 @@
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Authentication\VDownload.Services.Data.Authentication.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Configuration\VDownload.Services.Data.Configuration.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Settings\VDownload.Services.Data.Settings.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Subscriptions\VDownload.Services.Data.Subscriptions.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Dialogs\VDownload.Services.UI.Dialogs.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.DictionaryResources\VDownload.Services.UI.DictionaryResources.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Notifications\VDownload.Services.UI.Notifications.csproj" />

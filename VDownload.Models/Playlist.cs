@@ -12,6 +12,7 @@ namespace VDownload.Models
 
         public required string Description { get; set; }
         public required Uri Url { get; set; }
+        public Source Source { get; protected set; }
 
         #endregion
     }
