@@ -132,6 +132,12 @@
   <data name="OptionBarMessageLoading" xml:space="preserve">
     <value>Loading...</value>
   </data>
+  <data name="OptionBarMessageVideosFound" xml:space="preserve">
+    <value>New videos:</value>
+  </data>
+  <data name="OptionBarMessageVideosNotFound" xml:space="preserve">
+    <value>No new videos</value>
+  </data>
   <data name="OptionBarPlaylistSearch.Label" xml:space="preserve">
     <value>Playlist search</value>
   </data>

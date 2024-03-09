@@ -159,4 +159,7 @@
   <data name="StartAtMeteredConnectionDialogTitle" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="SubscriptionVideoListName" xml:space="preserve">
+    <value>Subscriptions</value>
+  </data>
 </root>

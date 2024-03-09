@@ -10,6 +10,7 @@ using VDownload.Core.Tasks;
 using VDownload.Models;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Settings;
+using VDownload.Services.Data.Subscriptions;
 using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.StringResources;
 using VDownload.Sources;
@@ -52,6 +53,7 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly ISettingsService _settingsService;
         protected readonly IStringResourcesService _stringResourcesService;
         protected readonly ISearchService _searchService;
+        protected readonly ISubscriptionsDataService _subscriptionsDataService;
         protected readonly IDialogsService _dialogsService;
 
         protected readonly IDownloadTaskManager _downloadTaskManager;
@@ -89,6 +91,9 @@ namespace VDownload.Core.ViewModels.Home
         private OptionBarMessageIconType _optionBarMessageIcon;
 
         [ObservableProperty]
+        private bool _optionBarLoadSubscriptionButtonChecked;
+
+        [ObservableProperty]
         private bool _optionBarVideoSearchButtonChecked;
 
         [ObservableProperty]
@@ -112,12 +117,13 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, IDialogsService dialogsService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomeVideoCollectionViewModel videoCollectionViewModel)
+        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, ISubscriptionsDataService subscriptionsDataService, IDialogsService dialogsService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomeVideoCollectionViewModel videoCollectionViewModel)
         {
             _configurationService = configurationService;
             _settingsService = settingsService;
             _stringResourcesService = stringResourcesService;
             _searchService = searchService;
+            _subscriptionsDataService = subscriptionsDataService;
             _dialogsService = dialogsService;
 
             _downloadTaskManager = downloadTaskManager;
@@ -145,6 +151,7 @@ namespace VDownload.Core.ViewModels.Home
             OptionBarContent = OptionBarContentType.None;
             OptionBarMessageIcon = OptionBarMessageIconType.None;
             OptionBarMessage = null;
+            OptionBarLoadSubscriptionButtonChecked = false;
             OptionBarVideoSearchButtonChecked = false;
             OptionBarPlaylistSearchButtonChecked = false;
             OptionBarSearchNotPending = true;
@@ -154,16 +161,64 @@ namespace VDownload.Core.ViewModels.Home
         }
 
         [RelayCommand]
-        public void LoadFromSubscription()
+        public async Task LoadFromSubscription()
         {
             MainContent = _downloadsView;
+            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarMessage = null;
 
-            OptionBarContent = OptionBarContentType.None;
-            OptionBarVideoSearchButtonChecked = false;
-            OptionBarPlaylistSearchButtonChecked = false;
-            OptionBarSearchNotPending = false;
+            if (OptionBarLoadSubscriptionButtonChecked)
+            {
+                OptionBarContent = OptionBarContentType.None;
+                OptionBarVideoSearchButtonChecked = false;
+                OptionBarPlaylistSearchButtonChecked = false;
 
-            //TODO: Load videos
+                OptionBarSearchNotPending = false;
+                OptionBarMessageIcon = OptionBarMessageIconType.ProgressRing;
+                OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
+
+                SubscriptionsVideoList subList = new SubscriptionsVideoList { Name = _stringResourcesService.CommonResources.Get("SubscriptionVideoListName") };
+                List<Task> tasks = new List<Task>();
+                foreach (Subscription sub in _subscriptionsDataService.Data.ToArray())
+                {
+                    tasks.Add(Task.Run(async () =>
+                    {
+                        Playlist playlist;
+                        try
+                        {
+                            playlist = await _searchService.SearchPlaylist(sub.Url.OriginalString, 0);
+                        }
+                        catch (MediaSearchException)
+                        {
+                            return;
+                        }
+
+                        IEnumerable<Video> newIds = playlist.Where(x => !sub.VideoIds.Contains(x.Id));
+                        subList.AddRange(newIds);
+                        foreach (Video video in newIds)
+                        {
+                            sub.VideoIds.Add(video.Id);
+                        }
+                    }));
+                }
+                await Task.WhenAll(tasks);
+                await _subscriptionsDataService.Save();
+
+                if (subList.Count > 0)
+                {
+                    OptionBarMessage = $"{_stringResourcesService.HomeViewResources.Get("OptionBarMessageVideosFound")} {subList.Count}";
+
+                    _videoCollectionViewModel.LoadCollection(subList);
+                    MainContent = _videoCollectionView;
+                }
+                else
+                {
+                    OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageVideosNotFound");
+                }
+
+                OptionBarSearchNotPending = true;
+                OptionBarMessageIcon = OptionBarMessageIconType.None;
+            }
         }
 
         [RelayCommand]
@@ -178,6 +233,7 @@ namespace VDownload.Core.ViewModels.Home
             {
                 OptionBarContent = OptionBarContentType.VideoSearch;
                 OptionBarPlaylistSearchButtonChecked = false;
+                OptionBarLoadSubscriptionButtonChecked = false;
             }
             else
             {
@@ -197,6 +253,7 @@ namespace VDownload.Core.ViewModels.Home
             {
                 OptionBarContent = OptionBarContentType.PlaylistSearch;
                 OptionBarVideoSearchButtonChecked = false;
+                OptionBarLoadSubscriptionButtonChecked = false;
             }
             else
             {

@@ -62,7 +62,8 @@
                             </Image>
                             <TextBlock Grid.Row="1" 
                                        Text="{Binding Name}"
-                                       HorizontalAlignment="Center"/>
+                                       HorizontalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis"/>
                             <HyperlinkButton x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/RemovePlaylistButton"
                                              Grid.Row="2"
                                              Content="Remove"
@@ -87,7 +88,8 @@
                     </Grid.ColumnDefinitions>
                     <TextBox x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/PlaylistUrlTextBox"
                              Grid.Column="0"
-                             Text="{Binding Url, Mode=TwoWay}"/>
+                             Text="{Binding Url, Mode=TwoWay}"
+                             IsEnabled="{Binding Loading, Converter={StaticResource BoolNegationConverter}}"/>
                     <ctuc:SwitchPresenter Grid.Column="1"
                                           Value="{Binding Loading, Converter={StaticResource ObjectToStringConverter}}">
                         <ctuc:Case Value="True">
