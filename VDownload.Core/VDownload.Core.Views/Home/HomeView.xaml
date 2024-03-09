@@ -116,7 +116,8 @@
                         </StackPanel>
                     </ctuc:UniformGrid>
                     <StackPanel Grid.Column="2" 
-                                Orientation="Horizontal">
+                                Orientation="Horizontal"
+                                Margin="0,0,4,0">
                         <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarLoadSubscription"
                                             Icon="Favorite"
                                             IsEnabled="{Binding OptionBarSearchNotPending}"
