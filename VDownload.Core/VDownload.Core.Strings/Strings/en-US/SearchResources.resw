@@ -129,11 +129,17 @@
   <data name="TwitchChannelNotFound" xml:space="preserve">
     <value>Invalid url. Twitch channel not found.</value>
   </data>
+  <data name="TwitchClipNotFound" xml:space="preserve">
+    <value>Invalid url. Twitch clip not found.</value>
+  </data>
   <data name="TwitchNotAuthenticated" xml:space="preserve">
     <value>Twitch authentication error. Not authenticated to Twitch.</value>
   </data>
   <data name="TwitchTokenValidationUnsuccessful" xml:space="preserve">
     <value>Twitch authentication error. Authentication token is invalid.</value>
+  </data>
+  <data name="TwitchVodNotFound" xml:space="preserve">
+    <value>Invalid url. Twitch VOD not found.</value>
   </data>
   <data name="UnknownMediaType" xml:space="preserve">
     <value>Invalid url. Url does not match any of supported source's media types.</value>

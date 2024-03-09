@@ -87,6 +87,11 @@ namespace VDownload.Sources.Twitch
 
             GetVideosResponse info = await _apiService.HelixGetVideo(id, token);
 
+            if (info.Data is null)
+            {
+                throw CreateExceptionVodNotFound();
+            }
+
             Api.Helix.GetVideos.Response.Data vodResponse = info.Data[0];
 
             TwitchVod vod = await ParseVod(vodResponse);
@@ -99,6 +104,11 @@ namespace VDownload.Sources.Twitch
             byte[] token = await GetToken();
 
             GetClipsResponse info = await _apiService.HelixGetClip(id, token);
+
+            if (info.Data.Count == 0) 
+            {
+                throw CreateExceptionClipNotFound();
+            }
 
             Api.Helix.GetClips.Response.Data clipResponse = info.Data[0];
 
@@ -306,6 +316,8 @@ namespace VDownload.Sources.Twitch
         protected MediaSearchException CreateExceptionNotAuthenticated() => new MediaSearchException("TwitchNotAuthenticated");
         protected MediaSearchException CreateExceptionTokenValidationUnsuccessful() => new MediaSearchException("TwitchTokenValidationUnsuccessful");
         protected MediaSearchException CreateExceptionChannelNotFound() => new MediaSearchException("TwitchChannelNotFound");
+        protected MediaSearchException CreateExceptionVodNotFound() => new MediaSearchException("TwitchVodNotFound");
+        protected MediaSearchException CreateExceptionClipNotFound() => new MediaSearchException("TwitchClipNotFound");
 
         #endregion
     }
