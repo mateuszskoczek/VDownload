@@ -40,6 +40,9 @@ namespace VDownload.Services.Utility.FFmpeg
         protected string _inputFile;
         protected string _outputFile;
 
+        protected string _audioCodec;
+        protected string _videoCodec;
+
         protected FFOptions _options;
 
         #endregion
@@ -103,6 +106,10 @@ namespace VDownload.Services.Utility.FFmpeg
             _inputFile = inputFile;
             _outputFile = outputFile;
 
+            IMediaAnalysis analysis = await FFProbe.AnalyseAsync(_inputFile, _options);
+            _audioCodec = analysis.AudioStreams.First().CodecName;
+            _videoCodec = analysis.VideoStreams.First().CodecName;
+
             FFMpegArgumentProcessor ffmpegArguments = FFMpegArguments.FromFileInput(inputFile, true, async (options) => await BuildInputArgumentOptions(options))
                                                                      .OutputToFile(outputFile, true, async (options) => await BuildOutputArgumentOptions(options));
 
@@ -154,17 +161,13 @@ namespace VDownload.Services.Utility.FFmpeg
 
         private async Task BuildOutputArgumentOptions(FFMpegArgumentOptions options)
         {
-            IMediaAnalysis analysis = await FFProbe.AnalyseAsync(_inputFile, _options);
-            string audioCodec = analysis.AudioStreams.First().CodecName;
-            string videoCodec = analysis.VideoStreams.First().CodecName;
-
             string extension = Path.GetExtension(_outputFile).Replace(".", string.Empty);
             Data.Configuration.Models.Muxer muxer = _configurationService.Common.Processing.Muxers.First(x => x.Extension == extension);
 
             if (_mediaType != MediaType.OnlyAudio)
             {
                 IEnumerable<string> availableCodecs = muxer.VideoCodecs;
-                string selectedCodec = availableCodecs.Contains(videoCodec) ? "copy" : availableCodecs.First();
+                string selectedCodec = availableCodecs.Contains(_videoCodec) ? "copy" : availableCodecs.First();
                 options.WithCustomArgument($"-vcodec {selectedCodec}");
             }
             else
@@ -175,7 +178,7 @@ namespace VDownload.Services.Utility.FFmpeg
             if (_mediaType != MediaType.OnlyVideo)
             {
                 IEnumerable<string> availableCodecs = muxer.AudioCodecs;
-                string selectedCodec = availableCodecs.Contains(audioCodec) ? "copy" : availableCodecs.First();
+                string selectedCodec = availableCodecs.Contains(_audioCodec) ? "copy" : availableCodecs.First();
                 options.WithCustomArgument($"-acodec {selectedCodec}");
             }
             else

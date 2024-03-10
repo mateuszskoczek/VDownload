@@ -4,6 +4,7 @@ using CommunityToolkit.WinUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using VDownload.Core.Tasks;
@@ -22,13 +23,6 @@ namespace VDownload.Core.ViewModels.Home
     public partial class HomeViewModel : ObservableObject
     {
         #region ENUMS
-
-        public enum OptionBarMessageIconType
-        {
-            None,
-            ProgressRing,
-            Error
-        }
 
         public enum OptionBarContentType
         {
@@ -80,6 +74,11 @@ namespace VDownload.Core.ViewModels.Home
         [ObservableProperty]
         private Type _mainContent;
 
+        [ObservableProperty]
+        private string _optionBarError;
+
+        [ObservableProperty]
+        private bool _optionBarIsErrorOpened;
 
         [ObservableProperty]
         private OptionBarContentType _optionBarContent;
@@ -88,7 +87,7 @@ namespace VDownload.Core.ViewModels.Home
         private string _optionBarMessage;
 
         [ObservableProperty]
-        private OptionBarMessageIconType _optionBarMessageIcon;
+        private bool _optionBarLoading;
 
         [ObservableProperty]
         private bool _optionBarLoadSubscriptionButtonChecked;
@@ -149,8 +148,10 @@ namespace VDownload.Core.ViewModels.Home
             MainContent = _downloadsView;
 
             OptionBarContent = OptionBarContentType.None;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarLoading = false;
             OptionBarMessage = null;
+            OptionBarError = null;
+            OptionBarIsErrorOpened = true;
             OptionBarLoadSubscriptionButtonChecked = false;
             OptionBarVideoSearchButtonChecked = false;
             OptionBarPlaylistSearchButtonChecked = false;
@@ -163,46 +164,57 @@ namespace VDownload.Core.ViewModels.Home
         [RelayCommand]
         public async Task LoadFromSubscription()
         {
-            MainContent = _downloadsView;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
-            OptionBarMessage = null;
+            SearchButtonClicked();
 
             if (OptionBarLoadSubscriptionButtonChecked)
             {
+                if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+                {
+                    ShowError(ErrorNoInternetConnection());
+                    OptionBarLoadSubscriptionButtonChecked = false;
+                    return;
+                }
+
                 OptionBarContent = OptionBarContentType.None;
                 OptionBarVideoSearchButtonChecked = false;
                 OptionBarPlaylistSearchButtonChecked = false;
 
-                OptionBarSearchNotPending = false;
-                OptionBarMessageIcon = OptionBarMessageIconType.ProgressRing;
-                OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
+                StartSearch();
 
                 SubscriptionsVideoList subList = new SubscriptionsVideoList { Name = _stringResourcesService.CommonResources.Get("SubscriptionVideoListName") };
                 List<Task> tasks = new List<Task>();
-                foreach (Subscription sub in _subscriptionsDataService.Data.ToArray())
+                try
                 {
-                    tasks.Add(Task.Run(async () =>
+                    foreach (Subscription sub in _subscriptionsDataService.Data.ToArray())
                     {
-                        Playlist playlist;
-                        try
+                        tasks.Add(Task.Run(async () =>
                         {
-                            playlist = await _searchService.SearchPlaylist(sub.Url.OriginalString, 0);
-                        }
-                        catch (MediaSearchException)
-                        {
-                            return;
-                        }
+                            Playlist playlist;
+                            try
+                            {
+                                playlist = await _searchService.SearchPlaylist(sub.Url.OriginalString, 0);
+                            }
+                            catch (MediaSearchException)
+                            {
+                                return;
+                            }
 
-                        IEnumerable<Video> newIds = playlist.Where(x => !sub.VideoIds.Contains(x.Id));
-                        subList.AddRange(newIds);
-                        foreach (Video video in newIds)
-                        {
-                            sub.VideoIds.Add(video.Id);
-                        }
-                    }));
+                            IEnumerable<Video> newIds = playlist.Where(x => !sub.VideoIds.Contains(x.Id));
+                            subList.AddRange(newIds);
+                            foreach (Video video in newIds)
+                            {
+                                sub.VideoIds.Add(video.Id);
+                            }
+                        }));
+                    }
+                    await Task.WhenAll(tasks);
+                    await _subscriptionsDataService.Save();
                 }
-                await Task.WhenAll(tasks);
-                await _subscriptionsDataService.Save();
+                catch (Exception ex) when (ex is TaskCanceledException || ex is HttpRequestException)
+                {
+                    ShowError(ErrorSearchTimeout());
+                    return;
+                }
 
                 if (subList.Count > 0)
                 {
@@ -217,17 +229,14 @@ namespace VDownload.Core.ViewModels.Home
                 }
 
                 OptionBarSearchNotPending = true;
-                OptionBarMessageIcon = OptionBarMessageIconType.None;
+                OptionBarLoading = false;
             }
         }
 
         [RelayCommand]
         public void VideoSearchShow()
         {
-            OptionBarSearchNotPending = true;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
-            OptionBarMessage = null;
-            MainContent = _downloadsView;
+            SearchButtonClicked();
 
             if (OptionBarContent != OptionBarContentType.VideoSearch)
             {
@@ -244,10 +253,7 @@ namespace VDownload.Core.ViewModels.Home
         [RelayCommand]
         public void PlaylistSearchShow()
         {
-            OptionBarSearchNotPending = true;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
-            OptionBarMessage = null;
-            MainContent = _downloadsView;
+            SearchButtonClicked();
 
             if (OptionBarContent != OptionBarContentType.PlaylistSearch)
             {
@@ -264,9 +270,13 @@ namespace VDownload.Core.ViewModels.Home
         [RelayCommand]
         public async Task VideoSearchStart()
         {
-            OptionBarSearchNotPending = false;
-            OptionBarMessageIcon = OptionBarMessageIconType.ProgressRing;
-            OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
+            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            {
+                ShowError(ErrorNoInternetConnection());
+                return;
+            }
+
+            StartSearch();
 
             Video video;
             try
@@ -275,9 +285,12 @@ namespace VDownload.Core.ViewModels.Home
             }
             catch (MediaSearchException ex)
             {
-                OptionBarMessageIcon = OptionBarMessageIconType.Error;
-                OptionBarMessage = _stringResourcesService.SearchResources.Get(ex.StringCode);
-                OptionBarSearchNotPending = true;
+                ShowError(_stringResourcesService.SearchResources.Get(ex.StringCode));
+                return;
+            }
+            catch (Exception ex) when (ex is TaskCanceledException || ex is HttpRequestException)
+            {
+                ShowError(ErrorSearchTimeout());
                 return;
             }
 
@@ -286,16 +299,20 @@ namespace VDownload.Core.ViewModels.Home
             MainContent = _videoView;
 
             OptionBarSearchNotPending = true;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarLoading = false;
             OptionBarMessage = null;
         }
 
         [RelayCommand]
         public async Task PlaylistSearchStart()
         {
-            OptionBarSearchNotPending = false;
-            OptionBarMessageIcon = OptionBarMessageIconType.ProgressRing;
-            OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
+            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            {
+                ShowError(ErrorNoInternetConnection());
+                return;
+            }
+
+            StartSearch();
 
             Playlist playlist;
             try
@@ -304,9 +321,12 @@ namespace VDownload.Core.ViewModels.Home
             }
             catch (MediaSearchException ex)
             {
-                OptionBarMessageIcon = OptionBarMessageIconType.Error;
-                OptionBarMessage = _stringResourcesService.SearchResources.Get(ex.StringCode);
-                OptionBarSearchNotPending = true;
+                ShowError(_stringResourcesService.SearchResources.Get(ex.StringCode));
+                return;
+            }
+            catch (Exception ex) when (ex is TaskCanceledException || ex is HttpRequestException)
+            {
+                ShowError(ErrorSearchTimeout());
                 return;
             }
 
@@ -315,13 +335,19 @@ namespace VDownload.Core.ViewModels.Home
             MainContent = _videoCollectionView;
 
             OptionBarSearchNotPending = true;
-            OptionBarMessageIcon = OptionBarMessageIconType.None;
+            OptionBarLoading = false;
             OptionBarMessage = null;
         }
 
         [RelayCommand]
         public async Task Download()
         {
+            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            {
+                ShowError(ErrorNoInternetConnection());
+                return;
+            }
+
             if (_downloadTaskManager.Tasks.Count > 0 && NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
             {
                 string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
@@ -339,13 +365,58 @@ namespace VDownload.Core.ViewModels.Home
             }
         }
 
+        [RelayCommand]
+        public async Task Cancel()
+        {
+            List<Task> tasks = new List<Task>();
+            foreach (DownloadTask task in _downloadTaskManager.Tasks)
+            {
+                tasks.Add(task.Cancel());
+            }
+            await Task.WhenAll(tasks);
+        }
+
+        [RelayCommand]
+        public void CloseError()
+        {
+            OptionBarError = null;
+            OptionBarIsErrorOpened = true;
+        }
+
         #endregion
 
 
 
         #region PRIVATE METHODS
 
-        private async void BackToDownload_EventHandler(object sender, EventArgs e) => await Navigation();
+        protected void ShowError(string message)
+        {
+            OptionBarError = message;
+            OptionBarSearchNotPending = true;
+            OptionBarLoading = false;
+            OptionBarMessage = null;
+        }
+
+        protected void SearchButtonClicked()
+        {
+            OptionBarSearchNotPending = true;
+            OptionBarLoading = false;
+            OptionBarMessage = null;
+            MainContent = _downloadsView;
+        }
+
+        protected void StartSearch()
+        {
+            OptionBarSearchNotPending = false;
+            OptionBarLoading = true;
+            OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
+        }
+
+        protected async void BackToDownload_EventHandler(object sender, EventArgs e) => await Navigation();
+
+        protected string ErrorNoInternetConnection() => _stringResourcesService.HomeViewResources.Get("ErrorInfoBarNoInternetConnection");
+
+        protected string ErrorSearchTimeout() => _stringResourcesService.SearchResources.Get("SearchTimeout");
 
         #endregion
     }

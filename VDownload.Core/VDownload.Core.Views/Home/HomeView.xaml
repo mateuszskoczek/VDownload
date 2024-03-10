@@ -25,130 +25,132 @@
         <Frame Content="{Binding MainContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ViewModelToViewConverter}}">
             
         </Frame>
-        <Grid Grid.Row="1"
-              Background="{ThemeResource OptionBarBackgroundColor}"
-              CornerRadius="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ctuc:UniformGrid Grid.Column="0" 
-                              Rows="1" 
-                              Margin="15,0,0,0">
-                <ctuc:UniformGrid.RowDefinitions>
-                    <RowDefinition/>
-                </ctuc:UniformGrid.RowDefinitions>
-                <ctuc:UniformGrid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="Auto"/>
-                </ctuc:UniformGrid.ColumnDefinitions>
-                <ctuc:SwitchPresenter Grid.Row="0" 
-                                      VerticalAlignment="Stretch" 
-                                      Margin="0,0,15,0" 
-                                      Value="{Binding OptionBarContent, Converter={StaticResource ObjectToStringConverter}}">
-                    <i:Interaction.Behaviors>
-                        <ic:DataTriggerBehavior Binding="{Binding OptionBarContent, Converter={StaticResource ObjectToStringConverter}}"
-                                                ComparisonCondition="Equal"
-                                                Value="None">
-                            <ic:ChangePropertyAction PropertyName="Visibility"
-                                                     Value="Collapsed"/>
-                        </ic:DataTriggerBehavior>
-                        <ic:DataTriggerBehavior Binding="{Binding OptionBarContent, Converter={StaticResource ObjectToStringConverter}}"
-                                                ComparisonCondition="NotEqual"
-                                                Value="None">
-                            <ic:ChangePropertyAction PropertyName="Visibility"
-                                                     Value="Visible"/>
-                        </ic:DataTriggerBehavior>
-                    </i:Interaction.Behaviors>
-                    <ctuc:Case Value="VideoSearch">
-                        <Grid ColumnSpacing="10" 
-                              VerticalAlignment="Stretch">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarVideoSearchContentTextBox"
-                                     Grid.Column="0"
-                                     VerticalAlignment="Center"
-                                     Text="{Binding OptionBarVideoSearchTBValue, Mode=TwoWay}"/>
-                            <Button x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarSearchButton"
-                                    Grid.Column="1"
-                                    IsEnabled="{Binding OptionBarSearchNotPending}"
-                                    Command="{Binding VideoSearchStartCommand}"/>
-                        </Grid>
-                    </ctuc:Case>
-                    <ctuc:Case Value="PlaylistSearch">
-                        <Grid ColumnSpacing="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarPlaylistSearchContentTextBox"
-                                     Grid.Column="0" 
-                                     VerticalAlignment="Center"
-                                     Text="{Binding OptionBarPlaylistSearchTBValue, Mode=TwoWay}"/>
-                            <NumberBox x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarPlaylistSearchContentNumberBox"
-                                       Grid.Column="1" 
-                                       VerticalAlignment="Center"
-                                       SpinButtonPlacementMode="Compact" 
-                                       SmallChange="1" 
-                                       LargeChange="10" 
-                                       Value="{Binding OptionBarPlaylistSearchNBValue, Mode=TwoWay}"
-                                       Minimum="0"/>
-                            <Button x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarSearchButton"
-                                    Grid.Column="2"
-                                    IsEnabled="{Binding OptionBarSearchNotPending}"
-                                    Command="{Binding PlaylistSearchStartCommand}"/>
-                        </Grid>
-                    </ctuc:Case>
-                </ctuc:SwitchPresenter>
-                <StackPanel VerticalAlignment="Center" 
-                            Orientation="Horizontal">
-                    <StackPanel.Resources>
-                        <x:Double x:Key="IconSize">20</x:Double>
-                        <Thickness x:Key="IconMargin">0,0,10,0</Thickness>
-                    </StackPanel.Resources>
-                    <ctuc:SwitchPresenter Value="{Binding OptionBarMessageIcon, Converter={StaticResource ObjectToStringConverter}}">
-                        <ctuc:Case Value="None"/>
-                        <ctuc:Case Value="ProgressRing">
-                            <ProgressRing Width="{StaticResource IconSize}" 
-                                          Height="{StaticResource IconSize}" 
-                                          Margin="{StaticResource IconMargin}"/>
-                        </ctuc:Case>
-                        <ctuc:Case Value="Error">
-                            <Image Width="{StaticResource IconSize}"
-                                   Height="{StaticResource IconSize}"
-                                   Margin="{StaticResource IconMargin}"
-                                   Source="{StaticResource ImageHomeViewError}"/>
-                        </ctuc:Case>
-                    </ctuc:SwitchPresenter>
-                    <TextBlock Text="{Binding OptionBarMessage}"/>
-                </StackPanel>
-            </ctuc:UniformGrid>
-            <StackPanel Grid.Column="2" 
-                        Orientation="Horizontal">
-                <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarLoadSubscription"
-                                    Icon="Favorite"
-                                    IsEnabled="{Binding OptionBarSearchNotPending}"
-                                    IsChecked="{Binding OptionBarLoadSubscriptionButtonChecked, Mode=TwoWay}"
-                                    Command="{Binding LoadFromSubscriptionCommand}"/>
-                <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarVideoSearch"
-                                    Icon="Video"
-                                    IsEnabled="{Binding OptionBarSearchNotPending}"
-                                    IsChecked="{Binding OptionBarVideoSearchButtonChecked, Mode=TwoWay}"
-                                    Command="{Binding VideoSearchShowCommand}"/>
-                <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarPlaylistSearch"
-                                    Icon="List"
-                                    IsEnabled="{Binding OptionBarSearchNotPending}"
-                                    IsChecked="{Binding OptionBarPlaylistSearchButtonChecked, Mode=TwoWay}"
-                                    Command="{Binding PlaylistSearchShowCommand}"/>
-                <AppBarSeparator/>
-                <AppBarButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarDownloadAll"
-                              Icon="Download"
-                              Command="{Binding DownloadCommand}"/>
-            </StackPanel>
-        </Grid>
+        <ctuc:SwitchPresenter Grid.Row="1"
+                              Value="{Binding OptionBarError, Converter={StaticResource IsNotNullConverter}}">
+            <ctuc:Case Value="False">
+                <Grid Background="{ThemeResource OptionBarBackgroundColor}"
+                      CornerRadius="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ctuc:UniformGrid Grid.Column="0" 
+                                      Rows="1" 
+                                      Margin="15,0,0,0">
+                        <ctuc:UniformGrid.RowDefinitions>
+                            <RowDefinition/>
+                        </ctuc:UniformGrid.RowDefinitions>
+                        <ctuc:UniformGrid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </ctuc:UniformGrid.ColumnDefinitions>
+                        <ctuc:SwitchPresenter Grid.Row="0" 
+                                              VerticalAlignment="Stretch" 
+                                              Margin="0,0,15,0" 
+                                              Value="{Binding OptionBarContent, Converter={StaticResource ObjectToStringConverter}}">
+                            <i:Interaction.Behaviors>
+                                <ic:DataTriggerBehavior Binding="{Binding OptionBarContent, Converter={StaticResource ObjectToStringConverter}}"
+                                                        ComparisonCondition="Equal"
+                                                        Value="None">
+                                    <ic:ChangePropertyAction PropertyName="Visibility"
+                                                             Value="Collapsed"/>
+                                </ic:DataTriggerBehavior>
+                                <ic:DataTriggerBehavior Binding="{Binding OptionBarContent, Converter={StaticResource ObjectToStringConverter}}"
+                                                        ComparisonCondition="NotEqual"
+                                                        Value="None">
+                                    <ic:ChangePropertyAction PropertyName="Visibility"
+                                                             Value="Visible"/>
+                                </ic:DataTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                            <ctuc:Case Value="VideoSearch">
+                                <Grid ColumnSpacing="10" 
+                                      VerticalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarVideoSearchContentTextBox"
+                                             Grid.Column="0"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding OptionBarVideoSearchTBValue, Mode=TwoWay}"/>
+                                    <Button x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarSearchButton"
+                                            Grid.Column="1"
+                                            IsEnabled="{Binding OptionBarSearchNotPending}"
+                                            Command="{Binding VideoSearchStartCommand}"/>
+                                </Grid>
+                            </ctuc:Case>
+                            <ctuc:Case Value="PlaylistSearch">
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarPlaylistSearchContentTextBox"
+                                             Grid.Column="0" 
+                                             VerticalAlignment="Center"
+                                             Text="{Binding OptionBarPlaylistSearchTBValue, Mode=TwoWay}"/>
+                                    <NumberBox x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarPlaylistSearchContentNumberBox"
+                                               Grid.Column="1" 
+                                               VerticalAlignment="Center"
+                                               SpinButtonPlacementMode="Compact" 
+                                               SmallChange="1" 
+                                               LargeChange="10" 
+                                               Value="{Binding OptionBarPlaylistSearchNBValue, Mode=TwoWay}"
+                                               Minimum="0"/>
+                                    <Button x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarSearchButton"
+                                            Grid.Column="2"
+                                            IsEnabled="{Binding OptionBarSearchNotPending}"
+                                            Command="{Binding PlaylistSearchStartCommand}"/>
+                                </Grid>
+                            </ctuc:Case>
+                        </ctuc:SwitchPresenter>
+                        <StackPanel VerticalAlignment="Center" 
+                                    Orientation="Horizontal">
+                            <ProgressRing Width="20" 
+                                          Height="20" 
+                                          Margin="0,0,10,0"
+                                          Visibility="{Binding OptionBarLoading, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding OptionBarMessage}"/>
+                        </StackPanel>
+                    </ctuc:UniformGrid>
+                    <StackPanel Grid.Column="2" 
+                                Orientation="Horizontal"
+                                Margin="0,0,4,0">
+                        <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarLoadSubscription"
+                                            Icon="Favorite"
+                                            IsEnabled="{Binding OptionBarSearchNotPending}"
+                                            IsChecked="{Binding OptionBarLoadSubscriptionButtonChecked, Mode=TwoWay}"
+                                            Command="{Binding LoadFromSubscriptionCommand}"/>
+                        <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarVideoSearch"
+                                            Icon="Video"
+                                            IsEnabled="{Binding OptionBarSearchNotPending}"
+                                            IsChecked="{Binding OptionBarVideoSearchButtonChecked, Mode=TwoWay}"
+                                            Command="{Binding VideoSearchShowCommand}"/>
+                        <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarPlaylistSearch"
+                                            Icon="List"
+                                            IsEnabled="{Binding OptionBarSearchNotPending}"
+                                            IsChecked="{Binding OptionBarPlaylistSearchButtonChecked, Mode=TwoWay}"
+                                            Command="{Binding PlaylistSearchShowCommand}"/>
+                        <AppBarSeparator/>
+                        <AppBarButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarCancelAll"
+                                      Icon="Cancel"
+                                      Command="{Binding CancelCommand}"/>
+                        <AppBarButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarDownloadAll"
+                                      Icon="Download"
+                                      Command="{Binding DownloadCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </ctuc:Case>
+            <ctuc:Case Value="True">
+                <InfoBar x:Uid="/VDownload.Core.Strings/HomeViewResources/ErrorInfoBar"
+                         Severity="Error"
+                         IsOpen="{Binding OptionBarIsErrorOpened, Mode=TwoWay}"
+                         Message="{Binding OptionBarError}"
+                         CloseButtonCommand="{Binding CloseErrorCommand}"/>
+            </ctuc:Case>
+        </ctuc:SwitchPresenter>
+        
     </Grid>
 </Page>

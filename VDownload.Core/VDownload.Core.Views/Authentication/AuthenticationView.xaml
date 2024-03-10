@@ -33,27 +33,24 @@
             <ctc:SettingsCard Header="Twitch">
                 <i:Interaction.Behaviors>
                     <ic:DataTriggerBehavior Binding="{Binding TwitchButtonState, Converter={StaticResource ObjectToStringConverter}}"
-                                    ComparisonCondition="NotEqual"
-                                    Value="Loading">
+                                            ComparisonCondition="NotEqual"
+                                            Value="Loading">
                         <ic:ChangePropertyAction PropertyName="Description"
-                                         Value="{Binding TwitchDescription}"/>
+                                                 Value="{Binding TwitchDescription}"/>
                         <ic:ChangePropertyAction PropertyName="Content">
                             <ic:ChangePropertyAction.Value>
-                                <Button Command="{Binding TwitchAuthenticationCommand}">
-                                    <i:Interaction.Behaviors>
-                                        <ic:DataTriggerBehavior Binding="{Binding TwitchButtonState, Converter={StaticResource ObjectToStringConverter}}"
-                                                        ComparisonCondition="Equal"
-                                                        Value="SignIn">
-                                            <ic:ChangePropertyAction x:Uid="/VDownload.Core.Strings/AuthenticationViewResources/AuthenticationButtonSignIn"
-                                                                     PropertyName="Content"/>
-                                        </ic:DataTriggerBehavior>
-                                        <ic:DataTriggerBehavior Binding="{Binding TwitchButtonState, Converter={StaticResource ObjectToStringConverter}}"
-                                                        ComparisonCondition="Equal"
-                                                        Value="SignOut">
-                                            <ic:ChangePropertyAction x:Uid="/VDownload.Core.Strings/AuthenticationViewResources/AuthenticationButtonSignOut"
-                                                                     PropertyName="Content"/>
-                                        </ic:DataTriggerBehavior>
-                                    </i:Interaction.Behaviors>
+                                <Button Command="{Binding TwitchAuthenticationCommand}"
+                                        IsEnabled="{Binding TwitchButtonEnable}">
+                                    <Button.Content>
+                                        <ctuc:SwitchPresenter Value="{Binding TwitchButtonState, Converter={StaticResource ObjectToStringConverter}}">
+                                            <ctuc:Case Value="SignIn">
+                                                <TextBlock x:Uid="/VDownload.Core.Strings/AuthenticationViewResources/AuthenticationButtonSignIn"/>
+                                            </ctuc:Case>
+                                            <ctuc:Case Value="SignOut">
+                                                <TextBlock x:Uid="/VDownload.Core.Strings/AuthenticationViewResources/AuthenticationButtonSignOut"/>
+                                            </ctuc:Case>
+                                        </ctuc:SwitchPresenter>
+                                    </Button.Content>
                                 </Button>
                             </ic:ChangePropertyAction.Value>
                         </ic:ChangePropertyAction>

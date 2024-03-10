@@ -68,6 +68,14 @@ namespace VDownload.Core.ViewModels.Home
             ];
             if (idleStatuses.Contains(task.Status))
             {
+                if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+                {
+                    string title = _stringResourcesService.HomeDownloadsViewResources.Get("DialogErrorTitle");
+                    string message = _stringResourcesService.HomeDownloadsViewResources.Get("DialogErrorMessageNoInternetConnection");
+                    await _dialogsService.ShowOk(title, message);
+                    return;
+                }
+
                 bool continueEnqueue = true;
                 if (NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
                 {

@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -44,10 +46,13 @@ namespace VDownload.Core.ViewModels.Authentication
         #region PROPERTIES
 
         [ObservableProperty]
-        private AuthenticationButton _twitchButtonState = AuthenticationButton.Loading;
+        protected AuthenticationButton _twitchButtonState = AuthenticationButton.Loading;
 
         [ObservableProperty]
-        private string _twitchDescription;
+        protected bool _twitchButtonEnable = true;
+
+        [ObservableProperty]
+        protected string _twitchDescription;
 
         #endregion
 
@@ -107,7 +112,9 @@ namespace VDownload.Core.ViewModels.Authentication
                 }
                 else
                 {
-                    await _dialogsService.ShowOk(_stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDialogTitle"), "An unknown error occured"); // TODO : Change to string resource
+                    string title = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDialogTitle");
+                    string message = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDialogMessage");
+                    await _dialogsService.ShowOk(title, message);
                 }
             }
             await TwitchAuthenticationRefresh();
@@ -122,17 +129,38 @@ namespace VDownload.Core.ViewModels.Authentication
         private async Task TwitchAuthenticationRefresh()
         {
             TwitchButtonState = AuthenticationButton.Loading;
+            TwitchButtonEnable = true;
 
             byte[]? token = await _twitchAuthenticationService.GetToken();
 
             if (token is null)
             {
-                TwitchDescription = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionNotAuthenticated");
+                if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+                {
+                    TwitchButtonEnable = false;
+                    TwitchDescription = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionNotAuthenticatedNoInternetConnection");
+                }
+                else
+                {
+                    TwitchDescription = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionNotAuthenticated");
+                }
                 TwitchButtonState = AuthenticationButton.SignIn;
             }
             else
             {
-                TwitchValidationResult validationResult = await _twitchAuthenticationService.ValidateToken(token);
+                TwitchValidationResult validationResult;
+                try
+                {
+                    validationResult = await _twitchAuthenticationService.ValidateToken(token);
+                }
+                catch (Exception ex) when (ex is TaskCanceledException || ex is HttpRequestException)
+                {
+                    TwitchDescription = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionCannotValidate");
+                    TwitchButtonState = AuthenticationButton.SignIn;
+                    TwitchButtonEnable = false;
+                    return;
+                }
+
                 if (validationResult.Success)
                 {
                     TwitchDescription = string.Format(_stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionAuthenticated"), validationResult.TokenData.Login, validationResult.TokenData.ExpirationDate);

@@ -145,15 +145,17 @@ namespace VDownload.Sources.Twitch.Models
                 {
                     token.ThrowIfCancellationRequested();
 
-                    using (FileStream inputStream = File.OpenRead(path))
+                    using (FileStream inputStream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read))
                     {
                         inputStream.CopyTo(outputStream);
                     }
-
-                    if (deleteSource)
-                    {
-                        File.Delete(path);
-                    }
+                }
+            }
+            foreach (string item in sourceFiles)
+            {
+                if (deleteSource)
+                {
+                    File.Delete(item);
                 }
             }
         }
@@ -184,19 +186,12 @@ namespace VDownload.Sources.Twitch.Models
             int retriesCount = 0;
             while (true)
             {
-                if (token.IsCancellationRequested)
-                {
-                    return;
-                }
+                token.ThrowIfCancellationRequested();
                 try
                 {
                     byte[] data = await _httpClient.GetByteArrayAsync(chunk.Url, token);
                     await File.WriteAllBytesAsync(chunk.Location, data, token);
                     onTaskEndSuccessfully.Invoke();
-                    return;
-                }
-                catch (OperationCanceledException)
-                {
                     return;
                 }
                 catch (Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException)

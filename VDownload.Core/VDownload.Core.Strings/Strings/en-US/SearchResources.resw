@@ -123,6 +123,9 @@
   <data name="EmptyUrl" xml:space="preserve">
     <value>Invalid url. Url cannot be empty.</value>
   </data>
+  <data name="SearchTimeout" xml:space="preserve">
+    <value>Search timeout. Check your internet connection.</value>
+  </data>
   <data name="SourceNotSupported" xml:space="preserve">
     <value>Invalid url. Url does not match any of supported source.</value>
   </data>
