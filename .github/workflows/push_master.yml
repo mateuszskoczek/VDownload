@@ -1,0 +1,51 @@
+name: Build and publish application on master push
+
+
+on:
+  push:
+    branches:
+    - "master"
+    paths:
+    - "VDownload**"
+
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    steps:
+      - name: Setup GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: 5.x
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0.9.7
+        id: gitversion
+        with:
+          useConfigFile: true
+          configFilePath: ./.github/config/gitversion.yml
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set version in VDownload.csproj file
+        id: package_version
+        uses: KageKirin/set-csproj-version@v0
+        with:
+          file: VDownload/VDownload.csproj
+          version: ${{steps.gitversion.outputs.SemVer}}         
+      - name: Set version in Package.appxmanifest file
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: VDownload/Package.appxmanifest
+          oldString: "Version=\"0.0.0.0\""
+          newString: "Version=\"${{steps.gitversion.outputs.major}}.${{steps.gitversion.outputs.minor}}.${{steps.gitversion.outputs.patch}}.0\""
+          showFileContent: true
+      - name: Set version in app.manifest file
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: VDownload/app.manifest
+          oldString: "assemblyIdentity version=\"0.0.0.0\""
+          newString: "assemblyIdentity version=\"${{steps.gitversion.outputs.major}}.${{steps.gitversion.outputs.minor}}.${{steps.gitversion.outputs.patch}}.0\""
+          showFileContent: true
+      
