@@ -342,26 +342,34 @@ namespace VDownload.Core.ViewModels.Home
         [RelayCommand]
         public async Task Download()
         {
-            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            if (_downloadTaskManager.Tasks.Count > 0)
             {
-                ShowError(ErrorNoInternetConnection());
-                return;
-            }
-
-            if (_downloadTaskManager.Tasks.Count > 0 && NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
-            {
-                string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
-                string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
-                DialogResultYesNo result = await _dialogsService.ShowYesNo(title, message);
-                if (result == DialogResultYesNo.No)
+                if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
                 {
+                    ShowError(ErrorNoInternetConnection());
                     return;
                 }
-            }
 
-            foreach (DownloadTask task in _downloadTaskManager.Tasks)
-            {
-                task.Enqueue();
+                if 
+                (
+                    _settingsService.Data.Common.Tasks.ShowMeteredConnectionWarnings 
+                    && 
+                    NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection
+                )
+                {
+                    string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
+                    string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
+                    DialogResultYesNo result = await _dialogsService.ShowYesNo(title, message);
+                    if (result == DialogResultYesNo.No)
+                    {
+                        return;
+                    }
+                }
+
+                foreach (DownloadTask task in _downloadTaskManager.Tasks)
+                {
+                    task.Enqueue();
+                }
             }
         }
 

@@ -65,6 +65,12 @@ namespace VDownload.Core.ViewModels.Settings
             set => SetProperty(_settingsService.Data.Common.Tasks.FilenameTemplate, value, _settingsService.Data.Common.Tasks, (u, n) => u.FilenameTemplate = n);
         }
 
+        public bool TasksMeteredConnectionWarning
+        {
+            get => _settingsService.Data.Common.Tasks.ShowMeteredConnectionWarnings;
+            set => SetProperty(_settingsService.Data.Common.Tasks.ShowMeteredConnectionWarnings, value, _settingsService.Data.Common.Tasks, (u, n) => u.ShowMeteredConnectionWarnings = n);
+        }
+
         public bool TasksSaveLastOutputDirectory
         {
             get => _settingsService.Data.Common.Tasks.SaveLastOutputDirectory;
@@ -75,6 +81,12 @@ namespace VDownload.Core.ViewModels.Settings
         {
             get => _settingsService.Data.Common.Tasks.DefaultOutputDirectory;
             set => SetProperty(_settingsService.Data.Common.Tasks.DefaultOutputDirectory, value, _settingsService.Data.Common.Tasks, (u, n) => u.DefaultOutputDirectory = n);
+        }
+
+        public bool TasksReplaceOutputFile
+        {
+            get => _settingsService.Data.Common.Tasks.ReplaceOutputFileIfExists;
+            set => SetProperty(_settingsService.Data.Common.Tasks.ReplaceOutputFileIfExists, value, _settingsService.Data.Common.Tasks, (u, n) => u.ReplaceOutputFileIfExists = n);
         }
 
         public string ProcessingFFmpegLocation

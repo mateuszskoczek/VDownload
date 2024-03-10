@@ -8,7 +8,9 @@
             <x:String x:Key="ImageSettingsViewTasksDefaultMediaOptions">/Assets/SettingsView/TasksDefaultMediaOptionsLight.png</x:String>
             <x:String x:Key="ImageSettingsViewTasksRunningTasks">/Assets/SettingsView/TasksRunningTasksLight.png</x:String>
             <x:String x:Key="ImageSettingsViewTasksFilenameTemplate">/Assets/SettingsView/TasksFilenameTemplateLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksMeteredConnectionWarning">/Assets/SettingsView/TasksMeteredConnectionWarningLight.png</x:String>
             <x:String x:Key="ImageSettingsViewTasksOutputDirectory">/Assets/SettingsView/TasksOutputDirectoryLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksReplaceOutputFile">/Assets/SettingsView/TasksReplaceOutputFileLight.png</x:String>
             <x:String x:Key="ImageSettingsViewTempDirectory">/Assets/SettingsView/TempDirectoryLight.png</x:String>
             <x:String x:Key="ImageSettingsViewTempDeleteOnFail">/Assets/SettingsView/TempDeleteOnFailLight.png</x:String>
             <x:String x:Key="ImageSettingsViewNotificationOnSuccessful">/Assets/SettingsView/NotificationOnSuccessfulLight.png</x:String>
@@ -23,7 +25,9 @@
             <x:String x:Key="ImageSettingsViewTasksDefaultMediaOptions">/Assets/SettingsView/TasksDefaultMediaOptionsDark.png</x:String>
             <x:String x:Key="ImageSettingsViewTasksRunningTasks">/Assets/SettingsView/TasksRunningTasksDark.png</x:String>
             <x:String x:Key="ImageSettingsViewTasksFilenameTemplate">/Assets/SettingsView/TasksFilenameTemplateDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksMeteredConnectionWarning">/Assets/SettingsView/TasksMeteredConnectionWarningDark.png</x:String>
             <x:String x:Key="ImageSettingsViewTasksOutputDirectory">/Assets/SettingsView/TasksOutputDirectoryDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksReplaceOutputFile">/Assets/SettingsView/TasksReplaceOutputFileDark.png</x:String>
             <x:String x:Key="ImageSettingsViewTempDirectory">/Assets/SettingsView/TempDirectoryDark.png</x:String>
             <x:String x:Key="ImageSettingsViewTempDeleteOnFail">/Assets/SettingsView/TempDeleteOnFailDark.png</x:String>
             <x:String x:Key="ImageSettingsViewNotificationOnSuccessful">/Assets/SettingsView/NotificationOnSuccessfulDark.png</x:String>
