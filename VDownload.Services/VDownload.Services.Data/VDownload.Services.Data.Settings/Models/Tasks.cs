@@ -30,5 +30,11 @@ namespace VDownload.Services.Data.Settings.Models
 
         [JsonProperty("max_number_of_running_tasks")]
         public int MaxNumberOfRunningTasks { get; set; } = 5;
+
+        [JsonProperty("show_metered_connection_warnings")]
+        public bool ShowMeteredConnectionWarnings { get; set; } = true;
+
+        [JsonProperty("replace_output_file_if_exists")]
+        public bool ReplaceOutputFileIfExists { get; set; } = false;
     }
 }

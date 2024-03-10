@@ -250,7 +250,12 @@ namespace VDownload.Core.Tasks
             StorageFolder destination = await StorageFolder.GetFolderFromPathAsync(DownloadOptions.Directory);
 
             string filename = $"{DownloadOptions.Filename}.{DownloadOptions.Extension}";
-            await outputFile.CopyAsync(destination, filename, NameCollisionOption.ReplaceExisting);
+
+            NameCollisionOption nameCollisionOption = _settingsService.Data.Common.Tasks.ReplaceOutputFileIfExists
+                ? NameCollisionOption.ReplaceExisting
+                : NameCollisionOption.GenerateUniqueName;
+
+            await outputFile.CopyAsync(destination, filename, nameCollisionOption);
         }
 
         protected void UpdateStatusWithDispatcher(DownloadTaskStatus status) => _dispatcherQueue.TryEnqueue(() => Status = status);

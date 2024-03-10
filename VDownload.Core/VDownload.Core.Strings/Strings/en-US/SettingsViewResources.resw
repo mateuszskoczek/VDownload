@@ -180,6 +180,15 @@
   <data name="TasksMediaType.Header" xml:space="preserve">
     <value>Media type</value>
   </data>
+  <data name="TasksMeteredConnectionWarning.Header" xml:space="preserve">
+    <value>Show warning before downloading on a metered connection</value>
+  </data>
+  <data name="TasksReplaceOutputFile.Description" xml:space="preserve">
+    <value>If file with same name as output file, already exists, it will be replaced. Otherwise new file with unique name will be created.</value>
+  </data>
+  <data name="TasksReplaceOutputFile.Header" xml:space="preserve">
+    <value>Replace output file if exists</value>
+  </data>
   <data name="TasksRunningTasks.Header" xml:space="preserve">
     <value>Maximum number of tasks running in parallel</value>
   </data>

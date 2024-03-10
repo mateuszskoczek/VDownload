@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VDownload.Core.Tasks;
+using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.StringResources;
 
@@ -21,6 +22,7 @@ namespace VDownload.Core.ViewModels.Home
 
         protected readonly IDialogsService _dialogsService;
         protected readonly IStringResourcesService _stringResourcesService;
+        protected readonly ISettingsService _settingsService;
 
         #endregion
 
@@ -39,13 +41,14 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeDownloadsViewModel(IDownloadTaskManager tasksManager, IDialogsService dialogsService, IStringResourcesService stringResourcesService)
+        public HomeDownloadsViewModel(IDownloadTaskManager tasksManager, IDialogsService dialogsService, IStringResourcesService stringResourcesService, ISettingsService settingsService)
         {
             _tasksManager = tasksManager;
             _tasksManager.TaskCollectionChanged += Tasks_CollectionChanged;
 
             _dialogsService = dialogsService;
             _stringResourcesService = stringResourcesService;
+            _settingsService = settingsService;
 
             _taskListIsEmpty = _tasksManager.Tasks.Count == 0;
         }
@@ -77,7 +80,12 @@ namespace VDownload.Core.ViewModels.Home
                 }
 
                 bool continueEnqueue = true;
-                if (NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
+                if 
+                (
+                    _settingsService.Data.Common.Tasks.ShowMeteredConnectionWarnings
+                    &&
+                    NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection
+                )
                 {
                     string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
                     string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");

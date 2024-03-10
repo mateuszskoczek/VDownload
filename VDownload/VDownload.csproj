@@ -266,6 +266,18 @@
     <Content Update="Assets\SettingsView\TasksDefaultMediaOptionsLight.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="Assets\SettingsView\TasksMeteredConnectionWarningDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TasksMeteredConnectionWarningLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TasksReplaceOutputFileDark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Assets\SettingsView\TasksReplaceOutputFileLight.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="Assets\SettingsView\TasksRunningTasksDark.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -105,6 +105,13 @@
                         <TextBox Text="{Binding TasksFilenameTemplate, Mode=TwoWay}"
                                  ToolTipService.ToolTip="{Binding TasksFilenameTemplateTooltip}"/>
                     </ctc:SettingsCard>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksMeteredConnectionWarning">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksMeteredConnectionWarning}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TasksMeteredConnectionWarning, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
                     <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksSaveLastOutputDirectory">
                         <ctc:SettingsExpander.HeaderIcon>
                             <BitmapIcon ShowAsMonochrome="False" 
@@ -120,6 +127,13 @@
                             </ctc:SettingsCard>
                         </ctc:SettingsExpander.Items>
                     </ctc:SettingsExpander>
+                    <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/SettingsViewResources/TasksReplaceOutputFile">
+                        <ctc:SettingsCard.HeaderIcon>
+                            <BitmapIcon ShowAsMonochrome="False" 
+                                        UriSource="{ThemeResource ImageSettingsViewTasksReplaceOutputFile}"/>
+                        </ctc:SettingsCard.HeaderIcon>
+                        <ToggleSwitch IsOn="{Binding TasksReplaceOutputFile, Mode=TwoWay}"/>
+                    </ctc:SettingsCard>
                 </StackPanel>
                 
                 <!-- Processing -->

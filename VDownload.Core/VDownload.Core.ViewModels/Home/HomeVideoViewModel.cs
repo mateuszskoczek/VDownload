@@ -175,7 +175,14 @@ namespace VDownload.Core.ViewModels.Home
 
         protected async Task CreateTask(bool download)
         {
-            if (download && NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection)
+            if 
+            (
+                download 
+                &&
+                _settingsService.Data.Common.Tasks.ShowMeteredConnectionWarnings
+                &&
+                NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection
+            )
             {
                 string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
                 string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
