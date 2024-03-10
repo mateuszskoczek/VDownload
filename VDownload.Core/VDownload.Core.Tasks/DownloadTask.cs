@@ -21,6 +21,19 @@ namespace VDownload.Core.Tasks
 {
     public partial class DownloadTask : ObservableObject
     {
+        #region ENUMS
+
+        private enum TaskResult
+        {
+            Success,
+            Cancellation,
+            Error
+        }
+
+        #endregion
+
+
+
         #region SERVICES
 
         protected readonly IConfigurationService _configurationService;
@@ -156,6 +169,8 @@ namespace VDownload.Core.Tasks
                 $"{_stringResourcesService.NotificationsResources.Get("Author")}: {Video.Author}"
             };
 
+            string errorMessage = null;
+            TaskResult? endingStatus = null;
             try
             {
                 IProgress<double> onProgressDownloading = new Progress<double>((value) =>
@@ -194,16 +209,12 @@ namespace VDownload.Core.Tasks
                 await Finalizing(outputFile);
 
                 UpdateStatusWithDispatcher(DownloadTaskStatus.EndedSuccessfully);
-
-                if (_settingsService.Data.Common.Notifications.OnSuccessful)
-                {
-                    string title = _stringResourcesService.NotificationsResources.Get("OnSuccessfulTitle");
-                    _notificationsService.SendNotification(title, content);
-                }
+                endingStatus = TaskResult.Success;
             }
             catch (OperationCanceledException)
             {
                 UpdateStatusWithDispatcher(DownloadTaskStatus.EndedCancelled);
+                endingStatus = TaskResult.Cancellation;
             }
             catch (Exception ex)
             {
@@ -226,18 +237,32 @@ namespace VDownload.Core.Tasks
                     message = ex.Message;
                 }
 
-                UpdateErrorWithDispatcher(message);
+                UpdateErrorWithDispatcher(message); 
                 UpdateStatusWithDispatcher(DownloadTaskStatus.EndedUnsuccessfully);
-
-                if (_settingsService.Data.Common.Notifications.OnUnsuccessful)
-                {
-                    string title = _stringResourcesService.NotificationsResources.Get("OnSuccessfulTitle");
-                    content.Add($"{_stringResourcesService.NotificationsResources.Get("Message")}: {ex.Message}");
-                    _notificationsService.SendNotification(title, content);
-                }
+                endingStatus = TaskResult.Error;
+                errorMessage = message;
             }
             finally
             {
+                switch (endingStatus)
+                {
+                    case TaskResult.Error:
+                        if (_settingsService.Data.Common.Notifications.OnUnsuccessful)
+                        {
+                            string title = _stringResourcesService.NotificationsResources.Get("OnUnsuccessfulTitle");
+                            content.Add($"{_stringResourcesService.NotificationsResources.Get("Message")}: {errorMessage}");
+                            _notificationsService.SendNotification(title, content);
+                        }
+                        break;
+                    case TaskResult.Success:
+                        if (_settingsService.Data.Common.Notifications.OnSuccessful)
+                        {
+                            string title = _stringResourcesService.NotificationsResources.Get("OnSuccessfulTitle");
+                            _notificationsService.SendNotification(title, content);
+                        }
+                        break;
+                }
+
                 if (Status != DownloadTaskStatus.EndedUnsuccessfully || _settingsService.Data.Common.Temp.DeleteOnError)
                 {
                     Directory.Delete(tempDirectory, true);

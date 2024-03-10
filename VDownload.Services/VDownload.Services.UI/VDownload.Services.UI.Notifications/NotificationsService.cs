@@ -1,4 +1,5 @@
-﻿using Microsoft.Windows.AppNotifications;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace VDownload.Services.UI.Notifications
 {
     public interface INotificationsService
     {
+        void Initialize(Action notificationInvoked);
         void SendNotification(string title, IEnumerable<string> message);
     }
 
@@ -17,7 +19,25 @@ namespace VDownload.Services.UI.Notifications
 
     public class NotificationsService : INotificationsService
     {
+        #region CONSTRCUTORS
+
+        ~NotificationsService()
+        {
+            AppNotificationManager.Default.Unregister();
+        }
+
+        #endregion
+
+
+
         #region PUBLIC METHODS
+
+        public void Initialize(Action notificationInvoked)
+        {
+            AppNotificationManager.Default.NotificationInvoked += (obj, args) => notificationInvoked.Invoke();
+
+            AppNotificationManager.Default.Register();
+        }
 
         public void SendNotification(string title, IEnumerable<string> message)
         {
@@ -27,7 +47,9 @@ namespace VDownload.Services.UI.Notifications
             {
                 builder.AddText(text);
             }
+
             AppNotification notification = builder.BuildNotification();
+
             AppNotificationManager.Default.Show(notification);
         }
 
