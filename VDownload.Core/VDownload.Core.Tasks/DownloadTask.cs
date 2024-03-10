@@ -13,6 +13,9 @@ using System.IO;
 using VDownload.Services.UI.Notifications;
 using VDownload.Services.UI.StringResources;
 using System.Collections.Generic;
+using System.Net.Http;
+using Instances.Exceptions;
+using FFMpegCore.Exceptions;
 
 namespace VDownload.Core.Tasks
 {
@@ -140,7 +143,11 @@ namespace VDownload.Core.Tasks
 
             await _settingsService.Load();
 
-            string tempDirectory = $"{_settingsService.Data.Common.Temp.Directory}\\{_configurationService.Common.Path.Temp.TasksDirectory}\\{Id}";
+            string tempDirectory = $"{_settingsService.Data.Common.Temp.Directory}\\{_configurationService.Common.Path.Temp.TasksDirectory}\\{Guid.NewGuid()}";
+            if (Directory.Exists(tempDirectory))
+            {
+                Directory.Delete(tempDirectory, true);
+            }
             Directory.CreateDirectory(tempDirectory);
 
             List<string> content = new List<string>()
@@ -180,10 +187,11 @@ namespace VDownload.Core.Tasks
                              .JoinProgressReporter(onProgressProcessing, downloadResult.NewDuration);
                 await ffmpegBuilder.RunAsync(downloadResult.File, outputPath);
 
+                StorageFile outputFile = await StorageFile.GetFileFromPathAsync(outputPath);
+
                 UpdateStatusWithDispatcher(DownloadTaskStatus.Finalizing);
 
-                string destination = $"{DownloadOptions.Directory}\\{DownloadOptions.Filename}.{DownloadOptions.Extension}";
-                File.Copy(outputPath, destination, true);
+                await Finalizing(outputFile);
 
                 UpdateStatusWithDispatcher(DownloadTaskStatus.EndedSuccessfully);
 
@@ -199,7 +207,26 @@ namespace VDownload.Core.Tasks
             }
             catch (Exception ex)
             {
-                UpdateErrorWithDispatcher(ex.Message);
+                string message;
+
+                if (ex is TaskCanceledException || ex is HttpRequestException)
+                {
+                    message = _stringResourcesService.HomeDownloadsViewResources.Get("ErrorDownloadingTimeout");
+                }
+                else if (ex is InstanceFileNotFoundException)
+                {
+                    message = _stringResourcesService.HomeDownloadsViewResources.Get("ErrorFFmpegPath");
+                }
+                else if (ex is FFMpegException)
+                {
+                    message = _stringResourcesService.HomeDownloadsViewResources.Get("ErrorFFmpeg");
+                }
+                else
+                {
+                    message = ex.Message;
+                }
+
+                UpdateErrorWithDispatcher(message);
                 UpdateStatusWithDispatcher(DownloadTaskStatus.EndedUnsuccessfully);
 
                 if (_settingsService.Data.Common.Notifications.OnUnsuccessful)
@@ -218,11 +245,19 @@ namespace VDownload.Core.Tasks
             }
         }
 
-        private void UpdateStatusWithDispatcher(DownloadTaskStatus status) => _dispatcherQueue.TryEnqueue(() => Status = status);
+        protected async Task Finalizing(StorageFile outputFile)
+        {
+            StorageFolder destination = await StorageFolder.GetFolderFromPathAsync(DownloadOptions.Directory);
 
-        private void UpdateProgressWithDispatcher(double progress) => _dispatcherQueue.TryEnqueue(() => Progress = progress);
+            string filename = $"{DownloadOptions.Filename}.{DownloadOptions.Extension}";
+            await outputFile.CopyAsync(destination, filename, NameCollisionOption.ReplaceExisting);
+        }
 
-        private void UpdateErrorWithDispatcher(string message) => _dispatcherQueue.TryEnqueue(() => Error = message);
+        protected void UpdateStatusWithDispatcher(DownloadTaskStatus status) => _dispatcherQueue.TryEnqueue(() => Status = status);
+
+        protected void UpdateProgressWithDispatcher(double progress) => _dispatcherQueue.TryEnqueue(() => Progress = progress);
+
+        protected void UpdateErrorWithDispatcher(string message) => _dispatcherQueue.TryEnqueue(() => Error = message);
 
         #endregion
     }
