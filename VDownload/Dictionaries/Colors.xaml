@@ -6,8 +6,8 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="ViewBackgroundColor" Color="#F5F5F5"/>
-            <SolidColorBrush x:Key="PanelBackgroundColor" Color="#F5F5F5"/>
-            <SolidColorBrush x:Key="OptionBarBackgroundColor" Color="#F5F5F5"/>
+            <SolidColorBrush x:Key="PanelBackgroundColor" Color="#FCFCFC"/>
+            <SolidColorBrush x:Key="OptionBarBackgroundColor" Color="#efefef"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="ViewBackgroundColor" Color="#242424"/>
