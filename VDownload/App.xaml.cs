@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppNotifications;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -39,6 +41,7 @@ using VDownload.Sources.Twitch;
 using VDownload.Sources.Twitch.Api;
 using VDownload.Sources.Twitch.Authentication;
 using Windows.Graphics.Printing;
+using Windows.UI.Notifications;
 
 namespace VDownload
 {
@@ -175,32 +178,34 @@ namespace VDownload
             services.AddTransient<BaseWindow>();
         }
 
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            await InitData();
-
-            _window = _serviceProvider.GetService<BaseWindow>();
-            _window.RootLoaded += Window_RootLoaded;
-            _window.Activate();
-
-            AssignStaticProperties();
-        }
-
-        protected async Task InitData()
+        protected async Task InitializeServices()
         {
             IApplicationDataService applicationDataService = _serviceProvider.GetService<IApplicationDataService>();
             ISettingsService settingsService = _serviceProvider.GetService<ISettingsService>();
             IAuthenticationDataService authenticationDataService = _serviceProvider.GetService<IAuthenticationDataService>();
             ISubscriptionsDataService subscriptionsDataService = _serviceProvider.GetService<ISubscriptionsDataService>();
-            await Task.WhenAll(applicationDataService.Load(), settingsService.Load(), authenticationDataService.Load(), subscriptionsDataService.Load());
+            Task initViewModelToViewConverterTask = Task.Run(() => ViewModelToViewConverter.ServiceProvider = _serviceProvider);
+            Task initStoragePickerServiceTask = Task.Run(() => _serviceProvider.GetService<IStoragePickerService>().DefaultRoot = _window);
+            Task initNotificationsServiceTask = Task.Run(() => _serviceProvider.GetService<INotificationsService>().Initialize(() => WindowHelper.ShowWindow(_window)));
+
+            await Task.WhenAll(
+                applicationDataService.Load(), 
+                settingsService.Load(), 
+                authenticationDataService.Load(), 
+                subscriptionsDataService.Load(), 
+                initStoragePickerServiceTask, 
+                initViewModelToViewConverterTask, 
+                initNotificationsServiceTask
+            );
         }
 
-        protected void AssignStaticProperties()
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            IStoragePickerService storagePickerService = _serviceProvider.GetService<IStoragePickerService>();
-            storagePickerService.DefaultRoot = _window;
+            _window = _serviceProvider.GetService<BaseWindow>();
+            _window.RootLoaded += Window_RootLoaded;
+            _window.Activate();
 
-            ViewModelToViewConverter.ServiceProvider = _serviceProvider;
+            await InitializeServices();
         }
 
         protected void Window_RootLoaded(object sender, EventArgs e)
