@@ -19,6 +19,10 @@ jobs:
         configuration: [Release]
         platform: [x64, ARM64]
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.7
         with:
@@ -29,10 +33,6 @@ jobs:
         with:
           useConfigFile: true
           configFilePath: .github/config/gitversion.yml
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - name: Set version in VDownload.csproj file
         id: package_version
         uses: KageKirin/set-csproj-version@v0
