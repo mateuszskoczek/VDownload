@@ -62,7 +62,7 @@ jobs:
       - name: Deploy application
         shell: cmd
         run: |
-          "$MSBUILD_PATH" VDownload.sln /Deploy Release
+          "%MSBUILD_PATH%" VDownload.sln /Deploy Release
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
