@@ -43,8 +43,8 @@ jobs:
         uses: Nambers/ReplaceStringInFile@v1.3
         with:
           path: VDownload/Package.appxmanifest
-          oldString: "Version=\"0.0.0.0\""
-          newString: "Version=\"${{steps.gitversion.outputs.SemVer}}.0\""
+          oldString: 0.0.0.0
+          newString: ${{steps.gitversion.outputs.SemVer}}.0
           showFileContent: true
           escapeBackslash: true
       - name: Set version in app.manifest file
