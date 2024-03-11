@@ -51,8 +51,8 @@ jobs:
         uses: Nambers/ReplaceStringInFile@v1.3
         with:
           path: VDownload/app.manifest
-          oldString: "assemblyIdentity version=\"0.0.0.0\""
-          newString: "assemblyIdentity version=\"${{steps.gitversion.outputs.SemVer}}.0\""
+          oldString: 0\.0\.0\.0
+          newString: ${{steps.gitversion.outputs.SemVer}}.0
           showFileContent: true
           escapeBackslash: true
       - name: Setup .NET
@@ -83,5 +83,5 @@ jobs:
       - name: Upload package as artifact
         uses: actions/upload-artifact@v2
         with:
-          name: MSIX Package
+          name: MSIX ${{matrix.platform}}
           path: VDownload\\Packages
