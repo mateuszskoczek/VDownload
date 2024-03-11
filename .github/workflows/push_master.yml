@@ -58,9 +58,10 @@ jobs:
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v2
       - name: Deploy application
-        run: |
-          $devenv = & vswhere.exe '-property' productPath
-          Start-Process -FilePath $devenv -ArgumentList 'VDownload.sln /Deploy Release' -Wait
+        shell: cmd
+        run: $MSBUILD_PATH VDownload.sln /Deploy Release
+        env:
+          MSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.com
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
