@@ -58,7 +58,9 @@ jobs:
       - name: Setup msbuild
         uses: microsoft/setup-msbuild@v2
       - name: Deploy application
-        run: devenv VDownload.sln /Deploy Release
+        run: |
+          $devenv = & vswhere.exe '-property' productPath
+          Start-Process -FilePath $devenv -ArgumentList 'VDownload.sln /Deploy Release' -Wait
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
