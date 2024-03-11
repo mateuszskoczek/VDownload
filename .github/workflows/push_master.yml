@@ -55,10 +55,10 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
-      - name: Create the app
+      - name: Build application
         run: dotnet build /p:Configuration=Release /p:Platform=x64 -o bin
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: VDownload\\bin
+          path: bin
