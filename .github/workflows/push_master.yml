@@ -5,6 +5,7 @@ on:
   push:
     branches:
     - "master"
+    - "features/github_actions"
     paths:
     - "VDownload**"
 
@@ -13,6 +14,10 @@ jobs:
   build:
     name: Build
     runs-on: windows-latest
+    strategy:
+      matrix:
+        configuration: [Release]
+        platform: [x64, x86]
     steps:
       - name: Setup GitVersion
         uses: gittools/actions/gitversion/setup@v0.9.7
@@ -48,4 +53,33 @@ jobs:
           oldString: "assemblyIdentity version=\"0.0.0.0\""
           newString: "assemblyIdentity version=\"${{steps.gitversion.outputs.major}}.${{steps.gitversion.outputs.minor}}.${{steps.gitversion.outputs.patch}}.0\""
           showFileContent: true
-      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Restore the application
+        run: msbuild VDownload /t:Restore /p:Configuration=$env:Configuration
+        env:
+          Configuration: ${{ matrix.configuration }}
+      - name: Decode certificate
+        run: |
+          $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
+          $certificatePath = "Certificate.pfx"
+          [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+      - name: Create the app package
+        run: msbuild VDownload /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=Certificate.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+        env:
+          Appx_Bundle: Never
+          Appx_Package_Build_Mode: SideloadOnly
+          Appx_Package_Dir: Packages\
+          Configuration: ${{ matrix.configuration }}
+          Platform: ${{ matrix.platform }}
+      - name: Remove certificate
+        run: Remove-Item -path Certificate.pfx
+      - name: Upload package as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: MSIX Package
+          path: VDownload\\Packages
