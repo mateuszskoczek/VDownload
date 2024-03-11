@@ -43,7 +43,7 @@ jobs:
         uses: Nambers/ReplaceStringInFile@v1.3
         with:
           path: VDownload/Package.appxmanifest
-          oldString: 0.0.0.0
+          oldString: 0\.0\.0\.0
           newString: ${{steps.gitversion.outputs.SemVer}}.0
           showFileContent: true
           escapeBackslash: true
