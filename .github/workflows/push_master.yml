@@ -14,6 +14,8 @@ jobs:
   build:
     name: Build
     runs-on: windows-latest
+    env:
+      MSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.com
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -59,9 +61,8 @@ jobs:
         uses: microsoft/setup-msbuild@v2
       - name: Deploy application
         shell: cmd
-        run: $MSBUILD_PATH VDownload.sln /Deploy Release
-        env:
-          MSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.com
+        run: |
+          "$MSBUILD_PATH" VDownload.sln /Deploy Release
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
