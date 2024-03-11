@@ -57,14 +57,10 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
-      - name: Setup msbuild
-        uses: microsoft/setup-msbuild@v2
-      - name: Deploy application
-        shell: cmd
-        run: |
-          "%MSBUILD_PATH%" VDownload.sln /Deploy Release
+      - name: Build application
+        run: dotnet build -o build
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: bin
+          path: build

@@ -9,6 +9,7 @@ namespace VDownload.Services.UI.DictionaryResources
 {
     public interface IDictionaryResourcesService
     {
+        ResourceDictionary Resources { get; set; }
         T Get<T>(string key);
     }
 
@@ -16,6 +17,14 @@ namespace VDownload.Services.UI.DictionaryResources
 
     public class DictionaryResourcesService : IDictionaryResourcesService
     {
+        #region PROPERTIES
+
+        public ResourceDictionary Resources { get; set; }
+
+        #endregion
+
+
+
         #region CONSTRUCTORS
 
         public DictionaryResourcesService() { }
@@ -28,7 +37,7 @@ namespace VDownload.Services.UI.DictionaryResources
 
         public T Get<T>(string key)
         {
-            Application.Current.Resources.TryGetValue(key, out object value);
+            Resources.TryGetValue(key, out object value);
             if (value is not null && value is T cast)
             {
                 return cast;

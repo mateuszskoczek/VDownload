@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using VDownload.Core.Tasks;
@@ -47,11 +50,21 @@ namespace VDownload
 {
     public partial class App : Application
     {
-        #region FIELDS
+        #region PROPERTIES
 
-        protected IServiceProvider _serviceProvider;
+        public static BaseWindow Window { get; protected set; }
 
-        protected BaseWindow _window;
+        public static T GetService<T>() where T : class
+        {
+            if ((App.Current as App)!.Host.Services.GetService(typeof(T)) is not T service)
+            {
+                throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
+            }
+
+            return service;
+        }
+
+        public IHost Host { get; set; }
 
         #endregion
 
@@ -63,22 +76,70 @@ namespace VDownload
         {
             this.InitializeComponent();
 
+            Host = Microsoft.Extensions.Hosting.Host
+                   .CreateDefaultBuilder()
+                   .UseContentRoot(AppContext.BaseDirectory)
+                   .ConfigureAppConfiguration((builder) =>
+                   {
+                       builder.Sources.Add(new JsonConfigurationSource
+                       {
+                           Path = "configuration.json"
+                       });
+                   })
+                   .ConfigureServices((context, services) =>
+                   {
+                       BuildCore(services);
 
-            IServiceCollection services = new ServiceCollection();
+                       BuildDataServices(services);
+                       BuildUIServices(services);
+                       BuildUtilityServices(services);
+                       BuildSourcesServices(services);
 
-            BuildCore(services);
+                       BuildTasksManager(services);
+                       BuildPresentation(services);
+                   })
+                   .Build();
+        }
 
-            BuildConfiguration(services);
+        #endregion
 
-            BuildDataServices(services);
-            BuildUIServices(services);
-            BuildUtilityServices(services);
-            BuildSourcesServices(services);
 
-            BuildTasksManager(services);
-            BuildPresentation(services);
 
-            _serviceProvider = services.BuildServiceProvider();
+        #region EVENT HANDLERS
+
+        private void WindowRootLoaded(object sender, EventArgs e)
+        {
+            GetService<IDialogsService>().DefaultRoot = Window.XamlRoot;
+        }
+
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            base.OnLaunched(args);
+
+            GetService<IDictionaryResourcesService>().Resources = (App.Current as App).Resources;
+
+            Window = GetService<BaseWindow>();
+            Window.RootLoaded += WindowRootLoaded;
+
+            IApplicationDataService applicationDataService = GetService<IApplicationDataService>();
+            ISettingsService settingsService = GetService<ISettingsService>();
+            IAuthenticationDataService authenticationDataService = GetService<IAuthenticationDataService>();
+            ISubscriptionsDataService subscriptionsDataService = GetService<ISubscriptionsDataService>();
+            Task initViewModelToViewConverterTask = Task.Run(() => ViewModelToViewConverter.ServiceProvider = (App.Current as App)!.Host.Services);
+            Task initStoragePickerServiceTask = Task.Run(() => GetService<IStoragePickerService>().DefaultRoot = Window);
+            Task initNotificationsServiceTask = Task.Run(() => GetService<INotificationsService>().Initialize(() => WindowHelper.ShowWindow(Window)));
+
+            await Task.WhenAll(
+                applicationDataService.Load(),
+                settingsService.Load(),
+                authenticationDataService.Load(),
+                subscriptionsDataService.Load(),
+                initStoragePickerServiceTask,
+                initViewModelToViewConverterTask,
+                initNotificationsServiceTask
+            );
+
+            Window.Activate();
         }
 
         #endregion
@@ -90,22 +151,6 @@ namespace VDownload
         protected void BuildCore(IServiceCollection services)
         {
             services.AddSingleton<HttpClient>();
-        }
-
-        protected void BuildConfiguration(IServiceCollection services)
-        {
-            IConfigurationBuilder configBuilder = new ConfigurationBuilder
-            {
-                Sources =
-                {
-                    new JsonConfigurationSource
-                    {
-                        Path = "configuration.json"
-                    }
-                }
-            };
-            IConfiguration config = configBuilder.Build();
-            services.AddSingleton(config);
         }
 
         protected void BuildDataServices(IServiceCollection services)
@@ -176,42 +221,6 @@ namespace VDownload
             services.AddTransient<HomeView>();
             services.AddTransient<SubscriptionsView>();
             services.AddTransient<BaseWindow>();
-        }
-
-        protected async Task InitializeServices()
-        {
-            IApplicationDataService applicationDataService = _serviceProvider.GetService<IApplicationDataService>();
-            ISettingsService settingsService = _serviceProvider.GetService<ISettingsService>();
-            IAuthenticationDataService authenticationDataService = _serviceProvider.GetService<IAuthenticationDataService>();
-            ISubscriptionsDataService subscriptionsDataService = _serviceProvider.GetService<ISubscriptionsDataService>();
-            Task initViewModelToViewConverterTask = Task.Run(() => ViewModelToViewConverter.ServiceProvider = _serviceProvider);
-            Task initStoragePickerServiceTask = Task.Run(() => _serviceProvider.GetService<IStoragePickerService>().DefaultRoot = _window);
-            Task initNotificationsServiceTask = Task.Run(() => _serviceProvider.GetService<INotificationsService>().Initialize(() => WindowHelper.ShowWindow(_window)));
-
-            await Task.WhenAll(
-                applicationDataService.Load(), 
-                settingsService.Load(), 
-                authenticationDataService.Load(), 
-                subscriptionsDataService.Load(), 
-                initStoragePickerServiceTask, 
-                initViewModelToViewConverterTask, 
-                initNotificationsServiceTask
-            );
-        }
-
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            _window = _serviceProvider.GetService<BaseWindow>();
-            _window.RootLoaded += Window_RootLoaded;
-            _window.Activate();
-
-            await InitializeServices();
-        }
-
-        protected void Window_RootLoaded(object sender, EventArgs e)
-        {
-            IDialogsService dialogsService = _serviceProvider.GetService<IDialogsService>();
-            dialogsService.DefaultRoot = _window.XamlRoot;
         }
 
         #endregion
