@@ -13,5 +13,10 @@
       <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+      <PackageReference Include="SimpleToolkit.UI.WinUI.Helpers" Version="1.7.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\VDownload.Services.Common\VDownload.Services.Common.csproj" />
   </ItemGroup>
 </Project>

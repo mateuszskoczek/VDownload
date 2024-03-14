@@ -73,7 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDownload.Services.Utility.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDownload.Services.Data.Application", "VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Application\VDownload.Services.Data.Application.csproj", "{4983E15B-3730-4646-A2BD-16B9ECC9E4FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDownload.Services.Data.Subscriptions", "VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Subscriptions\VDownload.Services.Data.Subscriptions.csproj", "{3193DABC-87F8-4256-9449-3CF42FEF7098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VDownload.Services.Data.Subscriptions", "VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Subscriptions\VDownload.Services.Data.Subscriptions.csproj", "{3193DABC-87F8-4256-9449-3CF42FEF7098}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VDownload.Services.Common", "VDownload.Services\VDownload.Services.Common\VDownload.Services.Common.csproj", "{267F5A31-1257-4820-9FE5-C11D26CC3C55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -557,6 +559,22 @@ Global
 		{3193DABC-87F8-4256-9449-3CF42FEF7098}.Release|x64.Build.0 = Release|Any CPU
 		{3193DABC-87F8-4256-9449-3CF42FEF7098}.Release|x86.ActiveCfg = Release|Any CPU
 		{3193DABC-87F8-4256-9449-3CF42FEF7098}.Release|x86.Build.0 = Release|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Debug|x64.Build.0 = Debug|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Debug|x86.Build.0 = Debug|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Release|ARM64.Build.0 = Release|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Release|x64.ActiveCfg = Release|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Release|x64.Build.0 = Release|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Release|x86.ActiveCfg = Release|Any CPU
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -593,6 +611,7 @@ Global
 		{4647EFB5-A206-4F47-976D-BAED11B52579} = {1020167A-4101-496E-82CF-41B65769DD28}
 		{4983E15B-3730-4646-A2BD-16B9ECC9E4FF} = {05A45688-7EEF-4656-818A-2477625C3707}
 		{3193DABC-87F8-4256-9449-3CF42FEF7098} = {05A45688-7EEF-4656-818A-2477625C3707}
+		{267F5A31-1257-4820-9FE5-C11D26CC3C55} = {8D351DB0-74E6-4C1E-A123-34D6BBBD5585}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9FD7B842-C3E2-4FD0-AD8A-C8E619280AB7}

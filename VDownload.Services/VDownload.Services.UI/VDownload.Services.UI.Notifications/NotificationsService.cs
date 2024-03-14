@@ -1,17 +1,19 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
+using SimpleToolkit.UI.WinUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Services.Common;
 
 namespace VDownload.Services.UI.Notifications
 {
-    public interface INotificationsService
+    public interface INotificationsService : IInitializableService<Window>
     {
-        void Initialize(Action notificationInvoked);
         void SendNotification(string title, IEnumerable<string> message);
     }
 
@@ -19,7 +21,15 @@ namespace VDownload.Services.UI.Notifications
 
     public class NotificationsService : INotificationsService
     {
-        #region CONSTRCUTORS
+        #region FIELDS
+
+        protected Window _window;
+
+        #endregion
+
+
+
+        #region CONSTRUCTORS
 
         ~NotificationsService()
         {
@@ -32,12 +42,14 @@ namespace VDownload.Services.UI.Notifications
 
         #region PUBLIC METHODS
 
-        public void Initialize(Action notificationInvoked)
+        public async Task Initialize(Window window) => await Task.Run(() =>
         {
-            AppNotificationManager.Default.NotificationInvoked += (obj, args) => notificationInvoked.Invoke();
+            _window = window;
+
+            AppNotificationManager.Default.NotificationInvoked += NotificationInvoked;
 
             AppNotificationManager.Default.Register();
-        }
+        });
 
         public void SendNotification(string title, IEnumerable<string> message)
         {
@@ -52,6 +64,14 @@ namespace VDownload.Services.UI.Notifications
 
             AppNotificationManager.Default.Show(notification);
         }
+
+        #endregion
+
+
+
+        #region PRIVATE METHODS
+
+        private void NotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args) => WindowHelper.ShowWindow(_window);
 
         #endregion
     }

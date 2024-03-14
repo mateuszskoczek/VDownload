@@ -6,22 +6,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Services.Common;
 using VDownload.Services.UI.StringResources;
 
 namespace VDownload.Services.UI.Dialogs
 {
-    public interface IDialogsService
+    public interface IDialogsService : IInitializableService<XamlRoot>
     {
-        #region PROPERTIES
-
-        XamlRoot DefaultRoot { get; set; }
-
-        #endregion
-
-
-
-        #region METHODS
-
         Task ShowClose(string title, string message);
         Task<DialogResult> ShowDouble(string title, string message, string primaryButtonText, string secondaryButtonText);
         Task ShowOk(string title, string message);
@@ -30,8 +21,6 @@ namespace VDownload.Services.UI.Dialogs
         Task<DialogResult> ShowTriple(string title, string message, string primaryButtonText, string secondaryButtonText, string cancelButtonText);
         Task<DialogResultYesNo> ShowYesNo(string title, string message);
         Task<DialogResultYesNoCancel> ShowYesNoCancel(string title, string message);
-
-        #endregion
     }
 
 
@@ -54,13 +43,7 @@ namespace VDownload.Services.UI.Dialogs
         protected string _yesString;
         protected string _noString;
 
-        #endregion
-
-
-
-        #region PROPERTIES
-
-        public XamlRoot DefaultRoot { get; set; }
+        protected XamlRoot _root;
 
         #endregion
 
@@ -83,6 +66,8 @@ namespace VDownload.Services.UI.Dialogs
 
 
         #region PUBLIC METHODS
+
+        public async Task Initialize(XamlRoot arg) => await Task.Run(() => _root = arg);
 
         public async Task ShowOk(string title, string message) => await ShowSingle(title, message, _okString);
         public async Task ShowClose(string title, string message) => await ShowSingle(title, message, _closeString);
@@ -138,7 +123,7 @@ namespace VDownload.Services.UI.Dialogs
             {
                 Title = title,
                 Content = message,
-                XamlRoot = DefaultRoot
+                XamlRoot = _root
             };
         }
 

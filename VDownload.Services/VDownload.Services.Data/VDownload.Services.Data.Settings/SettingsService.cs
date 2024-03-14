@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Services.Common;
 using VDownload.Services.Data.Configuration;
 
 namespace VDownload.Services.Data.Settings
 {
-    public interface ISettingsService
+    public interface ISettingsService : IInitializableService
     {
         #region PROPERTIES
 
@@ -72,6 +73,8 @@ namespace VDownload.Services.Data.Settings
 
 
         #region PUBLIC METHODS
+
+        public async Task Initialize() => await Load();
 
         public async Task Load()
         {

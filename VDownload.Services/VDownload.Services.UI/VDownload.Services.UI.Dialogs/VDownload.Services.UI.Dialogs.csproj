@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\VDownload.Services.Common\VDownload.Services.Common.csproj" />
     <ProjectReference Include="..\VDownload.Services.UI.StringResources\VDownload.Services.UI.StringResources.csproj" />
   </ItemGroup>
 </Project>

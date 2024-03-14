@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Services.Common;
 using VDownload.Services.Data.Configuration;
 
 namespace VDownload.Services.Data.Subscriptions
 {
-    public interface ISubscriptionsDataService
+    public interface ISubscriptionsDataService : IInitializableService
     {
         #region PROPERTIES
 
@@ -71,6 +73,8 @@ namespace VDownload.Services.Data.Subscriptions
 
 
         #region PUBLIC METHODS
+
+        public async Task Initialize() => await Load();
 
         public async Task Load()
         {

@@ -10,6 +10,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using VDownload.Activation;
 using VDownload.Core.Tasks;
 using VDownload.Core.ViewModels;
 using VDownload.Core.ViewModels.About;
@@ -97,49 +98,11 @@ namespace VDownload
 
                        BuildTasksManager(services);
                        BuildPresentation(services);
+                       BuildActivation(services);
                    })
                    .Build();
-        }
 
-        #endregion
-
-
-
-        #region EVENT HANDLERS
-
-        private void WindowRootLoaded(object sender, EventArgs e)
-        {
-            GetService<IDialogsService>().DefaultRoot = Window.XamlRoot;
-        }
-
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            base.OnLaunched(args);
-
-            GetService<IDictionaryResourcesService>().Resources = (App.Current as App).Resources;
-
-            Window = GetService<BaseWindow>();
-            Window.RootLoaded += WindowRootLoaded;
-
-            IApplicationDataService applicationDataService = GetService<IApplicationDataService>();
-            ISettingsService settingsService = GetService<ISettingsService>();
-            IAuthenticationDataService authenticationDataService = GetService<IAuthenticationDataService>();
-            ISubscriptionsDataService subscriptionsDataService = GetService<ISubscriptionsDataService>();
-            Task initViewModelToViewConverterTask = Task.Run(() => ViewModelToViewConverter.ServiceProvider = (App.Current as App)!.Host.Services);
-            Task initStoragePickerServiceTask = Task.Run(() => GetService<IStoragePickerService>().DefaultRoot = Window);
-            Task initNotificationsServiceTask = Task.Run(() => GetService<INotificationsService>().Initialize(() => WindowHelper.ShowWindow(Window)));
-
-            await Task.WhenAll(
-                applicationDataService.Load(),
-                settingsService.Load(),
-                authenticationDataService.Load(),
-                subscriptionsDataService.Load(),
-                initStoragePickerServiceTask,
-                initViewModelToViewConverterTask,
-                initNotificationsServiceTask
-            );
-
-            Window.Activate();
+            UnhandledException += UnhandledExceptionCatched;
         }
 
         #endregion
@@ -147,6 +110,22 @@ namespace VDownload
 
 
         #region PRIVATE METHODS
+
+        #region EVENT HANDLERS
+
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            base.OnLaunched(args);
+
+            await GetService<IActivationService>().ActivateAsync(args);
+        }
+
+        protected void UnhandledExceptionCatched(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         protected void BuildCore(IServiceCollection services)
         {
@@ -221,6 +200,13 @@ namespace VDownload
             services.AddTransient<HomeView>();
             services.AddTransient<SubscriptionsView>();
             services.AddTransient<BaseWindow>();
+        }
+
+        protected void BuildActivation(IServiceCollection services)
+        {
+            services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
+
+            services.AddSingleton<IActivationService, ActivationService>();
         }
 
         #endregion

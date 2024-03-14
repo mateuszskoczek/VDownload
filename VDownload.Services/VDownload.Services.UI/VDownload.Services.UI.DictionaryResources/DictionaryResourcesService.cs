@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Services.Common;
+using Windows.Media.Core;
 
 namespace VDownload.Services.UI.DictionaryResources
 {
-    public interface IDictionaryResourcesService
+    public interface IDictionaryResourcesService : IInitializableService<ResourceDictionary>
     {
-        ResourceDictionary Resources { get; set; }
         T Get<T>(string key);
     }
 
@@ -17,17 +18,9 @@ namespace VDownload.Services.UI.DictionaryResources
 
     public class DictionaryResourcesService : IDictionaryResourcesService
     {
-        #region PROPERTIES
+        #region FIELDS
 
-        public ResourceDictionary Resources { get; set; }
-
-        #endregion
-
-
-
-        #region CONSTRUCTORS
-
-        public DictionaryResourcesService() { }
+        protected ResourceDictionary _resources;
 
         #endregion
 
@@ -35,9 +28,11 @@ namespace VDownload.Services.UI.DictionaryResources
 
         #region PUBLIC METHODS
 
+        public async Task Initialize(ResourceDictionary arg) => await Task.Run(() => _resources = arg);
+
         public T Get<T>(string key)
         {
-            Resources.TryGetValue(key, out object value);
+            _resources.TryGetValue(key, out object value);
             if (value is not null && value is T cast)
             {
                 return cast;
