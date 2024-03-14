@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,14 +74,19 @@ namespace VDownload.Activation
 
         public async Task ActivateAsync(object activationArgs)
         {
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", "testactivate\n");
             await InitializeAsync();
             ViewModelToViewConverter.Initialize((App.Current as App)!.Host.Services);
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", "test1\n");
 
             await HandleActivationAsync(activationArgs);
 
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", "test2\n");
             _window = App.GetService<BaseWindow>();
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", "test3\n");
             _window.RootLoaded += Window_RootLoaded;
             _window.Activate();
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", "test4\n");
 
             await StartupAsync();
         }

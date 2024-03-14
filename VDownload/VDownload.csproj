@@ -189,8 +189,12 @@
         </None>
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\VDownload.Core\VDownload.Core.Strings\VDownload.Core.Strings.csproj" />
+        <ProjectReference Include="..\VDownload.Core\VDownload.Core.Tasks\VDownload.Core.Tasks.csproj" />
         <ProjectReference Include="..\VDownload.Core\VDownload.Core.ViewModels\VDownload.Core.ViewModels.csproj" />
         <ProjectReference Include="..\VDownload.Core\VDownload.Core.Views\VDownload.Core.Views.csproj" />
+        <ProjectReference Include="..\VDownload.Models\VDownload.Models.csproj" />
+        <ProjectReference Include="..\VDownload.Services\VDownload.Services.Common\VDownload.Services.Common.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Application\VDownload.Services.Data.Application.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Authentication\VDownload.Services.Data.Authentication.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Configuration\VDownload.Services.Data.Configuration.csproj" />
@@ -206,8 +210,12 @@
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.FFmpeg\VDownload.Services.Utility.FFmpeg.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Filename\VDownload.Services.Utility.Filename.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.HttpClient\VDownload.Services.Utility.HttpClient.csproj" />
+        <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Common\VDownload.Sources.Common.csproj" />
         <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Api\VDownload.Sources.Twitch.Api.csproj" />
         <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Authentication\VDownload.Sources.Twitch.Authentication.csproj" />
+        <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Configuration\VDownload.Sources.Twitch.Configuration.csproj" />
+        <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Models\VDownload.Sources.Twitch.Models.csproj" />
+        <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch.Settings\VDownload.Sources.Twitch.Settings.csproj" />
         <ProjectReference Include="..\VDownload.Sources\VDownload.Sources.Twitch\VDownload.Sources.Twitch\VDownload.Sources.Twitch.csproj" />
         <ProjectReference Include="..\VDownload.Sources\VDownload.Sources\VDownload.Sources.csproj" />
     </ItemGroup>

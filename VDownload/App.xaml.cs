@@ -2,11 +2,13 @@
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -87,6 +89,10 @@ namespace VDownload
                            Path = "configuration.json"
                        });
                    })
+                   .ConfigureLogging((builder) =>
+                   {
+                       builder.AddConsole();
+                   })
                    .ConfigureServices((context, services) =>
                    {
                        BuildCore(services);
@@ -117,11 +123,14 @@ namespace VDownload
         {
             base.OnLaunched(args);
 
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", "testlaunched\n");
+
             await GetService<IActivationService>().ActivateAsync(args);
         }
 
         protected void UnhandledExceptionCatched(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
         {
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"test {e.Message}\n");
             throw new NotImplementedException();
         }
 
