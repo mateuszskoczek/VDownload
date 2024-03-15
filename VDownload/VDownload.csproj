@@ -204,7 +204,6 @@
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.DictionaryResources\VDownload.Services.UI.DictionaryResources.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Notifications\VDownload.Services.UI.Notifications.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StoragePicker\VDownload.Services.UI.StoragePicker.csproj" />
-        <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StringResources\VDownload.Services.UI.StringResources.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.WebView\VDownload.Services.UI.WebView.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.Encryption\VDownload.Services.Utility.Encryption.csproj" />
         <ProjectReference Include="..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.FFmpeg\VDownload.Services.Utility.FFmpeg.csproj" />

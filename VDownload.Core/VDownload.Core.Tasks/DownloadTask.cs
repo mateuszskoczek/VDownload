@@ -11,11 +11,11 @@ using System.Linq;
 using Windows.Storage;
 using System.IO;
 using VDownload.Services.UI.Notifications;
-using VDownload.Services.UI.StringResources;
 using System.Collections.Generic;
 using System.Net.Http;
 using Instances.Exceptions;
 using FFMpegCore.Exceptions;
+using VDownload.Core.Strings;
 
 namespace VDownload.Core.Tasks
 {
@@ -39,7 +39,6 @@ namespace VDownload.Core.Tasks
         protected readonly IConfigurationService _configurationService;
         protected readonly ISettingsService _settingsService;
         protected readonly IFFmpegService _ffmpegService;
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly INotificationsService _notificationsService;
 
         #endregion
@@ -87,12 +86,11 @@ namespace VDownload.Core.Tasks
 
         #region CONSTRUCTORS
 
-        internal DownloadTask(Video video, VideoDownloadOptions downloadOptions, IConfigurationService configurationService, ISettingsService settingsService, IFFmpegService ffmpegService, IStringResourcesService stringResourcesService, INotificationsService notificationsService)
+        internal DownloadTask(Video video, VideoDownloadOptions downloadOptions, IConfigurationService configurationService, ISettingsService settingsService, IFFmpegService ffmpegService, INotificationsService notificationsService)
         {
             _configurationService = configurationService;
             _settingsService = settingsService;
             _ffmpegService = ffmpegService;
-            _stringResourcesService = stringResourcesService;
             _notificationsService = notificationsService;
 
             _video = video;
@@ -165,8 +163,8 @@ namespace VDownload.Core.Tasks
 
             List<string> content = new List<string>()
             {
-                $"{_stringResourcesService.NotificationsResources.Get("Title")}: {Video.Title}",
-                $"{_stringResourcesService.NotificationsResources.Get("Author")}: {Video.Author}"
+                $"{StringResourcesManager.Notifications.Get("Title")}: {Video.Title}",
+                $"{StringResourcesManager.Notifications.Get("Author")}: {Video.Author}"
             };
 
             string errorMessage = null;
@@ -222,15 +220,15 @@ namespace VDownload.Core.Tasks
 
                 if (ex is TaskCanceledException || ex is HttpRequestException)
                 {
-                    message = _stringResourcesService.HomeDownloadsViewResources.Get("ErrorDownloadingTimeout");
+                    message = StringResourcesManager.HomeDownloadsView.Get("ErrorDownloadingTimeout");
                 }
                 else if (ex is InstanceFileNotFoundException)
                 {
-                    message = _stringResourcesService.HomeDownloadsViewResources.Get("ErrorFFmpegPath");
+                    message = StringResourcesManager.HomeDownloadsView.Get("ErrorFFmpegPath");
                 }
                 else if (ex is FFMpegException)
                 {
-                    message = _stringResourcesService.HomeDownloadsViewResources.Get("ErrorFFmpeg");
+                    message = StringResourcesManager.HomeDownloadsView.Get("ErrorFFmpeg");
                 }
                 else
                 {
@@ -249,15 +247,15 @@ namespace VDownload.Core.Tasks
                     case TaskResult.Error:
                         if (_settingsService.Data.Common.Notifications.OnUnsuccessful)
                         {
-                            string title = _stringResourcesService.NotificationsResources.Get("OnUnsuccessfulTitle");
-                            content.Add($"{_stringResourcesService.NotificationsResources.Get("Message")}: {errorMessage}");
+                            string title = StringResourcesManager.Notifications.Get("OnUnsuccessfulTitle");
+                            content.Add($"{StringResourcesManager.Notifications.Get("Message")}: {errorMessage}");
                             _notificationsService.SendNotification(title, content);
                         }
                         break;
                     case TaskResult.Success:
                         if (_settingsService.Data.Common.Notifications.OnSuccessful)
                         {
-                            string title = _stringResourcesService.NotificationsResources.Get("OnSuccessfulTitle");
+                            string title = StringResourcesManager.Notifications.Get("OnSuccessfulTitle");
                             _notificationsService.SendNotification(title, content);
                         }
                         break;

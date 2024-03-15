@@ -8,13 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Core.Strings;
 using VDownload.Core.Tasks;
 using VDownload.Models;
 using VDownload.Services.Data.Application;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.StoragePicker;
-using VDownload.Services.UI.StringResources;
 using VDownload.Services.Utility.Filename;
 
 namespace VDownload.Core.ViewModels.Home
@@ -29,7 +29,6 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly IStoragePickerService _storagePickerService;
         protected readonly IFilenameService _filenameService;
         protected readonly IDialogsService _dialogsService;
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly IApplicationDataService _applicationDataService;
 
         #endregion
@@ -98,14 +97,13 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeVideoViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IStringResourcesService stringResourcesService, IApplicationDataService applicationDataService) 
+        public HomeVideoViewModel(IDownloadTaskManager tasksManager, ISettingsService settingsService, IStoragePickerService storagePickerService, IFilenameService filenameService, IDialogsService dialogsService, IApplicationDataService applicationDataService) 
         {
             _tasksManager = tasksManager;
             _settingsService = settingsService;
             _storagePickerService = storagePickerService;
             _filenameService = filenameService;
             _dialogsService = dialogsService;
-            _stringResourcesService = stringResourcesService;
             _applicationDataService = applicationDataService;
         }
 
@@ -184,8 +182,8 @@ namespace VDownload.Core.ViewModels.Home
                 NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection
             )
             {
-                string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
-                string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
+                string title = StringResourcesManager.Common.Get("StartAtMeteredConnectionDialogTitle");
+                string message = StringResourcesManager.Common.Get("StartAtMeteredConnectionDialogMessage");
                 DialogResultYesNo result = await _dialogsService.ShowYesNo(title, message);
                 download = result == DialogResultYesNo.Yes;
             }

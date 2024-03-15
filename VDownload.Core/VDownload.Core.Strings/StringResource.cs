@@ -1,9 +1,10 @@
-﻿using Microsoft.Windows.ApplicationModel.Resources;
+﻿using Windows.ApplicationModel.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace VDownload.Core.Strings
 {
@@ -30,7 +31,10 @@ namespace VDownload.Core.Strings
 
         #region PUBLIC METHODS
 
-        public string Get(string key) => _resourceLoader.GetString(key);
+        public string Get(string key)
+        {
+            return _resourceLoader.GetString(key);
+        }
 
         #endregion
     }

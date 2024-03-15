@@ -36,7 +36,6 @@ using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.DictionaryResources;
 using VDownload.Services.UI.Notifications;
 using VDownload.Services.UI.StoragePicker;
-using VDownload.Services.UI.StringResources;
 using VDownload.Services.UI.WebView;
 using VDownload.Services.Utility.Encryption;
 using VDownload.Services.Utility.FFmpeg;
@@ -130,8 +129,8 @@ namespace VDownload
 
         protected void UnhandledExceptionCatched(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"test {e.Message}\n");
-            throw new NotImplementedException();
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"test {e.Message} {e.Exception.StackTrace}\n");
+            Environment.Exit(0);
         }
 
         #endregion
@@ -152,7 +151,6 @@ namespace VDownload
 
         protected void BuildUIServices(IServiceCollection services)
         {
-            services.AddSingleton<IStringResourcesService, StringResourcesService>();
             services.AddSingleton<IDictionaryResourcesService, DictionaryResourcesService>();
             services.AddSingleton<IWebViewService, WebViewService>();
             services.AddSingleton<IStoragePickerService, StoragePickerService>();

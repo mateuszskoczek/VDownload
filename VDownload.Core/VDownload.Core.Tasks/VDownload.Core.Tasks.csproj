@@ -19,8 +19,8 @@
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Configuration\VDownload.Services.Data.Configuration.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.Data\VDownload.Services.Data.Settings\VDownload.Services.Data.Settings.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.Notifications\VDownload.Services.UI.Notifications.csproj" />
-    <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.UI\VDownload.Services.UI.StringResources\VDownload.Services.UI.StringResources.csproj" />
     <ProjectReference Include="..\..\VDownload.Services\VDownload.Services.Utility\VDownload.Services.Utility.FFmpeg\VDownload.Services.Utility.FFmpeg.csproj" />
+    <ProjectReference Include="..\VDownload.Core.Strings\VDownload.Core.Strings.csproj" />
   </ItemGroup>
 
 </Project>

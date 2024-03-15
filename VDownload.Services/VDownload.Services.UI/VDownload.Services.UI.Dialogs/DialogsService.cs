@@ -6,8 +6,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Core.Strings;
 using VDownload.Services.Common;
-using VDownload.Services.UI.StringResources;
 
 namespace VDownload.Services.UI.Dialogs
 {
@@ -27,39 +27,15 @@ namespace VDownload.Services.UI.Dialogs
 
     public class DialogsService : IDialogsService
     {
-        #region SERVICES
-
-        protected readonly IStringResourcesService _stringResourcesService;
-
-        #endregion
-
-
-
         #region FIELDS
 
-        protected string _okString;
-        protected string _closeString;
-        protected string _cancelString;
-        protected string _yesString;
-        protected string _noString;
+        protected string _okString = StringResourcesManager.DialogButtons.Get("OK");
+        protected string _closeString = StringResourcesManager.DialogButtons.Get("Close");
+        protected string _cancelString = StringResourcesManager.DialogButtons.Get("Cancel");
+        protected string _yesString = StringResourcesManager.DialogButtons.Get("Yes");
+        protected string _noString = StringResourcesManager.DialogButtons.Get("No");
 
         protected XamlRoot _root;
-
-        #endregion
-
-
-
-        #region CONSTRUCTORS
-
-        public DialogsService(IStringResourcesService stringResourcesService) 
-        { 
-            _stringResourcesService = stringResourcesService;
-            _okString = _stringResourcesService.DialogButtonsResources.Get("OK");
-            _closeString = _stringResourcesService.DialogButtonsResources.Get("Close");
-            _cancelString = _stringResourcesService.DialogButtonsResources.Get("Cancel");
-            _yesString = _stringResourcesService.DialogButtonsResources.Get("Yes");
-            _noString = _stringResourcesService.DialogButtonsResources.Get("No");
-        }
 
         #endregion
 

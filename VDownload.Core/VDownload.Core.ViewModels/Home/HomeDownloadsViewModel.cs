@@ -7,10 +7,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Core.Strings;
 using VDownload.Core.Tasks;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.Dialogs;
-using VDownload.Services.UI.StringResources;
 
 namespace VDownload.Core.ViewModels.Home
 {
@@ -21,7 +21,6 @@ namespace VDownload.Core.ViewModels.Home
         protected readonly IDownloadTaskManager _tasksManager;
 
         protected readonly IDialogsService _dialogsService;
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly ISettingsService _settingsService;
 
         #endregion
@@ -41,13 +40,12 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeDownloadsViewModel(IDownloadTaskManager tasksManager, IDialogsService dialogsService, IStringResourcesService stringResourcesService, ISettingsService settingsService)
+        public HomeDownloadsViewModel(IDownloadTaskManager tasksManager, IDialogsService dialogsService, ISettingsService settingsService)
         {
             _tasksManager = tasksManager;
             _tasksManager.TaskCollectionChanged += Tasks_CollectionChanged;
 
             _dialogsService = dialogsService;
-            _stringResourcesService = stringResourcesService;
             _settingsService = settingsService;
 
             _taskListIsEmpty = _tasksManager.Tasks.Count == 0;
@@ -73,8 +71,8 @@ namespace VDownload.Core.ViewModels.Home
             {
                 if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
                 {
-                    string title = _stringResourcesService.HomeDownloadsViewResources.Get("DialogErrorTitle");
-                    string message = _stringResourcesService.HomeDownloadsViewResources.Get("DialogErrorMessageNoInternetConnection");
+                    string title = StringResourcesManager.HomeDownloadsView.Get("DialogErrorTitle");
+                    string message = StringResourcesManager.HomeDownloadsView.Get("DialogErrorMessageNoInternetConnection");
                     await _dialogsService.ShowOk(title, message);
                     return;
                 }
@@ -87,8 +85,8 @@ namespace VDownload.Core.ViewModels.Home
                     NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection
                 )
                 {
-                    string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
-                    string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
+                    string title = StringResourcesManager.Common.Get("StartAtMeteredConnectionDialogTitle");
+                    string message = StringResourcesManager.Common.Get("StartAtMeteredConnectionDialogMessage");
                     DialogResultYesNo result = await _dialogsService.ShowYesNo(title, message);
                     continueEnqueue = result == DialogResultYesNo.Yes;
                 }

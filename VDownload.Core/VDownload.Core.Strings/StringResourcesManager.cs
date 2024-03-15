@@ -1,10 +1,11 @@
 ﻿using Microsoft.UI.Xaml;
-using Microsoft.Windows.ApplicationModel.Resources;
+using Windows.ApplicationModel.Resources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace VDownload.Core.Strings
 {
@@ -35,7 +36,19 @@ namespace VDownload.Core.Strings
 
         private static StringResource BuildResource(string resourceName)
         {
-            ResourceLoader loader = new ResourceLoader(resourceName);
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"teststring {resourceName}\n");
+            ResourceLoader loader;
+            try
+            {
+                loader = new ResourceLoader($"VDownload.Core.Strings/{resourceName}");
+                File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"afterteststring {resourceName}\n");
+            }
+            catch (Exception e)
+            {
+
+                File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"teststringerror {e.Message}\n");
+                throw;
+            }
             return new StringResource(loader);
         }
 
