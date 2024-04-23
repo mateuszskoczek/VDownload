@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="VDownload.Core.Views.Subscriptions.SubscriptionsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Core.Views.Subscriptions"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ctuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:ctc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ct="using:CommunityToolkit.WinUI"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d"
+    Background="{ThemeResource ViewBackgroundColor}"
+    x:Name="Root">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{Binding NavigationCommand}"/>
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+
+    <Grid Padding="20"
+          RowSpacing="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/Header"
+                   Grid.Row="0"
+                   FontSize="28"
+                   FontWeight="SemiBold"/>
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding Playlists}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ctuc:StaggeredPanel ColumnSpacing="10"
+                                             DesiredColumnWidth="120"
+                                             RowSpacing="10"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowSpacing="10"
+                              Padding="10"
+                              Background="{ThemeResource PanelBackgroundColor}"
+                              CornerRadius="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Row="0">
+                                <i:Interaction.Behaviors>
+                                    <ic:DataTriggerBehavior Binding="{Binding Source, Converter={StaticResource ObjectToStringConverter}}"
+                                                            Value="Twitch">
+                                        <ic:ChangePropertyAction PropertyName="Source"
+                                                                 Value="{StaticResource ImageSourcesTwitch}"/>
+                                    </ic:DataTriggerBehavior>
+                                </i:Interaction.Behaviors>
+                            </Image>
+                            <TextBlock Grid.Row="1" 
+                                       Text="{Binding Name}"
+                                       HorizontalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis"/>
+                            <HyperlinkButton x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/RemovePlaylistButton"
+                                             Grid.Row="2"
+                                             Content="Remove"
+                                             HorizontalAlignment="Center"
+                                             Command="{Binding DataContext.RemovePlaylistCommand, ElementName=Root}"
+                                             CommandParameter="{Binding}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <ctuc:SwitchPresenter Grid.Row="2"
+                              Value="{Binding Error, Converter={StaticResource IsNotNullConverter}}">
+            <ctuc:Case Value="False">
+                <Grid Background="{ThemeResource PanelBackgroundColor}"
+                      Padding="10"
+                      ColumnSpacing="10"
+                      CornerRadius="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/PlaylistUrlTextBox"
+                             Grid.Column="0"
+                             Text="{Binding Url, Mode=TwoWay}"
+                             IsEnabled="{Binding Loading, Converter={StaticResource BoolNegationConverter}}"/>
+                    <ctuc:SwitchPresenter Grid.Column="1"
+                                          Value="{Binding Loading, Converter={StaticResource ObjectToStringConverter}}">
+                        <ctuc:Case Value="True">
+                            <ProgressRing IsIndeterminate="True"
+                                          Width="20"
+                                          Height="20"/>
+                        </ctuc:Case>
+                        <ctuc:Case Value="False">
+                            <Button x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/PlaylistSearchButton"
+                                    Command="{Binding AddCommand}"/>
+                        </ctuc:Case>
+                    </ctuc:SwitchPresenter>
+                </Grid>
+            </ctuc:Case>
+            <ctuc:Case Value="True">
+                <InfoBar x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/ErrorInfoBar"
+                         Severity="Error"
+                         IsOpen="{Binding IsErrorOpened, Mode=TwoWay}"
+                         Message="{Binding Error}"
+                         CloseButtonCommand="{Binding CloseErrorCommand}"/>
+            </ctuc:Case>
+        </ctuc:SwitchPresenter>
+    </Grid>
+</Page>

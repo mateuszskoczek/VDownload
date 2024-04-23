@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="VDownload.Core.Views.About.AboutView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VDownload.Core.Views.About"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity" 
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d"
+    Background="Transparent">
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{Binding NavigationCommand}"/>
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    <Grid>
+        <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center" Spacing="20">
+            <StackPanel HorizontalAlignment="Center">
+                <Image Source="{StaticResource ImageLogo}"
+                   Width="150"
+                   Height="150"
+                   HorizontalAlignment="Center"/>
+                <TextBlock Text="VDownload"
+                       HorizontalAlignment="Center"
+                       FontWeight="SemiBold"
+                       FontSize="30"/>
+                <TextBlock Text="{Binding Version}"
+                       HorizontalAlignment="Center"
+                       FontSize="16"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" 
+                    Spacing="2">
+                <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/Developers"
+                       HorizontalAlignment="Center"
+                       FontSize="17"
+                       FontWeight="SemiBold"/>
+                <ItemsRepeater HorizontalAlignment="Center"
+                           ItemsSource="{Binding Developers}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <HyperlinkButton HorizontalAlignment="Center"
+                                         NavigateUri="{Binding Url}">
+                                <TextBlock FontSize="12" 
+                                       Text="{Binding Name}"/>
+                            </HyperlinkButton>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center"
+                        Spacing="2">
+                <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/Translation"
+                       HorizontalAlignment="Center"
+                       FontSize="17"
+                       FontWeight="SemiBold"/>
+                <ItemsRepeater HorizontalAlignment="Center"
+                           ItemsSource="{Binding Translators}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <HyperlinkButton HorizontalAlignment="Center"
+                                         NavigateUri="{Binding Url}">
+                                <TextBlock FontSize="12" 
+                                       Text="{Binding Name}"/>
+                            </HyperlinkButton>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center"
+                        Spacing="2">
+                <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/More"
+                       HorizontalAlignment="Center"
+                       FontSize="17"
+                       FontWeight="SemiBold"/>
+                <StackPanel Orientation="Horizontal">
+                    <HyperlinkButton HorizontalAlignment="Center"
+                                 NavigateUri="{Binding RepositoryUrl}">
+                        <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/Repository"
+                               FontSize="12"/>
+                    </HyperlinkButton>
+                    <HyperlinkButton HorizontalAlignment="Center"
+                                 NavigateUri="{Binding DonationUrl}">
+                        <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/Donation"
+                               FontSize="12"/>
+                    </HyperlinkButton>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

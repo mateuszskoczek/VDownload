@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <x:String x:Key="ImageSettingsViewSearchingPlaylistCount">/Assets/SettingsView/SearchingPlaylistCountLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksDefaultMediaOptions">/Assets/SettingsView/TasksDefaultMediaOptionsLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksRunningTasks">/Assets/SettingsView/TasksRunningTasksLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksFilenameTemplate">/Assets/SettingsView/TasksFilenameTemplateLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksMeteredConnectionWarning">/Assets/SettingsView/TasksMeteredConnectionWarningLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksOutputDirectory">/Assets/SettingsView/TasksOutputDirectoryLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksReplaceOutputFile">/Assets/SettingsView/TasksReplaceOutputFileLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTempDirectory">/Assets/SettingsView/TempDirectoryLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewTempDeleteOnFail">/Assets/SettingsView/TempDeleteOnFailLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewNotificationOnSuccessful">/Assets/SettingsView/NotificationOnSuccessfulLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewNotificationOnUnsuccessful">/Assets/SettingsView/NotificationOnUnsuccessfulLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingFFmpegLocation">/Assets/SettingsView/ProcessingFFmpegLocationLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingUseHardwareAcceleration">/Assets/SettingsView/ProcessingUseHardwareAccelerationLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingUseMultithreading">/Assets/SettingsView/ProcessingUseMultithreadingLight.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingSpeed">/Assets/SettingsView/ProcessingSpeedLight.png</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <x:String x:Key="ImageSettingsViewSearchingPlaylistCount">/Assets/SettingsView/SearchingPlaylistCountDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksDefaultMediaOptions">/Assets/SettingsView/TasksDefaultMediaOptionsDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksRunningTasks">/Assets/SettingsView/TasksRunningTasksDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksFilenameTemplate">/Assets/SettingsView/TasksFilenameTemplateDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksMeteredConnectionWarning">/Assets/SettingsView/TasksMeteredConnectionWarningDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksOutputDirectory">/Assets/SettingsView/TasksOutputDirectoryDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTasksReplaceOutputFile">/Assets/SettingsView/TasksReplaceOutputFileDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTempDirectory">/Assets/SettingsView/TempDirectoryDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewTempDeleteOnFail">/Assets/SettingsView/TempDeleteOnFailDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewNotificationOnSuccessful">/Assets/SettingsView/NotificationOnSuccessfulDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewNotificationOnUnsuccessful">/Assets/SettingsView/NotificationOnUnsuccessfulDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingFFmpegLocation">/Assets/SettingsView/ProcessingFFmpegLocationDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingUseHardwareAcceleration">/Assets/SettingsView/ProcessingUseHardwareAccelerationDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingUseMultithreading">/Assets/SettingsView/ProcessingUseMultithreadingDark.png</x:String>
+            <x:String x:Key="ImageSettingsViewProcessingSpeed">/Assets/SettingsView/ProcessingSpeedDark.png</x:String>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

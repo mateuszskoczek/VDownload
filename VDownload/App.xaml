@@ -1,9 +1,25 @@
-﻿<Application
+<?xml version="1.0" encoding="utf-8"?>
+<Application
     x:Class="VDownload.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:VDownload">
     <Application.Resources>
-        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
+                <ResourceDictionary Source="Dictionaries/Converters.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Colors.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesLogo.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesSources.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesOther.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesBaseView.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesHomeView.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesHomeDownloadsView.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesHomeVideoCollectionView.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesHomeVideoView.xaml"/>
+                <ResourceDictionary Source="Dictionaries/Images/ImagesSettingsView.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

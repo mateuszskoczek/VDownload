@@ -1,95 +1,219 @@
-﻿// Internal
-using VDownload.Core.Services;
-
-// System
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppNotifications;
 using System;
-using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using Windows.Storage.AccessCache;
+using VDownload.Activation;
+using VDownload.Core.Tasks;
+using VDownload.Core.ViewModels;
+using VDownload.Core.ViewModels.About;
+using VDownload.Core.ViewModels.Authentication;
+using VDownload.Core.ViewModels.Home;
+using VDownload.Core.ViewModels.Settings;
+using VDownload.Core.ViewModels.Subscriptions;
+using VDownload.Core.Views;
+using VDownload.Core.Views.About;
+using VDownload.Core.Views.Authentication;
+using VDownload.Core.Views.Home;
+using VDownload.Core.Views.Settings;
+using VDownload.Core.Views.Subscriptions;
+using VDownload.Services.Data.Application;
+using VDownload.Services.Data.Authentication;
+using VDownload.Services.Data.Configuration;
+using VDownload.Services.Data.Configuration.Models;
+using VDownload.Services.Data.Settings;
+using VDownload.Services.Data.Subscriptions;
+using VDownload.Services.UI.Dialogs;
+using VDownload.Services.UI.DictionaryResources;
+using VDownload.Services.UI.Notifications;
+using VDownload.Services.UI.StoragePicker;
+using VDownload.Services.UI.WebView;
+using VDownload.Services.Utility.Encryption;
+using VDownload.Services.Utility.FFmpeg;
+using VDownload.Services.Utility.Filename;
+using VDownload.Services.Utility.HttpClient;
+using VDownload.Sources;
+using VDownload.Sources.Twitch;
+using VDownload.Sources.Twitch.Api;
+using VDownload.Sources.Twitch.Authentication;
+using Windows.Graphics.Printing;
+using Windows.UI.Notifications;
 
 namespace VDownload
 {
-    sealed partial class App : Application
+    public partial class App : Application
     {
+        #region PROPERTIES
+
+        public static BaseWindow Window { get; protected set; }
+
+        public static T GetService<T>() where T : class
+        {
+            if ((App.Current as App)!.Host.Services.GetService(typeof(T)) is not T service)
+            {
+                throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
+            }
+
+            return service;
+        }
+
+        public IHost Host { get; set; }
+
+        #endregion
+
+
+
         #region CONSTRUCTORS
 
         public App()
         {
-            InitializeComponent();
-            Suspending += OnSuspending;
+            this.InitializeComponent();
+
+            Host = Microsoft.Extensions.Hosting.Host
+                   .CreateDefaultBuilder()
+                   .UseContentRoot(AppContext.BaseDirectory)
+                   .ConfigureAppConfiguration((builder) =>
+                   {
+                       builder.Sources.Add(new JsonConfigurationSource
+                       {
+                           Path = "configuration.json"
+                       });
+                   })
+                   .ConfigureLogging((builder) =>
+                   {
+                       builder.AddConsole();
+                   })
+                   .ConfigureServices((context, services) =>
+                   {
+                       BuildCore(services);
+
+                       BuildDataServices(services);
+                       BuildUIServices(services);
+                       BuildUtilityServices(services);
+                       BuildSourcesServices(services);
+
+                       BuildTasksManager(services);
+                       BuildPresentation(services);
+                       BuildActivation(services);
+                   })
+                   .Build();
+
+            UnhandledException += UnhandledExceptionCatched;
         }
 
         #endregion
 
 
 
-        #region EVENT HANDLERS VOIDS
+        #region PRIVATE METHODS
 
-        // ON LAUNCHED
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        #region EVENT HANDLERS
+
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            // Rebuild configuration file
-            Config.Rebuild();
+            base.OnLaunched(args);
 
-            // Delete temp on start
-            if ((bool)Config.GetValue("delete_temp_on_start"))
-            {
-                IReadOnlyList<IStorageItem> tempItems;
-                if (StorageApplicationPermissions.FutureAccessList.ContainsItem("custom_temp_location"))
-                    tempItems = await (await StorageApplicationPermissions.FutureAccessList.GetFolderAsync("custom_temp_location")).GetItemsAsync();
-                else
-                    tempItems = await ApplicationData.Current.TemporaryFolder.GetItemsAsync();
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", "testlaunched\n");
 
-                List<Task> tasks = new List<Task>();
-                foreach (IStorageItem item in tempItems) tasks.Add(item.DeleteAsync().AsTask());
-                await Task.WhenAll(tasks);
-            }
-
-            // Do not repeat app initialization when the Window already has content,
-            // just ensure that the window is active
-            if (!(Window.Current.Content is Frame rootFrame))
-            {
-                // Create a Frame to act as the navigation context and navigate to the first page
-                rootFrame = new Frame();
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
-            }
-
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(Views.MainPage), e.Arguments);
-                }
-
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
+            await GetService<IActivationService>().ActivateAsync(args);
         }
 
-        // ON NAVIGATION FAILED
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        protected void UnhandledExceptionCatched(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"test {e.Message} {e.Exception.StackTrace}\n");
+            Environment.Exit(0);
         }
 
-        // ON SUSPENDING
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        #endregion
+
+        protected void BuildCore(IServiceCollection services)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
-            deferral.Complete();
+            services.AddSingleton<HttpClient>();
+        }
+
+        protected void BuildDataServices(IServiceCollection services)
+        {
+            services.AddSingleton<IConfigurationService, ConfigurationService>();
+            services.AddSingleton<IAuthenticationDataService, AuthenticationDataService>();
+            services.AddSingleton<ISettingsService, SettingsService>();
+            services.AddSingleton<IApplicationDataService, ApplicationDataService>();
+            services.AddSingleton<ISubscriptionsDataService, SubscriptionsDataService>();
+        }
+
+        protected void BuildUIServices(IServiceCollection services)
+        {
+            services.AddSingleton<IDictionaryResourcesService, DictionaryResourcesService>();
+            services.AddSingleton<IWebViewService, WebViewService>();
+            services.AddSingleton<IStoragePickerService, StoragePickerService>();
+            services.AddSingleton<INotificationsService, NotificationsService>();
+            services.AddSingleton<IDialogsService, DialogsService>();
+        }
+
+        protected void BuildUtilityServices(IServiceCollection services)
+        {
+            services.AddSingleton<IEncryptionService, EncryptionService>();
+            services.AddSingleton<IHttpClientService, HttpClientService>();
+            services.AddSingleton<IFFmpegService, FFmpegService>();
+            services.AddSingleton<IFilenameService, FilenameService>();
+        }
+
+        protected void BuildSourcesServices(IServiceCollection services)
+        {
+            // Twitch
+            services.AddSingleton<ITwitchApiService, TwitchApiService>();
+            services.AddSingleton<ITwitchAuthenticationService, TwitchAuthenticationService>();
+            services.AddSingleton<ITwitchVideoStreamFactoryService, TwitchVideoStreamFactoryService>();
+            services.AddSingleton<ITwitchSearchService, TwitchSearchService>();
+
+            // Base
+            services.AddSingleton<ISearchService, SearchService>();
+        }
+
+        protected void BuildTasksManager(IServiceCollection services)
+        {
+            services.AddSingleton<IDownloadTaskFactoryService, DownloadTaskFactoryService>();
+            services.AddSingleton<IDownloadTaskManager, DownloadTaskManager>();
+        }
+
+        protected void BuildPresentation(IServiceCollection services)
+        {
+            // ViewModels
+            services.AddSingleton<AboutViewModel>();
+            services.AddSingleton<AuthenticationViewModel>();
+            services.AddSingleton<SettingsViewModel>();
+            services.AddSingleton<HomeDownloadsViewModel>();
+            services.AddSingleton<HomeVideoViewModel>();
+            services.AddSingleton<HomeVideoCollectionViewModel>();
+            services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<SubscriptionsViewModel>();
+            services.AddSingleton<BaseViewModel>();
+
+            // Views
+            services.AddTransient<AboutView>();
+            services.AddTransient<AuthenticationView>();
+            services.AddTransient<SettingsView>();
+            services.AddTransient<HomeDownloadsView>();
+            services.AddTransient<HomeVideoView>();
+            services.AddTransient<HomeVideoCollectionView>();
+            services.AddTransient<HomeView>();
+            services.AddTransient<SubscriptionsView>();
+            services.AddTransient<BaseWindow>();
+        }
+
+        protected void BuildActivation(IServiceCollection services)
+        {
+            services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
+
+            services.AddSingleton<IActivationService, ActivationService>();
         }
 
         #endregion

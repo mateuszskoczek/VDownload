@@ -1,0 +1,97 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>VDownload.Core.Views</RootNamespace>
+    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+	  <UseRidGraph>true</UseRidGraph>
+	  <EnableCoreMrtTooling Condition=" '$(BuildingInsideVisualStudio)' != 'true' ">false</EnableCoreMrtTooling>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="About\AboutView.xaml" />
+    <None Remove="Home\HomeVideoCollectionView.xaml" />
+    <None Remove="Subscriptions\SubscriptionsView.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+      <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
+      <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.240109" />
+      <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
+      <PackageReference Include="CommunityToolkit.WinUI.Extensions" Version="8.0.240109" />
+      <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+      <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240227000" />
+      <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
+      <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
+      <PackageReference Include="SimpleToolkit.UI.WinUI.Behaviors" Version="1.7.4" />
+      <PackageReference Include="SimpleToolkit.UI.WinUI.Controls" Version="1.7.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VDownload.Core.Strings\VDownload.Core.Strings.csproj" />
+    <ProjectReference Include="..\VDownload.Core.ViewModels\VDownload.Core.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="About\AboutView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Update="Authentication\AuthenticationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="BaseWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Home\HomeDownloadsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <Page Update="Subscriptions\SubscriptionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Home\HomeVideoCollectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <None Update="Home\HomeVideoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Settings\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Home\HomeVideoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="BaseWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Home\HomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Home\HomeDownloadsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Authentication\AuthenticationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Settings\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

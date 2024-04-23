@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <x:String x:Key="ImageHomeDownloadsViewNoTasks">/Assets/HomeDownloadsView/NoTasks.png</x:String>
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <x:String x:Key="ImageHomeDownloadsViewQuality">/Assets/HomeDownloadsView/QualityLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewTime">/Assets/HomeDownloadsView/TimeLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewFile">/Assets/HomeDownloadsView/FileLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewIdle">/Assets/HomeDownloadsView/IdleLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewQueued">/Assets/HomeDownloadsView/QueuedLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewInitializing">/Assets/HomeDownloadsView/InitializingLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewCancelled">/Assets/HomeDownloadsView/CancelledLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewDownloading">/Assets/HomeDownloadsView/DownloadingLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewProcessing">/Assets/HomeDownloadsView/ProcessingLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewFinalizing">/Assets/HomeDownloadsView/FinalizingLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewDone">/Assets/HomeDownloadsView/DoneLight.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewError">/Assets/HomeDownloadsView/ErrorLight.png</x:String>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <x:String x:Key="ImageHomeDownloadsViewQuality">/Assets/HomeDownloadsView/QualityDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewTime">/Assets/HomeDownloadsView/TimeDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewFile">/Assets/HomeDownloadsView/FileDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewIdle">/Assets/HomeDownloadsView/IdleDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewQueued">/Assets/HomeDownloadsView/QueuedDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewInitializing">/Assets/HomeDownloadsView/InitializingDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewCancelled">/Assets/HomeDownloadsView/CancelledDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewDownloading">/Assets/HomeDownloadsView/DownloadingDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewProcessing">/Assets/HomeDownloadsView/ProcessingDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewFinalizing">/Assets/HomeDownloadsView/FinalizingDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewDone">/Assets/HomeDownloadsView/DoneDark.png</x:String>
+            <x:String x:Key="ImageHomeDownloadsViewError">/Assets/HomeDownloadsView/ErrorDark.png</x:String>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
