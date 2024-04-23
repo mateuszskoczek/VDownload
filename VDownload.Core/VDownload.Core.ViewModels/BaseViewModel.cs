@@ -10,10 +10,10 @@ using VDownload.Core.ViewModels.Authentication;
 using VDownload.Core.ViewModels.Home;
 using VDownload.Core.ViewModels.Settings;
 using VDownload.Services.UI.DictionaryResources;
-using VDownload.Services.UI.StringResources;
 using SimpleToolkit.UI.Models;
 using VDownload.Core.ViewModels.About;
 using VDownload.Core.ViewModels.Subscriptions;
+using VDownload.Core.Strings;
 
 namespace VDownload.Core.ViewModels
 {
@@ -21,7 +21,6 @@ namespace VDownload.Core.ViewModels
     {
         #region SERVICES
 
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly IDictionaryResourcesService _dictionaryResourcesService;
 
         #endregion
@@ -53,9 +52,8 @@ namespace VDownload.Core.ViewModels
 
         #region CONSTRUCTORS
 
-        public BaseViewModel(IStringResourcesService stringResourcesService, IDictionaryResourcesService dictionaryResourcesService)
+        public BaseViewModel(IDictionaryResourcesService dictionaryResourcesService)
         {
-            _stringResourcesService = stringResourcesService;
             _dictionaryResourcesService = dictionaryResourcesService;
 
             Items = new ReadOnlyObservableCollection<NavigationViewItem>
@@ -64,13 +62,13 @@ namespace VDownload.Core.ViewModels
                 {
                     new NavigationViewItem()
                     {
-                        Name = _stringResourcesService.BaseViewResources.Get("HomeNavigationViewItem"),
+                        Name = StringResourcesManager.BaseView.Get("HomeNavigationViewItem"),
                         IconSource = _dictionaryResourcesService.Get<string>("ImageBaseViewHome"),
                         ViewModel = typeof(HomeViewModel),
                     },
                     new NavigationViewItem()
                     {
-                        Name = _stringResourcesService.BaseViewResources.Get("SubscriptionsNavigationViewItem"),
+                        Name = StringResourcesManager.BaseView.Get("SubscriptionsNavigationViewItem"),
                         IconSource = _dictionaryResourcesService.Get<string>("ImageBaseViewSubscriptions"),
                         ViewModel = typeof(SubscriptionsViewModel),
                     },
@@ -82,13 +80,13 @@ namespace VDownload.Core.ViewModels
                 {
                     new NavigationViewItem()
                     {
-                        Name = _stringResourcesService.BaseViewResources.Get("AboutNavigationViewItem"),
+                        Name = StringResourcesManager.BaseView.Get("AboutNavigationViewItem"),
                         IconSource = _dictionaryResourcesService.Get<string>("ImageBaseViewAbout"),
                         ViewModel = typeof(AboutViewModel),
                     },
                     new NavigationViewItem()
                     {
-                        Name = _stringResourcesService.BaseViewResources.Get("AuthenticationNavigationViewItem"),
+                        Name = StringResourcesManager.BaseView.Get("AuthenticationNavigationViewItem"),
                         IconSource = _dictionaryResourcesService.Get<string>("ImageBaseViewAuthentication"),
                         ViewModel = typeof(AuthenticationViewModel),
                     }

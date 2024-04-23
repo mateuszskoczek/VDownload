@@ -3,24 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VDownload.Services.Common;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 
 namespace VDownload.Services.UI.StoragePicker
 {
-    public interface IStoragePickerService
+    public interface IStoragePickerService : IInitializableService<Window>
     {
-        #region PROPERTIES
-
-        Window DefaultRoot { get; set; }
-
-        #endregion
-
-
-
-        #region METHODS
-
         Task<string?> OpenDirectory();
         Task<string?> OpenDirectory(StoragePickerStartLocation startLocation);
         Task<IEnumerable<string>> OpenMultipleFiles();
@@ -33,23 +24,23 @@ namespace VDownload.Services.UI.StoragePicker
         Task<string?> OpenSingleFile(string[] fileTypes, StoragePickerStartLocation startLocation);
         Task<string?> SaveFile(FileSavePickerFileTypeChoice[] fileTypes, string defaultFileType);
         Task<string?> SaveFile(FileSavePickerFileTypeChoice[] fileTypes, string defaultFileType, StoragePickerStartLocation startLocation);
-
-        #endregion
     }
 
 
 
     public class StoragePickerService : IStoragePickerService
     {
-        #region PROPERTIES
+        #region FIELDS
 
-        public Window DefaultRoot { get; set; }
+        protected Window _root;
 
         #endregion
 
 
 
         #region PUBLIC METHODS
+
+        public async Task Initialize(Window arg) => await Task.Run(() => _root = arg);
 
         public async Task<string?> OpenDirectory() => await OpenDirectory(StoragePickerStartLocation.Unspecified);
         public async Task<string?> OpenDirectory(StoragePickerStartLocation startLocation)
@@ -111,7 +102,7 @@ namespace VDownload.Services.UI.StoragePicker
 
         protected void InitializePicker(object picker)
         {
-            var hwnd = WindowNative.GetWindowHandle(DefaultRoot);
+            var hwnd = WindowNative.GetWindowHandle(_root);
             InitializeWithWindow.Initialize(picker, hwnd);
         }
 

@@ -1,12 +1,18 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using System;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using VDownload.Activation;
 using VDownload.Core.Tasks;
 using VDownload.Core.ViewModels;
 using VDownload.Core.ViewModels.About;
@@ -30,7 +36,6 @@ using VDownload.Services.UI.Dialogs;
 using VDownload.Services.UI.DictionaryResources;
 using VDownload.Services.UI.Notifications;
 using VDownload.Services.UI.StoragePicker;
-using VDownload.Services.UI.StringResources;
 using VDownload.Services.UI.WebView;
 using VDownload.Services.Utility.Encryption;
 using VDownload.Services.Utility.FFmpeg;
@@ -47,11 +52,21 @@ namespace VDownload
 {
     public partial class App : Application
     {
-        #region FIELDS
+        #region PROPERTIES
 
-        protected IServiceProvider _serviceProvider;
+        public static BaseWindow Window { get; protected set; }
 
-        protected BaseWindow _window;
+        public static T GetService<T>() where T : class
+        {
+            if ((App.Current as App)!.Host.Services.GetService(typeof(T)) is not T service)
+            {
+                throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
+            }
+
+            return service;
+        }
+
+        public IHost Host { get; set; }
 
         #endregion
 
@@ -63,22 +78,36 @@ namespace VDownload
         {
             this.InitializeComponent();
 
+            Host = Microsoft.Extensions.Hosting.Host
+                   .CreateDefaultBuilder()
+                   .UseContentRoot(AppContext.BaseDirectory)
+                   .ConfigureAppConfiguration((builder) =>
+                   {
+                       builder.Sources.Add(new JsonConfigurationSource
+                       {
+                           Path = "configuration.json"
+                       });
+                   })
+                   .ConfigureLogging((builder) =>
+                   {
+                       builder.AddConsole();
+                   })
+                   .ConfigureServices((context, services) =>
+                   {
+                       BuildCore(services);
 
-            IServiceCollection services = new ServiceCollection();
+                       BuildDataServices(services);
+                       BuildUIServices(services);
+                       BuildUtilityServices(services);
+                       BuildSourcesServices(services);
 
-            BuildCore(services);
+                       BuildTasksManager(services);
+                       BuildPresentation(services);
+                       BuildActivation(services);
+                   })
+                   .Build();
 
-            BuildConfiguration(services);
-
-            BuildDataServices(services);
-            BuildUIServices(services);
-            BuildUtilityServices(services);
-            BuildSourcesServices(services);
-
-            BuildTasksManager(services);
-            BuildPresentation(services);
-
-            _serviceProvider = services.BuildServiceProvider();
+            UnhandledException += UnhandledExceptionCatched;
         }
 
         #endregion
@@ -87,25 +116,28 @@ namespace VDownload
 
         #region PRIVATE METHODS
 
+        #region EVENT HANDLERS
+
+        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            base.OnLaunched(args);
+
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", "testlaunched\n");
+
+            await GetService<IActivationService>().ActivateAsync(args);
+        }
+
+        protected void UnhandledExceptionCatched(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"test {e.Message} {e.Exception.StackTrace}\n");
+            Environment.Exit(0);
+        }
+
+        #endregion
+
         protected void BuildCore(IServiceCollection services)
         {
             services.AddSingleton<HttpClient>();
-        }
-
-        protected void BuildConfiguration(IServiceCollection services)
-        {
-            IConfigurationBuilder configBuilder = new ConfigurationBuilder
-            {
-                Sources =
-                {
-                    new JsonConfigurationSource
-                    {
-                        Path = "configuration.json"
-                    }
-                }
-            };
-            IConfiguration config = configBuilder.Build();
-            services.AddSingleton(config);
         }
 
         protected void BuildDataServices(IServiceCollection services)
@@ -119,7 +151,6 @@ namespace VDownload
 
         protected void BuildUIServices(IServiceCollection services)
         {
-            services.AddSingleton<IStringResourcesService, StringResourcesService>();
             services.AddSingleton<IDictionaryResourcesService, DictionaryResourcesService>();
             services.AddSingleton<IWebViewService, WebViewService>();
             services.AddSingleton<IStoragePickerService, StoragePickerService>();
@@ -178,40 +209,11 @@ namespace VDownload
             services.AddTransient<BaseWindow>();
         }
 
-        protected async Task InitializeServices()
+        protected void BuildActivation(IServiceCollection services)
         {
-            IApplicationDataService applicationDataService = _serviceProvider.GetService<IApplicationDataService>();
-            ISettingsService settingsService = _serviceProvider.GetService<ISettingsService>();
-            IAuthenticationDataService authenticationDataService = _serviceProvider.GetService<IAuthenticationDataService>();
-            ISubscriptionsDataService subscriptionsDataService = _serviceProvider.GetService<ISubscriptionsDataService>();
-            Task initViewModelToViewConverterTask = Task.Run(() => ViewModelToViewConverter.ServiceProvider = _serviceProvider);
-            Task initStoragePickerServiceTask = Task.Run(() => _serviceProvider.GetService<IStoragePickerService>().DefaultRoot = _window);
-            Task initNotificationsServiceTask = Task.Run(() => _serviceProvider.GetService<INotificationsService>().Initialize(() => WindowHelper.ShowWindow(_window)));
+            services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
 
-            await Task.WhenAll(
-                applicationDataService.Load(), 
-                settingsService.Load(), 
-                authenticationDataService.Load(), 
-                subscriptionsDataService.Load(), 
-                initStoragePickerServiceTask, 
-                initViewModelToViewConverterTask, 
-                initNotificationsServiceTask
-            );
-        }
-
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            _window = _serviceProvider.GetService<BaseWindow>();
-            _window.RootLoaded += Window_RootLoaded;
-            _window.Activate();
-
-            await InitializeServices();
-        }
-
-        protected void Window_RootLoaded(object sender, EventArgs e)
-        {
-            IDialogsService dialogsService = _serviceProvider.GetService<IDialogsService>();
-            dialogsService.DefaultRoot = _window.XamlRoot;
+            services.AddSingleton<IActivationService, ActivationService>();
         }
 
         #endregion

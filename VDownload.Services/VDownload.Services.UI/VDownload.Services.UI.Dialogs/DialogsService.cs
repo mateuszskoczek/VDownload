@@ -6,22 +6,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using VDownload.Services.UI.StringResources;
+using VDownload.Core.Strings;
+using VDownload.Services.Common;
 
 namespace VDownload.Services.UI.Dialogs
 {
-    public interface IDialogsService
+    public interface IDialogsService : IInitializableService<XamlRoot>
     {
-        #region PROPERTIES
-
-        XamlRoot DefaultRoot { get; set; }
-
-        #endregion
-
-
-
-        #region METHODS
-
         Task ShowClose(string title, string message);
         Task<DialogResult> ShowDouble(string title, string message, string primaryButtonText, string secondaryButtonText);
         Task ShowOk(string title, string message);
@@ -30,59 +21,29 @@ namespace VDownload.Services.UI.Dialogs
         Task<DialogResult> ShowTriple(string title, string message, string primaryButtonText, string secondaryButtonText, string cancelButtonText);
         Task<DialogResultYesNo> ShowYesNo(string title, string message);
         Task<DialogResultYesNoCancel> ShowYesNoCancel(string title, string message);
-
-        #endregion
     }
 
 
 
     public class DialogsService : IDialogsService
     {
-        #region SERVICES
-
-        protected readonly IStringResourcesService _stringResourcesService;
-
-        #endregion
-
-
-
         #region FIELDS
 
-        protected string _okString;
-        protected string _closeString;
-        protected string _cancelString;
-        protected string _yesString;
-        protected string _noString;
+        protected string _okString = StringResourcesManager.DialogButtons.Get("OK");
+        protected string _closeString = StringResourcesManager.DialogButtons.Get("Close");
+        protected string _cancelString = StringResourcesManager.DialogButtons.Get("Cancel");
+        protected string _yesString = StringResourcesManager.DialogButtons.Get("Yes");
+        protected string _noString = StringResourcesManager.DialogButtons.Get("No");
 
-        #endregion
-
-
-
-        #region PROPERTIES
-
-        public XamlRoot DefaultRoot { get; set; }
-
-        #endregion
-
-
-
-        #region CONSTRUCTORS
-
-        public DialogsService(IStringResourcesService stringResourcesService) 
-        { 
-            _stringResourcesService = stringResourcesService;
-            _okString = _stringResourcesService.DialogButtonsResources.Get("OK");
-            _closeString = _stringResourcesService.DialogButtonsResources.Get("Close");
-            _cancelString = _stringResourcesService.DialogButtonsResources.Get("Cancel");
-            _yesString = _stringResourcesService.DialogButtonsResources.Get("Yes");
-            _noString = _stringResourcesService.DialogButtonsResources.Get("No");
-        }
+        protected XamlRoot _root;
 
         #endregion
 
 
 
         #region PUBLIC METHODS
+
+        public async Task Initialize(XamlRoot arg) => await Task.Run(() => _root = arg);
 
         public async Task ShowOk(string title, string message) => await ShowSingle(title, message, _okString);
         public async Task ShowClose(string title, string message) => await ShowSingle(title, message, _closeString);
@@ -138,7 +99,7 @@ namespace VDownload.Services.UI.Dialogs
             {
                 Title = title,
                 Content = message,
-                XamlRoot = DefaultRoot
+                XamlRoot = _root
             };
         }
 

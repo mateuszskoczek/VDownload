@@ -1,0 +1,66 @@
+name: Build and publish application on master push
+
+
+on:
+  push:
+    branches:
+    - "master"
+    - "features/github_actions"
+    #paths:
+    #- "VDownload**"
+
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    env:
+      MSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\devenv.com
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: 5.x
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0.9.7
+        id: gitversion
+        with:
+          useConfigFile: true
+          configFilePath: .github/config/gitversion.yml
+      - name: Set version in VDownload.csproj file
+        id: package_version
+        uses: KageKirin/set-csproj-version@v0
+        with:
+          file: VDownload/VDownload.csproj
+          version: ${{steps.gitversion.outputs.SemVer}}         
+      - name: Set version in Package.appxmanifest file
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: VDownload/Package.appxmanifest
+          oldString: 0\.0\.0\.0
+          newString: ${{steps.gitversion.outputs.SemVer}}.0
+          showFileContent: true
+          escapeBackslash: true
+      - name: Set version in app.manifest file
+        uses: Nambers/ReplaceStringInFile@v1.3
+        with:
+          path: VDownload/app.manifest
+          oldString: 0\.0\.0\.0
+          newString: ${{steps.gitversion.outputs.SemVer}}.0
+          showFileContent: true
+          escapeBackslash: true
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Build application
+        run: dotnet build -o build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build

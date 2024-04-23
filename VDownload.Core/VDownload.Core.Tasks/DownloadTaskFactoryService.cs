@@ -7,7 +7,6 @@ using VDownload.Models;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.Notifications;
-using VDownload.Services.UI.StringResources;
 using VDownload.Services.Utility.FFmpeg;
 
 namespace VDownload.Core.Tasks
@@ -26,7 +25,6 @@ namespace VDownload.Core.Tasks
         protected readonly IConfigurationService _configurationService;
         protected readonly ISettingsService _settingsService;
         protected readonly IFFmpegService _ffmpegService;
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly INotificationsService _notificationsService;
 
         #endregion
@@ -35,12 +33,11 @@ namespace VDownload.Core.Tasks
 
         #region CONSTRUCTORS
 
-        public DownloadTaskFactoryService(IConfigurationService configurationService, ISettingsService settingsService, IFFmpegService ffmpegService, IStringResourcesService stringResourcesService, INotificationsService notificationsService)
+        public DownloadTaskFactoryService(IConfigurationService configurationService, ISettingsService settingsService, IFFmpegService ffmpegService, INotificationsService notificationsService)
         {
             _configurationService = configurationService;
             _settingsService = settingsService;
             _ffmpegService = ffmpegService;
-            _stringResourcesService = stringResourcesService;
             _notificationsService = notificationsService;
         }
 
@@ -52,7 +49,7 @@ namespace VDownload.Core.Tasks
 
         public DownloadTask Create(Video video, VideoDownloadOptions downloadOptions)
         {
-            return new DownloadTask(video, downloadOptions, _configurationService, _settingsService, _ffmpegService, _stringResourcesService, _notificationsService);
+            return new DownloadTask(video, downloadOptions, _configurationService, _settingsService, _ffmpegService, _notificationsService);
         }
 
         #endregion

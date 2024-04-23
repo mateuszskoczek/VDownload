@@ -9,10 +9,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Core.Strings;
 using VDownload.Core.ViewModels.Subscriptions.Helpers;
 using VDownload.Models;
 using VDownload.Services.Data.Subscriptions;
-using VDownload.Services.UI.StringResources;
 using VDownload.Sources;
 using VDownload.Sources.Common;
 
@@ -23,7 +23,6 @@ namespace VDownload.Core.ViewModels.Subscriptions
         #region SERVICES
 
         protected readonly ISearchService _searchService;
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly ISubscriptionsDataService _subscriptionsDataService;
 
         #endregion
@@ -53,10 +52,9 @@ namespace VDownload.Core.ViewModels.Subscriptions
 
         #region CONSTRUCTORS
 
-        public SubscriptionsViewModel(ISearchService searchService, IStringResourcesService stringResourcesService, ISubscriptionsDataService subscriptionsDataService)
+        public SubscriptionsViewModel(ISearchService searchService, ISubscriptionsDataService subscriptionsDataService)
         {
             _searchService = searchService;
-            _stringResourcesService = stringResourcesService;
             _subscriptionsDataService = subscriptionsDataService;
 
             _playlists = new ObservableCollection<PlaylistViewModel>();
@@ -96,7 +94,7 @@ namespace VDownload.Core.ViewModels.Subscriptions
         {
             if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
             {
-                ShowError(_stringResourcesService.SubscriptionsViewResources.Get("NoInternetConnectionError"));
+                ShowError(StringResourcesManager.SubscriptionsView.Get("NoInternetConnectionError"));
                 return;
             }
 
@@ -109,18 +107,18 @@ namespace VDownload.Core.ViewModels.Subscriptions
             }
             catch (MediaSearchException ex)
             {
-                ShowError(_stringResourcesService.SearchResources.Get(ex.StringCode));
+                ShowError(StringResourcesManager.Search.Get(ex.StringCode));
                 return;
             }
             catch (Exception ex) when (ex is TaskCanceledException || ex is HttpRequestException)
             {
-                ShowError(_stringResourcesService.SearchResources.Get("SearchTimeout"));
+                ShowError(StringResourcesManager.Search.Get("SearchTimeout"));
                 return;
             }
 
             if (_subscriptionsDataService.Data.Any(x => x.Source == playlist.Source && x.Name == playlist.Name))
             {
-                ShowError(_stringResourcesService.SubscriptionsViewResources.Get("DuplicateError"));
+                ShowError(StringResourcesManager.SubscriptionsView.Get("DuplicateError"));
                 return;
             }
 

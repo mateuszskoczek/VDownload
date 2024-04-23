@@ -7,13 +7,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Core.Strings;
 using VDownload.Core.Tasks;
 using VDownload.Models;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.Data.Subscriptions;
 using VDownload.Services.UI.Dialogs;
-using VDownload.Services.UI.StringResources;
 using VDownload.Sources;
 using VDownload.Sources.Common;
 using VDownload.Sources.Twitch.Configuration.Models;
@@ -45,7 +45,6 @@ namespace VDownload.Core.ViewModels.Home
 
         protected readonly IConfigurationService _configurationService;
         protected readonly ISettingsService _settingsService;
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly ISearchService _searchService;
         protected readonly ISubscriptionsDataService _subscriptionsDataService;
         protected readonly IDialogsService _dialogsService;
@@ -116,11 +115,10 @@ namespace VDownload.Core.ViewModels.Home
 
         #region CONSTRUCTORS
 
-        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, IStringResourcesService stringResourcesService, ISearchService searchService, ISubscriptionsDataService subscriptionsDataService, IDialogsService dialogsService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomeVideoCollectionViewModel videoCollectionViewModel)
+        public HomeViewModel(IConfigurationService configurationService, ISettingsService settingsService, ISearchService searchService, ISubscriptionsDataService subscriptionsDataService, IDialogsService dialogsService, IDownloadTaskManager downloadTaskManager, HomeVideoViewModel videoViewModel, HomeVideoCollectionViewModel videoCollectionViewModel)
         {
             _configurationService = configurationService;
             _settingsService = settingsService;
-            _stringResourcesService = stringResourcesService;
             _searchService = searchService;
             _subscriptionsDataService = subscriptionsDataService;
             _dialogsService = dialogsService;
@@ -181,7 +179,7 @@ namespace VDownload.Core.ViewModels.Home
 
                 StartSearch();
 
-                SubscriptionsVideoList subList = new SubscriptionsVideoList { Name = _stringResourcesService.CommonResources.Get("SubscriptionVideoListName") };
+                SubscriptionsVideoList subList = new SubscriptionsVideoList { Name = StringResourcesManager.Common.Get("SubscriptionVideoListName") };
                 List<Task> tasks = new List<Task>();
                 try
                 {
@@ -218,14 +216,14 @@ namespace VDownload.Core.ViewModels.Home
 
                 if (subList.Count > 0)
                 {
-                    OptionBarMessage = $"{_stringResourcesService.HomeViewResources.Get("OptionBarMessageVideosFound")} {subList.Count}";
+                    OptionBarMessage = $"{StringResourcesManager.HomeView.Get("OptionBarMessageVideosFound")} {subList.Count}";
 
                     _videoCollectionViewModel.LoadCollection(subList);
                     MainContent = _videoCollectionView;
                 }
                 else
                 {
-                    OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageVideosNotFound");
+                    OptionBarMessage = StringResourcesManager.HomeView.Get("OptionBarMessageVideosNotFound");
                 }
 
                 OptionBarSearchNotPending = true;
@@ -285,7 +283,7 @@ namespace VDownload.Core.ViewModels.Home
             }
             catch (MediaSearchException ex)
             {
-                ShowError(_stringResourcesService.SearchResources.Get(ex.StringCode));
+                ShowError(StringResourcesManager.Search.Get(ex.StringCode));
                 return;
             }
             catch (Exception ex) when (ex is TaskCanceledException || ex is HttpRequestException)
@@ -321,7 +319,7 @@ namespace VDownload.Core.ViewModels.Home
             }
             catch (MediaSearchException ex)
             {
-                ShowError(_stringResourcesService.SearchResources.Get(ex.StringCode));
+                ShowError(StringResourcesManager.Search.Get(ex.StringCode));
                 return;
             }
             catch (Exception ex) when (ex is TaskCanceledException || ex is HttpRequestException)
@@ -357,8 +355,8 @@ namespace VDownload.Core.ViewModels.Home
                     NetworkHelper.Instance.ConnectionInformation.IsInternetOnMeteredConnection
                 )
                 {
-                    string title = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogTitle");
-                    string message = _stringResourcesService.CommonResources.Get("StartAtMeteredConnectionDialogMessage");
+                    string title = StringResourcesManager.Common.Get("StartAtMeteredConnectionDialogTitle");
+                    string message = StringResourcesManager.Common.Get("StartAtMeteredConnectionDialogMessage");
                     DialogResultYesNo result = await _dialogsService.ShowYesNo(title, message);
                     if (result == DialogResultYesNo.No)
                     {
@@ -417,14 +415,14 @@ namespace VDownload.Core.ViewModels.Home
         {
             OptionBarSearchNotPending = false;
             OptionBarLoading = true;
-            OptionBarMessage = _stringResourcesService.HomeViewResources.Get("OptionBarMessageLoading");
+            OptionBarMessage = StringResourcesManager.HomeView.Get("OptionBarMessageLoading");
         }
 
         protected async void BackToDownload_EventHandler(object sender, EventArgs e) => await Navigation();
 
-        protected string ErrorNoInternetConnection() => _stringResourcesService.HomeViewResources.Get("ErrorInfoBarNoInternetConnection");
+        protected string ErrorNoInternetConnection() => StringResourcesManager.HomeView.Get("ErrorInfoBarNoInternetConnection");
 
-        protected string ErrorSearchTimeout() => _stringResourcesService.SearchResources.Get("SearchTimeout");
+        protected string ErrorSearchTimeout() => StringResourcesManager.Search.Get("SearchTimeout");
 
         #endregion
     }

@@ -82,7 +82,11 @@ namespace VDownload.Services.UI.StringResources
 
         #region PRIVATE METHODS
 
-        protected StringResources BuildResource(string resourceName) => new StringResources(ResourceLoader.GetForViewIndependentUse($"{_configurationService.Common.StringResourcesAssembly}/{resourceName}"));
+        protected StringResources BuildResource(string resourceName)
+        {
+            ResourceLoader loader = new ResourceLoader($"{_configurationService.Common.StringResourcesAssembly}/{resourceName}");
+            return new StringResources(loader);
+        }
 
         #endregion
     }

@@ -6,11 +6,11 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Core.Strings;
 using VDownload.Models;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.StoragePicker;
-using VDownload.Services.UI.StringResources;
 
 namespace VDownload.Core.ViewModels.Settings
 {
@@ -20,7 +20,6 @@ namespace VDownload.Core.ViewModels.Settings
 
         protected readonly ISettingsService _settingsService;
         protected readonly IConfigurationService _configurationService;
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly IStoragePickerService _storagePickerService;
 
         #endregion
@@ -176,16 +175,15 @@ namespace VDownload.Core.ViewModels.Settings
 
         #region CONSTRUCTORS
 
-        public SettingsViewModel(ISettingsService settingsService, IConfigurationService configurationService, IStringResourcesService stringResourcesService, IStoragePickerService storagePickerService)
+        public SettingsViewModel(ISettingsService settingsService, IConfigurationService configurationService, IStoragePickerService storagePickerService)
         {
             _settingsService = settingsService;
             _configurationService = configurationService;
-            _stringResourcesService = stringResourcesService;
             _storagePickerService = storagePickerService;
 
             base.PropertyChanged += PropertyChangedEventHandler;
 
-            _tasksFilenameTemplateTooltip = string.Join('\n', _configurationService.Common.FilenameTemplates.Select(x => _stringResourcesService.FilenameTemplateResources.Get(x.Name)));
+            _tasksFilenameTemplateTooltip = string.Join('\n', _configurationService.Common.FilenameTemplates.Select(x => StringResourcesManager.FilenameTemplate.Get(x.Name)));
         }
 
         #endregion

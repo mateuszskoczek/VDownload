@@ -31,19 +31,15 @@ namespace VDownload.Core.Views
             { typeof(AuthenticationViewModel), typeof(AuthenticationView) }
         };
 
-        #endregion
-
-
-
-        #region PROPERTIES
-
-        public static IServiceProvider ServiceProvider { protected get; set; }
+        protected static IServiceProvider _serviceProvider;
 
         #endregion
 
 
 
         #region PUBLIC METHODS
+
+        public static void Initialize(IServiceProvider serviceProvider) => _serviceProvider = serviceProvider;
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
@@ -53,11 +49,11 @@ namespace VDownload.Core.Views
             }
             if (value is Type type && _viewModelViewBinding.ContainsKey(type))
             {
-                return ServiceProvider.GetService(_viewModelViewBinding[type]);
+                return _serviceProvider.GetService(_viewModelViewBinding[type]);
             }
             if (_viewModelViewBinding.ContainsKey(value.GetType()))
             {
-                return ServiceProvider.GetService(_viewModelViewBinding[value.GetType()]);
+                return _serviceProvider.GetService(_viewModelViewBinding[value.GetType()]);
             }
             return null;
         }

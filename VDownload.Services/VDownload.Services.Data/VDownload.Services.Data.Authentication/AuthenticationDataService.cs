@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Services.Common;
 using VDownload.Services.Data.Configuration;
 
 namespace VDownload.Services.Data.Authentication
 {
-    public interface IAuthenticationDataService
+    public interface IAuthenticationDataService : IInitializableService
     {
         #region PROPERTIES
 
@@ -69,6 +70,8 @@ namespace VDownload.Services.Data.Authentication
 
 
         #region PUBLIC METHODS
+
+        public async Task Initialize() => await Load();
 
         public async Task Load()
         {

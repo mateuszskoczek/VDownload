@@ -8,9 +8,9 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using VDownload.Core.Strings;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.UI.Dialogs;
-using VDownload.Services.UI.StringResources;
 using VDownload.Services.UI.WebView;
 using VDownload.Sources.Twitch.Authentication;
 
@@ -36,7 +36,6 @@ namespace VDownload.Core.ViewModels.Authentication
         protected readonly IDialogsService _dialogsService;
         protected readonly IWebViewService _webViewService;
         protected readonly IConfigurationService _configurationService;
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly ITwitchAuthenticationService _twitchAuthenticationService;
 
         #endregion
@@ -60,12 +59,11 @@ namespace VDownload.Core.ViewModels.Authentication
 
         #region CONSTRUCTORS
 
-        public AuthenticationViewModel(IDialogsService dialogsService, IWebViewService webViewService, IConfigurationService configurationService, IStringResourcesService stringResourcesService, ITwitchAuthenticationService twitchAuthenticationService)
+        public AuthenticationViewModel(IDialogsService dialogsService, IWebViewService webViewService, IConfigurationService configurationService, ITwitchAuthenticationService twitchAuthenticationService)
         {
             _dialogsService = dialogsService;
             _webViewService = webViewService;
             _configurationService = configurationService;
-            _stringResourcesService = stringResourcesService;
             _twitchAuthenticationService = twitchAuthenticationService;
         }
 
@@ -100,7 +98,7 @@ namespace VDownload.Core.ViewModels.Authentication
                 Sources.Twitch.Configuration.Models.Authentication auth = _configurationService.Twitch.Authentication;
                 string authUrl = string.Format(auth.Url, auth.ClientId, auth.RedirectUrl, auth.ResponseType, string.Join(' ', auth.Scopes));
 
-                string url = await _webViewService.Show(new Uri(authUrl), (url) => url.StartsWith(auth.RedirectUrl), _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationWindowTitle"));
+                string url = await _webViewService.Show(new Uri(authUrl), (url) => url.StartsWith(auth.RedirectUrl), StringResourcesManager.AuthenticationView.Get("TwitchAuthenticationWindowTitle"));
 
                 Regex regex = new Regex(auth.RedirectUrlRegex);
                 Match match = regex.Match(url);
@@ -112,8 +110,8 @@ namespace VDownload.Core.ViewModels.Authentication
                 }
                 else
                 {
-                    string title = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDialogTitle");
-                    string message = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDialogMessage");
+                    string title = StringResourcesManager.AuthenticationView.Get("TwitchAuthenticationDialogTitle");
+                    string message = StringResourcesManager.AuthenticationView.Get("TwitchAuthenticationDialogMessage");
                     await _dialogsService.ShowOk(title, message);
                 }
             }
@@ -138,11 +136,11 @@ namespace VDownload.Core.ViewModels.Authentication
                 if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
                 {
                     TwitchButtonEnable = false;
-                    TwitchDescription = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionNotAuthenticatedNoInternetConnection");
+                    TwitchDescription = StringResourcesManager.AuthenticationView.Get("TwitchAuthenticationDescriptionNotAuthenticatedNoInternetConnection");
                 }
                 else
                 {
-                    TwitchDescription = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionNotAuthenticated");
+                    TwitchDescription = StringResourcesManager.AuthenticationView.Get("TwitchAuthenticationDescriptionNotAuthenticated");
                 }
                 TwitchButtonState = AuthenticationButton.SignIn;
             }
@@ -155,7 +153,7 @@ namespace VDownload.Core.ViewModels.Authentication
                 }
                 catch (Exception ex) when (ex is TaskCanceledException || ex is HttpRequestException)
                 {
-                    TwitchDescription = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionCannotValidate");
+                    TwitchDescription = StringResourcesManager.AuthenticationView.Get("TwitchAuthenticationDescriptionCannotValidate");
                     TwitchButtonState = AuthenticationButton.SignIn;
                     TwitchButtonEnable = false;
                     return;
@@ -163,13 +161,13 @@ namespace VDownload.Core.ViewModels.Authentication
 
                 if (validationResult.Success)
                 {
-                    TwitchDescription = string.Format(_stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionAuthenticated"), validationResult.TokenData.Login, validationResult.TokenData.ExpirationDate);
+                    TwitchDescription = string.Format(StringResourcesManager.AuthenticationView.Get("TwitchAuthenticationDescriptionAuthenticated"), validationResult.TokenData.Login, validationResult.TokenData.ExpirationDate);
                     TwitchButtonState = AuthenticationButton.SignOut;
                 }
                 else
                 {
                     await _twitchAuthenticationService.DeleteToken();
-                    TwitchDescription = _stringResourcesService.AuthenticationViewResources.Get("TwitchAuthenticationDescriptionAuthenticationInvalid");
+                    TwitchDescription = StringResourcesManager.AuthenticationView.Get("TwitchAuthenticationDescriptionAuthenticationInvalid");
                     TwitchButtonState = AuthenticationButton.SignIn;
                 }
             }

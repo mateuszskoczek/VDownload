@@ -9,10 +9,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using VDownload.Core.Strings;
 using VDownload.Core.ViewModels.About.Helpers;
 using VDownload.Services.Data.Configuration;
 using VDownload.Services.Data.Configuration.Models;
-using VDownload.Services.UI.StringResources;
 using Windows.System.UserProfile;
 
 namespace VDownload.Core.ViewModels.About
@@ -21,7 +21,6 @@ namespace VDownload.Core.ViewModels.About
     {
         #region SERVICES
 
-        protected readonly IStringResourcesService _stringResourcesService;
         protected readonly IConfigurationService _configurationService;
 
         #endregion
@@ -51,15 +50,14 @@ namespace VDownload.Core.ViewModels.About
 
         #region CONSTRUCTORS
 
-        public AboutViewModel(IStringResourcesService stringResourcesService, IConfigurationService configurationService)
+        public AboutViewModel(IConfigurationService configurationService)
         {
-            _stringResourcesService = stringResourcesService;
             _configurationService = configurationService;
 
             string version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
             if (version == "0.0.0")
             {
-                version = _stringResourcesService.AboutViewResources.Get("SelfbuiltVersion");
+                version = StringResourcesManager.AboutView.Get("SelfbuiltVersion");
             }
             _version = version;
 

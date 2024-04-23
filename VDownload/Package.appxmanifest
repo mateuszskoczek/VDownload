@@ -11,7 +11,7 @@
 
   <Identity
     Name="VDownload"
-    Publisher="CN=mateusz"
+    Publisher="CN=Mateusz Skoczek"
     Version="0.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="df3e7de0-430a-4a93-a68b-48c2f3ec497a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>

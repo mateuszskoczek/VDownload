@@ -15,8 +15,48 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PRIResource Update="Strings\en-US\AboutViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\AuthenticationViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
     <PRIResource Update="Strings\en-US\BaseViewResources.resw">
       <Generator></Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\CommonResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\DialogButtonsResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\FilenameTemplateResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\HomeDownloadsViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\HomeVideoCollectionViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\HomeVideoViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\HomeViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\NotificationsResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\SearchResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\SettingsViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+    <PRIResource Update="Strings\en-US\SubscriptionsViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </PRIResource>
   </ItemGroup>
 </Project>
