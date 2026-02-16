@@ -6,8 +6,9 @@
     xmlns:local="using:VDownload.Services.UI.WebView"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Closed="Window_Closed"
     Activated="Window_Activated">
-    <WebView2 x:Name="WebView" NavigationCompleted="WebView_NavigationCompleted"/>
+    <controls:WebView2 x:Name="WebView" NavigationCompleted="WebView_NavigationCompleted"/>
 </Window>
