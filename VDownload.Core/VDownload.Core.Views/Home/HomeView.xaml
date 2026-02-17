@@ -70,11 +70,11 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBox x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarVideoSearchContentTextBox"
+                                    <TextBox x:Uid="/HomeViewResources/OptionBarVideoSearchContentTextBox"
                                              Grid.Column="0"
                                              VerticalAlignment="Center"
                                              Text="{Binding OptionBarVideoSearchTBValue, Mode=TwoWay}"/>
-                                    <Button x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarSearchButton"
+                                    <Button x:Uid="/HomeViewResources/OptionBarSearchButton"
                                             Grid.Column="1"
                                             IsEnabled="{Binding OptionBarSearchNotPending}"
                                             Command="{Binding VideoSearchStartCommand}"/>
@@ -87,11 +87,11 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <TextBox x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarPlaylistSearchContentTextBox"
+                                    <TextBox x:Uid="/HomeViewResources/OptionBarPlaylistSearchContentTextBox"
                                              Grid.Column="0" 
                                              VerticalAlignment="Center"
                                              Text="{Binding OptionBarPlaylistSearchTBValue, Mode=TwoWay}"/>
-                                    <NumberBox x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarPlaylistSearchContentNumberBox"
+                                    <NumberBox x:Uid="/HomeViewResources/OptionBarPlaylistSearchContentNumberBox"
                                                Grid.Column="1" 
                                                VerticalAlignment="Center"
                                                SpinButtonPlacementMode="Compact" 
@@ -99,7 +99,7 @@
                                                LargeChange="10" 
                                                Value="{Binding OptionBarPlaylistSearchNBValue, Mode=TwoWay}"
                                                Minimum="0"/>
-                                    <Button x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarSearchButton"
+                                    <Button x:Uid="/HomeViewResources/OptionBarSearchButton"
                                             Grid.Column="2"
                                             IsEnabled="{Binding OptionBarSearchNotPending}"
                                             Command="{Binding PlaylistSearchStartCommand}"/>
@@ -118,33 +118,33 @@
                     <StackPanel Grid.Column="2" 
                                 Orientation="Horizontal"
                                 Margin="0,0,4,0">
-                        <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarLoadSubscription"
+                        <AppBarToggleButton x:Uid="/HomeViewResources/OptionBarLoadSubscription"
                                             Icon="Favorite"
                                             IsEnabled="{Binding OptionBarSearchNotPending}"
                                             IsChecked="{Binding OptionBarLoadSubscriptionButtonChecked, Mode=TwoWay}"
                                             Command="{Binding LoadFromSubscriptionCommand}"/>
-                        <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarVideoSearch"
+                        <AppBarToggleButton x:Uid="/HomeViewResources/OptionBarVideoSearch"
                                             Icon="Video"
                                             IsEnabled="{Binding OptionBarSearchNotPending}"
                                             IsChecked="{Binding OptionBarVideoSearchButtonChecked, Mode=TwoWay}"
                                             Command="{Binding VideoSearchShowCommand}"/>
-                        <AppBarToggleButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarPlaylistSearch"
+                        <AppBarToggleButton x:Uid="/HomeViewResources/OptionBarPlaylistSearch"
                                             Icon="List"
                                             IsEnabled="{Binding OptionBarSearchNotPending}"
                                             IsChecked="{Binding OptionBarPlaylistSearchButtonChecked, Mode=TwoWay}"
                                             Command="{Binding PlaylistSearchShowCommand}"/>
                         <AppBarSeparator/>
-                        <AppBarButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarCancelAll"
+                        <AppBarButton x:Uid="/HomeViewResources/OptionBarCancelAll"
                                       Icon="Cancel"
                                       Command="{Binding CancelCommand}"/>
-                        <AppBarButton x:Uid="/VDownload.Core.Strings/HomeViewResources/OptionBarDownloadAll"
+                        <AppBarButton x:Uid="/HomeViewResources/OptionBarDownloadAll"
                                       Icon="Download"
                                       Command="{Binding DownloadCommand}"/>
                     </StackPanel>
                 </Grid>
             </ctuc:Case>
             <ctuc:Case Value="True">
-                <InfoBar x:Uid="/VDownload.Core.Strings/HomeViewResources/ErrorInfoBar"
+                <InfoBar x:Uid="/HomeViewResources/ErrorInfoBar"
                          Severity="Error"
                          IsOpen="{Binding OptionBarIsErrorOpened, Mode=TwoWay}"
                          Message="{Binding OptionBarError}"

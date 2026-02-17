@@ -122,14 +122,11 @@ namespace VDownload
         {
             base.OnLaunched(args);
 
-            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", "testlaunched\n");
-
             await GetService<IActivationService>().ActivateAsync(args);
         }
 
         protected void UnhandledExceptionCatched(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"test {e.Message} {e.Exception.StackTrace}\n");
             Environment.Exit(0);
         }
 

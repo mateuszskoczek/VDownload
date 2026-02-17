@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-	<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+	<TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
 	<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 	<RootNamespace>VDownload</RootNamespace>
 	<ApplicationManifest>app.manifest</ApplicationManifest>
@@ -19,6 +19,7 @@
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 	<WindowsPackageType>None</WindowsPackageType>
 	<EnableMsixTooling>true</EnableMsixTooling>
+	<StartupObject></StartupObject>
     </PropertyGroup>
     <ItemGroup>
         <Content Remove="Assets\BaseView\AuthenticationDark.png" />
@@ -598,4 +599,89 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\AboutViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\AuthenticationViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\BaseViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Generator></Generator>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\CommonResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\DialogButtonsResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\FilenameTemplateResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\HomeDownloadsViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\HomeVideoCollectionViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\HomeVideoViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\HomeViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\NotificationsResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\SearchResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\SettingsViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Resources\en-US\SubscriptionsViewResources.resw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </PRIResource>
+  </ItemGroup>
 </Project>

@@ -24,7 +24,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock x:Uid="/VDownload.Core.Strings/AuthenticationViewResources/Header"
+        <TextBlock x:Uid="/AuthenticationViewResources/Header"
                    Grid.Row="0"
                    FontSize="28"
                    FontWeight="SemiBold"/>
@@ -44,10 +44,10 @@
                                     <Button.Content>
                                         <ctuc:SwitchPresenter Value="{Binding TwitchButtonState, Converter={StaticResource ObjectToStringConverter}}">
                                             <ctuc:Case Value="SignIn">
-                                                <TextBlock x:Uid="/VDownload.Core.Strings/AuthenticationViewResources/AuthenticationButtonSignIn"/>
+                                                <TextBlock x:Uid="/AuthenticationViewResources/AuthenticationButtonSignIn"/>
                                             </ctuc:Case>
                                             <ctuc:Case Value="SignOut">
-                                                <TextBlock x:Uid="/VDownload.Core.Strings/AuthenticationViewResources/AuthenticationButtonSignOut"/>
+                                                <TextBlock x:Uid="/AuthenticationViewResources/AuthenticationButtonSignOut"/>
                                             </ctuc:Case>
                                         </ctuc:SwitchPresenter>
                                     </Button.Content>
@@ -58,7 +58,7 @@
                     <ic:DataTriggerBehavior Binding="{Binding TwitchButtonState, Converter={StaticResource ObjectToStringConverter}}"
                                             ComparisonCondition="Equal"
                                             Value="Loading">
-                        <ic:ChangePropertyAction x:Uid="/VDownload.Core.Strings/AuthenticationViewResources/AuthenticationDescriptionLoading"
+                        <ic:ChangePropertyAction x:Uid="/AuthenticationViewResources/AuthenticationDescriptionLoading"
                                                  PropertyName="Description"/>
                         <ic:ChangePropertyAction PropertyName="Content">
                             <ic:ChangePropertyAction.Value>

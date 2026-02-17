@@ -36,17 +36,13 @@ namespace VDownload.Core.Strings
 
         private static StringResource BuildResource(string resourceName)
         {
-            File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"teststring {resourceName}\n");
             ResourceLoader loader;
             try
             {
-                loader = new ResourceLoader($"VDownload.Core.Strings/{resourceName}");
-                File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"afterteststring {resourceName}\n");
+                loader = new ResourceLoader($"{resourceName}");
             }
             catch (Exception e)
             {
-
-                File.AppendAllText("C:\\Users\\mateusz\\Desktop\\test.txt", $"teststringerror {e.Message}\n");
                 throw;
             }
             return new StringResource(loader);

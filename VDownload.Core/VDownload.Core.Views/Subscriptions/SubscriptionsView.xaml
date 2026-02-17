@@ -27,7 +27,7 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/Header"
+        <TextBlock x:Uid="/SubscriptionsViewResources/Header"
                    Grid.Row="0"
                    FontSize="28"
                    FontWeight="SemiBold"/>
@@ -64,7 +64,7 @@
                                        Text="{Binding Name}"
                                        HorizontalAlignment="Center"
                                        TextTrimming="CharacterEllipsis"/>
-                            <HyperlinkButton x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/RemovePlaylistButton"
+                            <HyperlinkButton x:Uid="/SubscriptionsViewResources/RemovePlaylistButton"
                                              Grid.Row="2"
                                              Content="Remove"
                                              HorizontalAlignment="Center"
@@ -86,7 +86,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/PlaylistUrlTextBox"
+                    <TextBox x:Uid="/SubscriptionsViewResources/PlaylistUrlTextBox"
                              Grid.Column="0"
                              Text="{Binding Url, Mode=TwoWay}"
                              IsEnabled="{Binding Loading, Converter={StaticResource BoolNegationConverter}}"/>
@@ -98,14 +98,14 @@
                                           Height="20"/>
                         </ctuc:Case>
                         <ctuc:Case Value="False">
-                            <Button x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/PlaylistSearchButton"
+                            <Button x:Uid="/SubscriptionsViewResources/PlaylistSearchButton"
                                     Command="{Binding AddCommand}"/>
                         </ctuc:Case>
                     </ctuc:SwitchPresenter>
                 </Grid>
             </ctuc:Case>
             <ctuc:Case Value="True">
-                <InfoBar x:Uid="/VDownload.Core.Strings/SubscriptionsViewResources/ErrorInfoBar"
+                <InfoBar x:Uid="/SubscriptionsViewResources/ErrorInfoBar"
                          Severity="Error"
                          IsOpen="{Binding IsErrorOpened, Mode=TwoWay}"
                          Message="{Binding Error}"

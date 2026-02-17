@@ -33,7 +33,7 @@
             </StackPanel>
             <StackPanel HorizontalAlignment="Center" 
                     Spacing="2">
-                <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/Developers"
+                <TextBlock x:Uid="/AboutViewResources/Developers"
                        HorizontalAlignment="Center"
                        FontSize="17"
                        FontWeight="SemiBold"/>
@@ -52,7 +52,7 @@
             </StackPanel>
             <StackPanel HorizontalAlignment="Center"
                         Spacing="2">
-                <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/Translation"
+                <TextBlock x:Uid="/AboutViewResources/Translation"
                        HorizontalAlignment="Center"
                        FontSize="17"
                        FontWeight="SemiBold"/>
@@ -71,19 +71,19 @@
             </StackPanel>
             <StackPanel HorizontalAlignment="Center"
                         Spacing="2">
-                <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/More"
+                <TextBlock x:Uid="/AboutViewResources/More"
                        HorizontalAlignment="Center"
                        FontSize="17"
                        FontWeight="SemiBold"/>
                 <StackPanel Orientation="Horizontal">
                     <HyperlinkButton HorizontalAlignment="Center"
                                  NavigateUri="{Binding RepositoryUrl}">
-                        <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/Repository"
+                        <TextBlock x:Uid="/AboutViewResources/Repository"
                                FontSize="12"/>
                     </HyperlinkButton>
                     <HyperlinkButton HorizontalAlignment="Center"
                                  NavigateUri="{Binding DonationUrl}">
-                        <TextBlock x:Uid="/VDownload.Core.Strings/AboutViewResources/Donation"
+                        <TextBlock x:Uid="/AboutViewResources/Donation"
                                FontSize="12"/>
                     </HyperlinkButton>
                 </StackPanel>

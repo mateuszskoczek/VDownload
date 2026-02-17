@@ -98,15 +98,15 @@
                                                         Orientation="Horizontal">
                                                 <ctuc:SwitchPresenter Value="{Binding DownloadOptions.MediaType, Converter={StaticResource ObjectToStringConverter}}">
                                                     <ctuc:Case Value="Original">
-                                                        <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOriginal"
+                                                        <TextBlock x:Uid="/CommonResources/MediaTypeOriginal"
                                                                    FontSize="{StaticResource TextSize}"/>
                                                     </ctuc:Case>
                                                     <ctuc:Case Value="OnlyVideo">
-                                                        <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyVideo"
+                                                        <TextBlock x:Uid="/CommonResources/MediaTypeOnlyVideo"
                                                                    FontSize="{StaticResource TextSize}"/>
                                                     </ctuc:Case>
                                                     <ctuc:Case Value="OnlyAudio">
-                                                        <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyAudio"
+                                                        <TextBlock x:Uid="/CommonResources/MediaTypeOnlyAudio"
                                                                    FontSize="{StaticResource TextSize}"/>
                                                     </ctuc:Case>
                                                 </ctuc:SwitchPresenter>
@@ -205,7 +205,7 @@
                                                                             Value="Idle">
                                                         <ic:ChangePropertyAction PropertyName="Child">
                                                             <ic:ChangePropertyAction.Value>
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/StatusIdle" 
+                                                                <TextBlock x:Uid="/HomeDownloadsViewResources/StatusIdle" 
                                                                            FontSize="{StaticResource TextSize}"/>
                                                             </ic:ChangePropertyAction.Value>
                                                         </ic:ChangePropertyAction>
@@ -215,7 +215,7 @@
                                                                             Value="Queued">
                                                         <ic:ChangePropertyAction PropertyName="Child">
                                                             <ic:ChangePropertyAction.Value>
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/StatusQueued" 
+                                                                <TextBlock x:Uid="/HomeDownloadsViewResources/StatusQueued" 
                                                                            FontSize="{StaticResource TextSize}"/>
                                                             </ic:ChangePropertyAction.Value>
                                                         </ic:ChangePropertyAction>
@@ -225,7 +225,7 @@
                                                                             Value="Initializing">
                                                         <ic:ChangePropertyAction PropertyName="Child">
                                                             <ic:ChangePropertyAction.Value>
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/StatusInitializing" 
+                                                                <TextBlock x:Uid="/HomeDownloadsViewResources/StatusInitializing" 
                                                                            FontSize="{StaticResource TextSize}"/>
                                                             </ic:ChangePropertyAction.Value>
                                                         </ic:ChangePropertyAction>
@@ -236,7 +236,7 @@
                                                         <ic:ChangePropertyAction PropertyName="Child">
                                                             <ic:ChangePropertyAction.Value>
                                                                 <StackPanel Orientation="Horizontal">
-                                                                    <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/StatusDownloading"
+                                                                    <TextBlock x:Uid="/HomeDownloadsViewResources/StatusDownloading"
                                                                                FontSize="{StaticResource TextSize}"/>
                                                                     <TextBlock Text="{Binding Progress, Converter={StaticResource StringFormatConverter}, ConverterParameter='{} ({0:0.##}%)'}"
                                                                                FontSize="{StaticResource TextSize}"/>
@@ -250,7 +250,7 @@
                                                         <ic:ChangePropertyAction PropertyName="Child">
                                                             <ic:ChangePropertyAction.Value>
                                                                 <TextBlock FontSize="{StaticResource TextSize}">
-                                                                    <Run x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/StatusProcessing"/><Run Text=" ("/><Run Text="{Binding Progress, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}"/>%)
+                                                                    <Run x:Uid="/HomeDownloadsViewResources/StatusProcessing"/><Run Text=" ("/><Run Text="{Binding Progress, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}"/>%)
                                                                 </TextBlock>
                                                             </ic:ChangePropertyAction.Value>
                                                         </ic:ChangePropertyAction>
@@ -260,7 +260,7 @@
                                                                             Value="Finalizing">
                                                         <ic:ChangePropertyAction PropertyName="Child">
                                                             <ic:ChangePropertyAction.Value>
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/StatusFinalizing"
+                                                                <TextBlock x:Uid="/HomeDownloadsViewResources/StatusFinalizing"
                                                                            FontSize="{StaticResource TextSize}"/>
                                                             </ic:ChangePropertyAction.Value>
                                                         </ic:ChangePropertyAction>
@@ -271,7 +271,7 @@
                                                         <ic:ChangePropertyAction PropertyName="Child">
                                                             <ic:ChangePropertyAction.Value>
                                                                 <TextBlock FontSize="{StaticResource TextSize}">
-                                                                    <Run x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/StatusError"/><Run Text=" ("/><Run Text="{Binding Error}"/>)
+                                                                    <Run x:Uid="/HomeDownloadsViewResources/StatusError"/><Run Text=" ("/><Run Text="{Binding Error}"/>)
                                                                 </TextBlock>
                                                             </ic:ChangePropertyAction.Value>
                                                         </ic:ChangePropertyAction>
@@ -281,7 +281,7 @@
                                                                             Value="EndedSuccessfully">
                                                         <ic:ChangePropertyAction PropertyName="Child">
                                                             <ic:ChangePropertyAction.Value>
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/StatusDone"
+                                                                <TextBlock x:Uid="/HomeDownloadsViewResources/StatusDone"
                                                                            FontSize="{StaticResource TextSize}"/>
                                                             </ic:ChangePropertyAction.Value>
                                                         </ic:ChangePropertyAction>
@@ -291,7 +291,7 @@
                                                                             Value="EndedCancelled">
                                                         <ic:ChangePropertyAction PropertyName="Child">
                                                             <ic:ChangePropertyAction.Value>
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeDownloadsViewResources/StatusCancelled"
+                                                                <TextBlock x:Uid="/HomeDownloadsViewResources/StatusCancelled"
                                                                            FontSize="{StaticResource TextSize}"/>
                                                             </ic:ChangePropertyAction.Value>
                                                         </ic:ChangePropertyAction>

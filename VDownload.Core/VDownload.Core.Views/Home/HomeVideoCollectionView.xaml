@@ -41,7 +41,7 @@
                         Spacing="10">
                 <TextBlock VerticalAlignment="Center"
                            Visibility="{Binding IsSomethingHidden, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Run x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/HiddenTextBlock"/><Run Text="{Binding HiddenCount}"/>
+                    <Run x:Uid="/HomeVideoCollectionViewResources/HiddenTextBlock"/><Run Text="{Binding HiddenCount}"/>
                 </TextBlock>
                 <AppBarToggleButton x:Name="FilterButton"
                                     Icon="Filter" 
@@ -49,7 +49,7 @@
                                     Height="48">
                     <AppBarToggleButton.Resources>
                         <TeachingTip x:Name="FilterWindow"
-                                     x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterWindow"
+                                     x:Uid="/HomeVideoCollectionViewResources/FilterWindow"
                                      Target="{Binding ElementName=FilterButton}"
                                      PreferredPlacement="BottomLeft"
                                      IsOpen="{Binding ElementName=FilterButton, Path=IsChecked, Mode=TwoWay}">
@@ -69,23 +69,23 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterTitleTextBlock"
+                                <TextBlock x:Uid="/HomeVideoCollectionViewResources/FilterTitleTextBlock"
                                            Grid.Row="0"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"/>
-                                <TextBox x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterTitleTextBox"
+                                <TextBox x:Uid="/HomeVideoCollectionViewResources/FilterTitleTextBox"
                                          Grid.Row="0"
                                          Grid.Column="1"
                                          Text="{Binding TitleFilter, Mode=TwoWay}"/>
-                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterAuthorTextBlock"
+                                <TextBlock x:Uid="/HomeVideoCollectionViewResources/FilterAuthorTextBlock"
                                            Grid.Row="1"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"/>
-                                <TextBox x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterAuthorTextBox"
+                                <TextBox x:Uid="/HomeVideoCollectionViewResources/FilterAuthorTextBox"
                                          Grid.Row="1"
                                          Grid.Column="1"
                                          Text="{Binding AuthorFilter, Mode=TwoWay}"/>
-                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterViewsTextBlock"
+                                <TextBlock x:Uid="/HomeVideoCollectionViewResources/FilterViewsTextBlock"
                                            Grid.Row="2"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"/>
@@ -115,7 +115,7 @@
                                                SmallChange="1" 
                                                LargeChange="10"/>
                                 </Grid>
-                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterDateTextBlock"
+                                <TextBlock x:Uid="/HomeVideoCollectionViewResources/FilterDateTextBlock"
                                            Grid.Row="3"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"/>
@@ -139,7 +139,7 @@
                                                         Date="{Binding MaxDateFilter, Mode=TwoWay}"
                                                         MaxDate="{Binding MaxDate}"/>
                                 </Grid>
-                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterDurationTextBlock"
+                                <TextBlock x:Uid="/HomeVideoCollectionViewResources/FilterDurationTextBlock"
                                            Grid.Row="4"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"/>
@@ -159,7 +159,7 @@
                                                        Value="{Binding MaxDurationFilter, Mode=TwoWay}"
                                                        Maximum="{Binding MaxDuration}"/>
                                 </Grid>
-                                <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterRemovedTextBlock"
+                                <TextBlock x:Uid="/HomeVideoCollectionViewResources/FilterRemovedTextBlock"
                                            Grid.Row="5"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"/>
@@ -172,7 +172,7 @@
                                     <TextBlock Grid.Column="0"
                                                VerticalAlignment="Center"
                                                Text="{Binding RemovedCount}"/>
-                                    <Button x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilterRemovedButton"
+                                    <Button x:Uid="/HomeVideoCollectionViewResources/FilterRemovedButton"
                                             Grid.Column="1"
                                             Command="{Binding RestoreRemovedVideosCommand}"/>
                                 </Grid>
@@ -180,7 +180,7 @@
                         </TeachingTip>
                     </AppBarToggleButton.Resources>
                 </AppBarToggleButton>
-                <AppBarButton x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/ApplyDirectoryButton"
+                <AppBarButton x:Uid="/HomeVideoCollectionViewResources/ApplyDirectoryButton"
                               Icon="Folder"
                               Width="40"
                               Height="48"
@@ -289,10 +289,10 @@
                             <Expander.Content>
                                 <StackPanel Spacing="20">
                                     <StackPanel Spacing="5">
-                                        <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/MediaOptionsHeader"
+                                        <TextBlock x:Uid="/HomeVideoCollectionViewResources/MediaOptionsHeader"
                                                    FontWeight="Bold"
                                                    FontSize="15"/>
-                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/QualitySettingsCard">
+                                        <ctc:SettingsCard x:Uid="/HomeVideoCollectionViewResources/QualitySettingsCard">
                                             <ctc:SettingsCard.HeaderIcon>
                                                 <BitmapIcon ShowAsMonochrome="False"
                                                             UriSource="{ThemeResource ImageHomeVideoCollectionViewMedia}"/>
@@ -300,7 +300,7 @@
                                             <ComboBox ItemsSource="{Binding Key.Streams}"
                                                       SelectedItem="{Binding Key.SelectedStream, Mode=TwoWay}"/>
                                         </ctc:SettingsCard>
-                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/MediaTypeSettingsCard">
+                                        <ctc:SettingsCard x:Uid="/HomeVideoCollectionViewResources/MediaTypeSettingsCard">
                                             <ctc:SettingsCard.HeaderIcon>
                                                 <BitmapIcon ShowAsMonochrome="False" 
                                                             UriSource="{ThemeResource ImageHomeVideoCollectionViewMedia}"/>
@@ -311,30 +311,30 @@
                                                     <DataTemplate>
                                                         <ctuc:SwitchPresenter Value="{Binding Converter={StaticResource ObjectToStringConverter}}">
                                                             <ctuc:Case Value="Original">
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOriginal"/>
+                                                                <TextBlock x:Uid="/CommonResources/MediaTypeOriginal"/>
                                                             </ctuc:Case>
                                                             <ctuc:Case Value="OnlyVideo">
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyVideo"/>
+                                                                <TextBlock x:Uid="/CommonResources/MediaTypeOnlyVideo"/>
                                                             </ctuc:Case>
                                                             <ctuc:Case Value="OnlyAudio">
-                                                                <TextBlock x:Uid="/VDownload.Core.Strings/CommonResources/MediaTypeOnlyAudio"/>
+                                                                <TextBlock x:Uid="/CommonResources/MediaTypeOnlyAudio"/>
                                                             </ctuc:Case>
                                                         </ctuc:SwitchPresenter>
                                                     </DataTemplate>
                                                 </ComboBox.ItemTemplate>
                                             </ComboBox>
                                         </ctc:SettingsCard>
-                                        <ctc:SettingsExpander x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/TrimSettingsGroup">
+                                        <ctc:SettingsExpander x:Uid="/HomeVideoCollectionViewResources/TrimSettingsGroup">
                                             <ctc:SettingsExpander.HeaderIcon>
                                                 <BitmapIcon ShowAsMonochrome="False" 
                                                             UriSource="{ThemeResource ImageHomeVideoCollectionViewTrim}"/>
                                             </ctc:SettingsExpander.HeaderIcon>
                                             <ctc:SettingsExpander.Items>
-                                                <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/TrimStartSettingsCard">
+                                                <ctc:SettingsCard x:Uid="/HomeVideoCollectionViewResources/TrimStartSettingsCard">
                                                     <c:TimeSpanControl Value="{Binding Key.TrimStart, Mode=TwoWay}" 
                                                                        Maximum="{Binding Key.TrimEnd, Mode=OneWay}"/>
                                                 </ctc:SettingsCard>
-                                                <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/TrimEndSettingsCard">
+                                                <ctc:SettingsCard x:Uid="/HomeVideoCollectionViewResources/TrimEndSettingsCard">
                                                     <c:TimeSpanControl Minimum="{Binding Key.TrimStart, Mode=OneWay}" 
                                                                        Value="{Binding Key.TrimEnd, Mode=TwoWay}" 
                                                                        Maximum="{Binding Key.Duration, Mode=OneWay}"/>
@@ -343,26 +343,26 @@
                                         </ctc:SettingsExpander>
                                     </StackPanel>
                                     <StackPanel Spacing="5">
-                                        <TextBlock x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FileOptionsHeader"
+                                        <TextBlock x:Uid="/HomeVideoCollectionViewResources/FileOptionsHeader"
                                                    FontWeight="Bold"
                                                    FontSize="15"/>
-                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/DirectorySettingsCard"
+                                        <ctc:SettingsCard x:Uid="/HomeVideoCollectionViewResources/DirectorySettingsCard"
                                                           Description="{Binding Key.DirectoryPath}">
                                             <ctc:SettingsCard.HeaderIcon>
                                                 <BitmapIcon ShowAsMonochrome="False" 
                                                             UriSource="{ThemeResource ImageHomeVideoCollectionViewDirectory}"/>
                                             </ctc:SettingsCard.HeaderIcon>
-                                            <Button x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/DirectorySettingsCardButton"
+                                            <Button x:Uid="/HomeVideoCollectionViewResources/DirectorySettingsCardButton"
                                                     Command="{Binding Key.BrowseCommand}"/>
                                         </ctc:SettingsCard>
-                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FilenameSettingsCard">
+                                        <ctc:SettingsCard x:Uid="/HomeVideoCollectionViewResources/FilenameSettingsCard">
                                             <ctc:SettingsCard.HeaderIcon>
                                                 <BitmapIcon ShowAsMonochrome="False" 
                                                             UriSource="{ThemeResource ImageHomeVideoCollectionViewFilename}"/>
                                             </ctc:SettingsCard.HeaderIcon>
                                             <TextBox Text="{Binding Key.Filename, Mode=TwoWay}"/>
                                         </ctc:SettingsCard>
-                                        <ctc:SettingsCard x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/FileTypeSettingsCard">
+                                        <ctc:SettingsCard x:Uid="/HomeVideoCollectionViewResources/FileTypeSettingsCard">
                                             <ctc:SettingsCard.HeaderIcon>
                                                 <BitmapIcon ShowAsMonochrome="False" 
                                                             UriSource="{ThemeResource ImageHomeVideoCollectionViewExtension}"/>
@@ -414,9 +414,9 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal"
                     Spacing="10">
-            <Button x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/CreateAndStartButton"
+            <Button x:Uid="/HomeVideoCollectionViewResources/CreateAndStartButton"
                     Command="{Binding CreateTasksAndDownloadCommand}"/>
-            <Button x:Uid="/VDownload.Core.Strings/HomeVideoCollectionViewResources/CreateButton"
+            <Button x:Uid="/HomeVideoCollectionViewResources/CreateButton"
                     Style="{StaticResource AccentButtonStyle}" 
                     Command="{Binding CreateTasksCommand}"/>
         </StackPanel>
