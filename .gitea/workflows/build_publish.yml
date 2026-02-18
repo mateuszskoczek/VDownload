@@ -1,0 +1,67 @@
+name: Build and publish app
+
+on:
+  workflow_dispatch:
+    branches:
+      - "main"
+  push:
+    branches:
+      - "main"
+    paths:
+      - "VDownload**"
+
+jobs:
+  build_version:
+    name: Build and determine version
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore
+      - name: Setup GitVersion
+        uses: gittools/actions/gitversion/setup@v4.2.0
+        with:
+          versionSpec: 6.4.x
+      - name: Determine version
+        uses: gittools/actions/gitversion/execute@v4.2.0
+        id: gitversion
+        with:
+          configFilePath: ./.gitea/config/gitversion.yml
+    outputs: 
+      version: ${{ steps.gitversion.outputs.SemVer }}    
+  pack_publish:
+    name: Pack and publish
+    needs: build_version
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 7.0.x
+      - name: Publish 
+        run: dotnet publish -c Release -r win-x64 -p:Platform=x64 -p:PublishTrimmed=false -p:Version=${{needs.build_test_version.outputs.version}} VDownload\\VDownload.csproj
+      - name: Remove redundant directories
+        run: rm -r VDownload/bin/x64/Release/net8.0-windows10.0.26100.0/win-x64/publish
+      - name: Create .ZIP archive
+        id: archive
+        uses: ksm2/archive-action@v1
+        with:
+          format: "zip"
+          name: vdownload_${{needs.build_test_version.outputs.version}}
+          root-directory: VDownload/bin/x64/Release/net8.0-windows10.0.26100.0/win-x64/
+      - name: Create Release
+        uses: akkuman/gitea-release-action@v1
+        with:
+          tag_name: ${{needs.pack.outputs.version}}
+          name: ${{needs.pack.outputs.version}}
+          files: |-
+            vdownload_${{needs.build_test_version.outputs.version}}.zip
