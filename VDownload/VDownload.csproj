@@ -20,6 +20,7 @@
 	<WindowsPackageType>None</WindowsPackageType>
 	<EnableMsixTooling>true</EnableMsixTooling>
 	<StartupObject></StartupObject>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
     </PropertyGroup>
     <ItemGroup>
         <Content Remove="Assets\BaseView\AuthenticationDark.png" />
