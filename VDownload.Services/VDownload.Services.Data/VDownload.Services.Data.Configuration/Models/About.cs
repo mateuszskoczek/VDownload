@@ -12,9 +12,6 @@ namespace VDownload.Services.Data.Configuration.Models
         [ConfigurationKeyName("repository_url")]
         public string RepositoryUrl { get; set; }
 
-        [ConfigurationKeyName("donation_url")]
-        public string DonationUrl { get; set; }
-
         [ConfigurationKeyName("developers")]
         public IEnumerable<Person> Developers { get; set; }
 

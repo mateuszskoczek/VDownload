@@ -41,9 +41,6 @@ namespace VDownload.Core.ViewModels.About
         [ObservableProperty]
         protected Uri _repositoryUrl;
 
-        [ObservableProperty]
-        protected Uri _donationUrl;
-
         #endregion
 
 
@@ -64,7 +61,6 @@ namespace VDownload.Core.ViewModels.About
             _developers = new ObservableCollection<PersonViewModel>(_configurationService.Common.About.Developers.Select(x => new PersonViewModel(x.Name, x.Url)));
 
             _repositoryUrl = new Uri(_configurationService.Common.About.RepositoryUrl);
-            _donationUrl = new Uri(_configurationService.Common.About.DonationUrl);
         }
 
         #endregion

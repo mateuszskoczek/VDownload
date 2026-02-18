@@ -81,11 +81,6 @@
                         <TextBlock x:Uid="/AboutViewResources/Repository"
                                FontSize="12"/>
                     </HyperlinkButton>
-                    <HyperlinkButton HorizontalAlignment="Center"
-                                 NavigateUri="{Binding DonationUrl}">
-                        <TextBlock x:Uid="/AboutViewResources/Donation"
-                               FontSize="12"/>
-                    </HyperlinkButton>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

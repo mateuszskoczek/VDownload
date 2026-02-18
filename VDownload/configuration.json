@@ -1,12 +1,11 @@
 {
   "common": {
     "about": {
-      "repository_url": "https://github.com/mateuszskoczek/VDownload",
-      "donation_url": "https://paypal.me/mateuszskoczek",
+      "repository_url": "https://repos.mateuszskoczek.com/MateuszSkoczek/VDownload",
       "developers": [
         {
           "name": "Mateusz Skoczek",
-          "url": "https://github.com/mateuszskoczek"
+          "url": "https://repos.mateuszskoczek.com/MateuszSkoczek"
         }
       ],
       "translation": [
@@ -15,7 +14,7 @@
           "translators": [
             {
               "name": "Mateusz Skoczek",
-              "url": "https://github.com/mateuszskoczek"
+              "url": "https://repos.mateuszskoczek.com/MateuszSkoczek"
             }
           ]
         }
