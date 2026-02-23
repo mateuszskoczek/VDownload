@@ -13,7 +13,7 @@ on:
 jobs:
   build_version:
     name: Build and determine version
-    runs_on: windows
+    runs-on: windows
     steps:
       - name: Checkout
         uses: actions/checkout@v6
