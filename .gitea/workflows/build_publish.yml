@@ -55,7 +55,7 @@ jobs:
         with:
           dotnet-version: 8.0.x
       - name: Publish 
-        run: dotnet publish -c Release -r win-x64 -p:Platform=x64 -p:PublishTrimmed=false -p:Version=${{needs.build_test_version.outputs.version}} VDownload\\VDownload.csproj
+        run: dotnet publish -c Release -r win-x64 -p:Platform=x64 -p:PublishTrimmed=false -p:Version=${{needs.build_version.outputs.version}} VDownload\\VDownload.csproj
       - name: Remove redundant directories
         run: rm -r VDownload/bin/x64/Release/net8.0-windows10.0.26100.0/win-x64/publish
       - name: Create .ZIP archive
@@ -63,7 +63,7 @@ jobs:
         uses: ksm2/archive-action@v1
         with:
           format: "zip"
-          name: vdownload_${{needs.build_test_version.outputs.version}}
+          name: vdownload_${{needs.build_version.outputs.version}}
           root-directory: VDownload/bin/x64/Release/net8.0-windows10.0.26100.0/win-x64/
       - name: Create Release
         uses: akkuman/gitea-release-action@v1
@@ -71,4 +71,4 @@ jobs:
           tag_name: ${{needs.pack.outputs.version}}
           name: ${{needs.pack.outputs.version}}
           files: |-
-            vdownload_${{needs.build_test_version.outputs.version}}.zip
+            vdownload_${{needs.build_version.outputs.version}}.zip
