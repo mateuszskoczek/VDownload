@@ -68,7 +68,7 @@ jobs:
       - name: Create Release
         uses: akkuman/gitea-release-action@v1
         with:
-          tag_name: ${{needs.pack.outputs.version}}
-          name: ${{needs.pack.outputs.version}}
+          tag_name: ${{needs.build_version.outputs.version}}
+          name: ${{needs.build_version.outputs.version}}
           files: |-
             vdownload_${{needs.build_version.outputs.version}}.zip
