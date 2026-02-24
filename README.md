@@ -36,7 +36,11 @@
 
 ## Installation and usage
 
-Download latest package version from Releases tab and unpack it. Inside you will find all files required to run application and the application itself.  You shouldn't need to install any dependencies. Just run "VDownload.exe". You may need to accept the SmartScreen filter warning.
+**Requirements:**
+
+- Minimal supported Windows version: 10.0.17763.0
+
+Download latest package version from Releases tab and unpack it. Inside you will find all files required to run application and the application itself.  You shouldn't need to install any additional dependencies. Just run "VDownload.exe". You may need to accept the SmartScreen filter warning.
 
 ## Attribution
 
