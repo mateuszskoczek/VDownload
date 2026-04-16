@@ -2,7 +2,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.AppNotifications.Builder;
-using SimpleToolkit.UI.WinUI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +70,7 @@ namespace VDownload.Services.UI.Notifications
 
         #region PRIVATE METHODS
 
-        private void NotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args) => WindowHelper.ShowWindow(_window);
+        private void NotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args) => _window.AppWindow.Show(true);
 
         #endregion
     }

@@ -14,7 +14,7 @@ using VDownload.Models;
 using VDownload.Services.Data.Settings;
 using VDownload.Services.UI.StoragePicker;
 using VDownload.Sources.Twitch.Configuration.Models;
-using SimpleToolkit.MVVM;
+using MSEssentials.UI.Common.MVVM;
 using System.Text.RegularExpressions;
 using VDownload.Services.Utility.Filename;
 using VDownload.Services.UI.Dialogs;

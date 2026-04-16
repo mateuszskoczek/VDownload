@@ -10,7 +10,7 @@ using VDownload.Core.ViewModels.Authentication;
 using VDownload.Core.ViewModels.Home;
 using VDownload.Core.ViewModels.Settings;
 using VDownload.Services.UI.DictionaryResources;
-using SimpleToolkit.UI.Models;
+using MSEssentials.UI.Common.MVVM;
 using VDownload.Core.ViewModels.About;
 using VDownload.Core.ViewModels.Subscriptions;
 using VDownload.Core.Strings;
